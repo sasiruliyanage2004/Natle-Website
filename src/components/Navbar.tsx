@@ -12,7 +12,7 @@ import {
 import clsx from "clsx";
 import NatleLogo from "@/components/common/NatleLogo";
 import CommandSearch from "@/components/common/CommandSearch";
-import ThemeToggle from "@/components/ThemeToggle";
+import AnimatedThemeToggler from "@/components/magicui/animated-theme-toggler";
 
 interface NavRoute {
   name: string;
@@ -77,8 +77,8 @@ export default function Navbar() {
           {/* Spotlight Command Search */}
           <CommandSearch />
 
-          {/* Sun / Moon Theme Toggle */}
-          <ThemeToggle />
+          {/* Magic UI Animated Theme Toggler */}
+          <AnimatedThemeToggler />
 
           {/* Request Demo Button */}
           <Link
