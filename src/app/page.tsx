@@ -15,6 +15,7 @@ import AgentaFAQ from "@/components/AgentaFAQ";
 import Testimonials from "@/components/Testimonials";
 import CTAFooter from "@/components/CTAFooter";
 import BeamsBackground from "@/components/animations/BeamsBackground";
+import KineticGlobalMesh from "@/components/animations/KineticGlobalMesh";
 import AnimeScrollReveal from "@/components/animations/AnimeScrollReveal";
 import Particles from "@/components/magicui/particles";
 import SmoothCursor from "@/components/magicui/smooth-cursor";
@@ -28,6 +29,9 @@ export default function Home() {
     <main className="relative min-h-screen bg-[#EDF6F2] dark:bg-[#050505] text-slate-900 dark:text-emerald-50 antialiased selection:bg-[#059669] selection:text-white transition-colors duration-300">
       {/* Anime.js Staggered Scroll Reveal Engine */}
       <AnimeScrollReveal />
+
+      {/* Interactive Kinetic Grid Mesh Background Canvas */}
+      <KineticGlobalMesh />
 
       {/* Kokonut UI Animated Luminous Beams Background */}
       <BeamsBackground intensity="medium" />
