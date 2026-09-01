@@ -3,7 +3,6 @@ import Hero from "@/components/Hero";
 import AgentaMarquee from "@/components/AgentaMarquee";
 import HosmaHeritage from "@/components/HosmaHeritage";
 import Features from "@/components/Features";
-import MagicUIInteractiveDemo from "@/components/MagicUIInteractiveDemo";
 import AgentaHowItWorks from "@/components/AgentaHowItWorks";
 import Solutions from "@/components/Solutions";
 import AgentaUseCases from "@/components/AgentaUseCases";
@@ -35,7 +34,6 @@ export default function Home() {
         <AgentaMarquee />
         <HosmaHeritage />
         <Features />
-        <MagicUIInteractiveDemo />
         <AgentaHowItWorks />
         <Solutions />
         <AgentaUseCases />
