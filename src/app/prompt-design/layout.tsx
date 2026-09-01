@@ -2,6 +2,7 @@ import React from "react";
 import Link from "next/link";
 import Header from "@/prompt-design/components/Header";
 import Footer from "@/prompt-design/components/Footer";
+import AnimeScrollReveal from "@/components/animations/AnimeScrollReveal";
 import "@/prompt-design/prompt-globals.css";
 
 export const metadata = {
@@ -17,6 +18,8 @@ export default function PromptDesignLayout({
 }) {
   return (
     <div className="min-h-screen bg-[#fafcfc] text-[#071326] antialiased selection:bg-[#0052ff] selection:text-white font-sans">
+      {/* Anime.js Staggered Scroll Reveal Engine */}
+      <AnimeScrollReveal />
       {/* Top Interactive Version Switcher Bar */}
       <div className="sticky top-0 z-50 bg-[#071326] text-white px-4 py-2.5 flex items-center justify-between text-xs font-mono border-b border-emerald-500/30 shadow-md">
         <div className="flex items-center gap-2.5">
