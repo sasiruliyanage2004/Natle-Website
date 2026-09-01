@@ -20,42 +20,41 @@ export function VideoText({
   const maskId = useId().replace(/:/g, "_");
 
   return (
-    <div className={cn("relative w-full max-w-4xl mx-auto flex items-center justify-center select-none overflow-visible", className)}>
+    <div className={cn("relative w-full max-w-4xl mx-auto flex items-center justify-center select-none", className)}>
       <svg
-        className="w-full h-auto max-h-[160px] sm:max-h-[220px] md:max-h-[260px] overflow-visible"
-        viewBox="0 0 1000 260"
+        className="w-full h-auto overflow-visible"
+        viewBox="0 0 1200 300"
         preserveAspectRatio="xMidYMid meet"
       >
         <defs>
           <mask id={maskId}>
-            {/* Background black: transparent for mask */}
             <rect width="100%" height="100%" fill="black" />
             
-            {/* Line 1: Empowering */}
+            {/* Line 1 */}
             <text
-              x="50%"
-              y="38%"
+              x="600"
+              y="110"
               textAnchor="middle"
               dominantBaseline="middle"
               fill="white"
-              fontSize="120"
+              fontSize="130"
               fontWeight="900"
-              letterSpacing="-0.04em"
+              letterSpacing="-3"
               fontFamily="var(--font-sans), Inter, system-ui, sans-serif"
             >
               {line1}
             </text>
 
-            {/* Line 2: Agriculture */}
+            {/* Line 2 */}
             <text
-              x="50%"
-              y="85%"
+              x="600"
+              y="240"
               textAnchor="middle"
               dominantBaseline="middle"
               fill="white"
-              fontSize="120"
+              fontSize="130"
               fontWeight="900"
-              letterSpacing="-0.04em"
+              letterSpacing="-3"
               fontFamily="var(--font-sans), Inter, system-ui, sans-serif"
             >
               {line2}
@@ -64,7 +63,7 @@ export function VideoText({
         </defs>
 
         <foreignObject width="100%" height="100%" mask={`url(#${maskId})`}>
-          <div className="w-full h-full relative">
+          <div className="w-full h-full relative" style={{ width: "100%", height: "300px" }}>
             <video
               src={src}
               autoPlay
@@ -72,6 +71,7 @@ export function VideoText({
               muted
               playsInline
               className="w-full h-full object-cover"
+              style={{ minHeight: "300px" }}
             />
           </div>
         </foreignObject>
