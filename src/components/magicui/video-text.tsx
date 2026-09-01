@@ -30,10 +30,23 @@ export function VideoText({
         className
       )}
     >
+      {/* Luminous Ambient Back-Glow for High Visibility */}
+      <div 
+        className={cn(
+          "absolute pointer-events-none -z-10 rounded-full blur-[80px] opacity-80",
+          isLeft 
+            ? "left-0 top-1/2 -translate-y-1/2 w-[550px] h-[220px] bg-gradient-to-r from-[#00d2ff]/25 via-[#10e599]/30 to-transparent" 
+            : "left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[750px] h-[260px] bg-gradient-to-r from-[#00d2ff]/25 via-[#10e599]/30 to-[#059669]/25"
+        )} 
+      />
+
       <svg
         className="w-full h-auto overflow-visible block"
         viewBox={isLeft ? "0 0 1050 270" : "0 0 1200 300"}
         preserveAspectRatio={isLeft ? "xMinYMid meet" : "xMidYMid meet"}
+        style={{
+          filter: "drop-shadow(0 0 25px rgba(0, 210, 255, 0.4)) drop-shadow(0 4px 18px rgba(0, 0, 0, 0.7))",
+        }}
       >
         <defs>
           <mask id={maskId}>
@@ -71,6 +84,7 @@ export function VideoText({
           </mask>
         </defs>
 
+        {/* 1. Masked Vibrant Video */}
         <foreignObject width="100%" height="100%" mask={`url(#${maskId})`}>
           <div className="w-full h-full relative" style={{ width: "100%", height: isLeft ? "280px" : "300px" }}>
             <video
@@ -80,10 +94,48 @@ export function VideoText({
               muted
               playsInline
               className="w-full h-full object-cover"
-              style={{ minHeight: isLeft ? "280px" : "300px" }}
+              style={{
+                minHeight: isLeft ? "280px" : "300px",
+                filter: "brightness(1.4) contrast(1.25) saturate(1.45)",
+              }}
             />
           </div>
         </foreignObject>
+
+        {/* 2. Crisp Edge Definition Outlines for Razor-Sharp Readability */}
+        <text
+          x={isLeft ? "10" : "600"}
+          y={isLeft ? "100" : "110"}
+          textAnchor={isLeft ? "start" : "middle"}
+          dominantBaseline="middle"
+          fill="none"
+          stroke="rgba(255, 255, 255, 0.45)"
+          strokeWidth="1.5"
+          fontSize={isLeft ? "120" : "130"}
+          fontWeight="900"
+          letterSpacing={isLeft ? "-2" : "-3"}
+          fontFamily="var(--font-sans), Inter, system-ui, sans-serif"
+          className="pointer-events-none"
+        >
+          {line1}
+        </text>
+
+        <text
+          x={isLeft ? "10" : "600"}
+          y={isLeft ? "225" : "240"}
+          textAnchor={isLeft ? "start" : "middle"}
+          dominantBaseline="middle"
+          fill="none"
+          stroke="rgba(255, 255, 255, 0.45)"
+          strokeWidth="1.5"
+          fontSize={isLeft ? "120" : "130"}
+          fontWeight="900"
+          letterSpacing={isLeft ? "-2" : "-3"}
+          fontFamily="var(--font-sans), Inter, system-ui, sans-serif"
+          className="pointer-events-none"
+        >
+          {line2}
+        </text>
       </svg>
     </div>
   );
