@@ -132,18 +132,6 @@ export default function Navbar() {
                 <span>Request Assessment Demo</span>
                 <ArrowRight className="h-4 w-4" />
               </Link>
-
-              <Link
-                href="/prompt-design"
-                onClick={() => setMobileMenuOpen(false)}
-                className="mt-2 flex items-center justify-between rounded-xl px-4 py-3 text-xs font-bold border border-emerald-500/30 bg-emerald-500/10 text-emerald-700 dark:text-[#10e599]"
-              >
-                <div className="flex items-center gap-2">
-                  <Sparkles className="w-3.5 h-3.5" />
-                  <span>Prompt UI Preview Version</span>
-                </div>
-                <ArrowRight className="h-3.5 w-3.5" />
-              </Link>
             </nav>
           </motion.div>
         )}

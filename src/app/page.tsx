@@ -63,18 +63,6 @@ export default function Home() {
         <AgentaFAQ />
         <Testimonials />
         <CTAFooter />
-
-        {/* Floating Prompt Design Switcher Pill */}
-        <div className="fixed bottom-6 right-6 z-50">
-          <a
-            href="/prompt-design"
-            className="group flex items-center gap-2.5 rounded-full border border-emerald-500/60 bg-[#071326]/95 text-white px-4 py-2.5 shadow-2xl backdrop-blur-xl hover:scale-105 transition-all duration-300 hover:border-emerald-400"
-          >
-            <span className="w-2 h-2 rounded-full bg-[#10e599] animate-ping" />
-            <span className="text-xs font-mono font-bold text-[#10e599]">🎨 Explore Prompt UI Version</span>
-            <span className="text-xs text-white group-hover:translate-x-1 transition-transform">&rarr;</span>
-          </a>
-        </div>
       </div>
     </main>
   );
