@@ -43,7 +43,7 @@ export default function Navbar() {
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 pt-5 px-4 md:px-8 flex justify-center select-none">
-      <div className="rounded-full px-5 sm:px-6 py-3 flex items-center justify-between w-full max-w-7xl bg-white/80 dark:bg-black/90 backdrop-blur-xl border border-white/70 dark:border-zinc-800 shadow-[0_8px_32px_0_rgba(31,38,135,0.07)] dark:shadow-[0_8px_32px_0_rgba(0,0,0,0.8)] transition-all">
+      <div className="rounded-full px-5 sm:px-6 py-3 flex items-center justify-between w-full max-w-7xl bg-white/80 dark:bg-[#0a0f0a]/95 backdrop-blur-xl border border-white/70 dark:border-emerald-900/40 shadow-[0_8px_32px_0_rgba(31,38,135,0.07)] dark:shadow-[0_8px_32px_0_rgba(0,0,0,0.8),0_0_60px_-15px_rgba(16,229,153,0.08)] transition-all">
         
         {/* 1. Official Pristine Natle Logo */}
         <Link href="/" className="flex items-center">
@@ -51,7 +51,7 @@ export default function Navbar() {
         </Link>
 
         {/* 2. Navigation Capsule Links (Desktop) */}
-        <nav className="hidden lg:flex items-center bg-gray-100/70 dark:bg-zinc-900/90 rounded-full px-2 py-1 gap-1 border border-gray-200/70 dark:border-zinc-800">
+        <nav className="hidden lg:flex items-center bg-gray-100/70 dark:bg-[#0d140d]/90 rounded-full px-2 py-1 gap-1 border border-gray-200/70 dark:border-emerald-900/30">
           {navRoutes.map((route) => {
             const isActive = isActiveLink(route.path);
 
@@ -62,8 +62,8 @@ export default function Navbar() {
                 className={clsx(
                   "px-4 py-2 rounded-full text-xs font-semibold transition-all duration-300",
                   isActive
-                    ? "bg-gradient-to-r from-[#007bff] to-[#00d2ff] text-white shadow-md shadow-[#007bff]/30"
-                    : "text-slate-600 dark:text-zinc-400 hover:text-[#0ea5e9] dark:hover:text-white hover:bg-white/70 dark:hover:bg-zinc-800"
+                    ? "bg-gradient-to-r from-[#007bff] to-[#00d2ff] text-white shadow-md shadow-[#007bff]/30 dark:from-[#059669] dark:to-[#10e599] dark:shadow-emerald-500/30"
+                    : "text-slate-600 dark:text-emerald-200/70 hover:text-[#0ea5e9] dark:hover:text-[#10e599] hover:bg-white/70 dark:hover:bg-emerald-950/40"
                 )}
               >
                 <span>{route.name}</span>
@@ -111,7 +111,7 @@ export default function Navbar() {
             initial={{ opacity: 0, y: -16 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -16 }}
-            className="lg:hidden fixed top-24 inset-x-4 max-w-7xl mx-auto rounded-3xl border border-slate-200/90 dark:border-zinc-800 bg-white/95 dark:bg-zinc-950/95 p-6 shadow-2xl backdrop-blur-2xl"
+            className="lg:hidden fixed top-24 inset-x-4 max-w-7xl mx-auto rounded-3xl border border-slate-200/90 dark:border-emerald-900/40 bg-white/95 dark:bg-[#080d08]/98 p-6 shadow-2xl backdrop-blur-2xl"
           >
             <nav className="flex flex-col gap-2">
               {navRoutes.map((route) => {
@@ -124,8 +124,8 @@ export default function Navbar() {
                     className={clsx(
                       "flex items-center justify-between rounded-xl px-4 py-3 text-sm font-bold transition-all",
                       isActive
-                        ? "bg-gradient-to-r from-[#007bff] to-[#00d2ff] text-white shadow-md"
-                        : "text-slate-800 dark:text-zinc-200 hover:bg-slate-100 dark:hover:bg-zinc-900"
+                        ? "bg-gradient-to-r from-[#007bff] to-[#00d2ff] text-white shadow-md dark:from-[#059669] dark:to-[#10e599]"
+                        : "text-slate-800 dark:text-emerald-100/80 hover:bg-slate-100 dark:hover:bg-emerald-950/40"
                     )}
                   >
                     <span>{route.name}</span>

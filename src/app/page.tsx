@@ -23,7 +23,7 @@ export default function Home() {
   const isDark = theme === "dark";
 
   return (
-    <main className="relative min-h-screen bg-[#EDF6F2] dark:bg-black text-slate-900 dark:text-white antialiased selection:bg-[#059669] selection:text-white transition-colors duration-300">
+    <main className="relative min-h-screen bg-[#EDF6F2] dark:bg-[#050505] text-slate-900 dark:text-emerald-50 antialiased selection:bg-[#059669] selection:text-white transition-colors duration-300">
       {/* Kokonut UI Animated Luminous Beams Background */}
       <BeamsBackground intensity="medium" />
 
