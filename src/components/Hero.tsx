@@ -75,16 +75,17 @@ export default function Hero() {
             </span>
           </motion.div>
 
-          {/* Magic UI 2-Line VideoText Headline (No Clipping) */}
-          <motion.div variants={riseVariants} className="w-full flex flex-col items-center justify-center mb-2">
+          {/* Magic UI 2-Line VideoText Headline (No Clipping, Perfectly Centered) */}
+          <motion.div variants={riseVariants} className="w-full flex flex-col items-center justify-center text-center mb-2">
             <VideoText
               src="https://cdn.magicui.design/ocean-small.webm"
               line1="Empowering"
               line2="Agriculture"
-              className="w-full"
+              align="center"
+              className="w-full max-w-4xl mx-auto justify-center text-center"
             />
 
-            <span className="font-serif italic font-normal gradient-text text-4xl sm:text-5xl md:text-6xl lg:text-7xl block mt-2 pb-1">
+            <span className="font-serif italic font-normal gradient-text text-4xl sm:text-5xl md:text-6xl lg:text-7xl block mt-2 pb-1 text-center">
               with Next-Gen Code.
             </span>
           </motion.div>
