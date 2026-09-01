@@ -13,7 +13,7 @@ export interface VideoTextProps {
 }
 
 export function VideoText({
-  src = "/videos/agriculture-hero.mp4",
+  src = "https://cdn.magicui.design/ocean-small.webm",
   line1 = "Empowering",
   line2 = "Agriculture",
   align = "center",
@@ -45,7 +45,7 @@ export function VideoText({
         viewBox={isLeft ? "0 0 1050 270" : "0 0 1200 300"}
         preserveAspectRatio={isLeft ? "xMinYMid meet" : "xMidYMid meet"}
         style={{
-          filter: "drop-shadow(0 0 25px rgba(16, 229, 153, 0.4)) drop-shadow(0 4px 18px rgba(0, 0, 0, 0.7))",
+          filter: "drop-shadow(0 0 25px rgba(0, 210, 255, 0.4)) drop-shadow(0 4px 18px rgba(0, 0, 0, 0.7))",
         }}
       >
         <defs>
@@ -84,7 +84,7 @@ export function VideoText({
           </mask>
         </defs>
 
-        {/* 1. Masked Agriculture / Green Plantation Video Container */}
+        {/* 1. Masked Pristine Video Container */}
         <foreignObject
           x="0"
           y="0"
@@ -92,7 +92,7 @@ export function VideoText({
           height="100%"
           mask={`url(#${maskId})`}
         >
-          <div className="w-full h-full relative overflow-hidden bg-emerald-900">
+          <div className="w-full h-full relative overflow-hidden bg-[#071326]">
             <video
               src={src}
               autoPlay
@@ -102,7 +102,7 @@ export function VideoText({
               className="w-full h-full object-cover"
               style={{
                 minHeight: isLeft ? "280px" : "300px",
-                filter: "brightness(1.35) contrast(1.2) saturate(1.4)",
+                filter: "brightness(1.4) contrast(1.25) saturate(1.45)",
               }}
             />
           </div>
