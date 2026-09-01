@@ -42,5 +42,6 @@ Thumbs.db
 *.swp
 *.swo
 
-# Local extracted scratch folders
+# Local Scripts & Temp Files
+start.bat
 /files/
