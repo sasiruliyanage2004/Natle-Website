@@ -9,11 +9,10 @@ export function Globe({
 }: {
   className?: string;
 }) {
-  let phi = 0;
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const pointerInteracting = useRef<number | null>(null);
   const pointerInteractionMovement = useRef(0);
-  const [r, setR] = useState(0);
+  const rRef = useRef(0);
 
   const updatePointerInteraction = (value: number | null) => {
     pointerInteracting.current = value;
@@ -26,13 +25,14 @@ export function Globe({
     if (pointerInteracting.current !== null) {
       const delta = clientX - pointerInteracting.current;
       pointerInteractionMovement.current = delta;
-      setR(delta / 200);
+      rRef.current = delta / 150;
     }
   };
 
   useEffect(() => {
     if (!canvasRef.current) return;
 
+    let phi = 0;
     let width = canvasRef.current.clientWidth || 600;
 
     const onResize = () => {
@@ -45,73 +45,75 @@ export function Globe({
 
     const isDarkMode = document.documentElement.classList.contains("dark");
 
-    // Exact high-visibility Magic UI Globe configuration
-    const globe = (createGlobe as any)(canvasRef.current, {
+    const globe = createGlobe(canvasRef.current, {
       devicePixelRatio: 2,
       width: width * 2 || 1200,
       height: width * 2 || 1200,
       phi: 0,
-      theta: 0.3,
+      theta: 0.25,
       dark: isDarkMode ? 1 : 0,
-      diffuse: 1.6,
+      diffuse: 1.2,
       scale: 1,
-      mapSamples: 24000,
-      mapBrightness: isDarkMode ? 6 : 2.5,
-      mapBaseBrightness: 0.1,
-      // Solid shaded globe body color so continents & sphere stand out boldly
-      baseColor: isDarkMode ? [0.18, 0.22, 0.26] : [0.82, 0.88, 0.85],
-      markerColor: [0.98, 0.42, 0.12],
-      glowColor: isDarkMode ? [0.1, 0.4, 0.7] : [0.7, 0.85, 0.8],
+      mapSamples: 16000,
+      mapBrightness: 6,
+      baseColor: isDarkMode ? [0.3, 0.3, 0.3] : [0.8, 0.85, 0.85],
+      markerColor: [0.98, 0.45, 0.15],
+      glowColor: isDarkMode ? [0.2, 0.4, 0.8] : [0.8, 0.9, 0.85],
       offset: [0, 0],
       markers: [
         // Colombo, Sri Lanka (Origin Hub)
-        { location: [6.9271, 79.8612], size: 0.12, color: [0.98, 0.42, 0.12] },
+        { location: [6.9271, 79.8612], size: 0.12, color: [0.98, 0.45, 0.15] },
         // Rotterdam, Netherlands
-        { location: [51.9244, 4.4777], size: 0.08, color: [0, 0.6, 1] },
+        { location: [51.9244, 4.4777], size: 0.08, color: [0, 0.65, 1] },
         // Los Angeles / California, USA
-        { location: [34.0522, -118.2437], size: 0.08, color: [0.98, 0.42, 0.12] },
+        { location: [34.0522, -118.2437], size: 0.08, color: [0.98, 0.45, 0.15] },
         // Tokyo, Japan
-        { location: [35.6762, 139.6503], size: 0.08, color: [0.98, 0.42, 0.12] },
+        { location: [35.6762, 139.6503], size: 0.08, color: [0.98, 0.45, 0.15] },
         // Sydney, Australia
-        { location: [-33.8688, 151.2093], size: 0.08, color: [0.98, 0.42, 0.12] },
+        { location: [-33.8688, 151.2093], size: 0.08, color: [0.98, 0.45, 0.15] },
         // Dubai, UAE
-        { location: [25.2048, 55.2708], size: 0.08, color: [0.98, 0.42, 0.12] },
-        // Hamburg, Germany
-        { location: [53.5511, 9.9937], size: 0.07, color: [0, 0.6, 1] },
+        { location: [25.2048, 55.2708], size: 0.08, color: [0.98, 0.45, 0.15] },
       ],
       arcs: [
-        { from: [6.9271, 79.8612], to: [51.9244, 4.4777], color: [0, 0.65, 1] },
-        { from: [6.9271, 79.8612], to: [34.0522, -118.2437], color: [0.05, 0.75, 0.45] },
-        { from: [6.9271, 79.8612], to: [35.6762, 139.6503], color: [0.98, 0.45, 0.15] },
-        { from: [6.9271, 79.8612], to: [-33.8688, 151.2093], color: [0.05, 0.75, 0.45] },
-        { from: [6.9271, 79.8612], to: [25.2048, 55.2708], color: [0.98, 0.45, 0.15] },
+        { from: [6.9271, 79.8612], to: [51.9244, 4.4777], color: [0, 0.7, 1] },
+        { from: [6.9271, 79.8612], to: [34.0522, -118.2437], color: [0.05, 0.8, 0.5] },
+        { from: [6.9271, 79.8612], to: [35.6762, 139.6503], color: [0.98, 0.5, 0.2] },
+        { from: [6.9271, 79.8612], to: [-33.8688, 151.2093], color: [0.05, 0.8, 0.5] },
+        { from: [6.9271, 79.8612], to: [25.2048, 55.2708], color: [0.98, 0.5, 0.2] },
       ],
-      arcColor: [0, 0.65, 1],
+      arcColor: [0, 0.7, 1],
       arcWidth: 0.6,
-      arcHeight: 0.3,
-      markerElevation: 0.04,
-      onRender: (state: Record<string, any>) => {
-        if (!pointerInteracting.current) phi += 0.005;
-        state.phi = phi + r;
-        state.width = (canvasRef.current?.clientWidth || 600) * 2;
-        state.height = (canvasRef.current?.clientWidth || 600) * 2;
-      },
+      arcHeight: 0.28,
+      markerElevation: 0.03,
     });
 
-    if (canvasRef.current) {
-      canvasRef.current.style.opacity = "1";
-    }
+    let animationFrameId: number;
+
+    const renderLoop = () => {
+      if (!pointerInteracting.current) {
+        phi += 0.005;
+      }
+      globe.update({
+        phi: phi + rRef.current,
+        width: (canvasRef.current?.clientWidth || 600) * 2,
+        height: (canvasRef.current?.clientWidth || 600) * 2,
+      });
+      animationFrameId = requestAnimationFrame(renderLoop);
+    };
+
+    renderLoop();
 
     return () => {
+      cancelAnimationFrame(animationFrameId);
       globe.destroy();
       window.removeEventListener("resize", onResize);
     };
-  }, [r]);
+  }, []);
 
   return (
     <div
       className={cn(
-        "absolute inset-0 mx-auto aspect-[1/1] w-full max-w-[650px] flex items-center justify-center pointer-events-auto",
+        "relative mx-auto aspect-[1/1] w-full max-w-[650px] flex items-center justify-center pointer-events-auto select-none",
         className
       )}
     >
