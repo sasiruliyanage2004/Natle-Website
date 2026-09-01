@@ -13,7 +13,7 @@ import Testimonials from "@/components/Testimonials";
 import CTAFooter from "@/components/CTAFooter";
 import BeamsBackground from "@/components/animations/BeamsBackground";
 import KineticFluidMesh from "@/components/animations/KineticFluidMesh";
-import KineticCursor from "@/components/animations/KineticCursor";
+import SmoothCursor from "@/components/magicui/smooth-cursor";
 
 export default function Home() {
   return (
@@ -24,8 +24,8 @@ export default function Home() {
       {/* Kinetic Fluid Particle Mesh */}
       <KineticFluidMesh />
 
-      {/* Smooth Magnetic Glowing Cursor */}
-      <KineticCursor />
+      {/* Magic UI Smooth Cursor in Ceylon Emerald & Neon Mint */}
+      <SmoothCursor />
 
       {/* Main Page Flow Architecture */}
       <div className="relative z-10">
