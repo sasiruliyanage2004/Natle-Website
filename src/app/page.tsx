@@ -3,6 +3,7 @@ import Hero from "@/components/Hero";
 import AgentaMarquee from "@/components/AgentaMarquee";
 import HosmaHeritage from "@/components/HosmaHeritage";
 import Features from "@/components/Features";
+import MagicUIInteractiveDemo from "@/components/MagicUIInteractiveDemo";
 import AgentaHowItWorks from "@/components/AgentaHowItWorks";
 import Solutions from "@/components/Solutions";
 import AgentaUseCases from "@/components/AgentaUseCases";
@@ -18,7 +19,7 @@ import KineticCursor from "@/components/animations/KineticCursor";
 export default function Home() {
   return (
     <main className="relative min-h-screen bg-[#EDF6F2] dark:bg-[#040812] text-slate-900 dark:text-slate-100 antialiased selection:bg-[#059669] selection:text-white transition-colors duration-500">
-      {/* Kokonut UI Animated Luminous Beams Background (Auto-adjusts for Dark Mode) */}
+      {/* Kokonut UI Animated Luminous Beams Background */}
       <BeamsBackground intensity="medium" />
 
       {/* Kinetic Fluid Particle Mesh */}
@@ -34,6 +35,7 @@ export default function Home() {
         <AgentaMarquee />
         <HosmaHeritage />
         <Features />
+        <MagicUIInteractiveDemo />
         <AgentaHowItWorks />
         <Solutions />
         <AgentaUseCases />
