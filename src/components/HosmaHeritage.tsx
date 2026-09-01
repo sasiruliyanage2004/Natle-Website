@@ -8,13 +8,15 @@ import {
   Sparkles,
   Layers,
   Ship,
+  ShieldCheck,
+  Globe2,
+  CheckCircle2,
   ArrowUpRight
 } from "lucide-react";
-import { Globe } from "@/components/magicui/globe";
 
 export default function HosmaHeritage() {
   return (
-    <section id="heritage" className="relative overflow-hidden py-24 md:py-36 select-none border-t border-slate-200/80 dark:border-zinc-800 transition-colors duration-300">
+    <section id="heritage" className="relative overflow-hidden py-24 md:py-32 select-none border-t border-slate-200/80 dark:border-zinc-800 transition-colors duration-300">
       
       {/* Background Ambient Multi-Glow */}
       <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
@@ -43,93 +45,153 @@ export default function HosmaHeritage() {
         </div>
 
 
-        {/* ================= OPEN SEAMLESS MAGIC UI GLOBE HERO ================= */}
-        <div className="relative mx-auto max-w-5xl flex flex-col items-center justify-center pt-8 pb-12">
+        {/* ================= DUAL VALUE PROPOSITION GRID ================= */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch max-w-6xl mx-auto mb-12">
           
-          {/* Big Editorial Watermark Title */}
-          <div className="relative z-10 text-center mb-6">
-            <span className="pointer-events-none bg-gradient-to-b from-[#071326] via-slate-700 to-slate-400/40 dark:from-white dark:via-zinc-400 dark:to-zinc-800/20 bg-clip-text text-7xl sm:text-8xl md:text-9xl lg:text-[10rem] leading-none font-black tracking-tight text-transparent">
-              Global Scale
-            </span>
-            <p className="mt-2 text-xs sm:text-sm font-mono text-slate-500 dark:text-zinc-400 uppercase tracking-widest">
-              Connecting 24+ Global Export Corridors directly from Colombo WTC
-            </p>
+          {/* Left Column: Substrate Specifications Card */}
+          <div className="lg:col-span-6 rounded-[2.5rem] border border-slate-200/90 dark:border-zinc-800 bg-white/95 dark:bg-zinc-950 p-8 shadow-xl flex flex-col justify-between relative overflow-hidden backdrop-blur-2xl">
+            
+            <div>
+              <div className="flex items-center justify-between pb-6 border-b border-slate-100 dark:border-zinc-800">
+                <div>
+                  <span className="text-[11px] font-mono font-bold text-[#059669] dark:text-emerald-400 uppercase tracking-wider">
+                    Product Specification
+                  </span>
+                  <h3 className="text-2xl font-black text-[#071326] dark:text-white mt-1">
+                    Hosma Ultra-Washed Cocopeat
+                  </h3>
+                </div>
+                <span className="px-3 py-1 rounded-full bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200 dark:border-emerald-500/30 text-xs font-mono font-bold text-[#059669] dark:text-emerald-400">
+                  OMRI &bull; ISO 9001
+                </span>
+              </div>
+
+              {/* Substrate Spec Highlights */}
+              <div className="mt-6 space-y-4">
+                <div className="p-4 rounded-2xl bg-slate-50 dark:bg-zinc-900/60 border border-slate-100 dark:border-zinc-800/80 flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-xl bg-blue-100 dark:bg-blue-950/80 text-[#0052FF] dark:text-cyan-400 flex items-center justify-center font-bold">
+                      <Droplets className="w-5 h-5" />
+                    </div>
+                    <div>
+                      <p className="text-xs font-bold text-slate-500 dark:text-zinc-400 uppercase">Water Holding Capacity</p>
+                      <p className="text-base font-black text-[#071326] dark:text-white">800% - 900% (8-9x Weight)</p>
+                    </div>
+                  </div>
+                  <span className="text-xs font-mono font-bold text-[#0052FF] dark:text-cyan-400 bg-blue-50 dark:bg-blue-950/60 px-2.5 py-1 rounded-lg">High Retentive</span>
+                </div>
+
+                <div className="p-4 rounded-2xl bg-slate-50 dark:bg-zinc-900/60 border border-slate-100 dark:border-zinc-800/80 flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-xl bg-emerald-100 dark:bg-emerald-950/80 text-[#059669] dark:text-emerald-400 flex items-center justify-center font-bold">
+                      <Sparkles className="w-5 h-5" />
+                    </div>
+                    <div>
+                      <p className="text-xs font-bold text-slate-500 dark:text-zinc-400 uppercase">Electrical Conductivity (EC)</p>
+                      <p className="text-base font-black text-[#071326] dark:text-white">&lt; 0.5 mS/cm (Triple Washed)</p>
+                    </div>
+                  </div>
+                  <span className="text-xs font-mono font-bold text-[#059669] dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/60 px-2.5 py-1 rounded-lg">Low EC Grade</span>
+                </div>
+
+                <div className="p-4 rounded-2xl bg-slate-50 dark:bg-zinc-900/60 border border-slate-100 dark:border-zinc-800/80 flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-xl bg-amber-100 dark:bg-amber-950/80 text-[#F59E0B] flex items-center justify-center font-bold">
+                      <Layers className="w-5 h-5" />
+                    </div>
+                    <div>
+                      <p className="text-xs font-bold text-slate-500 dark:text-zinc-400 uppercase">Air Filled Porosity (AFP)</p>
+                      <p className="text-base font-black text-[#071326] dark:text-white">18% - 22% Aeration</p>
+                    </div>
+                  </div>
+                  <span className="text-xs font-mono font-bold text-[#F59E0B] bg-amber-50 dark:bg-amber-950/60 px-2.5 py-1 rounded-lg">Optimal Oxygen</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Bottom Link */}
+            <div className="mt-8 pt-6 border-t border-slate-100 dark:border-zinc-800 flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <Ship className="w-4 h-4 text-[#0052FF] dark:text-cyan-400" />
+                <span className="text-xs font-mono text-slate-500 dark:text-zinc-400">40ft High-Cube Shipping Fleet</span>
+              </div>
+              <a 
+                href="https://hosmaceylon.com" 
+                target="_blank" 
+                rel="noreferrer" 
+                className="group inline-flex items-center gap-1 text-xs font-bold text-[#0052FF] dark:text-cyan-400 hover:text-[#059669] transition-colors"
+              >
+                <span>Visit Hosma Ceylon</span>
+                <ArrowUpRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+              </a>
+            </div>
+
           </div>
 
-          {/* 3D Interactive Rotating Globe Hemisphere */}
-          <div className="relative h-[360px] sm:h-[440px] md:h-[500px] w-full max-w-[650px] flex items-center justify-center my-2">
-            <Globe />
-          </div>
 
-          {/* Trade Route Pills */}
-          <div className="relative z-20 w-full grid grid-cols-2 sm:grid-cols-4 gap-3 text-center font-mono mt-6">
-            <div className="rounded-2xl bg-white/90 dark:bg-zinc-900/90 p-3.5 border border-slate-200/90 dark:border-zinc-800 shadow-md backdrop-blur-md">
-              <p className="text-[10px] text-slate-400 dark:text-zinc-500 uppercase font-bold">Origin Hub</p>
-              <p className="text-sm font-black text-[#071326] dark:text-white mt-0.5">Colombo WTC</p>
-            </div>
-            <div className="rounded-2xl bg-white/90 dark:bg-zinc-900/90 p-3.5 border border-slate-200/90 dark:border-zinc-800 shadow-md backdrop-blur-md">
-              <p className="text-[10px] text-slate-400 dark:text-zinc-500 uppercase font-bold">Europe Port</p>
-              <p className="text-sm font-black text-[#0052FF] dark:text-cyan-400 mt-0.5">Rotterdam</p>
-            </div>
-            <div className="rounded-2xl bg-white/90 dark:bg-zinc-900/90 p-3.5 border border-slate-200/90 dark:border-zinc-800 shadow-md backdrop-blur-md">
-              <p className="text-[10px] text-slate-400 dark:text-zinc-500 uppercase font-bold">Americas Port</p>
-              <p className="text-sm font-black text-[#059669] dark:text-emerald-400 mt-0.5">Long Beach, CA</p>
-            </div>
-            <div className="rounded-2xl bg-white/90 dark:bg-zinc-900/90 p-3.5 border border-slate-200/90 dark:border-zinc-800 shadow-md backdrop-blur-md">
-              <p className="text-[10px] text-slate-400 dark:text-zinc-500 uppercase font-bold">Asia-Pacific</p>
-              <p className="text-sm font-black text-[#F59E0B] mt-0.5">Tokyo &amp; Sydney</p>
-            </div>
-          </div>
-
-        </div>
-
-
-        {/* ================= SUBSTRATE SCIENCE METRICS ================= */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto mt-12">
-          
-          <div className="rounded-3xl border border-slate-200/90 dark:border-zinc-800 bg-white/90 dark:bg-zinc-950 p-6 shadow-lg backdrop-blur-md">
-            <div className="flex items-center gap-3 mb-3">
-              <div className="w-10 h-10 rounded-xl bg-blue-100 dark:bg-blue-950/80 text-[#0052FF] dark:text-cyan-400 flex items-center justify-center font-bold">
-                <Droplets className="w-5 h-5" />
+          {/* Right Column: Global Export Corridors & Fleet Matrix */}
+          <div className="lg:col-span-6 rounded-[2.5rem] border border-slate-200/90 dark:border-zinc-800 bg-white/95 dark:bg-zinc-950 p-8 shadow-xl flex flex-col justify-between relative overflow-hidden backdrop-blur-2xl">
+            
+            <div>
+              <div className="flex items-center justify-between pb-6 border-b border-slate-100 dark:border-zinc-800">
+                <div>
+                  <span className="text-[11px] font-mono font-bold text-[#0052FF] dark:text-cyan-400 uppercase tracking-wider">
+                    International Trade
+                  </span>
+                  <h3 className="text-2xl font-black text-[#071326] dark:text-white mt-1">
+                    Export Corridors from Ceylon
+                  </h3>
+                </div>
+                <span className="px-3 py-1 rounded-full bg-blue-50 dark:bg-blue-950/60 border border-blue-200 dark:border-blue-500/30 text-xs font-mono font-bold text-[#0052FF] dark:text-cyan-400">
+                  24+ Countries
+                </span>
               </div>
-              <div>
-                <p className="text-xs font-bold text-slate-500 dark:text-zinc-400 uppercase">Water Capacity</p>
-                <p className="text-lg font-black text-[#071326] dark:text-white">800% - 900%</p>
-              </div>
-            </div>
-            <p className="text-xs text-slate-600 dark:text-zinc-400 leading-relaxed">
-              Holds 8-9x dry weight in bio-available moisture for continuous hydroponic root hydration.
-            </p>
-          </div>
 
-          <div className="rounded-3xl border border-slate-200/90 dark:border-zinc-800 bg-white/90 dark:bg-zinc-950 p-6 shadow-lg backdrop-blur-md">
-            <div className="flex items-center gap-3 mb-3">
-              <div className="w-10 h-10 rounded-xl bg-emerald-100 dark:bg-emerald-950/80 text-[#059669] dark:text-emerald-400 flex items-center justify-center font-bold">
-                <Sparkles className="w-5 h-5" />
-              </div>
-              <div>
-                <p className="text-xs font-bold text-slate-500 dark:text-zinc-400 uppercase">Electrical Conductivity</p>
-                <p className="text-lg font-black text-[#071326] dark:text-white">&lt; 0.5 mS/cm</p>
+              {/* 4 Trade Destination Hubs */}
+              <div className="mt-6 space-y-3">
+                <div className="p-4 rounded-2xl bg-slate-50 dark:bg-zinc-900/60 border border-slate-100 dark:border-zinc-800/80 flex items-center justify-between">
+                  <div>
+                    <p className="text-sm font-black text-[#071326] dark:text-white">Netherlands &amp; European Union</p>
+                    <p className="text-xs text-slate-500 dark:text-zinc-400">High-Tech Hydroponic Berry &amp; Tomato Greenhouses</p>
+                  </div>
+                  <span className="text-xs font-mono font-black text-[#0052FF] dark:text-cyan-400 bg-blue-50 dark:bg-blue-950/60 px-3 py-1 rounded-lg">38% Volume</span>
+                </div>
+
+                <div className="p-4 rounded-2xl bg-slate-50 dark:bg-zinc-900/60 border border-slate-100 dark:border-zinc-800/80 flex items-center justify-between">
+                  <div>
+                    <p className="text-sm font-black text-[#071326] dark:text-white">Japan &amp; South Korea</p>
+                    <p className="text-xs text-slate-500 dark:text-zinc-400">Premium Melon, Strawberry &amp; Floriculture Substrates</p>
+                  </div>
+                  <span className="text-xs font-mono font-black text-[#059669] dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/60 px-3 py-1 rounded-lg">26% Volume</span>
+                </div>
+
+                <div className="p-4 rounded-2xl bg-slate-50 dark:bg-zinc-900/60 border border-slate-100 dark:border-zinc-800/80 flex items-center justify-between">
+                  <div>
+                    <p className="text-sm font-black text-[#071326] dark:text-white">United States &amp; Canada</p>
+                    <p className="text-xs text-slate-500 dark:text-zinc-400">Commercial Indoor Vertical CEA Facilities</p>
+                  </div>
+                  <span className="text-xs font-mono font-black text-[#F59E0B] bg-amber-50 dark:bg-amber-950/60 px-3 py-1 rounded-lg">22% Volume</span>
+                </div>
+
+                <div className="p-4 rounded-2xl bg-slate-50 dark:bg-zinc-900/60 border border-slate-100 dark:border-zinc-800/80 flex items-center justify-between">
+                  <div>
+                    <p className="text-sm font-black text-[#071326] dark:text-white">Australia &amp; New Zealand</p>
+                    <p className="text-xs text-slate-500 dark:text-zinc-400">Macadamia Orchards &amp; Viticulture Moisture Buffers</p>
+                  </div>
+                  <span className="text-xs font-mono font-black text-slate-700 dark:text-zinc-300 bg-slate-200/80 dark:bg-zinc-800 px-3 py-1 rounded-lg">14% Volume</span>
+                </div>
               </div>
             </div>
-            <p className="text-xs text-slate-600 dark:text-zinc-400 leading-relaxed">
-              Triple-washed in fresh spring water to remove excess sodium and potassium salts.
-            </p>
-          </div>
 
-          <div className="rounded-3xl border border-slate-200/90 dark:border-zinc-800 bg-white/90 dark:bg-zinc-950 p-6 shadow-lg backdrop-blur-md">
-            <div className="flex items-center gap-3 mb-3">
-              <div className="w-10 h-10 rounded-xl bg-amber-100 dark:bg-amber-950/80 text-[#F59E0B] flex items-center justify-center font-bold">
-                <Layers className="w-5 h-5" />
+            {/* Bottom Compliance Badges */}
+            <div className="mt-8 pt-6 border-t border-slate-100 dark:border-zinc-800 flex items-center justify-between text-xs font-mono text-slate-500 dark:text-zinc-400">
+              <div className="flex items-center gap-1.5 text-[#059669] dark:text-emerald-400 font-bold">
+                <CheckCircle2 className="w-4 h-4" />
+                <span>Zero Customs Hold Guarantee</span>
               </div>
-              <div>
-                <p className="text-xs font-bold text-slate-500 dark:text-zinc-400 uppercase">Air Filled Porosity</p>
-                <p className="text-lg font-black text-[#071326] dark:text-white">18% - 22% AFP</p>
-              </div>
+              <span>Port of Colombo Hub</span>
             </div>
-            <p className="text-xs text-slate-600 dark:text-zinc-400 leading-relaxed">
-              Maximum aeration preventing root rot in closed-loop commercial substrate growbags.
-            </p>
+
           </div>
 
         </div>
