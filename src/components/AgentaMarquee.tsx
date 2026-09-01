@@ -38,11 +38,11 @@ const row2 = [
 
 export default function AgentaMarquee() {
   return (
-    <section className="relative overflow-hidden py-10 bg-white/60 border-y border-slate-200/80 backdrop-blur-md select-none">
+    <section className="relative overflow-hidden py-10 bg-white/60 dark:bg-[#0a140a]/60 border-y border-slate-200/80 dark:border-emerald-900/30 backdrop-blur-md select-none">
       
       {/* Gradient Fades on Edges */}
-      <div className="pointer-events-none absolute inset-y-0 left-0 w-24 sm:w-40 bg-gradient-to-r from-[#EDF6F2] to-transparent z-10" />
-      <div className="pointer-events-none absolute inset-y-0 right-0 w-24 sm:w-40 bg-gradient-to-l from-[#EDF6F2] to-transparent z-10" />
+      <div className="pointer-events-none absolute inset-y-0 left-0 w-24 sm:w-40 bg-gradient-to-r from-[#EDF6F2] dark:from-[#050505] to-transparent z-10" />
+      <div className="pointer-events-none absolute inset-y-0 right-0 w-24 sm:w-40 bg-gradient-to-l from-[#EDF6F2] dark:from-[#050505] to-transparent z-10" />
 
       <div className="flex flex-col gap-4">
         
@@ -58,7 +58,7 @@ export default function AgentaMarquee() {
               return (
                 <div
                   key={`row1-${index}`}
-                  className="flex items-center gap-2 rounded-full border border-white/90 bg-white/90 px-5 py-2 text-xs font-bold text-[#071326] shadow-sm hover:border-[#0052FF] hover:shadow-md transition-all"
+                  className="flex items-center gap-2 rounded-full border border-white/90 dark:border-emerald-900/40 bg-white/90 dark:bg-[#0a140a]/90 px-5 py-2 text-xs font-bold text-[#071326] dark:text-emerald-50 shadow-sm hover:border-[#0052FF] hover:shadow-md transition-all"
                 >
                   <Icon className="h-3.5 w-3.5 text-[#0052FF]" />
                   <span>{item.label}</span>
@@ -80,7 +80,7 @@ export default function AgentaMarquee() {
               return (
                 <div
                   key={`row2-${index}`}
-                  className="flex items-center gap-2 rounded-full border border-white/90 bg-white/90 px-5 py-2 text-xs font-bold text-[#071326] shadow-sm hover:border-[#059669] hover:shadow-md transition-all"
+                  className="flex items-center gap-2 rounded-full border border-white/90 dark:border-emerald-900/40 bg-white/90 dark:bg-[#0a140a]/90 px-5 py-2 text-xs font-bold text-[#071326] dark:text-emerald-50 shadow-sm hover:border-[#059669] hover:shadow-md transition-all"
                 >
                   <Icon className="h-3.5 w-3.5 text-[#059669]" />
                   <span>{item.label}</span>

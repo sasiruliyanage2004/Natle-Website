@@ -26,7 +26,7 @@ const useCases = [
     time: "1,200 Acres",
     icon: Leaf,
     accent: "border-[#059669]",
-    badgeBg: "bg-emerald-50 text-[#059669]",
+    badgeBg: "bg-emerald-50 dark:bg-emerald-950/40 text-[#059669] dark:text-[#10e599]",
   },
   {
     category: "Hydroponics",
@@ -37,7 +37,7 @@ const useCases = [
     time: "48 Greenhouses",
     icon: Sprout,
     accent: "border-[#0052FF]",
-    badgeBg: "bg-blue-50 text-[#0052FF]",
+    badgeBg: "bg-blue-50 dark:bg-blue-950/40 text-[#0052FF] dark:text-[#10e599]",
   },
   {
     category: "Specialty Crop",
@@ -48,7 +48,7 @@ const useCases = [
     time: "8 Estates",
     icon: Sun,
     accent: "border-[#F59E0B]",
-    badgeBg: "bg-amber-50 text-[#F59E0B]",
+    badgeBg: "bg-amber-50 dark:bg-amber-950/40 text-[#F59E0B] dark:text-amber-400",
   },
   {
     category: "Urban Ag",
@@ -59,7 +59,7 @@ const useCases = [
     time: "24/7 Autopilot",
     icon: Layers,
     accent: "border-[#00D2FF]",
-    badgeBg: "bg-cyan-50 text-[#0052FF]",
+    badgeBg: "bg-cyan-50 dark:bg-cyan-950/40 text-[#0052FF] dark:text-[#10e599]",
   },
   {
     category: "Fruit Groves",
@@ -70,7 +70,7 @@ const useCases = [
     time: "450 Acres",
     icon: Droplets,
     accent: "border-[#059669]",
-    badgeBg: "bg-emerald-50 text-[#059669]",
+    badgeBg: "bg-emerald-50 dark:bg-emerald-950/40 text-[#059669] dark:text-[#10e599]",
   },
   {
     category: "Supply Chain",
@@ -81,7 +81,7 @@ const useCases = [
     time: "24 Export Markets",
     icon: Globe2,
     accent: "border-[#0052FF]",
-    badgeBg: "bg-blue-50 text-[#0052FF]",
+    badgeBg: "bg-blue-50 dark:bg-blue-950/40 text-[#0052FF] dark:text-[#10e599]",
   },
   {
     category: "Compliance",
@@ -92,7 +92,7 @@ const useCases = [
     time: "GlobalG.A.P",
     icon: ShieldCheck,
     accent: "border-[#10E599]",
-    badgeBg: "bg-emerald-50 text-[#059669]",
+    badgeBg: "bg-emerald-50 dark:bg-emerald-950/40 text-[#059669] dark:text-[#10e599]",
   },
   {
     category: "Automation",
@@ -103,29 +103,29 @@ const useCases = [
     time: "Sub-50ms Trigger",
     icon: Cpu,
     accent: "border-[#0052FF]",
-    badgeBg: "bg-blue-50 text-[#0052FF]",
+    badgeBg: "bg-blue-50 dark:bg-blue-950/40 text-[#0052FF] dark:text-[#10e599]",
   },
 ];
 
 export default function AgentaUseCases() {
   return (
-    <section className="relative py-28 md:py-36 bg-[#F1F7F4]/60 border-y border-slate-200/80 select-none">
+    <section className="relative py-28 md:py-36 bg-[#F1F7F4]/60 dark:bg-[#050505] border-y border-slate-200/80 dark:border-emerald-900/30 select-none">
       
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}
         <div className="mx-auto max-w-3xl text-center mb-20">
-          <div className="inline-flex items-center gap-2 rounded-full border border-[#059669]/20 bg-white/90 px-4 py-1.5 text-xs font-mono font-bold uppercase tracking-wider text-[#059669] mb-4 shadow-sm backdrop-blur-md">
-            <Sparkles className="w-3.5 h-3.5 text-[#059669]" />
+          <div className="inline-flex items-center gap-2 rounded-full border border-[#059669]/20 dark:border-emerald-900/30 bg-white/90 dark:bg-emerald-950/40 px-4 py-1.5 text-xs font-mono font-bold uppercase tracking-wider text-[#059669] dark:text-[#10e599] mb-4 shadow-sm backdrop-blur-md">
+            <Sparkles className="w-3.5 h-3.5 text-[#059669] dark:text-[#10e599]" />
             <span>Commercial Deployment &bull; Enterprise Use Cases</span>
           </div>
 
-          <h2 className="text-4xl sm:text-5xl md:text-6xl font-black tracking-tight text-[#071326] leading-tight">
+          <h2 className="text-4xl sm:text-5xl md:text-6xl font-black tracking-tight text-[#071326] dark:text-emerald-50 leading-tight">
             Elevate Every Domain <br />
             <span className="gradient-text">of Agricultural Production.</span>
           </h2>
 
-          <p className="mt-4 text-base sm:text-lg text-[#071326]/70 leading-relaxed font-normal">
+          <p className="mt-4 text-base sm:text-lg text-[#071326]/70 dark:text-emerald-200/60 leading-relaxed font-normal">
             Discover how NATLE telemetry and Hosma Ceylon organic substrates transform commercial yields across greenhouses, plantations, and global export corridors.
           </p>
         </div>
@@ -150,32 +150,32 @@ export default function AgentaUseCases() {
                     <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold ${item.badgeBg}`}>
                       {item.category}
                     </span>
-                    <div className="w-8 h-8 rounded-xl bg-white border border-slate-100 flex items-center justify-center text-[#0052FF] group-hover:bg-[#0052FF] group-hover:text-white transition-colors">
+                    <div className="w-8 h-8 rounded-xl bg-white dark:bg-[#0a140a] border border-slate-100 dark:border-emerald-900/30 flex items-center justify-center text-[#0052FF] dark:text-[#10e599] group-hover:bg-[#0052FF] dark:group-hover:bg-[#10e599] group-hover:text-white transition-colors">
                       <Icon className="w-4 h-4" />
                     </div>
                   </div>
 
-                  <span className="text-[11px] font-mono font-bold text-slate-400 uppercase tracking-wider block mb-1">
+                  <span className="text-[11px] font-mono font-bold text-slate-400 dark:text-emerald-300/60 uppercase tracking-wider block mb-1">
                     {item.domain}
                   </span>
 
-                  <h3 className="text-lg font-black text-[#071326] mb-2 leading-snug group-hover:text-[#0052FF] transition-colors">
+                  <h3 className="text-lg font-black text-[#071326] dark:text-emerald-50 mb-2 leading-snug group-hover:text-[#0052FF] dark:group-hover:text-[#10e599] transition-colors">
                     {item.title}
                   </h3>
 
-                  <p className="text-xs text-[#071326]/70 leading-relaxed font-normal">
+                  <p className="text-xs text-[#071326]/70 dark:text-emerald-200/60 leading-relaxed font-normal">
                     {item.description}
                   </p>
                 </div>
 
                 {/* Bottom Metric & Action */}
-                <div className="mt-6 pt-4 border-t border-slate-100 flex items-center justify-between">
+                <div className="mt-6 pt-4 border-t border-slate-100 dark:border-emerald-900/30 flex items-center justify-between">
                   <div>
-                    <p className="text-xs font-black font-mono text-[#059669]">{item.metric}</p>
-                    <p className="text-[10px] font-mono text-slate-400">{item.time}</p>
+                    <p className="text-xs font-black font-mono text-[#059669] dark:text-[#10e599]">{item.metric}</p>
+                    <p className="text-[10px] font-mono text-slate-400 dark:text-emerald-300/60">{item.time}</p>
                   </div>
 
-                  <Link href="/contact" className="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-[#071326] group-hover:bg-[#0052FF] group-hover:text-white transition-all">
+                  <Link href="/contact" className="w-8 h-8 rounded-full bg-slate-100 dark:bg-emerald-950/40 flex items-center justify-center text-[#071326] dark:text-emerald-50 group-hover:bg-[#0052FF] dark:group-hover:bg-[#10e599] group-hover:text-white transition-all">
                     <ArrowUpRight className="w-4 h-4" />
                   </Link>
                 </div>

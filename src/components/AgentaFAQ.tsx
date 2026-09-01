@@ -36,22 +36,22 @@ export default function AgentaFAQ() {
   };
 
   return (
-    <section className="relative py-28 md:py-36 bg-[#F1F7F4]/60 border-t border-slate-200/80 select-none">
+    <section className="relative py-28 md:py-36 bg-[#F1F7F4]/60 dark:bg-[#050505] border-t border-slate-200/80 dark:border-emerald-900/30 select-none">
       
       <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}
         <div className="text-center mb-16">
-          <div className="inline-flex items-center gap-2 rounded-full border border-[#0052FF]/20 bg-white/80 px-4 py-1.5 text-xs font-mono font-bold uppercase tracking-wider text-[#0052FF] mb-4 shadow-sm backdrop-blur-md">
+          <div className="inline-flex items-center gap-2 rounded-full border border-[#0052FF]/20 bg-white/80 dark:bg-[#0a140a]/80 px-4 py-1.5 text-xs font-mono font-bold uppercase tracking-wider text-[#0052FF] mb-4 shadow-sm backdrop-blur-md">
             <HelpCircle className="w-3.5 h-3.5 text-[#0052FF]" />
             <span>Support &bull; Knowledge Base</span>
           </div>
 
-          <h2 className="text-4xl sm:text-5xl font-black tracking-tight text-[#071326] leading-tight">
+          <h2 className="text-4xl sm:text-5xl font-black tracking-tight text-[#071326] dark:text-emerald-50 leading-tight">
             Frequently Asked <span className="gradient-text">Questions.</span>
           </h2>
 
-          <p className="mt-4 text-base text-[#071326]/70 leading-relaxed font-normal">
+          <p className="mt-4 text-base text-[#071326]/70 dark:text-emerald-200/60 leading-relaxed font-normal">
             Everything you need to know about deploying NATLE smart telemetry and Hosma Ceylon organic substrates.
           </p>
         </div>
@@ -64,17 +64,17 @@ export default function AgentaFAQ() {
             return (
               <div
                 key={faq.q}
-                className="glass-card rounded-2xl overflow-hidden border border-slate-200/80 transition-all duration-300 shadow-sm"
+                className="glass-card rounded-2xl overflow-hidden border border-slate-200/80 dark:border-emerald-900/30 transition-all duration-300 shadow-sm"
               >
                 <button
                   type="button"
                   onClick={() => toggle(index)}
                   className="w-full px-6 py-5 flex items-center justify-between text-left gap-4 hover:bg-white/50 transition-colors"
                 >
-                  <span className="text-base font-bold text-[#071326]">
+                  <span className="text-base font-bold text-[#071326] dark:text-emerald-50">
                     {faq.q}
                   </span>
-                  <div className="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-[#0052FF] shrink-0">
+                  <div className="w-8 h-8 rounded-full bg-slate-100 dark:bg-emerald-950/40 flex items-center justify-center text-[#0052FF] shrink-0">
                     {isOpen ? <Minus className="w-4 h-4" /> : <Plus className="w-4 h-4" />}
                   </div>
                 </button>
@@ -88,7 +88,7 @@ export default function AgentaFAQ() {
                       transition={{ duration: 0.3, ease: "easeInOut" }}
                       className="overflow-hidden"
                     >
-                      <div className="px-6 pb-6 pt-2 text-sm text-[#071326]/75 leading-relaxed font-normal border-t border-slate-100">
+                      <div className="px-6 pb-6 pt-2 text-sm text-[#071326]/75 dark:text-emerald-200/70 leading-relaxed font-normal border-t border-slate-100 dark:border-emerald-900/30">
                         {faq.a}
                       </div>
                     </motion.div>
@@ -100,9 +100,9 @@ export default function AgentaFAQ() {
         </div>
 
         {/* Support CTA */}
-        <div className="mt-12 text-center p-8 rounded-3xl bg-white/80 border border-slate-200/80 shadow-md">
-          <p className="text-sm font-bold text-[#071326]">Still have questions regarding your acreage?</p>
-          <p className="text-xs text-slate-500 mt-1 mb-4">Our agronomy and software engineers are available 24/7.</p>
+        <div className="mt-12 text-center p-8 rounded-3xl bg-white/80 dark:bg-[#0a140a]/80 border border-slate-200/80 dark:border-emerald-900/30 shadow-md">
+          <p className="text-sm font-bold text-[#071326] dark:text-emerald-50">Still have questions regarding your acreage?</p>
+          <p className="text-xs text-slate-500 dark:text-emerald-300/60 mt-1 mb-4">Our agronomy and software engineers are available 24/7.</p>
           <Link
             href="/contact"
             className="inline-flex items-center gap-2 text-xs font-black uppercase tracking-wider text-[#0052FF] hover:underline"

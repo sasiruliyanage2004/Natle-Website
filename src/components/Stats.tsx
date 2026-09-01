@@ -44,7 +44,7 @@ function Counter({ value, suffix, decimals = 0 }: Omit<Stat, "icon" | "label">) 
 
 export default function Stats() {
   return (
-    <section className="relative overflow-hidden bg-[#0F172A] py-24">
+    <section className="relative overflow-hidden bg-[#0F172A] dark:bg-[#050505] py-24">
       {/* Ambient background glows */}
       <div className="pointer-events-none absolute inset-0 -z-10">
         <div className="absolute -left-32 top-1/2 h-96 w-96 -translate-y-1/2 rounded-full bg-[#0066FF]/20 blur-3xl" />
@@ -77,7 +77,7 @@ export default function Stats() {
               <p className="mt-4 text-4xl font-bold tracking-tight text-white sm:text-5xl">
                 <Counter value={s.value} suffix={s.suffix} decimals={s.decimals} />
               </p>
-              <p className="mt-2 text-sm text-slate-400">{s.label}</p>
+              <p className="mt-2 text-sm text-slate-400 dark:text-emerald-300/60">{s.label}</p>
             </motion.div>
           ))}
         </div>

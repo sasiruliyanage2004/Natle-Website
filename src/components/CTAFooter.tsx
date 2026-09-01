@@ -24,7 +24,7 @@ export default function CTAFooter() {
   };
 
   return (
-    <footer className="w-full overflow-hidden font-sans antialiased bg-[#071326] text-white select-none">
+    <footer className="w-full overflow-hidden font-sans antialiased bg-[#071326] dark:bg-[#050505] text-white select-none">
       
       {/* ================= UPPER MINIMALIST SECTION (Footer-11 Style) ================= */}
       <div className="relative px-6 pt-12 pb-14 sm:px-10 md:px-16 lg:px-20 max-w-7xl mx-auto">
@@ -98,7 +98,7 @@ export default function CTAFooter() {
 
 
       {/* ================= LOWER BRAND LOGO SECTION (Footer-11 Style) ================= */}
-      <div className="relative bg-[#040D1E] px-6 pt-10 pb-12 sm:px-10 md:px-16 lg:px-20 border-t border-white/[0.06]">
+      <div className="relative bg-[#040D1E] dark:bg-[#080d08] px-6 pt-10 pb-12 sm:px-10 md:px-16 lg:px-20 border-t border-white/[0.06]">
         
         {/* Ambient Subtle Multi-Glow */}
         <div className="pointer-events-none absolute right-0 bottom-0 h-full w-2/3 blur-2xl opacity-40">

@@ -26,8 +26,8 @@ const steps = [
       "Wireless LoRaWAN sync protocol",
       "End-to-end telemetry encryption",
     ],
-    accent: "text-[#0052FF]",
-    bgGlow: "from-[#0052FF]/10",
+    accent: "text-[#0052FF] dark:text-[#10e599]",
+    bgGlow: "from-[#0052FF]/10 dark:from-[#10e599]/10",
   },
   {
     step: "02",
@@ -40,8 +40,8 @@ const steps = [
       "Multi-greenhouse zone grouping",
       "Real-time sensor threshold alerts",
     ],
-    accent: "text-[#059669]",
-    bgGlow: "from-[#059669]/10",
+    accent: "text-[#059669] dark:text-[#10e599]",
+    bgGlow: "from-[#059669]/10 dark:from-[#10e599]/10",
   },
   {
     step: "03",
@@ -54,30 +54,30 @@ const steps = [
       "NDVI satellite health overlay",
       "Automated harvest date prediction",
     ],
-    accent: "text-[#F59E0B]",
-    bgGlow: "from-[#F59E0B]/10",
+    accent: "text-[#F59E0B] dark:text-amber-400",
+    bgGlow: "from-[#F59E0B]/10 dark:from-amber-400/10",
   },
 ];
 
 export default function AgentaHowItWorks() {
   return (
-    <section className="relative py-28 md:py-36 bg-[#EDF6F2] select-none">
+    <section className="relative py-28 md:py-36 bg-[#EDF6F2] dark:bg-[#050505] select-none">
       
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}
         <div className="mx-auto max-w-3xl text-center mb-20">
-          <div className="inline-flex items-center gap-2 rounded-full border border-[#0052FF]/20 bg-white/80 px-4 py-1.5 text-xs font-mono font-bold uppercase tracking-wider text-[#0052FF] mb-4 shadow-sm backdrop-blur-md">
-            <Sparkles className="w-3.5 h-3.5 text-[#0052FF]" />
+          <div className="inline-flex items-center gap-2 rounded-full border border-[#0052FF]/20 dark:border-emerald-900/30 bg-white/80 dark:bg-emerald-950/40 px-4 py-1.5 text-xs font-mono font-bold uppercase tracking-wider text-[#0052FF] dark:text-[#10e599] mb-4 shadow-sm backdrop-blur-md">
+            <Sparkles className="w-3.5 h-3.5 text-[#0052FF] dark:text-[#10e599]" />
             <span>How It Works &bull; Seamless Onboarding</span>
           </div>
 
-          <h2 className="text-4xl sm:text-5xl md:text-6xl font-black tracking-tight text-[#071326] leading-tight">
+          <h2 className="text-4xl sm:text-5xl md:text-6xl font-black tracking-tight text-[#071326] dark:text-emerald-50 leading-tight">
             Deploy in Minutes. <br />
             <span className="gradient-text">Scale Across Thousands of Acres.</span>
           </h2>
 
-          <p className="mt-4 text-base sm:text-lg text-[#071326]/70 leading-relaxed font-normal">
+          <p className="mt-4 text-base sm:text-lg text-[#071326]/70 dark:text-emerald-200/60 leading-relaxed font-normal">
             Three straightforward steps to transform traditional commercial acreage into a precision-engineered, autonomous agricultural engine.
           </p>
         </div>
@@ -99,34 +99,34 @@ export default function AgentaHowItWorks() {
               <div>
                 {/* Header: Step Number & Metric Badges */}
                 <div className="flex items-center justify-between mb-8">
-                  <span className="text-4xl font-black font-mono text-[#071326]/20 group-hover:text-[#0052FF] transition-colors">
+                  <span className="text-4xl font-black font-mono text-[#071326]/20 dark:text-emerald-300/20 group-hover:text-[#0052FF] dark:group-hover:text-[#10e599] transition-colors">
                     {item.step}
                   </span>
                   
                   <div className="flex items-center gap-2">
-                    <span className="px-3 py-1 rounded-full bg-white border border-slate-200/80 text-[11px] font-mono font-bold text-[#071326]/70 shadow-sm">
+                    <span className="px-3 py-1 rounded-full bg-white dark:bg-[#0a140a] border border-slate-200/80 dark:border-emerald-900/30 text-[11px] font-mono font-bold text-[#071326]/70 dark:text-emerald-200/60 shadow-sm">
                       {item.badge}
                     </span>
-                    <span className={`px-3 py-1 rounded-full bg-white border border-slate-200/80 text-[11px] font-mono font-black ${item.accent} shadow-sm`}>
+                    <span className={`px-3 py-1 rounded-full bg-white dark:bg-[#0a140a] border border-slate-200/80 dark:border-emerald-900/30 text-[11px] font-mono font-black ${item.accent} shadow-sm`}>
                       {item.duration}
                     </span>
                   </div>
                 </div>
 
-                <h3 className="text-2xl font-black text-[#071326] mb-3 leading-snug">
+                <h3 className="text-2xl font-black text-[#071326] dark:text-emerald-50 mb-3 leading-snug">
                   {item.title}
                 </h3>
 
-                <p className="text-sm text-[#071326]/75 leading-relaxed font-normal mb-8">
+                <p className="text-sm text-[#071326]/75 dark:text-emerald-200/70 leading-relaxed font-normal mb-8">
                   {item.description}
                 </p>
               </div>
 
               {/* Bullet Features */}
-              <div className="pt-6 border-t border-slate-100 space-y-2.5">
+              <div className="pt-6 border-t border-slate-100 dark:border-emerald-900/30 space-y-2.5">
                 {item.features.map((feat) => (
-                  <div key={feat} className="flex items-center gap-2 text-xs font-semibold text-[#071326]/80">
-                    <CheckCircle2 className="w-3.5 h-3.5 text-[#059669] shrink-0" />
+                  <div key={feat} className="flex items-center gap-2 text-xs font-semibold text-[#071326]/80 dark:text-emerald-100/60">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-[#059669] dark:text-[#10e599] shrink-0" />
                     <span>{feat}</span>
                   </div>
                 ))}

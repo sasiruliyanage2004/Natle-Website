@@ -71,19 +71,19 @@ export default function Solutions() {
   const current = SOLUTIONS.find((s) => s.id === activeTab) || SOLUTIONS[0];
 
   return (
-    <section id="solutions" className="relative bg-white py-28 overflow-hidden">
+    <section id="solutions" className="relative bg-white dark:bg-[#080d08] py-28 overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-16">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-50 text-blue-600 border border-blue-100 text-xs font-bold uppercase tracking-wider mb-4">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-50 dark:bg-blue-950/40 text-blue-600 dark:text-[#10e599] border border-blue-100 dark:border-emerald-900/30 text-xs font-bold uppercase tracking-wider mb-4">
             <Layers className="w-3.5 h-3.5" />
             Proprietary Technology
           </div>
-          <h2 className="text-4xl md:text-5xl font-extrabold text-slate-900 tracking-tight">
+          <h2 className="text-4xl md:text-5xl font-extrabold text-slate-900 dark:text-emerald-50 tracking-tight">
             Software built specifically for <br className="hidden sm:block" />
             <span className="gradient-text">Modern Agriculture</span>
           </h2>
-          <p className="mt-4 text-lg text-slate-600 leading-relaxed">
+          <p className="mt-4 text-lg text-slate-600 dark:text-emerald-300/60 leading-relaxed">
             Scalable software architecture that bridges the gap between field hardware, predictive AI algorithms, and commercial farm management.
           </p>
         </div>
@@ -99,11 +99,11 @@ export default function Solutions() {
                 onClick={() => setActiveTab(sol.id)}
                 className={`flex items-center gap-2.5 px-6 py-3.5 rounded-2xl font-bold text-sm transition-all duration-300 ${
                   isActive
-                    ? "bg-slate-900 text-white shadow-xl shadow-slate-900/10 scale-105"
-                    : "bg-slate-50 text-slate-600 hover:bg-slate-100 hover:text-slate-900 border border-slate-200/60"
+                    ? "bg-slate-900 dark:bg-emerald-950 text-white dark:text-emerald-50 shadow-xl shadow-slate-900/10 scale-105"
+                    : "bg-slate-50 dark:bg-emerald-950/40 text-slate-600 dark:text-emerald-300/60 hover:bg-slate-100 dark:hover:bg-emerald-900/40 hover:text-slate-900 dark:hover:text-emerald-50 border border-slate-200/60 dark:border-emerald-900/30"
                 }`}
               >
-                <Icon className={`w-4 h-4 ${isActive ? "text-emerald-400" : "text-blue-500"}`} />
+                <Icon className={`w-4 h-4 ${isActive ? "text-emerald-400 dark:text-[#10e599]" : "text-blue-500 dark:text-[#10e599]"}`} />
                 <span>{sol.title}</span>
               </button>
             );
@@ -111,7 +111,7 @@ export default function Solutions() {
         </div>
 
         {/* Solution Details Card */}
-        <div className="relative rounded-3xl border border-slate-200/80 bg-slate-50/80 p-8 md:p-12 shadow-xl backdrop-blur-xl">
+        <div className="relative rounded-3xl border border-slate-200/80 dark:border-emerald-900/30 bg-slate-50/80 dark:bg-[#0a140a]/90 p-8 md:p-12 shadow-xl backdrop-blur-xl">
           <AnimatePresence mode="wait">
             <motion.div
               key={current.id}
@@ -123,27 +123,27 @@ export default function Solutions() {
             >
               {/* Left Column: Description */}
               <div className="lg:col-span-7 space-y-6">
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-lg bg-emerald-500/10 text-emerald-700 text-xs font-bold uppercase tracking-wider">
-                  <Zap className="w-3.5 h-3.5 text-emerald-600" />
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-lg bg-emerald-500/10 dark:bg-emerald-950/40 text-emerald-700 dark:text-[#10e599] text-xs font-bold uppercase tracking-wider">
+                  <Zap className="w-3.5 h-3.5 text-emerald-600 dark:text-[#10e599]" />
                   {current.badge}
                 </div>
 
-                <h3 className="text-3xl md:text-4xl font-extrabold text-slate-900">
+                <h3 className="text-3xl md:text-4xl font-extrabold text-slate-900 dark:text-emerald-50">
                   {current.title}
                 </h3>
-                <p className="text-lg font-semibold text-blue-600 -mt-2">
+                <p className="text-lg font-semibold text-blue-600 dark:text-[#10e599] -mt-2">
                   {current.tagline}
                 </p>
 
-                <p className="text-base text-slate-600 leading-relaxed">
+                <p className="text-base text-slate-600 dark:text-emerald-200/70 leading-relaxed">
                   {current.description}
                 </p>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
                   {current.highlights.map((h, i) => (
                     <div key={i} className="flex items-start gap-2.5">
-                      <CheckCircle2 className="w-5 h-5 text-emerald-500 shrink-0 mt-0.5" />
-                      <span className="text-sm font-medium text-slate-700">{h}</span>
+                      <CheckCircle2 className="w-5 h-5 text-emerald-500 dark:text-[#10e599] shrink-0 mt-0.5" />
+                      <span className="text-sm font-medium text-slate-700 dark:text-emerald-100/60">{h}</span>
                     </div>
                   ))}
                 </div>
@@ -158,7 +158,7 @@ export default function Solutions() {
                   </Link>
                   <Link
                     href="/contact"
-                    className="px-6 py-3 rounded-full text-sm font-bold text-slate-700 bg-white border border-slate-200 hover:bg-slate-50 transition"
+                    className="px-6 py-3 rounded-full text-sm font-bold text-slate-700 dark:text-emerald-50 bg-white dark:bg-[#0a140a] border border-slate-200 dark:border-emerald-900/30 hover:bg-slate-50 dark:hover:bg-emerald-950/40 transition"
                   >
                     Book Live Demo
                   </Link>
@@ -167,44 +167,44 @@ export default function Solutions() {
 
               {/* Right Column: Live Mockup / Metric Card */}
               <div className="lg:col-span-5">
-                <div className="relative rounded-2xl bg-gradient-to-br from-slate-900 to-slate-800 p-7 text-white shadow-2xl overflow-hidden">
+                <div className="relative rounded-2xl bg-gradient-to-br from-slate-900 to-slate-800 dark:from-[#050505] dark:to-[#080d08] dark:border dark:border-emerald-900/30 p-7 text-white shadow-2xl overflow-hidden">
                   <div className="absolute top-0 right-0 w-48 h-48 bg-blue-500/10 rounded-full blur-3xl pointer-events-none" />
                   
-                  <div className="flex items-center justify-between pb-6 border-b border-slate-700/60">
+                  <div className="flex items-center justify-between pb-6 border-b border-slate-700/60 dark:border-emerald-900/30">
                     <div className="flex items-center gap-2">
-                      <Activity className="w-5 h-5 text-emerald-400" />
-                      <span className="text-sm font-bold uppercase tracking-wider text-slate-300">Live Telemetry</span>
+                      <Activity className="w-5 h-5 text-emerald-400 dark:text-[#10e599]" />
+                      <span className="text-sm font-bold uppercase tracking-wider text-slate-300 dark:text-emerald-200/60">Live Telemetry</span>
                     </div>
-                    <span className="flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 text-xs font-semibold">
-                      <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                    <span className="flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 dark:text-[#10e599] text-xs font-semibold">
+                      <span className="w-2 h-2 rounded-full bg-emerald-400 dark:bg-[#10e599] animate-pulse" />
                       Connected
                     </span>
                   </div>
 
                   <div className="py-6">
-                    <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Observed Impact</p>
+                    <p className="text-xs font-semibold text-slate-400 dark:text-emerald-300/60 uppercase tracking-wider">Observed Impact</p>
                     <div className="mt-2 flex items-baseline gap-3">
                       <span className="text-5xl font-extrabold text-white tracking-tight">
                         {current.stats.primary}
                       </span>
-                      <span className="text-sm font-medium text-emerald-400">
+                      <span className="text-sm font-medium text-emerald-400 dark:text-[#10e599]">
                         {current.stats.label}
                       </span>
                     </div>
                   </div>
 
-                  <div className="space-y-3 pt-4 border-t border-slate-700/60">
-                    <div className="flex justify-between text-xs text-slate-400">
+                  <div className="space-y-3 pt-4 border-t border-slate-700/60 dark:border-emerald-900/30">
+                    <div className="flex justify-between text-xs text-slate-400 dark:text-emerald-300/60">
                       <span>Sync Latency</span>
                       <span className="text-white font-mono font-semibold">12ms (Cloud Edge)</span>
                     </div>
-                    <div className="flex justify-between text-xs text-slate-400">
+                    <div className="flex justify-between text-xs text-slate-400 dark:text-emerald-300/60">
                       <span>IoT Sensor Protocol</span>
                       <span className="text-white font-mono font-semibold">MQTT / TLS 1.3</span>
                     </div>
-                    <div className="flex justify-between text-xs text-slate-400">
+                    <div className="flex justify-between text-xs text-slate-400 dark:text-emerald-300/60">
                       <span>Data Accuracy</span>
-                      <span className="text-emerald-400 font-mono font-semibold">99.98% Confidence</span>
+                      <span className="text-emerald-400 dark:text-[#10e599] font-mono font-semibold">99.98% Confidence</span>
                     </div>
                   </div>
                 </div>

@@ -36,18 +36,18 @@ const TESTIMONIALS = [
 
 export default function Testimonials() {
   return (
-    <section className="relative bg-[#F8FAFC] py-28 border-t border-slate-200/70 overflow-hidden">
+    <section className="relative bg-[#F8FAFC] dark:bg-[#050505] py-28 border-t border-slate-200/70 dark:border-emerald-900/30 overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center max-w-3xl mx-auto mb-16">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 text-xs font-bold uppercase tracking-wider mb-4">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 border border-emerald-200 dark:border-emerald-900/30 text-xs font-bold uppercase tracking-wider mb-4">
             <CheckCircle2 className="w-3.5 h-3.5" />
             Verified Case Studies
           </div>
-          <h2 className="text-4xl md:text-5xl font-extrabold text-slate-900 tracking-tight">
+          <h2 className="text-4xl md:text-5xl font-extrabold text-slate-900 dark:text-emerald-50 tracking-tight">
             Trusted by Commercial <br className="hidden sm:block" />
             Growers &amp; Exporters
           </h2>
-          <p className="mt-4 text-lg text-slate-600">
+          <p className="mt-4 text-lg text-slate-600 dark:text-emerald-200/70">
             See how enterprise agriculture operations leverage NATLE to boost yield, reduce input costs, and automate compliance.
           </p>
         </div>
@@ -60,7 +60,7 @@ export default function Testimonials() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-60px" }}
               transition={{ duration: 0.5, delay: idx * 0.1 }}
-              className="relative flex flex-col justify-between rounded-3xl border border-slate-200/80 bg-white p-8 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1.5"
+              className="relative flex flex-col justify-between rounded-3xl border border-slate-200/80 dark:border-emerald-900/30 bg-white dark:bg-[#0a140a] p-8 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1.5"
             >
               <div>
                 <div className="flex items-center justify-between mb-6">
@@ -69,24 +69,24 @@ export default function Testimonials() {
                       <Star key={i} className="w-4 h-4 fill-amber-400" />
                     ))}
                   </div>
-                  <span className="px-3 py-1 rounded-full bg-blue-50 text-blue-700 text-xs font-bold">
+                  <span className="px-3 py-1 rounded-full bg-blue-50 dark:bg-blue-950/40 text-blue-700 text-xs font-bold">
                     {t.metrics}
                   </span>
                 </div>
 
-                <Quote className="w-8 h-8 text-slate-200 mb-4" />
-                <p className="text-base text-slate-700 leading-relaxed font-normal italic">
+                <Quote className="w-8 h-8 text-slate-200 dark:text-emerald-300/60 mb-4" />
+                <p className="text-base text-slate-700 dark:text-emerald-200/70 leading-relaxed font-normal italic">
                   "{t.quote}"
                 </p>
               </div>
 
-              <div className="flex items-center gap-3.5 pt-6 mt-6 border-t border-slate-100">
+              <div className="flex items-center gap-3.5 pt-6 mt-6 border-t border-slate-100 dark:border-emerald-900/30">
                 <div className="w-11 h-11 rounded-full bg-gradient-to-tr from-blue-600 to-emerald-500 flex items-center justify-center text-white font-bold text-sm shadow-md">
                   {t.avatar}
                 </div>
                 <div>
-                  <h4 className="text-sm font-bold text-slate-900">{t.author}</h4>
-                  <p className="text-xs text-slate-500">{t.role}, {t.company}</p>
+                  <h4 className="text-sm font-bold text-slate-900 dark:text-emerald-50">{t.author}</h4>
+                  <p className="text-xs text-slate-500 dark:text-emerald-300/60">{t.role}, {t.company}</p>
                 </div>
               </div>
             </motion.div>
