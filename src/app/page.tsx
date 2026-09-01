@@ -17,8 +17,8 @@ import KineticCursor from "@/components/animations/KineticCursor";
 
 export default function Home() {
   return (
-    <main className="relative min-h-screen bg-[#EDF6F2] antialiased selection:bg-[#059669] selection:text-white">
-      {/* Kokonut UI Animated Luminous Beams Background */}
+    <main className="relative min-h-screen bg-[#EDF6F2] dark:bg-[#040812] text-slate-900 dark:text-slate-100 antialiased selection:bg-[#059669] selection:text-white transition-colors duration-500">
+      {/* Kokonut UI Animated Luminous Beams Background (Auto-adjusts for Dark Mode) */}
       <BeamsBackground intensity="medium" />
 
       {/* Kinetic Fluid Particle Mesh */}

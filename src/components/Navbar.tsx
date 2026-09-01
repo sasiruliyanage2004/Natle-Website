@@ -14,6 +14,7 @@ import {
 import clsx from "clsx";
 import NatleLogo from "@/components/common/NatleLogo";
 import CommandSearch from "@/components/common/CommandSearch";
+import ThemeToggle from "@/components/ThemeToggle";
 
 interface NavRoute {
   name: string;
@@ -44,15 +45,15 @@ export default function Navbar() {
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 pt-5 px-4 md:px-8 flex justify-center select-none">
-      <div className="rounded-full px-6 py-3 flex items-center justify-between w-full max-w-7xl bg-white/75 backdrop-blur-xl border border-white/60 shadow-[0_8px_32px_0_rgba(31,38,135,0.07)] transition-all">
+      <div className="rounded-full px-5 sm:px-6 py-3 flex items-center justify-between w-full max-w-7xl bg-white/75 dark:bg-slate-950/80 backdrop-blur-xl border border-white/60 dark:border-white/10 shadow-[0_8px_32px_0_rgba(31,38,135,0.07)] dark:shadow-[0_8px_32px_0_rgba(0,0,0,0.5)] transition-all">
         
-        {/* 1. Official Pristine Natle Logo (Unchanged) */}
+        {/* 1. Official Pristine Natle Logo */}
         <Link href="/" className="flex items-center">
           <NatleLogo showTagline={true} />
         </Link>
 
         {/* 2. Navigation Capsule Links (Desktop) */}
-        <nav className="hidden lg:flex items-center bg-gray-100/60 rounded-full px-2 py-1 gap-1 border border-gray-200/60">
+        <nav className="hidden lg:flex items-center bg-gray-100/60 dark:bg-slate-900/70 rounded-full px-2 py-1 gap-1 border border-gray-200/60 dark:border-white/10">
           {navRoutes.map((route) => {
             const isActive = isActiveLink(route.path);
 
@@ -64,7 +65,7 @@ export default function Navbar() {
                   "px-4 py-2 rounded-full text-xs font-semibold transition-all duration-300",
                   isActive
                     ? "bg-gradient-to-r from-[#007bff] to-[#00d2ff] text-white shadow-md shadow-[#007bff]/30"
-                    : "text-slate-600 hover:text-[#0ea5e9] hover:bg-white/60"
+                    : "text-slate-600 dark:text-slate-300 hover:text-[#0ea5e9] dark:hover:text-[#38bdf8] hover:bg-white/60 dark:hover:bg-white/10"
                 )}
               >
                 <span>{route.name}</span>
@@ -73,15 +74,18 @@ export default function Navbar() {
           })}
         </nav>
 
-        {/* 3. Right Actions: Sleek Quick Search & Demo Button */}
-        <div className="flex items-center gap-3">
+        {/* 3. Right Actions: Spotlight Search + Theme Toggle + Request Demo */}
+        <div className="flex items-center gap-2.5 sm:gap-3">
           {/* Spotlight Command Search */}
           <CommandSearch />
+
+          {/* Sun / Moon Animated Dark Theme Toggle */}
+          <ThemeToggle />
 
           {/* Request Demo Gradient Button */}
           <Link
             href="/contact"
-            className="hidden md:inline-flex items-center gap-2 rounded-full px-6 py-2.5 text-xs font-black uppercase tracking-wider text-white shadow-md transition-all duration-300 hover:scale-105 active:scale-95"
+            className="hidden md:inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-xs font-black uppercase tracking-wider text-white shadow-md transition-all duration-300 hover:scale-105 active:scale-95"
             style={{
               background: "linear-gradient(135deg, #007bff, #00d2ff, #00c9a7)",
             }}
@@ -93,7 +97,7 @@ export default function Navbar() {
           {/* Mobile Hamburger Toggle */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="lg:hidden p-2 rounded-full text-slate-800 hover:bg-slate-100 transition-colors"
+            className="lg:hidden p-2 rounded-full text-slate-800 dark:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
             aria-label="Toggle navigation"
           >
             {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
@@ -109,7 +113,7 @@ export default function Navbar() {
             initial={{ opacity: 0, y: -16 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -16 }}
-            className="lg:hidden fixed top-24 inset-x-4 max-w-7xl mx-auto rounded-3xl border border-slate-200/90 bg-white/95 p-6 shadow-2xl backdrop-blur-2xl"
+            className="lg:hidden fixed top-24 inset-x-4 max-w-7xl mx-auto rounded-3xl border border-slate-200/90 dark:border-white/10 bg-white/95 dark:bg-slate-950/95 p-6 shadow-2xl backdrop-blur-2xl"
           >
             <nav className="flex flex-col gap-2">
               {navRoutes.map((route) => {
@@ -123,7 +127,7 @@ export default function Navbar() {
                       "flex items-center justify-between rounded-xl px-4 py-3 text-sm font-bold transition-all",
                       isActive
                         ? "bg-gradient-to-r from-[#007bff] to-[#00d2ff] text-white shadow-md"
-                        : "text-slate-800 hover:bg-slate-100"
+                        : "text-slate-800 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800"
                     )}
                   >
                     <span>{route.name}</span>
