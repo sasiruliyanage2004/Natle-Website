@@ -1,7 +1,8 @@
 import Navbar from "@/components/Navbar";
 import CTAFooter from "@/components/CTAFooter";
 import KineticFluidMesh from "@/components/animations/KineticFluidMesh";
-import KineticCursor from "@/components/animations/KineticCursor";
+import SmoothCursor from "@/components/magicui/smooth-cursor";
+import BeamsBackground from "@/components/animations/BeamsBackground";
 import { 
   Briefcase, 
   MapPin, 
@@ -64,29 +65,30 @@ const jobs = [
 
 export default function CareersPage() {
   return (
-    <main className="relative min-h-screen bg-white antialiased selection:bg-emerald-500 selection:text-white">
+    <main className="relative min-h-screen bg-[#EDF6F2] dark:bg-[#050505] text-slate-900 dark:text-emerald-50 antialiased selection:bg-[#059669] selection:text-white transition-colors duration-300">
       <KineticFluidMesh />
-      <KineticCursor />
+      <SmoothCursor />
+      <BeamsBackground intensity="subtle" />
 
       <div className="relative z-10">
         <Navbar />
 
         {/* Hero Header */}
-        <section className="pt-36 pb-20 md:pt-48 md:pb-28 bg-gradient-to-b from-slate-50 via-white to-white border-b border-slate-100">
+        <section className="pt-36 pb-20 md:pt-48 md:pb-28 bg-gradient-to-b from-slate-50 via-white to-white dark:from-[#050505] dark:via-[#050505] dark:to-[#050505] border-b border-slate-100 dark:border-emerald-900/30">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center max-w-4xl">
-            <div className="inline-flex items-center gap-2 rounded-full border border-emerald-300 bg-emerald-50 px-4 py-1.5 text-xs font-black uppercase tracking-wider text-emerald-800 shadow-sm mb-6">
-              <Briefcase className="w-4 h-4 text-emerald-600" />
+            <div className="inline-flex items-center gap-2 rounded-full border border-emerald-300 dark:border-emerald-800/40 bg-emerald-50 dark:bg-emerald-950/50 px-4 py-1.5 text-xs font-black uppercase tracking-wider text-emerald-800 dark:text-[#10E599] shadow-sm mb-6">
+              <Briefcase className="w-4 h-4 text-emerald-600 dark:text-[#10E599]" />
               <span>Join the Future of Agriculture</span>
             </div>
 
-            <h1 className="text-5xl sm:text-6xl md:text-7xl font-black text-[#0F172A] tracking-tight leading-[1.05]">
+            <h1 className="text-5xl sm:text-6xl md:text-7xl font-black text-[#0F172A] dark:text-white tracking-tight leading-[1.05]">
               Build the Technology that{" "}
               <span className="bg-gradient-to-r from-[#0066FF] via-[#00C0F0] to-[#10B981] bg-clip-text text-transparent">
                 Feeds the World.
               </span>
             </h1>
 
-            <p className="mt-6 text-xl text-slate-600 font-normal leading-relaxed max-w-3xl mx-auto">
+            <p className="mt-6 text-xl text-slate-600 dark:text-emerald-200/70 font-normal leading-relaxed max-w-3xl mx-auto">
               We are a passionate team of software architects, hardware hackers, and soil scientists building the next generation of autonomous precision farming.
             </p>
           </div>
@@ -98,12 +100,12 @@ export default function CareersPage() {
             {perks.map((p, i) => {
               const Icon = p.icon;
               return (
-                <div key={i} className="rounded-3xl border border-slate-200/80 bg-white p-8 shadow-xl">
-                  <div className="w-12 h-12 rounded-2xl bg-blue-50 text-[#0066FF] flex items-center justify-center mb-6">
+                <div key={i} className="rounded-3xl border border-slate-200/80 dark:border-emerald-900/40 bg-white dark:bg-[#0a140a]/90 p-8 shadow-xl">
+                  <div className="w-12 h-12 rounded-2xl bg-blue-50 dark:bg-blue-950/50 text-[#0066FF] dark:text-[#10e599] flex items-center justify-center mb-6">
                     <Icon className="w-6 h-6" />
                   </div>
-                  <h3 className="text-xl font-black text-slate-900">{p.title}</h3>
-                  <p className="mt-3 text-xs text-slate-600 leading-relaxed font-normal">{p.description}</p>
+                  <h3 className="text-xl font-black text-slate-900 dark:text-emerald-50">{p.title}</h3>
+                  <p className="mt-3 text-xs text-slate-600 dark:text-emerald-200/70 leading-relaxed font-normal">{p.description}</p>
                 </div>
               );
             })}
@@ -111,30 +113,30 @@ export default function CareersPage() {
         </section>
 
         {/* Open Positions Grid */}
-        <section className="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 border-t border-slate-200/80">
+        <section className="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 border-t border-slate-200/80 dark:border-emerald-900/40">
           <div className="text-center max-w-3xl mx-auto mb-16">
-            <span className="text-xs font-mono font-bold text-emerald-600 uppercase tracking-widest">Opportunities</span>
-            <h2 className="text-3xl sm:text-4xl font-black text-slate-900 mt-2">Open Engineering &amp; Agri Roles</h2>
+            <span className="text-xs font-mono font-bold text-emerald-600 dark:text-[#10e599] uppercase tracking-widest">Opportunities</span>
+            <h2 className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white mt-2">Open Engineering &amp; Agri Roles</h2>
           </div>
 
           <div className="space-y-6">
             {jobs.map((job, i) => (
-              <div key={i} className="rounded-3xl border border-slate-200/80 bg-white p-8 shadow-lg hover:shadow-xl transition-all flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+              <div key={i} className="rounded-3xl border border-slate-200/80 dark:border-emerald-900/40 bg-white dark:bg-[#0a140a]/90 p-8 shadow-lg hover:shadow-xl transition-all flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
                 <div>
                   <div className="flex items-center gap-3 mb-2">
-                    <span className="px-3 py-1 rounded-full bg-blue-50 text-[#0066FF] text-xs font-mono font-bold">
+                    <span className="px-3 py-1 rounded-full bg-blue-50 dark:bg-blue-950/50 text-[#0066FF] dark:text-[#10e599] text-xs font-mono font-bold">
                       {job.department}
                     </span>
-                    <span className="px-3 py-1 rounded-full bg-slate-100 text-slate-600 text-xs font-mono">
+                    <span className="px-3 py-1 rounded-full bg-slate-100 dark:bg-emerald-950/40 text-slate-600 dark:text-emerald-200/70 text-xs font-mono">
                       {job.type}
                     </span>
                   </div>
-                  <h3 className="text-2xl font-black text-slate-900">{job.title}</h3>
-                  <p className="text-xs text-slate-500 mt-1 flex items-center gap-1.5 font-medium">
-                    <MapPin className="w-3.5 h-3.5 text-slate-400" />
+                  <h3 className="text-2xl font-black text-slate-900 dark:text-emerald-50">{job.title}</h3>
+                  <p className="text-xs text-slate-500 dark:text-emerald-300/60 mt-1 flex items-center gap-1.5 font-medium">
+                    <MapPin className="w-3.5 h-3.5 text-slate-400 dark:text-emerald-400/60" />
                     {job.location}
                   </p>
-                  <p className="text-xs text-slate-600 mt-3 max-w-2xl font-normal leading-relaxed">{job.snippet}</p>
+                  <p className="text-xs text-slate-600 dark:text-emerald-200/70 mt-3 max-w-2xl font-normal leading-relaxed">{job.snippet}</p>
                 </div>
 
                 <Link

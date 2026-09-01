@@ -1,7 +1,8 @@
 import Navbar from "@/components/Navbar";
 import CTAFooter from "@/components/CTAFooter";
 import KineticFluidMesh from "@/components/animations/KineticFluidMesh";
-import KineticCursor from "@/components/animations/KineticCursor";
+import SmoothCursor from "@/components/magicui/smooth-cursor";
+import BeamsBackground from "@/components/animations/BeamsBackground";
 import { 
   Sprout, 
   Cpu, 
@@ -66,30 +67,31 @@ const team = [
 
 export default function AboutPage() {
   return (
-    <main className="relative min-h-screen bg-white antialiased selection:bg-emerald-500 selection:text-white">
+    <main className="relative min-h-screen bg-[#EDF6F2] dark:bg-[#050505] text-slate-900 dark:text-emerald-50 antialiased selection:bg-[#059669] selection:text-white transition-colors duration-300">
       <KineticFluidMesh />
-      <KineticCursor />
+      <SmoothCursor />
+      <BeamsBackground intensity="subtle" />
 
       <div className="relative z-10">
         <Navbar />
 
         {/* Hero Header */}
-        <section className="pt-36 pb-20 md:pt-48 md:pb-28 bg-gradient-to-b from-slate-50 via-white to-white border-b border-slate-100">
+        <section className="pt-36 pb-20 md:pt-48 md:pb-28 bg-gradient-to-b from-slate-50 via-white to-white dark:bg-[#050505] dark:from-[#050505] dark:via-[#050505] dark:to-[#050505] border-b border-slate-100 dark:border-emerald-900/30">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center max-w-4xl">
-            <div className="inline-flex items-center gap-2 rounded-full border border-emerald-300 bg-emerald-50 px-4 py-1.5 text-xs font-black uppercase tracking-wider text-emerald-800 shadow-sm mb-6">
-              <Sprout className="w-4 h-4 text-emerald-600" />
+            <div className="inline-flex items-center gap-2 rounded-full border border-emerald-300 dark:border-emerald-800/40 bg-emerald-50 dark:bg-emerald-950/50 px-4 py-1.5 text-xs font-black uppercase tracking-wider text-emerald-800 dark:text-[#10E599] shadow-sm mb-6">
+              <Sprout className="w-4 h-4 text-emerald-600 dark:text-[#10e599]" />
               <span>Our Vision &bull; Innovate &bull; Build &bull; Grow</span>
             </div>
 
-            <h1 className="text-5xl sm:text-6xl md:text-7xl font-black text-[#0F172A] tracking-tight leading-[1.05]">
+            <h1 className="text-5xl sm:text-6xl md:text-7xl font-black text-[#0F172A] dark:text-white tracking-tight leading-[1.05]">
               Where Sustainable Soil Meets{" "}
               <span className="bg-gradient-to-r from-[#0066FF] via-[#00C0F0] to-[#10B981] bg-clip-text text-transparent">
                 Intelligent Code.
               </span>
             </h1>
 
-            <p className="mt-6 text-xl text-slate-600 font-normal leading-relaxed max-w-3xl mx-auto">
-              NATLE is the dual-power fusion of <strong>Hosma Ceylon</strong> (<a href="https://hosmaceylon.com" target="_blank" rel="noreferrer" className="text-[#0066FF] font-bold hover:underline">hosmaceylon.com</a>), premier organic coconut substrate exporter, and cutting-edge software engineering. We empower growers globally with automated telemetry, predictive algorithms, and organic Sri Lankan substrates.
+            <p className="mt-6 text-xl text-slate-600 dark:text-emerald-200/70 font-normal leading-relaxed max-w-3xl mx-auto">
+              NATLE is the dual-power fusion of <strong>Hosma Ceylon</strong> (<a href="https://hosmaceylon.com" target="_blank" rel="noreferrer" className="text-[#0066FF] dark:text-[#10e599] font-bold hover:underline">hosmaceylon.com</a>), premier organic coconut substrate exporter, and cutting-edge software engineering. We empower growers globally with automated telemetry, predictive algorithms, and organic Sri Lankan substrates.
             </p>
           </div>
         </section>
@@ -97,32 +99,32 @@ export default function AboutPage() {
         {/* Dual Core Pillars */}
         <section className="py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div className="rounded-3xl border border-slate-200/80 bg-white p-8 md:p-10 shadow-xl flex flex-col justify-between">
+            <div className="rounded-3xl border border-slate-200/80 dark:border-emerald-900/40 bg-white dark:bg-[#0a140a]/90 p-8 md:p-10 shadow-xl flex flex-col justify-between">
               <div>
-                <div className="w-12 h-12 rounded-2xl bg-emerald-100 text-emerald-600 flex items-center justify-center mb-6">
+                <div className="w-12 h-12 rounded-2xl bg-emerald-100 dark:bg-emerald-950/60 text-emerald-600 dark:text-[#10e599] flex items-center justify-center mb-6">
                   <Leaf className="w-6 h-6" />
                 </div>
-                <h2 className="text-2xl sm:text-3xl font-black text-slate-900">Hosma Ceylon Substrates</h2>
-                <p className="mt-3 text-base text-slate-600 leading-relaxed">
+                <h2 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white">Hosma Ceylon Substrates</h2>
+                <p className="mt-3 text-base text-slate-600 dark:text-emerald-200/70 leading-relaxed">
                   100% natural, triple-washed coconut coir substrates with ultra-low sodium EC (&lt; 0.5 mS/cm). Specially compacted for European hydroponics, Japanese berry farms, and commercial greenhouses worldwide.
                 </p>
               </div>
-              <div className="mt-8 pt-6 border-t border-slate-100 flex items-center gap-4 text-xs font-mono font-bold text-emerald-700">
+              <div className="mt-8 pt-6 border-t border-slate-100 dark:border-emerald-900/30 flex items-center gap-4 text-xs font-mono font-bold text-emerald-700 dark:text-[#10e599]">
                 <span>OMRI LISTED</span> &bull; <span>ISO 9001:2015</span> &bull; <span>GLOBALG.A.P</span>
               </div>
             </div>
 
-            <div className="rounded-3xl border border-slate-200/80 bg-slate-950 p-8 md:p-10 text-white shadow-2xl flex flex-col justify-between">
+            <div className="rounded-3xl border border-slate-200/80 dark:border-emerald-900/40 bg-slate-950 dark:bg-[#0a140a]/90 p-8 md:p-10 text-white shadow-2xl flex flex-col justify-between">
               <div>
-                <div className="w-12 h-12 rounded-2xl bg-blue-600/30 text-cyan-400 border border-blue-500/30 flex items-center justify-center mb-6">
+                <div className="w-12 h-12 rounded-2xl bg-blue-600/30 dark:bg-blue-950/40 text-cyan-400 dark:text-[#10e599] border border-blue-500/30 dark:border-emerald-900/30 flex items-center justify-center mb-6">
                   <Cpu className="w-6 h-6" />
                 </div>
                 <h2 className="text-2xl sm:text-3xl font-black text-white">NATLE Software &amp; IoT Lab</h2>
-                <p className="mt-3 text-base text-slate-300 leading-relaxed">
+                <p className="mt-3 text-base text-slate-300 dark:text-emerald-200/70 leading-relaxed">
                   Silicon-Valley standard full-stack engineering, long-range LoRaWAN sensor networks, satellite NDVI crop biomass tracking, and automated cloud edge triggers for commercial agriculture.
                 </p>
               </div>
-              <div className="mt-8 pt-6 border-t border-slate-800 flex items-center gap-4 text-xs font-mono font-bold text-cyan-400">
+              <div className="mt-8 pt-6 border-t border-slate-800 dark:border-emerald-900/30 flex items-center gap-4 text-xs font-mono font-bold text-cyan-400 dark:text-[#10e599]">
                 <span>FIELDOS™ v4.2</span> &bull; <span>YIELD AI™</span> &bull; <span>99.9% UPTIME</span>
               </div>
             </div>
@@ -130,22 +132,22 @@ export default function AboutPage() {
         </section>
 
         {/* Interactive Milestones Timeline */}
-        <section className="py-24 bg-slate-50/70 border-y border-slate-200/70">
+        <section className="py-24 bg-slate-50/70 dark:bg-emerald-950/40 border-y border-slate-200/70 dark:border-emerald-900/30">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center max-w-3xl mx-auto mb-16">
-              <span className="text-xs font-mono font-bold text-[#0066FF] uppercase tracking-widest">Our Journey</span>
-              <h2 className="text-3xl sm:text-4xl font-black text-slate-900 mt-2">Pioneering Smart Agriculture</h2>
+              <span className="text-xs font-mono font-bold text-[#0066FF] dark:text-[#10e599] uppercase tracking-widest">Our Journey</span>
+              <h2 className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white mt-2">Pioneering Smart Agriculture</h2>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
               {milestones.map((m, i) => (
-                <div key={i} className="rounded-2xl bg-white p-6 border border-slate-200/80 shadow-md flex flex-col justify-between">
+                <div key={i} className="rounded-2xl bg-white dark:bg-[#0a140a]/90 p-6 border border-slate-200/80 dark:border-emerald-900/40 shadow-md flex flex-col justify-between">
                   <div>
-                    <span className="text-3xl font-black text-[#0066FF] font-mono">{m.year}</span>
-                    <h3 className="text-lg font-black text-slate-900 mt-2">{m.title}</h3>
-                    <p className="text-xs text-slate-600 mt-2 leading-relaxed">{m.description}</p>
+                    <span className="text-3xl font-black text-[#0066FF] dark:text-[#10e599] font-mono">{m.year}</span>
+                    <h3 className="text-lg font-black text-slate-900 dark:text-emerald-50 mt-2">{m.title}</h3>
+                    <p className="text-xs text-slate-600 dark:text-emerald-200/70 mt-2 leading-relaxed">{m.description}</p>
                   </div>
-                  <div className="mt-6 pt-4 border-t border-slate-100 flex items-center gap-2 text-[11px] font-bold text-emerald-600">
+                  <div className="mt-6 pt-4 border-t border-slate-100 dark:border-emerald-900/30 flex items-center gap-2 text-[11px] font-bold text-emerald-600 dark:text-[#10e599]">
                     <CheckCircle2 className="w-3.5 h-3.5" />
                     <span>Completed Milestone</span>
                   </div>
@@ -158,23 +160,23 @@ export default function AboutPage() {
         {/* Leadership Team */}
         <section className="py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-3xl mx-auto mb-16">
-            <span className="text-xs font-mono font-bold text-emerald-600 uppercase tracking-widest">Leadership &amp; Engineering</span>
-            <h2 className="text-3xl sm:text-4xl font-black text-slate-900 mt-2">The Minds Behind NATLE</h2>
+            <span className="text-xs font-mono font-bold text-emerald-600 dark:text-[#10e599] uppercase tracking-widest">Leadership &amp; Engineering</span>
+            <h2 className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white mt-2">The Minds Behind NATLE</h2>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {team.map((member, i) => (
-              <div key={i} className="rounded-3xl border border-slate-200/80 bg-white p-6 shadow-xl flex flex-col justify-between">
+              <div key={i} className="rounded-3xl border border-slate-200/80 dark:border-emerald-900/40 bg-white dark:bg-[#0a140a]/90 p-6 shadow-xl flex flex-col justify-between">
                 <div>
                   <div className="w-16 h-16 rounded-2xl bg-gradient-to-tr from-blue-600 to-emerald-500 text-white flex items-center justify-center text-xl font-black mb-4 shadow-md">
                     {member.name.split(" ").map(n => n[0]).join("")}
                   </div>
-                  <h3 className="text-xl font-black text-slate-900">{member.name}</h3>
-                  <p className="text-xs font-bold text-[#0066FF] mt-0.5">{member.role}</p>
-                  <p className="text-[11px] font-mono text-emerald-700 bg-emerald-50 px-2 py-1 rounded-md mt-2 inline-block">
+                  <h3 className="text-xl font-black text-slate-900 dark:text-white">{member.name}</h3>
+                  <p className="text-xs font-bold text-[#0066FF] dark:text-[#10e599] mt-0.5">{member.role}</p>
+                  <p className="text-[11px] font-mono text-emerald-700 dark:text-[#10e599] bg-emerald-50 dark:bg-emerald-950/40 px-2 py-1 rounded-md mt-2 inline-block">
                     {member.specialty}
                   </p>
-                  <p className="text-xs text-slate-600 mt-4 leading-relaxed">{member.bio}</p>
+                  <p className="text-xs text-slate-600 dark:text-emerald-200/70 mt-4 leading-relaxed">{member.bio}</p>
                 </div>
               </div>
             ))}

@@ -1,7 +1,8 @@
 import Navbar from "@/components/Navbar";
 import CTAFooter from "@/components/CTAFooter";
 import KineticFluidMesh from "@/components/animations/KineticFluidMesh";
-import KineticCursor from "@/components/animations/KineticCursor";
+import SmoothCursor from "@/components/magicui/smooth-cursor";
+import BeamsBackground from "@/components/animations/BeamsBackground";
 import { 
   Building2, 
   TrendingUp, 
@@ -59,29 +60,30 @@ const caseStudies = [
 
 export default function ProjectsPage() {
   return (
-    <main className="relative min-h-screen bg-white antialiased selection:bg-emerald-500 selection:text-white">
+    <main className="relative min-h-screen bg-[#EDF6F2] dark:bg-[#050505] text-slate-900 dark:text-emerald-50 antialiased selection:bg-[#059669] selection:text-white transition-colors duration-300">
       <KineticFluidMesh />
-      <KineticCursor />
+      <BeamsBackground intensity="subtle" className="absolute inset-0 z-0 pointer-events-none" />
+      <SmoothCursor />
 
       <div className="relative z-10">
         <Navbar />
 
         {/* Hero Header */}
-        <section className="pt-36 pb-20 md:pt-48 md:pb-28 bg-gradient-to-b from-slate-50 via-white to-white border-b border-slate-100">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center max-w-4xl">
-            <div className="inline-flex items-center gap-2 rounded-full border border-emerald-300 bg-emerald-50 px-4 py-1.5 text-xs font-black uppercase tracking-wider text-emerald-800 shadow-sm mb-6">
-              <Building2 className="w-4 h-4 text-emerald-600" />
+        <section className="pt-36 pb-20 md:pt-48 md:pb-28 bg-gradient-to-b from-slate-50 via-white to-white dark:bg-[#050505] dark:from-[#050505] dark:via-[#050505] dark:to-[#050505] border-b border-slate-100 dark:border-emerald-900/30">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center max-w-4xl relative z-10">
+            <div className="inline-flex items-center gap-2 rounded-full border border-emerald-300 dark:border-emerald-800/40 bg-emerald-50 dark:bg-emerald-950/50 px-4 py-1.5 text-xs font-black uppercase tracking-wider text-emerald-800 dark:text-[#10E599] shadow-sm mb-6">
+              <Building2 className="w-4 h-4 text-emerald-600 dark:text-[#10E599]" />
               <span>Proven Commercial Field Deployments</span>
             </div>
 
-            <h1 className="text-5xl sm:text-6xl md:text-7xl font-black text-[#0F172A] tracking-tight leading-[1.05]">
+            <h1 className="text-5xl sm:text-6xl md:text-7xl font-black text-[#0F172A] dark:text-white tracking-tight leading-[1.05]">
               Real Plantations.{" "}
               <span className="bg-gradient-to-r from-[#0066FF] via-[#00C0F0] to-[#10B981] bg-clip-text text-transparent">
                 Proven ROI.
               </span>
             </h1>
 
-            <p className="mt-6 text-xl text-slate-600 font-normal leading-relaxed max-w-3xl mx-auto">
+            <p className="mt-6 text-xl text-slate-600 dark:text-emerald-200/70 font-normal leading-relaxed max-w-3xl mx-auto">
               Discover how commercial estate owners, greenhouse operators, and international exporters utilize NATLE technology and Hosma Ceylon substrates to transform agricultural output.
             </p>
           </div>
@@ -91,31 +93,31 @@ export default function ProjectsPage() {
         <section className="py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {caseStudies.map((study, i) => (
-              <div key={i} className="rounded-3xl border border-slate-200/80 bg-white p-8 shadow-xl flex flex-col justify-between hover:shadow-2xl transition-all">
+              <div key={i} className="rounded-3xl border border-slate-200/80 dark:border-emerald-900/40 bg-white dark:bg-[#0a140a]/90 p-8 shadow-xl flex flex-col justify-between hover:shadow-2xl transition-all relative z-10">
                 <div>
-                  <span className="text-[11px] font-mono font-bold text-[#0066FF] uppercase tracking-wider">
+                  <span className="text-[11px] font-mono font-bold text-[#0066FF] dark:text-[#10e599] uppercase tracking-wider">
                     {study.location}
                   </span>
-                  <h3 className="text-2xl font-black text-slate-900 mt-2">{study.title}</h3>
-                  <p className="text-xs font-bold text-slate-500 mt-1">Client: {study.client}</p>
-                  <p className="text-xs text-slate-600 mt-4 leading-relaxed font-normal">{study.summary}</p>
+                  <h3 className="text-2xl font-black text-slate-900 dark:text-white mt-2">{study.title}</h3>
+                  <p className="text-xs font-bold text-slate-500 dark:text-emerald-300/60 mt-1">Client: {study.client}</p>
+                  <p className="text-xs text-slate-600 dark:text-emerald-200/70 mt-4 leading-relaxed font-normal">{study.summary}</p>
 
-                  <div className="mt-6 pt-6 border-t border-slate-100 space-y-3">
-                    <h4 className="text-[10px] font-mono font-bold text-slate-400 uppercase">Verified Results</h4>
+                  <div className="mt-6 pt-6 border-t border-slate-100 dark:border-emerald-900/30 space-y-3">
+                    <h4 className="text-[10px] font-mono font-bold text-slate-400 dark:text-emerald-300/60 uppercase">Verified Results</h4>
                     <div className="grid grid-cols-3 gap-2">
                       {study.metrics.map((m, mi) => (
-                        <div key={mi} className="bg-slate-50 p-2.5 rounded-xl text-center border border-slate-100">
-                          <p className="text-base font-black text-emerald-600 font-mono">{m.value}</p>
-                          <p className="text-[9px] font-bold text-slate-500 uppercase mt-0.5">{m.label}</p>
+                        <div key={mi} className="bg-slate-50 dark:bg-emerald-950/40 p-2.5 rounded-xl text-center border border-slate-100 dark:border-emerald-900/30">
+                          <p className="text-base font-black text-emerald-600 dark:text-[#10E599] font-mono">{m.value}</p>
+                          <p className="text-[9px] font-bold text-slate-500 dark:text-emerald-300/60 uppercase mt-0.5">{m.label}</p>
                         </div>
                       ))}
                     </div>
                   </div>
                 </div>
 
-                <div className="mt-8 pt-6 border-t border-slate-100 flex items-center justify-between">
-                  <span className="text-xs font-mono font-bold text-slate-700">{study.solution}</span>
-                  <Link href="/contact" className="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-slate-800 hover:bg-[#0066FF] hover:text-white transition-colors">
+                <div className="mt-8 pt-6 border-t border-slate-100 dark:border-emerald-900/30 flex items-center justify-between">
+                  <span className="text-xs font-mono font-bold text-slate-700 dark:text-emerald-50">{study.solution}</span>
+                  <Link href="/contact" className="w-8 h-8 rounded-full bg-slate-100 dark:bg-emerald-950/40 flex items-center justify-center text-slate-800 dark:text-emerald-50 hover:bg-[#0066FF] dark:hover:bg-[#10E599] hover:text-white dark:hover:text-black transition-colors">
                     <ArrowUpRight className="w-4 h-4" />
                   </Link>
                 </div>
