@@ -4,14 +4,11 @@ import React from "react";
 import { motion } from "framer-motion";
 import { 
   Sprout, 
-  Droplets,
-  Sparkles,
-  Layers,
-  Ship,
-  ShieldCheck,
-  Globe2,
-  CheckCircle2,
-  ArrowUpRight
+  Droplets, 
+  Sparkles, 
+  Layers, 
+  Ship, 
+  ArrowUpRight 
 } from "lucide-react";
 
 export default function HosmaHeritage() {
@@ -27,48 +24,73 @@ export default function HosmaHeritage() {
         
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-16">
-          <div className="inline-flex items-center gap-2 rounded-full border border-emerald-300/80 dark:border-emerald-500/30 bg-white/90 dark:bg-emerald-950/80 px-4 py-1.5 text-xs font-mono font-bold uppercase tracking-wider text-[#059669] dark:text-emerald-400 shadow-sm backdrop-blur-md mb-4">
-            <Sprout className="h-4 w-4 text-[#059669] dark:text-emerald-400" />
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="inline-flex items-center gap-2 rounded-full border border-emerald-300/80 dark:border-emerald-500/30 bg-white/90 dark:bg-emerald-950/80 px-4 py-1.5 text-xs font-mono font-bold uppercase tracking-wider text-[#059669] dark:text-[#10E599] shadow-sm backdrop-blur-md mb-4"
+          >
+            <Sprout className="h-4 w-4 text-[#059669] dark:text-[#10E599]" />
             <span>Parent Heritage &bull; Hosma Ceylon (Pvt) Ltd</span>
-          </div>
+          </motion.div>
 
-          <h2 className="text-4xl sm:text-5xl md:text-6xl font-black tracking-tight text-[#071326] dark:text-white leading-[1.08]">
+          <motion.h2
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.1 }}
+            className="text-4xl sm:text-5xl md:text-6xl font-black tracking-tight text-[#071326] dark:text-white leading-[1.08]"
+          >
             Rooted in Ceylon&apos;s Richest Soil. <br />
             <span className="font-serif italic font-normal gradient-text">
               Engineered for the World.
             </span>
-          </h2>
+          </motion.h2>
 
-          <p className="mt-4 text-base sm:text-lg text-slate-600 dark:text-emerald-200/70 font-normal leading-relaxed">
-            NATLE was born from <strong>Hosma Ceylon</strong> (<a href="https://hosmaceylon.com" target="_blank" rel="noreferrer" className="text-[#0052FF] dark:text-cyan-400 font-bold hover:underline">hosmaceylon.com</a>) — Sri Lanka&apos;s premier exporter of 100% organic coconut coir substrates, now supercharged with next-generation IoT telemetry and predictive cloud intelligence.
-          </p>
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.15 }}
+            className="mt-4 text-base sm:text-lg text-slate-600 dark:text-emerald-200/70 font-normal leading-relaxed"
+          >
+            NATLE was born from <strong>Hosma Ceylon</strong> (<a href="https://hosmaceylon.com" target="_blank" rel="noreferrer" className="text-[#059669] dark:text-[#10E599] font-bold hover:underline">hosmaceylon.com</a>) — Sri Lanka&apos;s premier exporter of 100% organic coconut coir substrates, now supercharged with next-generation IoT telemetry and predictive cloud intelligence.
+          </motion.p>
         </div>
 
-
-        {/* ================= DUAL VALUE PROPOSITION GRID ================= */}
+        {/* Dual Value Proposition Grid with Animated Cards */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch max-w-6xl mx-auto mb-12">
           
           {/* Left Column: Substrate Specifications Card */}
-          <div className="lg:col-span-6 rounded-[2.5rem] border border-slate-200/90 dark:border-emerald-900/40 bg-white/95 dark:bg-[#0a140a] p-8 shadow-xl flex flex-col justify-between relative overflow-hidden backdrop-blur-2xl">
-            
+          <motion.div
+            initial={{ opacity: 0, x: -30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, margin: "-40px" }}
+            transition={{ duration: 0.55 }}
+            whileHover={{ y: -6, scale: 1.01, transition: { duration: 0.25 } }}
+            className="lg:col-span-6 rounded-[2.5rem] border border-slate-200/90 dark:border-emerald-500/20 bg-white/95 dark:bg-[#070d07] p-8 shadow-xl flex flex-col justify-between relative overflow-hidden backdrop-blur-2xl group hover:border-emerald-500/50 hover:shadow-2xl transition-all"
+          >
             <div>
               <div className="flex items-center justify-between pb-6 border-b border-slate-100 dark:border-emerald-900/40">
                 <div>
-                  <span className="text-[11px] font-mono font-bold text-[#059669] dark:text-emerald-400 uppercase tracking-wider">
+                  <span className="text-[11px] font-mono font-bold text-[#059669] dark:text-[#10E599] uppercase tracking-wider">
                     Product Specification
                   </span>
                   <h3 className="text-2xl font-black text-[#071326] dark:text-white mt-1">
                     Hosma Ultra-Washed Cocopeat
                   </h3>
                 </div>
-                <span className="px-3 py-1 rounded-full bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200 dark:border-emerald-500/30 text-xs font-mono font-bold text-[#059669] dark:text-emerald-400">
+                <span className="px-3 py-1 rounded-full bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200 dark:border-emerald-500/30 text-xs font-mono font-bold text-[#059669] dark:text-[#10E599]">
                   OMRI &bull; ISO 9001
                 </span>
               </div>
 
               {/* Substrate Spec Highlights */}
               <div className="mt-6 space-y-4">
-                <div className="p-4 rounded-2xl bg-slate-50 dark:bg-emerald-950/60 border border-slate-100 dark:border-emerald-900/40 flex items-center justify-between">
+                <motion.div 
+                  whileHover={{ scale: 1.02 }}
+                  className="p-4 rounded-2xl bg-slate-50 dark:bg-emerald-950/40 border border-slate-100 dark:border-emerald-900/40 flex items-center justify-between transition-transform"
+                >
                   <div className="flex items-center gap-3">
                     <div className="w-10 h-10 rounded-xl bg-blue-100 dark:bg-blue-950/80 text-[#0052FF] dark:text-cyan-400 flex items-center justify-center font-bold">
                       <Droplets className="w-5 h-5" />
@@ -79,11 +101,14 @@ export default function HosmaHeritage() {
                     </div>
                   </div>
                   <span className="text-xs font-mono font-bold text-[#0052FF] dark:text-cyan-400 bg-blue-50 dark:bg-blue-950/60 px-2.5 py-1 rounded-lg">High Retentive</span>
-                </div>
+                </motion.div>
 
-                <div className="p-4 rounded-2xl bg-slate-50 dark:bg-emerald-950/60 border border-slate-100 dark:border-emerald-900/40 flex items-center justify-between">
+                <motion.div 
+                  whileHover={{ scale: 1.02 }}
+                  className="p-4 rounded-2xl bg-slate-50 dark:bg-emerald-950/40 border border-slate-100 dark:border-emerald-900/40 flex items-center justify-between transition-transform"
+                >
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-xl bg-emerald-100 dark:bg-emerald-950/80 text-[#059669] dark:text-emerald-400 flex items-center justify-center font-bold">
+                    <div className="w-10 h-10 rounded-xl bg-emerald-100 dark:bg-emerald-950/80 text-[#059669] dark:text-[#10E599] flex items-center justify-center font-bold">
                       <Sparkles className="w-5 h-5" />
                     </div>
                     <div>
@@ -91,10 +116,13 @@ export default function HosmaHeritage() {
                       <p className="text-base font-black text-[#071326] dark:text-white">&lt; 0.5 mS/cm (Triple Washed)</p>
                     </div>
                   </div>
-                  <span className="text-xs font-mono font-bold text-[#059669] dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/60 px-2.5 py-1 rounded-lg">Low EC Grade</span>
-                </div>
+                  <span className="text-xs font-mono font-bold text-[#059669] dark:text-[#10E599] bg-emerald-50 dark:bg-emerald-950/60 px-2.5 py-1 rounded-lg">Low EC Grade</span>
+                </motion.div>
 
-                <div className="p-4 rounded-2xl bg-slate-50 dark:bg-emerald-950/60 border border-slate-100 dark:border-emerald-900/40 flex items-center justify-between">
+                <motion.div 
+                  whileHover={{ scale: 1.02 }}
+                  className="p-4 rounded-2xl bg-slate-50 dark:bg-emerald-950/40 border border-slate-100 dark:border-emerald-900/40 flex items-center justify-between transition-transform"
+                >
                   <div className="flex items-center gap-3">
                     <div className="w-10 h-10 rounded-xl bg-amber-100 dark:bg-amber-950/80 text-[#F59E0B] flex items-center justify-center font-bold">
                       <Layers className="w-5 h-5" />
@@ -105,94 +133,114 @@ export default function HosmaHeritage() {
                     </div>
                   </div>
                   <span className="text-xs font-mono font-bold text-[#F59E0B] bg-amber-50 dark:bg-amber-950/60 px-2.5 py-1 rounded-lg">Optimal Oxygen</span>
-                </div>
+                </motion.div>
               </div>
             </div>
 
             {/* Bottom Link */}
             <div className="mt-8 pt-6 border-t border-slate-100 dark:border-emerald-900/40 flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <Ship className="w-4 h-4 text-[#0052FF] dark:text-cyan-400" />
+                <Ship className="w-4 h-4 text-[#059669] dark:text-[#10E599]" />
                 <span className="text-xs font-mono text-slate-500 dark:text-emerald-200/70">40ft High-Cube Shipping Fleet</span>
               </div>
               <a 
                 href="https://hosmaceylon.com" 
                 target="_blank" 
                 rel="noreferrer" 
-                className="group inline-flex items-center gap-1 text-xs font-bold text-[#0052FF] dark:text-cyan-400 hover:text-[#059669] transition-colors"
+                className="group inline-flex items-center gap-1 text-xs font-bold text-[#059669] dark:text-[#10E599] hover:text-[#0052FF] transition-colors"
               >
                 <span>Visit Hosma Ceylon</span>
                 <ArrowUpRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
               </a>
             </div>
-
-          </div>
-
+          </motion.div>
 
           {/* Right Column: Global Export Corridors & Fleet Matrix */}
-          <div className="lg:col-span-6 rounded-[2.5rem] border border-slate-200/90 dark:border-emerald-900/40 bg-white/95 dark:bg-[#0a140a] p-8 shadow-xl flex flex-col justify-between relative overflow-hidden backdrop-blur-2xl">
-            
+          <motion.div
+            initial={{ opacity: 0, x: 30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, margin: "-40px" }}
+            transition={{ duration: 0.55, delay: 0.1 }}
+            whileHover={{ y: -6, scale: 1.01, transition: { duration: 0.25 } }}
+            className="lg:col-span-6 rounded-[2.5rem] border border-slate-200/90 dark:border-emerald-500/20 bg-white/95 dark:bg-[#070d07] p-8 shadow-xl flex flex-col justify-between relative overflow-hidden backdrop-blur-2xl group hover:border-emerald-500/50 hover:shadow-2xl transition-all"
+          >
             <div>
               <div className="flex items-center justify-between pb-6 border-b border-slate-100 dark:border-emerald-900/40">
                 <div>
-                  <span className="text-[11px] font-mono font-bold text-[#0052FF] dark:text-cyan-400 uppercase tracking-wider">
+                  <span className="text-[11px] font-mono font-bold text-[#059669] dark:text-[#10E599] uppercase tracking-wider">
                     International Trade
                   </span>
                   <h3 className="text-2xl font-black text-[#071326] dark:text-white mt-1">
                     Export Corridors from Ceylon
                   </h3>
                 </div>
-                <span className="px-3 py-1 rounded-full bg-blue-50 dark:bg-blue-950/60 border border-blue-200 dark:border-blue-500/30 text-xs font-mono font-bold text-[#0052FF] dark:text-cyan-400">
+                <span className="px-3 py-1 rounded-full bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200 dark:border-emerald-500/30 text-xs font-mono font-bold text-[#059669] dark:text-[#10E599]">
                   24+ Countries
                 </span>
               </div>
 
               {/* 4 Trade Destination Hubs */}
               <div className="mt-6 space-y-3">
-                <div className="p-4 rounded-2xl bg-slate-50 dark:bg-emerald-950/60 border border-slate-100 dark:border-emerald-900/40 flex items-center justify-between">
+                <motion.div 
+                  whileHover={{ scale: 1.02 }}
+                  className="p-4 rounded-2xl bg-slate-50 dark:bg-emerald-950/40 border border-slate-100 dark:border-emerald-900/40 flex items-center justify-between transition-transform"
+                >
                   <div>
                     <p className="text-sm font-black text-[#071326] dark:text-white">Netherlands &amp; European Union</p>
                     <p className="text-xs text-slate-500 dark:text-emerald-200/70">High-Tech Hydroponic Berry &amp; Tomato Greenhouses</p>
                   </div>
-                  <span className="text-xs font-mono font-black text-[#0052FF] dark:text-cyan-400 bg-blue-50 dark:bg-blue-950/60 px-3 py-1 rounded-lg">38% Volume</span>
-                </div>
+                  <span className="text-xs font-mono font-black text-[#059669] dark:text-[#10E599] bg-emerald-50 dark:bg-emerald-950/60 px-3 py-1 rounded-lg">38% Volume</span>
+                </motion.div>
 
-                <div className="p-4 rounded-2xl bg-slate-50 dark:bg-emerald-950/60 border border-slate-100 dark:border-emerald-900/40 flex items-center justify-between">
-                  <div>
-                    <p className="text-sm font-black text-[#071326] dark:text-white">Japan &amp; South Korea</p>
-                    <p className="text-xs text-slate-500 dark:text-emerald-200/70">Premium Melon, Strawberry &amp; Floriculture Substrates</p>
-                  </div>
-                  <span className="text-xs font-mono font-black text-[#059669] dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/60 px-3 py-1 rounded-lg">26% Volume</span>
-                </div>
-
-                <div className="p-4 rounded-2xl bg-slate-50 dark:bg-emerald-950/60 border border-slate-100 dark:border-emerald-900/40 flex items-center justify-between">
+                <motion.div 
+                  whileHover={{ scale: 1.02 }}
+                  className="p-4 rounded-2xl bg-slate-50 dark:bg-emerald-950/40 border border-slate-100 dark:border-emerald-900/40 flex items-center justify-between transition-transform"
+                >
                   <div>
                     <p className="text-sm font-black text-[#071326] dark:text-white">United States &amp; Canada</p>
-                    <p className="text-xs text-slate-500 dark:text-emerald-200/70">Commercial Indoor Vertical CEA Facilities</p>
+                    <p className="text-xs text-slate-500 dark:text-emerald-200/70">Commercial Soft Fruit, Floriculture &amp; Nursery Cultivation</p>
                   </div>
-                  <span className="text-xs font-mono font-black text-[#F59E0B] bg-amber-50 dark:bg-amber-950/60 px-3 py-1 rounded-lg">22% Volume</span>
-                </div>
+                  <span className="text-xs font-mono font-black text-[#059669] dark:text-[#10E599] bg-emerald-50 dark:bg-emerald-950/60 px-3 py-1 rounded-lg">26% Volume</span>
+                </motion.div>
 
-                <div className="p-4 rounded-2xl bg-slate-50 dark:bg-emerald-950/60 border border-slate-100 dark:border-emerald-900/40 flex items-center justify-between">
+                <motion.div 
+                  whileHover={{ scale: 1.02 }}
+                  className="p-4 rounded-2xl bg-slate-50 dark:bg-emerald-950/40 border border-slate-100 dark:border-emerald-900/40 flex items-center justify-between transition-transform"
+                >
                   <div>
-                    <p className="text-sm font-black text-[#071326] dark:text-white">Australia &amp; New Zealand</p>
-                    <p className="text-xs text-slate-500 dark:text-emerald-200/70">Macadamia Orchards &amp; Viticulture Moisture Buffers</p>
+                    <p className="text-sm font-black text-[#071326] dark:text-white">Japan &amp; South Korea</p>
+                    <p className="text-xs text-slate-500 dark:text-emerald-200/70">Ultra-Pure Low EC Strawberry &amp; Melon Substrates</p>
                   </div>
-                  <span className="text-xs font-mono font-black text-slate-700 dark:text-emerald-100 bg-slate-200/80 dark:bg-emerald-950 px-3 py-1 rounded-lg">14% Volume</span>
-                </div>
+                  <span className="text-xs font-mono font-black text-[#059669] dark:text-[#10E599] bg-emerald-50 dark:bg-emerald-950/60 px-3 py-1 rounded-lg">20% Volume</span>
+                </motion.div>
+
+                <motion.div 
+                  whileHover={{ scale: 1.02 }}
+                  className="p-4 rounded-2xl bg-slate-50 dark:bg-emerald-950/40 border border-slate-100 dark:border-emerald-900/40 flex items-center justify-between transition-transform"
+                >
+                  <div>
+                    <p className="text-sm font-black text-[#071326] dark:text-white">Australia &amp; Middle East</p>
+                    <p className="text-xs text-slate-500 dark:text-emerald-200/70">Arid-Zone Controlled Environment Greenhouse Slabs</p>
+                  </div>
+                  <span className="text-xs font-mono font-black text-[#059669] dark:text-[#10E599] bg-emerald-50 dark:bg-emerald-950/60 px-3 py-1 rounded-lg">16% Volume</span>
+                </motion.div>
               </div>
             </div>
 
-            {/* Bottom Compliance Badges */}
-            <div className="mt-8 pt-6 border-t border-slate-100 dark:border-emerald-900/40 flex items-center justify-between text-xs font-mono text-slate-500 dark:text-emerald-200/70">
-              <div className="flex items-center gap-1.5 text-[#059669] dark:text-emerald-400 font-bold">
-                <CheckCircle2 className="w-4 h-4" />
-                <span>Zero Customs Hold Guarantee</span>
-              </div>
-              <span>Port of Colombo Hub</span>
+            {/* Bottom Link */}
+            <div className="mt-8 pt-6 border-t border-slate-100 dark:border-emerald-900/40 flex items-center justify-between">
+              <span className="text-xs font-mono text-slate-500 dark:text-emerald-200/70">Port of Colombo &bull; Direct Freight</span>
+              <a 
+                href="https://hosmaceylon.com/contact" 
+                target="_blank" 
+                rel="noreferrer" 
+                className="group inline-flex items-center gap-1 text-xs font-bold text-[#059669] dark:text-[#10E599] hover:text-[#0052FF] transition-colors"
+              >
+                <span>Request Freight Quote</span>
+                <ArrowUpRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+              </a>
             </div>
-
-          </div>
+          </motion.div>
 
         </div>
 

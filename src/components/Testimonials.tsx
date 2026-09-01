@@ -36,31 +36,52 @@ const TESTIMONIALS = [
 
 export default function Testimonials() {
   return (
-    <section className="relative bg-transparent py-28 overflow-hidden">
+    <section className="relative bg-transparent py-28 overflow-hidden select-none">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center max-w-3xl mx-auto mb-16">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 border border-emerald-200 dark:border-emerald-900/30 text-xs font-bold uppercase tracking-wider mb-4">
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-500/10 text-[#059669] dark:text-[#10E599] border border-emerald-500/20 text-xs font-mono font-bold uppercase tracking-wider mb-4"
+          >
             <CheckCircle2 className="w-3.5 h-3.5" />
-            Verified Case Studies
-          </div>
-          <h2 className="text-4xl md:text-5xl font-extrabold text-slate-900 dark:text-emerald-50 tracking-tight">
+            <span>Verified Case Studies</span>
+          </motion.div>
+
+          <motion.h2
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.1 }}
+            className="text-4xl md:text-5xl font-extrabold text-slate-900 dark:text-white tracking-tight"
+          >
             Trusted by Commercial <br className="hidden sm:block" />
-            Growers &amp; Exporters
-          </h2>
-          <p className="mt-4 text-lg text-slate-600 dark:text-emerald-200/70">
+            <span className="gradient-text">Growers &amp; Exporters</span>
+          </motion.h2>
+
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.15 }}
+            className="mt-4 text-lg text-slate-600 dark:text-emerald-100/70"
+          >
             See how enterprise agriculture operations leverage NATLE to boost yield, reduce input costs, and automate compliance.
-          </p>
+          </motion.p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {TESTIMONIALS.map((t, idx) => (
             <motion.div
               key={idx}
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 28 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-60px" }}
-              transition={{ duration: 0.5, delay: idx * 0.1 }}
-              className="relative flex flex-col justify-between rounded-3xl border border-slate-200/80 dark:border-emerald-900/30 bg-white dark:bg-[#0a140a] p-8 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1.5"
+              viewport={{ once: true, margin: "-40px" }}
+              transition={{ duration: 0.5, delay: idx * 0.12 }}
+              whileHover={{ y: -8, scale: 1.02, transition: { duration: 0.25 } }}
+              whileTap={{ scale: 0.98 }}
+              className="relative flex flex-col justify-between rounded-3xl border border-slate-200/80 dark:border-emerald-500/20 bg-white/90 dark:bg-[#070d07]/90 p-8 shadow-md hover:shadow-2xl hover:border-emerald-500/50 transition-all duration-300 cursor-pointer"
             >
               <div>
                 <div className="flex items-center justify-between mb-6">
@@ -69,23 +90,23 @@ export default function Testimonials() {
                       <Star key={i} className="w-4 h-4 fill-amber-400" />
                     ))}
                   </div>
-                  <span className="px-3 py-1 rounded-full bg-blue-50 dark:bg-blue-950/40 text-blue-700 text-xs font-bold">
+                  <span className="px-3 py-1 rounded-full bg-emerald-500/10 text-[#059669] dark:text-[#10E599] border border-emerald-500/20 text-xs font-mono font-bold">
                     {t.metrics}
                   </span>
                 </div>
 
-                <Quote className="w-8 h-8 text-slate-200 dark:text-emerald-300/60 mb-4" />
-                <p className="text-base text-slate-700 dark:text-emerald-200/70 leading-relaxed font-normal italic">
+                <Quote className="w-8 h-8 text-emerald-300/40 dark:text-emerald-500/30 mb-4" />
+                <p className="text-base text-slate-700 dark:text-emerald-100/80 leading-relaxed font-normal italic">
                   "{t.quote}"
                 </p>
               </div>
 
               <div className="flex items-center gap-3.5 pt-6 mt-6 border-t border-slate-100 dark:border-emerald-900/30">
-                <div className="w-11 h-11 rounded-full bg-gradient-to-tr from-blue-600 to-emerald-500 flex items-center justify-center text-white font-bold text-sm shadow-md">
+                <div className="w-11 h-11 rounded-full bg-gradient-to-tr from-[#059669] to-[#10E599] flex items-center justify-center text-slate-950 font-black text-sm shadow-md">
                   {t.avatar}
                 </div>
                 <div>
-                  <h4 className="text-sm font-bold text-slate-900 dark:text-emerald-50">{t.author}</h4>
+                  <h4 className="text-sm font-bold text-slate-900 dark:text-white">{t.author}</h4>
                   <p className="text-xs text-slate-500 dark:text-emerald-300/60">{t.role}, {t.company}</p>
                 </div>
               </div>

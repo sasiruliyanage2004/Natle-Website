@@ -42,39 +42,61 @@ export default function AgentaFAQ() {
         
         {/* Section Header */}
         <div className="text-center mb-16">
-          <div className="inline-flex items-center gap-2 rounded-full border border-[#0052FF]/20 bg-white/80 dark:bg-[#0a140a]/80 px-4 py-1.5 text-xs font-mono font-bold uppercase tracking-wider text-[#0052FF] mb-4 shadow-sm backdrop-blur-md">
-            <HelpCircle className="w-3.5 h-3.5 text-[#0052FF]" />
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="inline-flex items-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-4 py-1.5 text-xs font-mono font-bold uppercase tracking-wider text-[#059669] dark:text-[#10E599] mb-4 shadow-sm backdrop-blur-md"
+          >
+            <HelpCircle className="w-3.5 h-3.5" />
             <span>Support &bull; Knowledge Base</span>
-          </div>
+          </motion.div>
 
-          <h2 className="text-4xl sm:text-5xl font-black tracking-tight text-[#071326] dark:text-emerald-50 leading-tight">
+          <motion.h2
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.1 }}
+            className="text-4xl sm:text-5xl font-black tracking-tight text-[#071326] dark:text-white leading-tight"
+          >
             Frequently Asked <span className="gradient-text">Questions.</span>
-          </h2>
+          </motion.h2>
 
-          <p className="mt-4 text-base text-[#071326]/70 dark:text-emerald-200/60 leading-relaxed font-normal">
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.15 }}
+            className="mt-4 text-base text-slate-600 dark:text-emerald-100/70 leading-relaxed font-normal"
+          >
             Everything you need to know about deploying NATLE smart telemetry and Hosma Ceylon organic substrates.
-          </p>
+          </motion.p>
         </div>
 
-        {/* Accordion List */}
+        {/* Accordion List with Scroll Reveal and Hover animations */}
         <div className="space-y-4">
           {faqs.map((faq, index) => {
             const isOpen = openIndex === index;
 
             return (
-              <div
+              <motion.div
                 key={faq.q}
-                className="glass-card rounded-2xl overflow-hidden border border-slate-200/80 dark:border-emerald-900/30 transition-all duration-300 shadow-sm"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-30px" }}
+                transition={{ duration: 0.45, delay: index * 0.08 }}
+                whileHover={{ y: -2, transition: { duration: 0.2 } }}
+                className="glass-card rounded-2xl overflow-hidden border border-slate-200/80 dark:border-emerald-500/20 hover:border-emerald-500/40 transition-all duration-300 shadow-sm hover:shadow-md"
               >
                 <button
                   type="button"
                   onClick={() => toggle(index)}
-                  className="w-full px-6 py-5 flex items-center justify-between text-left gap-4 hover:bg-white/50 transition-colors"
+                  className="w-full px-6 py-5 flex items-center justify-between text-left gap-4 hover:bg-emerald-500/5 transition-colors cursor-pointer"
                 >
-                  <span className="text-base font-bold text-[#071326] dark:text-emerald-50">
+                  <span className="text-base font-bold text-[#071326] dark:text-white">
                     {faq.q}
                   </span>
-                  <div className="w-8 h-8 rounded-full bg-slate-100 dark:bg-emerald-950/40 flex items-center justify-center text-[#0052FF] shrink-0">
+                  <div className="w-8 h-8 rounded-full bg-emerald-500/10 text-[#059669] dark:text-[#10E599] flex items-center justify-center shrink-0">
                     {isOpen ? <Minus className="w-4 h-4" /> : <Plus className="w-4 h-4" />}
                   </div>
                 </button>
@@ -88,29 +110,32 @@ export default function AgentaFAQ() {
                       transition={{ duration: 0.3, ease: "easeInOut" }}
                       className="overflow-hidden"
                     >
-                      <div className="px-6 pb-6 pt-2 text-sm text-[#071326]/75 dark:text-emerald-200/70 leading-relaxed font-normal border-t border-slate-100 dark:border-emerald-900/30">
+                      <div className="px-6 pb-6 pt-2 text-sm text-slate-600 dark:text-emerald-100/80 leading-relaxed font-normal border-t border-slate-100 dark:border-emerald-900/30">
                         {faq.a}
                       </div>
                     </motion.div>
                   )}
                 </AnimatePresence>
-              </div>
+              </motion.div>
             );
           })}
         </div>
 
-        {/* Support CTA */}
-        <div className="mt-12 text-center p-8 rounded-3xl bg-white/80 dark:bg-[#0a140a]/80 border border-slate-200/80 dark:border-emerald-900/30 shadow-md">
-          <p className="text-sm font-bold text-[#071326] dark:text-emerald-50">Still have questions regarding your acreage?</p>
-          <p className="text-xs text-slate-500 dark:text-emerald-300/60 mt-1 mb-4">Our agronomy and software engineers are available 24/7.</p>
+        {/* Bottom Contact CTA */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="mt-14 text-center"
+        >
           <Link
             href="/contact"
-            className="inline-flex items-center gap-2 text-xs font-black uppercase tracking-wider text-[#0052FF] hover:underline"
+            className="gradient-btn inline-flex items-center gap-2 rounded-full px-8 py-3.5 text-xs font-black uppercase tracking-wider text-slate-950 shadow-md hover:scale-105 transition-all"
           >
-            <span>Speak with an Agronomy Specialist</span>
-            <ArrowRight className="w-3.5 h-3.5" />
+            <span>Have More Questions? Speak to an Agronomist</span>
+            <ArrowRight className="w-4 h-4" />
           </Link>
-        </div>
+        </motion.div>
 
       </div>
     </section>
