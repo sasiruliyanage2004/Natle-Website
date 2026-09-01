@@ -5,6 +5,7 @@ import GlassCard from "@/prompt-design/components/GlassCard";
 import StatCounter from "@/prompt-design/components/StatCounter";
 import SolutionsTabs from "@/prompt-design/components/SolutionsTabs";
 import ArchitectureFlow from "@/prompt-design/components/ArchitectureFlow";
+import { VideoText } from "@/components/magicui/video-text";
 import { heroStats, projects } from "@/prompt-design/lib/data";
 
 export default function Home() {
@@ -25,10 +26,19 @@ export default function Home() {
               <p className="font-data text-xs uppercase tracking-wide text-quantum mb-6">
                 NATLE × Hosma Ceylon — strategic software partnership
               </p>
-              <h1 className="text-[2.6rem] leading-[1.05] sm:text-6xl lg:text-7xl font-semibold tracking-tight">
-                Empowering agriculture
-                <br />
-                with <span className="text-gradient-quantum">next-gen</span> code
+              
+              {/* Magic UI VideoText Masking */}
+              <div className="w-full max-w-2xl mb-3 -ml-1">
+                <VideoText
+                  line1="Empowering"
+                  line2="Agriculture"
+                  align="left"
+                  className="w-full"
+                />
+              </div>
+
+              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-semibold tracking-tight text-ink mt-1">
+                with <span className="text-gradient-quantum font-bold">next-gen</span> code.
               </h1>
               <p className="mt-7 text-lg text-ink-soft leading-relaxed max-w-xl">
                 FieldOS, YieldAI and TraceLink turn coconut, tea and hydroponic
