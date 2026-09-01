@@ -105,20 +105,59 @@ export default function Hero() {
           >
             <Link
               href="/contact"
-              className="gradient-btn group inline-flex items-center gap-2.5 rounded-full px-8 py-4 text-sm font-bold text-white shadow-xl transition-all hover:scale-105 active:scale-95"
-              style={{
-                background: "linear-gradient(135deg, #007bff, #00d2ff, #00c9a7)",
-              }}
+              className="gradient-btn group inline-flex items-center gap-2.5 rounded-full px-8 py-4 text-sm font-bold shadow-xl transition-all hover:scale-105 active:scale-95"
             >
               <span>SCHEDULE FARM ASSESSMENT</span>
               <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
             </Link>
             <Link
               href="/solutions"
-              className="inline-flex items-center gap-2 rounded-full border border-slate-200/90 dark:border-emerald-900/50 bg-white/90 dark:bg-[#0a140a]/90 px-8 py-4 text-sm font-bold text-slate-800 dark:text-emerald-100 shadow-sm hover:bg-white dark:hover:bg-emerald-950/60 transition-all hover:scale-105"
+              className="tech-btn inline-flex items-center gap-2 rounded-full px-8 py-4 text-sm font-bold shadow-sm transition-all hover:scale-105"
             >
               <PlayCircle className="h-4 w-4 text-[#007bff] dark:text-cyan-400" />
               <span>Explore Platform Simulation</span>
+            </Link>
+          </motion.div>
+
+          {/* Dual-Buyer Intent Visual Fork */}
+          <motion.div
+            variants={riseVariants}
+            className="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-3.5 max-w-xl w-full"
+          >
+            {/* Substrate Procurement Pathway */}
+            <a
+              href="#configurator"
+              className="glass-card rounded-2xl p-3.5 flex items-center gap-3 text-left border border-emerald-500/30 hover:border-emerald-500 hover:scale-[1.02] transition-all group"
+            >
+              <div className="w-9 h-9 rounded-xl bg-emerald-500/15 text-[#059669] dark:text-[#10E599] flex items-center justify-center shrink-0">
+                <Leaf className="w-4 h-4" />
+              </div>
+              <div>
+                <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-[#059669] dark:text-[#10E599]">
+                  Procurement &bull; Substrates
+                </span>
+                <p className="text-xs font-bold text-slate-900 dark:text-white group-hover:text-[#059669] dark:group-hover:text-[#10E599] transition-colors">
+                  Order 40ft Cocopeat Containers &rarr;
+                </p>
+              </div>
+            </a>
+
+            {/* FieldOS Technology Pathway */}
+            <Link
+              href="/solutions#field-os"
+              className="glass-card rounded-2xl p-3.5 flex items-center gap-3 text-left border border-[#0052FF]/30 dark:border-cyan-500/30 hover:border-[#0052FF] hover:scale-[1.02] transition-all group"
+            >
+              <div className="w-9 h-9 rounded-xl bg-blue-500/15 text-[#0052FF] dark:text-cyan-400 flex items-center justify-center shrink-0">
+                <Cpu className="w-4 h-4" />
+              </div>
+              <div>
+                <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-[#0052FF] dark:text-cyan-400">
+                  AgriTech &bull; IoT Software
+                </span>
+                <p className="text-xs font-bold text-slate-900 dark:text-white group-hover:text-[#0052FF] dark:group-hover:text-cyan-400 transition-colors">
+                  Explore FieldOS™ Platform &rarr;
+                </p>
+              </div>
             </Link>
           </motion.div>
         </motion.div>

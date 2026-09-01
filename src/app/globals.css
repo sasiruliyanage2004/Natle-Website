@@ -5,10 +5,10 @@
 :root {
   --background: #edf6f2;
   --foreground: #071326;
-  --sapphire-blue: #0052ff;
-  --cyber-cyan: #00d2ff;
   --flora-emerald: #059669;
   --neon-spring: #10e599;
+  --sapphire-blue: #0052ff;
+  --cyber-cyan: #00d2ff;
   --matcha-lime: #84cc16;
   --solar-amber: #f59e0b;
 }
@@ -49,34 +49,61 @@ html.dark body {
   font-family: var(--font-serif), 'Playfair Display', Georgia, serif;
 }
 
-/* ============================== */
-/* System 01: CTA Gradient Button */
-/* ============================== */
+/* ======================================================== */
+/* System 01: Primary Brand Action Button (Emerald Driven)   */
+/* ======================================================== */
 .gradient-btn {
-  background: linear-gradient(135deg, #0052ff 0%, #00d2ff 45%, #059669 90%, #10e599 100%);
-  color: white;
+  background: linear-gradient(135deg, #059669 0%, #10e599 45%, #00b4d8 100%);
+  color: #042f21;
+  font-weight: 800;
   transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .gradient-btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 14px 34px -6px rgba(0, 82, 255, 0.42), 0 6px 18px -4px rgba(5, 150, 105, 0.32);
+  box-shadow: 0 14px 34px -6px rgba(5, 150, 105, 0.45), 0 6px 18px -4px rgba(16, 229, 153, 0.35);
 }
 
 html.dark .gradient-btn {
   background: linear-gradient(135deg, #059669 0%, #10e599 50%, #00d2ff 100%);
+  color: #021a12;
   box-shadow: 0 4px 20px -4px rgba(16, 229, 153, 0.4);
 }
 
 html.dark .gradient-btn:hover {
-  box-shadow: 0 14px 40px -6px rgba(16, 229, 153, 0.5), 0 6px 24px -4px rgba(0, 210, 255, 0.25);
+  box-shadow: 0 14px 40px -6px rgba(16, 229, 153, 0.55), 0 6px 24px -4px rgba(0, 210, 255, 0.3);
+}
+
+/* Technical Secondary Button */
+.tech-btn {
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(0, 82, 255, 0.25);
+  color: #0052ff;
+  transition: all 0.3s ease;
+}
+
+.tech-btn:hover {
+  background: #ffffff;
+  border-color: #0052ff;
+  box-shadow: 0 8px 25px -5px rgba(0, 82, 255, 0.25);
+}
+
+html.dark .tech-btn {
+  background: rgba(10, 20, 15, 0.9);
+  border: 1px solid rgba(16, 229, 153, 0.25);
+  color: #10e599;
+}
+
+html.dark .tech-btn:hover {
+  background: rgba(16, 229, 153, 0.12);
+  border-color: #10e599;
 }
 
 /* ========================================= */
 /* Vibrant Gradient Text: "with Next-Gen Code." */
 /* ========================================= */
 .gradient-text {
-  background: linear-gradient(90deg, #007bff 0%, #00d2ff 40%, #00c9a7 100%);
+  background: linear-gradient(90deg, #059669 0%, #10e599 40%, #00d2ff 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   display: inline-block;
@@ -89,10 +116,10 @@ html.dark .gradient-text {
 }
 
 /* ============================== */
-/* Luminous Glass Cards            */
+/* Luminous Elevated Glass Cards   */
 /* ============================== */
 .glass-card {
-  background: rgba(255, 255, 255, 0.92);
+  background: rgba(255, 255, 255, 0.94);
   backdrop-filter: blur(24px);
   -webkit-backdrop-filter: blur(24px);
   border: 1px solid rgba(255, 255, 255, 0.98);
@@ -100,9 +127,9 @@ html.dark .gradient-text {
 }
 
 html.dark .glass-card {
-  background: rgba(8, 12, 8, 0.92);
+  background: rgba(10, 16, 12, 0.92);
   backdrop-filter: blur(24px);
   -webkit-backdrop-filter: blur(24px);
-  border: 1px solid rgba(16, 229, 153, 0.12);
-  box-shadow: 0 20px 50px -10px rgba(0, 0, 0, 0.85), 0 0 40px -10px rgba(16, 229, 153, 0.08);
+  border: 1px solid rgba(16, 229, 153, 0.15);
+  box-shadow: 0 20px 50px -10px rgba(0, 0, 0, 0.9), 0 0 35px -10px rgba(16, 229, 153, 0.08);
 }

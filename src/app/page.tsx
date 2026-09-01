@@ -4,6 +4,7 @@ import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import AgentaMarquee from "@/components/AgentaMarquee";
 import HosmaHeritage from "@/components/HosmaHeritage";
+import SubstrateConfigurator from "@/components/SubstrateConfigurator";
 import Features from "@/components/Features";
 import AgentaHowItWorks from "@/components/AgentaHowItWorks";
 import Solutions from "@/components/Solutions";
@@ -31,12 +32,12 @@ export default function Home() {
       {/* Kokonut UI Animated Luminous Beams Background */}
       <BeamsBackground intensity="medium" />
 
-      {/* Magic UI Interactive Floating Particles Background */}
+      {/* Magic UI Interactive Floating Particles Background (Restrained Luxury Density) */}
       <Particles
         className="fixed inset-0 pointer-events-none z-0"
-        quantity={120}
+        quantity={70}
         ease={70}
-        size={0.6}
+        size={0.5}
         color={isDark ? "#10E599" : "#059669"}
         refresh
       />
@@ -50,6 +51,7 @@ export default function Home() {
         <Hero />
         <AgentaMarquee />
         <HosmaHeritage />
+        <SubstrateConfigurator />
         <Features />
         <AgentaHowItWorks />
         <Solutions />
