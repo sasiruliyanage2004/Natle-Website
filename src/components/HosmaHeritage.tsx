@@ -1,35 +1,20 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import { motion } from "framer-motion";
 import { 
   Sprout, 
-  Globe2, 
-  ShieldCheck, 
   Ship, 
-  Award, 
-  CheckCircle2, 
-  TrendingUp, 
-  ArrowUpRight,
   Sparkles,
   Droplets,
-  Layers
+  Layers,
+  ArrowUpRight
 } from "lucide-react";
-import Link from "next/link";
 import { Globe } from "@/components/magicui/globe";
 
-const exportDestinations = [
-  { country: "Netherlands & Europe", share: "38%", port: "Port of Rotterdam", use: "Hydroponic Greenhouses", ec: "< 0.5 mS/cm" },
-  { country: "Japan & South Korea", share: "26%", port: "Tokyo / Yokohama", use: "Precision Berry Substrates", ec: "< 0.4 mS/cm" },
-  { country: "United States & Canada", share: "22%", port: "Long Beach, CA", use: "Commercial Vertical Farms", ec: "< 0.5 mS/cm" },
-  { country: "Australia & New Zealand", share: "14%", port: "Port of Sydney", use: "Orchard Moisture Matrix", ec: "< 0.6 mS/cm" },
-];
-
 export default function HosmaHeritage() {
-  const [activeTab, setActiveTab] = useState(0);
-
   return (
-    <section id="heritage" className="relative overflow-hidden bg-white/50 dark:bg-black/50 py-24 md:py-32 select-none border-t border-slate-200/80 dark:border-zinc-800 transition-colors duration-300">
+    <section id="heritage" className="relative overflow-hidden bg-white/60 dark:bg-black/60 py-20 md:py-28 select-none border-t border-slate-200/80 dark:border-zinc-800 transition-colors duration-300">
       
       {/* Background Ambient Glow */}
       <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
@@ -40,7 +25,7 @@ export default function HosmaHeritage() {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto mb-16">
+        <div className="text-center max-w-3xl mx-auto mb-14">
           <div className="inline-flex items-center gap-2 rounded-full border border-emerald-300/80 dark:border-emerald-500/30 bg-white/90 dark:bg-zinc-900/80 px-4 py-1.5 text-xs font-mono font-bold uppercase tracking-wider text-[#059669] dark:text-emerald-400 shadow-sm backdrop-blur-md mb-4">
             <Sprout className="h-4 w-4 text-[#059669] dark:text-emerald-400" />
             <span>Parent Heritage &bull; Hosma Ceylon (Pvt) Ltd</span>
@@ -53,7 +38,7 @@ export default function HosmaHeritage() {
             </span>
           </h2>
 
-          <p className="mt-5 text-base sm:text-lg text-slate-600 dark:text-zinc-400 font-normal leading-relaxed">
+          <p className="mt-4 text-base sm:text-lg text-slate-600 dark:text-zinc-400 font-normal leading-relaxed">
             NATLE was born from <strong>Hosma Ceylon</strong> (<a href="https://hosmaceylon.com" target="_blank" rel="noreferrer" className="text-[#0052FF] dark:text-cyan-400 font-bold hover:underline">hosmaceylon.com</a>) — Sri Lanka&apos;s premier exporter of 100% organic coconut coir substrates, now supercharged with next-generation IoT telemetry and predictive cloud intelligence.
           </p>
         </div>
@@ -143,7 +128,7 @@ export default function HosmaHeritage() {
 
 
           {/* Right Column: Magic UI 3D Interactive Globe Card */}
-          <div className="lg:col-span-6 rounded-[2.5rem] border border-slate-200/90 dark:border-zinc-800 bg-white/95 dark:bg-zinc-950 p-8 shadow-xl flex flex-col justify-between relative overflow-hidden backdrop-blur-2xl min-h-[480px]">
+          <div className="lg:col-span-6 rounded-[2.5rem] border border-slate-200/90 dark:border-zinc-800 bg-white/95 dark:bg-zinc-950 p-8 shadow-xl flex flex-col justify-between relative overflow-hidden backdrop-blur-2xl min-h-[500px]">
             
             {/* Header */}
             <div className="relative z-10 flex items-center justify-between pb-4 border-b border-slate-100 dark:border-zinc-800">
@@ -161,9 +146,9 @@ export default function HosmaHeritage() {
               </div>
             </div>
 
-            {/* Magic UI 3D Interactive Canvas Globe */}
-            <div className="relative my-auto flex h-[300px] w-full items-center justify-center overflow-hidden">
-              <Globe className="top-0" />
+            {/* Magic UI 3D Interactive Canvas Globe Container */}
+            <div className="relative my-4 flex h-[320px] w-full items-center justify-center overflow-hidden">
+              <Globe />
             </div>
 
             {/* Footer Trade Hub Badges */}
