@@ -13,7 +13,7 @@ export interface VideoTextProps {
 }
 
 export function VideoText({
-  src = "https://cdn.magicui.design/ocean-small.webm",
+  src = "/videos/agriculture-hero.mp4",
   line1 = "Empowering",
   line2 = "Agriculture",
   align = "center",
@@ -45,7 +45,7 @@ export function VideoText({
         viewBox={isLeft ? "0 0 1050 270" : "0 0 1200 300"}
         preserveAspectRatio={isLeft ? "xMinYMid meet" : "xMidYMid meet"}
         style={{
-          filter: "drop-shadow(0 0 25px rgba(0, 210, 255, 0.4)) drop-shadow(0 4px 18px rgba(0, 0, 0, 0.7))",
+          filter: "drop-shadow(0 0 25px rgba(16, 229, 153, 0.4)) drop-shadow(0 4px 18px rgba(0, 0, 0, 0.7))",
         }}
       >
         <defs>
@@ -84,9 +84,15 @@ export function VideoText({
           </mask>
         </defs>
 
-        {/* 1. Masked Vibrant Video */}
-        <foreignObject width="100%" height="100%" mask={`url(#${maskId})`}>
-          <div className="w-full h-full relative" style={{ width: "100%", height: isLeft ? "280px" : "300px" }}>
+        {/* 1. Masked Agriculture / Green Plantation Video Container */}
+        <foreignObject
+          x="0"
+          y="0"
+          width="100%"
+          height="100%"
+          mask={`url(#${maskId})`}
+        >
+          <div className="w-full h-full relative overflow-hidden bg-emerald-900">
             <video
               src={src}
               autoPlay
@@ -96,7 +102,7 @@ export function VideoText({
               className="w-full h-full object-cover"
               style={{
                 minHeight: isLeft ? "280px" : "300px",
-                filter: "brightness(1.4) contrast(1.25) saturate(1.45)",
+                filter: "brightness(1.35) contrast(1.2) saturate(1.4)",
               }}
             />
           </div>
@@ -109,7 +115,7 @@ export function VideoText({
           textAnchor={isLeft ? "start" : "middle"}
           dominantBaseline="middle"
           fill="none"
-          stroke="rgba(255, 255, 255, 0.45)"
+          stroke="rgba(255, 255, 255, 0.5)"
           strokeWidth="1.5"
           fontSize={isLeft ? "120" : "130"}
           fontWeight="900"
@@ -126,7 +132,7 @@ export function VideoText({
           textAnchor={isLeft ? "start" : "middle"}
           dominantBaseline="middle"
           fill="none"
-          stroke="rgba(255, 255, 255, 0.45)"
+          stroke="rgba(255, 255, 255, 0.5)"
           strokeWidth="1.5"
           fontSize={isLeft ? "120" : "130"}
           fontWeight="900"
