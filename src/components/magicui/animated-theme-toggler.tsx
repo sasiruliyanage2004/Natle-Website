@@ -16,10 +16,15 @@ export function AnimatedThemeToggler({ className }: AnimatedThemeTogglerProps) {
   return (
     <button
       type="button"
-      onClick={toggleTheme}
-      aria-label="Toggle theme"
+      onClick={(e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        toggleTheme();
+      }}
+      aria-label="Toggle theme mode"
+      title={isDark ? "Switch to Light Mode" : "Switch to Dark Mode"}
       className={cn(
-        "group relative flex h-9 w-9 items-center justify-center rounded-full border border-slate-200/90 bg-white/80 text-slate-700 shadow-sm backdrop-blur-md transition-all duration-300 hover:scale-110 active:scale-95 dark:border-zinc-800 dark:bg-zinc-900/80 dark:text-zinc-200 cursor-pointer overflow-hidden",
+        "group relative flex h-9 w-9 items-center justify-center rounded-full border border-slate-200/80 dark:border-emerald-500/20 bg-white/80 dark:bg-white/[0.06] text-slate-700 dark:text-emerald-100 shadow-xs backdrop-blur-md transition-all duration-300 hover:scale-110 active:scale-95 hover:border-emerald-500/50 cursor-pointer overflow-hidden",
         className
       )}
     >
@@ -40,11 +45,11 @@ export function AnimatedThemeToggler({ className }: AnimatedThemeTogglerProps) {
             }}
             className="relative flex items-center justify-center text-[#10E599]"
           >
-            {/* Custom Animated Moon SVG with Star Twinkle */}
+            {/* Custom Animated Moon SVG */}
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              width="18"
-              height="18"
+              width="17"
+              height="17"
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
@@ -55,11 +60,7 @@ export function AnimatedThemeToggler({ className }: AnimatedThemeTogglerProps) {
             >
               <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z" />
             </svg>
-            <motion.span
-              animate={{ opacity: [0.3, 1, 0.3], scale: [0.8, 1.2, 0.8] }}
-              transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
-              className="absolute -top-1 -right-1 h-1 w-1 rounded-full bg-[#00D2FF]"
-            />
+            <span className="absolute -top-1 -right-1 h-1 w-1 rounded-full bg-[#00D2FF] animate-ping" />
           </motion.div>
         ) : (
           <motion.div
@@ -74,7 +75,7 @@ export function AnimatedThemeToggler({ className }: AnimatedThemeTogglerProps) {
             }}
             className="relative flex items-center justify-center text-[#F59E0B]"
           >
-            {/* Custom Animated Sun SVG with Rotating Rays */}
+            {/* Custom Animated Sun SVG */}
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="18"
