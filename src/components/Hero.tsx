@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { motion, type Variants } from "framer-motion";
 import { 
   ArrowRight, 
@@ -9,13 +9,14 @@ import {
   Cpu, 
   ShieldCheck, 
   Sparkles,
-  Radio,
+  Radio, 
   Search
 } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { Lens } from "@/components/magicui/lens";
 import { VideoText } from "@/components/magicui/video-text";
+import VideoDemoModal from "@/components/interactive/VideoDemoModal";
 
 const containerVariants: Variants = {
   hidden: {},
@@ -46,6 +47,8 @@ const partnerLogos = [
 ];
 
 export default function Hero() {
+  const [isVideoOpen, setIsVideoOpen] = useState(false);
+
   return (
     <section className="relative isolate w-full overflow-hidden bg-transparent font-sans antialiased pt-36 pb-16 md:pt-44 md:pb-20 select-none transition-colors duration-300">
       
@@ -110,14 +113,16 @@ export default function Hero() {
               <span>SCHEDULE FARM ASSESSMENT</span>
               <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
             </Link>
-            <Link
-              href="/solutions"
-              className="tech-btn inline-flex items-center gap-2 rounded-full px-8 py-4 text-sm font-bold shadow-sm transition-all hover:scale-105"
+            <button
+              onClick={() => setIsVideoOpen(true)}
+              className="tech-btn inline-flex items-center gap-2 rounded-full px-8 py-4 text-sm font-bold shadow-sm transition-all hover:scale-105 cursor-pointer"
             >
-              <PlayCircle className="h-4 w-4 text-[#007bff] dark:text-cyan-400" />
-              <span>Explore Platform Simulation</span>
-            </Link>
+              <PlayCircle className="h-4 w-4 text-[#059669] dark:text-[#10E599]" />
+              <span>Watch 60s FieldOS Demo</span>
+            </button>
           </motion.div>
+
+          <VideoDemoModal isOpen={isVideoOpen} onClose={() => setIsVideoOpen(false)} />
 
           {/* Dual-Buyer Intent Visual Fork */}
           <motion.div
