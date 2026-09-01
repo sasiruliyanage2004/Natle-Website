@@ -13,14 +13,20 @@ interface ThemeContextType {
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  // Always default strictly to light mode and remove dark class on load
   const [theme, setThemeState] = useState<Theme>("light");
 
   useEffect(() => {
-    // Clear any stuck dark class so the user immediately gets the warm light green/bio-alabaster theme
-    document.documentElement.classList.remove("dark");
-    localStorage.setItem("natle-theme", "light");
-    setThemeState("light");
+    const savedTheme = localStorage.getItem("natle-theme") as Theme | null;
+    if (savedTheme === "dark") {
+      setThemeState("dark");
+      document.documentElement.classList.add("dark");
+      document.documentElement.classList.remove("light");
+    } else {
+      setThemeState("light");
+      document.documentElement.classList.remove("dark");
+      document.documentElement.classList.add("light");
+      localStorage.setItem("natle-theme", "light");
+    }
   }, []);
 
   const setTheme = (newTheme: Theme) => {
@@ -28,8 +34,10 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     localStorage.setItem("natle-theme", newTheme);
     if (newTheme === "dark") {
       document.documentElement.classList.add("dark");
+      document.documentElement.classList.remove("light");
     } else {
       document.documentElement.classList.remove("dark");
+      document.documentElement.classList.add("light");
     }
   };
 
