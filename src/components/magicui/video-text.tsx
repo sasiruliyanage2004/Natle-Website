@@ -5,48 +5,60 @@ import { cn } from "@/lib/utils";
 
 export interface VideoTextProps {
   src?: string;
-  children: string;
+  line1?: string;
+  line2?: string;
+  children?: React.ReactNode;
   className?: string;
-  fontSize?: string;
-  fontWeight?: string | number;
-  letterSpacing?: string;
-  textAnchor?: "start" | "middle" | "end";
-  aspectRatio?: string;
 }
 
 export function VideoText({
   src = "https://cdn.magicui.design/ocean-small.webm",
-  children,
+  line1 = "Empowering",
+  line2 = "Agriculture",
   className,
-  fontSize = "110",
-  fontWeight = "900",
-  letterSpacing = "-0.04em",
-  textAnchor = "middle",
 }: VideoTextProps) {
   const maskId = useId().replace(/:/g, "_");
 
   return (
-    <div className={cn("relative w-full flex items-center justify-center select-none", className)}>
+    <div className={cn("relative w-full max-w-4xl mx-auto flex items-center justify-center select-none overflow-visible", className)}>
       <svg
-        className="w-full h-auto max-h-[140px] md:max-h-[180px] overflow-visible"
-        viewBox="0 0 1000 160"
+        className="w-full h-auto max-h-[160px] sm:max-h-[220px] md:max-h-[260px] overflow-visible"
+        viewBox="0 0 1000 260"
         preserveAspectRatio="xMidYMid meet"
       >
         <defs>
           <mask id={maskId}>
+            {/* Background black: transparent for mask */}
             <rect width="100%" height="100%" fill="black" />
+            
+            {/* Line 1: Empowering */}
             <text
               x="50%"
-              y="68%"
-              textAnchor={textAnchor}
+              y="38%"
+              textAnchor="middle"
               dominantBaseline="middle"
               fill="white"
-              fontSize={fontSize}
-              fontWeight={fontWeight}
-              letterSpacing={letterSpacing}
-              fontFamily="var(--font-sans), Inter, sans-serif"
+              fontSize="120"
+              fontWeight="900"
+              letterSpacing="-0.04em"
+              fontFamily="var(--font-sans), Inter, system-ui, sans-serif"
             >
-              {children}
+              {line1}
+            </text>
+
+            {/* Line 2: Agriculture */}
+            <text
+              x="50%"
+              y="85%"
+              textAnchor="middle"
+              dominantBaseline="middle"
+              fill="white"
+              fontSize="120"
+              fontWeight="900"
+              letterSpacing="-0.04em"
+              fontFamily="var(--font-sans), Inter, system-ui, sans-serif"
+            >
+              {line2}
             </text>
           </mask>
         </defs>
