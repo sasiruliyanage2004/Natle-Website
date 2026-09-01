@@ -1,6 +1,6 @@
 @import "tailwindcss";
 
-@custom-variant dark (&:where(.dark, .dark *));
+@custom-variant dark (&:where(.dark, .dark *, [data-theme="dark"], [data-theme="dark"] *));
 
 :root {
   --background: #edf6f2;
@@ -18,14 +18,25 @@ html {
   background-color: #edf6f2;
   color: #071326;
   scroll-behavior: smooth;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-html.dark {
+html.dark,
+html[data-theme="dark"] {
   color-scheme: dark;
   --background: #050505;
   --foreground: #e8f5e9;
-  background-color: #050505;
-  color: #e8f5e9;
+  background-color: #050505 !important;
+  color: #e8f5e9 !important;
+}
+
+html.light,
+html[data-theme="light"] {
+  color-scheme: light;
+  --background: #edf6f2;
+  --foreground: #071326;
+  background-color: #edf6f2 !important;
+  color: #071326 !important;
 }
 
 body {
@@ -33,16 +44,24 @@ body {
   background-color: #edf6f2;
   font-family: var(--font-sans), system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   overflow-x: hidden;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+html.dark body,
+html[data-theme="dark"] body {
+  color: #e8f5e9;
+  background-color: #050505 !important;
+}
+
+html.light body,
+html[data-theme="light"] body {
+  color: #071326;
+  background-color: #edf6f2 !important;
 }
 
 ::selection {
   background-color: #059669;
   color: #ffffff;
-}
-
-html.dark body {
-  color: #e8f5e9;
-  background-color: #050505;
 }
 
 .font-serif {
@@ -64,19 +83,21 @@ html.dark body {
   box-shadow: 0 14px 34px -6px rgba(5, 150, 105, 0.45), 0 6px 18px -4px rgba(16, 229, 153, 0.35);
 }
 
-html.dark .gradient-btn {
+html.dark .gradient-btn,
+html[data-theme="dark"] .gradient-btn {
   background: linear-gradient(135deg, #059669 0%, #10e599 50%, #00d2ff 100%);
   color: #021a12;
   box-shadow: 0 4px 20px -4px rgba(16, 229, 153, 0.4);
 }
 
-html.dark .gradient-btn:hover {
+html.dark .gradient-btn:hover,
+html[data-theme="dark"] .gradient-btn:hover {
   box-shadow: 0 14px 40px -6px rgba(16, 229, 153, 0.55), 0 6px 24px -4px rgba(0, 210, 255, 0.3);
 }
 
 /* Technical Secondary Button */
 .tech-btn {
-  background: rgba(255, 255, 255, 0.9);
+  background: rgba(255, 255, 255, 0.95);
   border: 1px solid rgba(0, 82, 255, 0.25);
   color: #0052ff;
   transition: all 0.3s ease;
@@ -88,13 +109,15 @@ html.dark .gradient-btn:hover {
   box-shadow: 0 8px 25px -5px rgba(0, 82, 255, 0.25);
 }
 
-html.dark .tech-btn {
+html.dark .tech-btn,
+html[data-theme="dark"] .tech-btn {
   background: rgba(10, 20, 15, 0.9);
   border: 1px solid rgba(16, 229, 153, 0.25);
   color: #10e599;
 }
 
-html.dark .tech-btn:hover {
+html.dark .tech-btn:hover,
+html[data-theme="dark"] .tech-btn:hover {
   background: rgba(16, 229, 153, 0.12);
   border-color: #10e599;
 }
@@ -109,7 +132,8 @@ html.dark .tech-btn:hover {
   display: inline-block;
 }
 
-html.dark .gradient-text {
+html.dark .gradient-text,
+html[data-theme="dark"] .gradient-text {
   background: linear-gradient(90deg, #10e599 0%, #00d2ff 50%, #34d399 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -126,7 +150,8 @@ html.dark .gradient-text {
   box-shadow: 0 20px 45px -12px rgba(7, 19, 38, 0.08), 0 4px 12px -2px rgba(5, 150, 105, 0.04);
 }
 
-html.dark .glass-card {
+html.dark .glass-card,
+html[data-theme="dark"] .glass-card {
   background: rgba(10, 16, 12, 0.92);
   backdrop-filter: blur(24px);
   -webkit-backdrop-filter: blur(24px);
