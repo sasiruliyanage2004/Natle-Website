@@ -1,7 +1,7 @@
 import Navbar from "@/components/Navbar";
 import CTAFooter from "@/components/CTAFooter";
 import BeamsBackground from "@/components/animations/BeamsBackground";
-import KineticFluidMesh from "@/components/animations/KineticFluidMesh";
+import KineticGlobalMesh from "@/components/animations/KineticGlobalMesh";
 import SmoothCursor from "@/components/magicui/smooth-cursor";
 import Blog2 from "@/components/watermelon-ui/Blog2";
 import { defaultBlogPosts } from "@/data/blogPosts";
@@ -14,10 +14,10 @@ export const metadata = {
 
 export default function BlogPage() {
   return (
-    <main className="relative min-h-screen bg-[#EDF6F2] dark:bg-black text-slate-900 dark:text-white antialiased selection:bg-[#059669] selection:text-white">
+    <main className="relative min-h-screen bg-[#EDF6F2] dark:bg-[#050505] text-slate-900 dark:text-emerald-50 antialiased selection:bg-[#059669] selection:text-white transition-colors duration-300">
       {/* Background Luminous Beams */}
       <BeamsBackground intensity="subtle" />
-      <KineticFluidMesh />
+      <KineticGlobalMesh />
       <SmoothCursor />
 
       <div className="relative z-10">

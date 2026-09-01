@@ -1,6 +1,6 @@
 import Navbar from "@/components/Navbar";
 import CTAFooter from "@/components/CTAFooter";
-import KineticFluidMesh from "@/components/animations/KineticFluidMesh";
+import KineticGlobalMesh from "@/components/animations/KineticGlobalMesh";
 import SmoothCursor from "@/components/magicui/smooth-cursor";
 import BeamsBackground from "@/components/animations/BeamsBackground";
 import { 
@@ -61,7 +61,7 @@ const caseStudies = [
 export default function ProjectsPage() {
   return (
     <main className="relative min-h-screen bg-[#EDF6F2] dark:bg-[#050505] text-slate-900 dark:text-emerald-50 antialiased selection:bg-[#059669] selection:text-white transition-colors duration-300">
-      <KineticFluidMesh />
+      <KineticGlobalMesh />
       <BeamsBackground intensity="subtle" className="absolute inset-0 z-0 pointer-events-none" />
       <SmoothCursor />
 
@@ -69,7 +69,7 @@ export default function ProjectsPage() {
         <Navbar />
 
         {/* Hero Header */}
-        <section className="pt-36 pb-20 md:pt-48 md:pb-28 bg-gradient-to-b from-slate-50 via-white to-white dark:bg-[#050505] dark:from-[#050505] dark:via-[#050505] dark:to-[#050505] border-b border-slate-100 dark:border-emerald-900/30">
+        <section className="pt-36 pb-20 md:pt-48 md:pb-28 bg-transparent">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center max-w-4xl relative z-10">
             <div className="inline-flex items-center gap-2 rounded-full border border-emerald-300 dark:border-emerald-800/40 bg-emerald-50 dark:bg-emerald-950/50 px-4 py-1.5 text-xs font-black uppercase tracking-wider text-emerald-800 dark:text-[#10E599] shadow-sm mb-6">
               <Building2 className="w-4 h-4 text-emerald-600 dark:text-[#10E599]" />
