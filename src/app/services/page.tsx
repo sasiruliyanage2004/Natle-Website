@@ -1,26 +1,21 @@
+"use client";
+
+import React from "react";
 import Navbar from "@/components/Navbar";
 import CTAFooter from "@/components/CTAFooter";
 import SmoothCursor from "@/components/magicui/smooth-cursor";
 import BeamsBackground from "@/components/animations/BeamsBackground";
+import { motion } from "framer-motion";
 import { 
   Radio, 
-  Cpu, 
   Leaf, 
   Plane, 
   Droplets, 
-  ShieldCheck, 
-  ArrowRight, 
   ArrowUpRight,
   CheckCircle2, 
-  Sparkles,
   Zap 
 } from "lucide-react";
 import Link from "next/link";
-
-export const metadata = {
-  title: "Services & Agronomy | NATLE Precision Agriculture",
-  description: "Explore our full suite of precision IoT telemetry, closed-loop irrigation automation, and custom Ceylon cocopeat substrate formulations.",
-};
 
 interface ServiceItem {
   id: string;
@@ -73,7 +68,7 @@ const servicesList: ServiceItem[] = [
 
 export default function ServicesPage() {
   return (
-    <main className="relative min-h-screen bg-[#EDF6F2] dark:bg-[#050505] text-slate-900 dark:text-emerald-50 antialiased selection:bg-[#059669] selection:text-white transition-colors duration-300">
+    <main className="relative min-h-screen bg-[#EDF6F2] dark:bg-[#050505] text-slate-900 dark:text-emerald-50 antialiased selection:bg-[#059669] selection:text-white transition-colors duration-300 select-none">
       <SmoothCursor />
       <BeamsBackground intensity="subtle" />
 
@@ -83,51 +78,70 @@ export default function ServicesPage() {
         {/* Hero Header */}
         <section className="pt-36 pb-20 md:pt-48 md:pb-28 bg-transparent">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center max-w-4xl">
-            <div className="inline-flex items-center gap-2 rounded-full border border-blue-300 dark:border-emerald-800/40 bg-blue-50 dark:bg-emerald-950/50 px-4 py-1.5 text-xs font-black uppercase tracking-wider text-blue-800 dark:text-[#10E599] shadow-sm mb-6">
-              <Zap className="w-4 h-4 text-[#0066FF] dark:text-[#10e599]" />
+            <motion.div 
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="inline-flex items-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-4 py-1.5 text-xs font-mono font-bold uppercase tracking-wider text-[#059669] dark:text-[#10E599] shadow-sm mb-6"
+            >
+              <Zap className="w-4 h-4 text-[#059669] dark:text-[#10E599]" />
               <span>Full-Stack Agronomy &bull; Hardware to Substrates</span>
-            </div>
+            </motion.div>
 
-            <h1 className="text-5xl sm:text-6xl md:text-7xl font-extrabold text-slate-900 dark:text-white tracking-tight leading-[1.08]">
+            <motion.h1 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.1 }}
+              className="text-5xl sm:text-6xl md:text-7xl font-extrabold text-slate-900 dark:text-white tracking-tight leading-[1.08]"
+            >
               Comprehensive Solutions for{" "}
-              <span className="font-serif italic font-normal gradient-text">
+              <span className="gradient-text">
                 Every Stage.
               </span>
-            </h1>
+            </motion.h1>
 
-            <p className="mt-6 text-lg md:text-xl text-slate-600 dark:text-zinc-400 font-normal leading-relaxed max-w-2xl mx-auto">
+            <motion.p 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.15 }}
+              className="mt-6 text-lg md:text-xl text-slate-600 dark:text-emerald-100/70 font-normal leading-relaxed max-w-2xl mx-auto"
+            >
               From raw Ceylon organic coconut husks to cloud machine learning algorithms, explore the 4 foundational pillars powering modern commercial plantations worldwide.
-            </p>
+            </motion.p>
           </div>
         </section>
 
         {/* Services List Grid */}
-        <section className="py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <section className="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="space-y-12">
             {servicesList.map((srv, index) => {
               const Icon = srv.icon;
 
               return (
-                <div 
+                <motion.div 
                   key={srv.id} 
                   id={srv.id}
-                  className="rounded-3xl border border-slate-200/80 dark:border-emerald-900/40 bg-white/90 dark:bg-[#0a140a]/90 p-8 md:p-12 shadow-xl hover:shadow-2xl transition-all"
+                  initial={{ opacity: 0, y: 36 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-40px" }}
+                  transition={{ duration: 0.55, delay: index * 0.1 }}
+                  whileHover={{ y: -6, scale: 1.01, transition: { duration: 0.25 } }}
+                  className="glass-card rounded-3xl p-8 md:p-12 shadow-xl hover:shadow-2xl hover:border-emerald-500/50 transition-all cursor-pointer"
                 >
                   <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
                     
                     {/* Left: Info */}
                     <div className="lg:col-span-7">
                       <div className="flex items-center gap-3 mb-4">
-                        <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-[#059669] to-[#10E599] text-white flex items-center justify-center shadow-md">
+                        <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-[#059669] to-[#10E599] text-slate-950 flex items-center justify-center shadow-md">
                           <Icon className="w-6 h-6" />
                         </div>
-                        <span className="px-3 py-1 rounded-full bg-slate-100 dark:bg-emerald-950/40 text-xs font-mono font-bold text-slate-700 dark:text-[#10e599] uppercase border border-transparent dark:border-emerald-900/30">
+                        <span className="px-3 py-1 rounded-full bg-emerald-500/10 text-xs font-mono font-bold text-[#059669] dark:text-[#10E599] uppercase border border-emerald-500/20">
                           {srv.badge}
                         </span>
                       </div>
 
                       <h2 className="text-3xl font-black text-slate-900 dark:text-white">{srv.title}</h2>
-                      <p className="mt-4 text-base text-slate-600 dark:text-emerald-200/70 leading-relaxed font-normal">
+                      <p className="mt-4 text-base text-slate-600 dark:text-emerald-100/70 leading-relaxed font-normal">
                         {srv.description}
                       </p>
 
@@ -171,7 +185,7 @@ export default function ServicesPage() {
                     </div>
 
                   </div>
-                </div>
+                </motion.div>
               );
             })}
           </div>
