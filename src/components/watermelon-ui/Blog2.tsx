@@ -18,7 +18,7 @@ export default function Blog2({
   showViewAll?: boolean;
 }) {
   return (
-    <section className="w-full px-4 py-24 sm:px-6 md:py-32 bg-[#EDF6F2] dark:bg-[#050505] border-t border-slate-200/80 dark:border-emerald-900/30 select-none">
+    <section className="w-full px-4 py-24 sm:px-6 md:py-32 bg-transparent select-none">
       <div className="mx-auto max-w-7xl">
         
         {/* Section Header */}

@@ -44,42 +44,38 @@ function Counter({ value, suffix, decimals = 0 }: Omit<Stat, "icon" | "label">) 
 
 export default function Stats() {
   return (
-    <section className="relative overflow-hidden bg-[#0F172A] dark:bg-[#050505] py-24">
-      {/* Ambient background glows */}
-      <div className="pointer-events-none absolute inset-0 -z-10">
-        <div className="absolute -left-32 top-1/2 h-96 w-96 -translate-y-1/2 rounded-full bg-[#0066FF]/20 blur-3xl" />
-        <div className="absolute -right-32 top-1/2 h-96 w-96 -translate-y-1/2 rounded-full bg-[#10B981]/20 blur-3xl" />
-      </div>
+    <section className="relative overflow-hidden bg-transparent py-20">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="glass-card rounded-[2.5rem] p-8 sm:p-12">
+          <div className="mx-auto max-w-xl text-center mb-12">
+            <p className="text-xs font-mono font-bold uppercase tracking-wider text-[#059669] dark:text-[#10E599]">
+              Impact, Measured &bull; Real Estate Telemetry
+            </p>
+            <h2 className="mt-2 text-3xl sm:text-4xl font-black tracking-tight text-[#071326] dark:text-white">
+              Numbers our partners grow by.
+            </h2>
+          </div>
 
-      <div className="mx-auto max-w-7xl px-6">
-        <div className="mx-auto max-w-xl text-center">
-          <p className="text-xs font-semibold uppercase tracking-wider text-[#10B981]">
-            Impact, Measured
-          </p>
-          <h2 className="mt-3 text-3xl font-bold tracking-tight text-white sm:text-4xl">
-            Numbers our partners grow by.
-          </h2>
-        </div>
-
-        <div className="mt-16 grid grid-cols-2 gap-x-6 gap-y-12 lg:grid-cols-4">
-          {STATS.map((s, i) => (
-            <motion.div
-              key={s.label}
-              initial={{ opacity: 0, y: 24 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-60px" }}
-              transition={{ duration: 0.6, delay: i * 0.1 }}
-              className="flex flex-col items-center text-center"
-            >
-              <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-white/5 ring-1 ring-white/10">
-                <s.icon className="h-6 w-6 text-[#10B981]" strokeWidth={2} />
-              </span>
-              <p className="mt-4 text-4xl font-bold tracking-tight text-white sm:text-5xl">
-                <Counter value={s.value} suffix={s.suffix} decimals={s.decimals} />
-              </p>
-              <p className="mt-2 text-sm text-slate-400 dark:text-emerald-300/60">{s.label}</p>
-            </motion.div>
-          ))}
+          <div className="grid grid-cols-2 gap-x-6 gap-y-10 lg:grid-cols-4">
+            {STATS.map((s, i) => (
+              <motion.div
+                key={s.label}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: i * 0.1 }}
+                className="flex flex-col items-center text-center"
+              >
+                <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-emerald-500/10 text-[#059669] dark:text-[#10E599] mb-3">
+                  <s.icon className="h-6 w-6" strokeWidth={2} />
+                </span>
+                <p className="text-3xl sm:text-4xl font-black tracking-tight text-[#071326] dark:text-white font-mono">
+                  <Counter value={s.value} suffix={s.suffix} decimals={s.decimals} />
+                </p>
+                <p className="mt-2 text-xs sm:text-sm font-medium text-slate-600 dark:text-emerald-100/70">{s.label}</p>
+              </motion.div>
+            ))}
+          </div>
         </div>
       </div>
     </section>

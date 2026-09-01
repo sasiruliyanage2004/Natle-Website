@@ -36,7 +36,7 @@ const TESTIMONIALS = [
 
 export default function Testimonials() {
   return (
-    <section className="relative bg-[#F8FAFC] dark:bg-[#050505] py-28 border-t border-slate-200/70 dark:border-emerald-900/30 overflow-hidden">
+    <section className="relative bg-transparent py-28 overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center max-w-3xl mx-auto mb-16">
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 border border-emerald-200 dark:border-emerald-900/30 text-xs font-bold uppercase tracking-wider mb-4">

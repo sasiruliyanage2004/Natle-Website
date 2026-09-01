@@ -16,7 +16,7 @@ import {
 
 export default function HosmaHeritage() {
   return (
-    <section id="heritage" className="relative overflow-hidden py-24 md:py-32 select-none border-t border-slate-200/80 dark:border-emerald-900/40 transition-colors duration-300">
+    <section id="heritage" className="relative overflow-hidden py-24 md:py-32 select-none bg-transparent transition-colors duration-300">
       
       {/* Background Ambient Multi-Glow */}
       <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">

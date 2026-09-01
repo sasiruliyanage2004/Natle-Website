@@ -61,7 +61,7 @@ const steps = [
 
 export default function AgentaHowItWorks() {
   return (
-    <section className="relative py-28 md:py-36 bg-[#EDF6F2] dark:bg-[#050505] select-none">
+    <section className="relative py-28 md:py-36 bg-transparent select-none">
       
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         

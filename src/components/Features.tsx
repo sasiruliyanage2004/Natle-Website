@@ -20,7 +20,7 @@ import Link from "next/link";
 
 export default function Features() {
   return (
-    <section id="services" className="relative bg-[#F1F7F4]/40 dark:bg-[#050505] py-28 md:py-36 border-y border-slate-200/80 dark:border-emerald-900/30 select-none">
+    <section id="services" className="relative bg-transparent py-28 md:py-36 select-none">
       
       {/* Ambient background blur */}
       <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">

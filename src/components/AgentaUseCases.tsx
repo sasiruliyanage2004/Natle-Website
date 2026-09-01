@@ -109,7 +109,7 @@ const useCases = [
 
 export default function AgentaUseCases() {
   return (
-    <section className="relative py-28 md:py-36 bg-[#F1F7F4]/60 dark:bg-[#050505] border-y border-slate-200/80 dark:border-emerald-900/30 select-none">
+    <section className="relative py-28 md:py-36 bg-transparent select-none">
       
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         

@@ -141,7 +141,7 @@ Direct Inquiries: contact@natle.tech | sales@hosmaceylon.com
   };
 
   return (
-    <section id="configurator" className="relative py-28 md:py-36 bg-[#EDF6F2] dark:bg-[#050505] text-[#071326] dark:text-white select-none border-t border-slate-200/80 dark:border-emerald-900/30 transition-colors duration-300 overflow-hidden">
+    <section id="configurator" className="relative py-28 md:py-36 bg-transparent text-[#071326] dark:text-white select-none transition-colors duration-300 overflow-hidden">
       
       {/* Background Glow */}
       <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
