@@ -32,7 +32,7 @@ export default function NatleLogo({
       {/* 2. Pristine Vector SVG Logo: [ N ] [ A ] [ T ] [ L ] [ E ] */}
       <motion.svg
         viewBox="0 0 460 160"
-        className="h-11 md:h-12 w-auto overflow-visible"
+        className="h-8 sm:h-10 md:h-12 w-auto overflow-visible"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
         animate={{

@@ -148,15 +148,16 @@ export default function NDVIScanner() {
             </div>
           </div>
 
-          {/* Main Visualizer Area */}
+          {/* Main Visualizer Area with Full Cross-Device Touch & Drag Support */}
           <div
             ref={containerRef}
             onMouseDown={() => setIsDragging(true)}
             onMouseUp={() => setIsDragging(false)}
             onMouseLeave={() => setIsDragging(false)}
             onMouseMove={handleMouseMove}
+            onTouchStart={(e) => handleMove(e.touches[0].clientX)}
             onTouchMove={handleTouchMove}
-            className="relative w-full h-[420px] sm:h-[520px] md:h-[600px] cursor-ew-resize select-none overflow-hidden"
+            className="relative w-full h-[340px] sm:h-[460px] md:h-[560px] cursor-ew-resize select-none overflow-hidden touch-none"
           >
             {/* Layer 1: Simulated High-Resolution True RGB Drone View (Right Side) */}
             <div className="absolute inset-0 bg-gradient-to-br from-emerald-900 via-emerald-800 to-green-950 flex items-center justify-center">

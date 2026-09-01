@@ -131,98 +131,98 @@ export default function SubstrateROICalculator() {
           >
             <div className="space-y-8">
               
-              {/* 1. Crop Selection Tabs */}
-              <div>
-                <label className="block text-xs font-mono font-bold uppercase tracking-wider text-slate-500 dark:text-emerald-300/70 mb-3">
-                  1. Select Crop Category
-                </label>
-                <div className="grid grid-cols-2 gap-3">
-                  {Object.entries(CROPS).map(([key, item]) => {
-                    const isSelected = selectedCrop === key;
-                    return (
-                      <button
-                        key={key}
-                        onClick={() => setSelectedCrop(key)}
-                        className={`p-3.5 rounded-2xl border text-left transition-all flex items-center gap-3 cursor-pointer ${
-                          isSelected
-                            ? "bg-emerald-500/15 border-emerald-500 text-slate-900 dark:text-white shadow-md"
-                            : "bg-white/40 dark:bg-black/30 border-slate-200/80 dark:border-emerald-900/30 text-slate-700 dark:text-emerald-200/70 hover:border-emerald-500/40"
-                        }`}
-                      >
-                        <span className="text-xl">{item.icon}</span>
-                        <div>
-                          <span className="text-xs font-bold block leading-tight">{item.name}</span>
-                          <span className="text-[10px] font-mono text-[#059669] dark:text-[#10E599]">+{item.yieldBoostPercent}% Projected</span>
-                        </div>
-                      </button>
-                    );
-                  })}
-                </div>
-              </div>
-
-              {/* 2. Acreage Slider */}
-              <div>
-                <div className="flex items-center justify-between mb-2">
-                  <label className="text-xs font-mono font-bold uppercase tracking-wider text-slate-500 dark:text-emerald-300/70">
-                    2. Plantation Acreage
+                {/* 1. Crop Selection Tabs */}
+                <div>
+                  <label className="block text-xs font-mono font-bold uppercase tracking-wider text-slate-500 dark:text-emerald-300/70 mb-3">
+                    1. Select Crop Category
                   </label>
-                  <span className="text-lg font-black font-mono text-[#059669] dark:text-[#10E599] bg-emerald-500/10 px-3 py-1 rounded-xl border border-emerald-500/20">
-                    {acres.toLocaleString()} Acres
-                  </span>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    {Object.entries(CROPS).map(([key, item]) => {
+                      const isSelected = selectedCrop === key;
+                      return (
+                        <button
+                          key={key}
+                          onClick={() => setSelectedCrop(key)}
+                          className={`p-3.5 rounded-2xl border text-left transition-all flex items-center gap-3 cursor-pointer ${
+                            isSelected
+                              ? "bg-emerald-500/15 border-emerald-500 text-slate-900 dark:text-white shadow-md"
+                              : "bg-white/40 dark:bg-black/30 border-slate-200/80 dark:border-emerald-900/30 text-slate-700 dark:text-emerald-200/70 hover:border-emerald-500/40"
+                          }`}
+                        >
+                          <span className="text-xl">{item.icon}</span>
+                          <div>
+                            <span className="text-xs font-bold block leading-tight">{item.name}</span>
+                            <span className="text-[10px] font-mono text-[#059669] dark:text-[#10E599]">+{item.yieldBoostPercent}% Projected</span>
+                          </div>
+                        </button>
+                      );
+                    })}
+                  </div>
                 </div>
-                <input
-                  type="range"
-                  min="10"
-                  max="1500"
-                  step="10"
-                  value={acres}
-                  onChange={(e) => setAcres(Number(e.target.value))}
-                  className="w-full h-2.5 bg-slate-200 dark:bg-emerald-950/60 rounded-lg appearance-none cursor-pointer accent-[#10E599]"
-                />
-                <div className="flex justify-between text-[11px] font-mono text-slate-400 mt-2">
-                  <span>10 Acres (Boutique)</span>
-                  <span>500 Acres</span>
-                  <span>1,500+ Acres (Commercial)</span>
-                </div>
-              </div>
 
-              {/* 3. Substrate Model Switcher */}
-              <div>
-                <label className="block text-xs font-mono font-bold uppercase tracking-wider text-slate-500 dark:text-emerald-300/70 mb-3">
-                  3. Substrate & Telemetry Integration
-                </label>
-                <div className="grid grid-cols-2 gap-3">
-                  <button
-                    onClick={() => setSubstrateType("hosma")}
-                    className={`p-3.5 rounded-2xl border text-left transition-all cursor-pointer ${
-                      substrateType === "hosma"
-                        ? "bg-emerald-500/15 border-emerald-500 text-slate-900 dark:text-white"
-                        : "bg-white/40 dark:bg-black/30 border-slate-200/80 dark:border-emerald-900/30 text-slate-600 dark:text-emerald-200/60"
-                    }`}
-                  >
-                    <div className="flex items-center justify-between mb-1">
-                      <span className="text-xs font-bold">Hosma + FieldOS™</span>
-                      <span className="w-2 h-2 rounded-full bg-emerald-400" />
-                    </div>
-                    <span className="text-[10px] text-slate-500 dark:text-emerald-300/60 block">Full Closed-Loop Automation</span>
-                  </button>
-
-                  <button
-                    onClick={() => setSubstrateType("standard")}
-                    className={`p-3.5 rounded-2xl border text-left transition-all cursor-pointer ${
-                      substrateType === "standard"
-                        ? "bg-emerald-500/15 border-emerald-500 text-slate-900 dark:text-white"
-                        : "bg-white/40 dark:bg-black/30 border-slate-200/80 dark:border-emerald-900/30 text-slate-600 dark:text-emerald-200/60"
-                    }`}
-                  >
-                    <div className="flex items-center justify-between mb-1">
-                      <span className="text-xs font-bold">Raw Soil / Standard</span>
-                      <span className="w-2 h-2 rounded-full bg-slate-400" />
-                    </div>
-                    <span className="text-[10px] text-slate-500 dark:text-emerald-300/60 block">Manual Field Monitoring</span>
-                  </button>
+                {/* 2. Acreage Slider */}
+                <div>
+                  <div className="flex items-center justify-between mb-2">
+                    <label className="text-xs font-mono font-bold uppercase tracking-wider text-slate-500 dark:text-emerald-300/70">
+                      2. Plantation Acreage
+                    </label>
+                    <span className="text-lg font-black font-mono text-[#059669] dark:text-[#10E599] bg-emerald-500/10 px-3 py-1 rounded-xl border border-emerald-500/20">
+                      {acres.toLocaleString()} Acres
+                    </span>
+                  </div>
+                  <input
+                    type="range"
+                    min="10"
+                    max="1500"
+                    step="10"
+                    value={acres}
+                    onChange={(e) => setAcres(Number(e.target.value))}
+                    className="w-full h-2.5 bg-slate-200 dark:bg-emerald-950/60 rounded-lg appearance-none cursor-pointer accent-[#10E599]"
+                  />
+                  <div className="flex justify-between text-[11px] font-mono text-slate-400 mt-2">
+                    <span>10 Acres (Boutique)</span>
+                    <span>500 Acres</span>
+                    <span>1,500+ Acres (Commercial)</span>
+                  </div>
                 </div>
-              </div>
+
+                {/* 3. Substrate Model Switcher */}
+                <div>
+                  <label className="block text-xs font-mono font-bold uppercase tracking-wider text-slate-500 dark:text-emerald-300/70 mb-3">
+                    3. Substrate & Telemetry Integration
+                  </label>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <button
+                      onClick={() => setSubstrateType("hosma")}
+                      className={`p-3.5 rounded-2xl border text-left transition-all cursor-pointer ${
+                        substrateType === "hosma"
+                          ? "bg-emerald-500/15 border-emerald-500 text-slate-900 dark:text-white"
+                          : "bg-white/40 dark:bg-black/30 border-slate-200/80 dark:border-emerald-900/30 text-slate-600 dark:text-emerald-200/60"
+                      }`}
+                    >
+                      <div className="flex items-center justify-between mb-1">
+                        <span className="text-xs font-bold">Hosma + FieldOS™</span>
+                        <span className="w-2 h-2 rounded-full bg-emerald-400" />
+                      </div>
+                      <span className="text-[10px] text-slate-500 dark:text-emerald-300/60 block">Full Closed-Loop Automation</span>
+                    </button>
+
+                    <button
+                      onClick={() => setSubstrateType("standard")}
+                      className={`p-3.5 rounded-2xl border text-left transition-all cursor-pointer ${
+                        substrateType === "standard"
+                          ? "bg-emerald-500/15 border-emerald-500 text-slate-900 dark:text-white"
+                          : "bg-white/40 dark:bg-black/30 border-slate-200/80 dark:border-emerald-900/30 text-slate-600 dark:text-emerald-200/60"
+                      }`}
+                    >
+                      <div className="flex items-center justify-between mb-1">
+                        <span className="text-xs font-bold">Raw Soil / Standard</span>
+                        <span className="w-2 h-2 rounded-full bg-slate-400" />
+                      </div>
+                      <span className="text-[10px] text-slate-500 dark:text-emerald-300/60 block">Manual Field Monitoring</span>
+                    </button>
+                  </div>
+                </div>
 
             </div>
 
