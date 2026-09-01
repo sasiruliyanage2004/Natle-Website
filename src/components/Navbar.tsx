@@ -77,6 +77,15 @@ export default function Navbar() {
           {/* Spotlight Command Search */}
           <CommandSearch />
 
+          {/* Prompt UI Design Switcher */}
+          <Link
+            href="/prompt-design"
+            className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[11px] font-mono font-bold border border-emerald-500/40 bg-emerald-500/10 text-emerald-800 dark:text-[#10e599] hover:bg-emerald-500/20 transition-all hover:scale-105"
+            title="Explore separate Prompt UI Design Version"
+          >
+            <span>🎨 Prompt UI</span>
+          </Link>
+
           {/* Magic UI Animated Theme Toggler */}
           <AnimatedThemeToggler />
 
@@ -143,6 +152,14 @@ export default function Navbar() {
                 }}
               >
                 <span>Request Assessment Demo</span>
+                <ArrowRight className="h-4 w-4" />
+              </Link>
+              <Link
+                href="/prompt-design"
+                onClick={() => setMobileMenuOpen(false)}
+                className="mt-2 flex items-center justify-between rounded-xl px-4 py-3 text-sm font-bold border border-emerald-500/30 bg-emerald-500/10 text-emerald-700 dark:text-[#10e599]"
+              >
+                <span>🎨 View Prompt UI Design Version</span>
                 <ArrowRight className="h-4 w-4" />
               </Link>
             </nav>
