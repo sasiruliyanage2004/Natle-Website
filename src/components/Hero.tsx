@@ -44,20 +44,16 @@ const partnerLogos = [
 
 export default function Hero() {
   return (
-    <section className="relative isolate min-h-screen w-full overflow-hidden bg-radial from-[#e0f7fa]/60 via-[#ffffff]/50 to-[#edf6f2] dark:from-[#08152e]/80 dark:via-[#040812] dark:to-[#02050b] font-sans antialiased pt-36 pb-20 md:pt-44 md:pb-28 select-none transition-colors duration-300">
+    <section className="relative isolate min-h-screen w-full overflow-hidden bg-radial from-[#e0f7fa]/60 via-[#ffffff]/50 to-[#edf6f2] dark:from-[#141414] dark:via-[#080808] dark:to-[#000000] font-sans antialiased pt-36 pb-20 md:pt-44 md:pb-28 select-none transition-colors duration-300">
       
-      {/* Radial Ambient Glow */}
+      {/* Light Mode Radial Glow */}
       <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
-        {/* Luminous Light ambient */}
         <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[950px] h-[600px] rounded-full bg-gradient-to-tr from-[#007bff]/10 via-[#00d2ff]/10 to-[#00c9a7]/15 blur-[120px] dark:opacity-0" />
-        
-        {/* Dark Mode Cosmic Ambient */}
-        <div className="hidden dark:block absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1100px] h-[500px] rounded-full bg-gradient-to-tr from-[#0052FF]/20 via-[#00D2FF]/25 to-[#10E599]/20 blur-[130px]" />
       </div>
 
       <div className="mx-auto max-w-5xl px-4 md:px-8 text-center flex flex-col items-center justify-center">
         
-        {/* ================= HERO CONTENT (Exact Match to User Light Design) ================= */}
+        {/* ================= HERO CONTENT ================= */}
         <motion.div
           variants={containerVariants}
           initial="hidden"
@@ -65,13 +61,13 @@ export default function Hero() {
           viewport={{ once: true, amount: 0.3 }}
           className="flex flex-col items-center text-center max-w-4xl mx-auto"
         >
-          {/* Top Badge: HOSMA CEYLON HERITAGE × NEXT-GEN TELEMETRY */}
+          {/* Top Badge */}
           <motion.div
             variants={riseVariants}
-            className="inline-flex items-center gap-2 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border border-emerald-200/90 dark:border-emerald-500/30 rounded-full px-4 py-1.5 mb-8 shadow-sm"
+            className="inline-flex items-center gap-2 bg-white/80 dark:bg-zinc-900/90 backdrop-blur-md border border-emerald-200/90 dark:border-zinc-800 rounded-full px-4 py-1.5 mb-8 shadow-sm"
           >
             <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-            <span className="text-xs font-bold text-emerald-700 dark:text-[#10E599] tracking-wider uppercase font-mono">
+            <span className="text-xs font-bold text-emerald-700 dark:text-emerald-400 tracking-wider uppercase font-mono">
               HOSMA CEYLON HERITAGE &times; NEXT-GEN TELEMETRY
             </span>
           </motion.div>
@@ -91,7 +87,7 @@ export default function Hero() {
           {/* Subtitle */}
           <motion.p
             variants={riseVariants}
-            className="mt-6 text-base sm:text-lg md:text-xl text-slate-600 dark:text-slate-300 max-w-3xl leading-relaxed font-normal"
+            className="mt-6 text-base sm:text-lg md:text-xl text-slate-600 dark:text-zinc-400 max-w-3xl leading-relaxed font-normal"
           >
             Atmospheric intelligence meets precision Ceylon coconut substrates. We fuse wireless LoRaWAN soil telemetry with distributed cloud software to maximize harvest yields autonomously.
           </motion.p>
@@ -113,9 +109,9 @@ export default function Hero() {
             </Link>
             <Link
               href="/solutions"
-              className="inline-flex items-center gap-2 rounded-full border border-slate-200/90 dark:border-white/15 bg-white/90 dark:bg-slate-900/80 px-8 py-4 text-sm font-bold text-slate-800 dark:text-white shadow-sm hover:bg-white dark:hover:bg-slate-800 transition-all hover:scale-105"
+              className="inline-flex items-center gap-2 rounded-full border border-slate-200/90 dark:border-zinc-800 bg-white/90 dark:bg-zinc-900/90 px-8 py-4 text-sm font-bold text-slate-800 dark:text-white shadow-sm hover:bg-white dark:hover:bg-zinc-800 transition-all hover:scale-105"
             >
-              <PlayCircle className="h-4 w-4 text-[#007bff] dark:text-[#38bdf8]" />
+              <PlayCircle className="h-4 w-4 text-[#007bff] dark:text-cyan-400" />
               <span>Explore Platform Simulation</span>
             </Link>
           </motion.div>
@@ -128,7 +124,7 @@ export default function Hero() {
           whileInView={{ opacity: 1, y: 0, scale: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
-          className="mt-14 relative w-full max-w-5xl overflow-hidden rounded-[2.5rem] border border-white/95 dark:border-white/15 bg-white/90 dark:bg-slate-950/80 p-3 sm:p-4 shadow-2xl shadow-slate-900/10 dark:shadow-black/60 backdrop-blur-2xl group"
+          className="mt-14 relative w-full max-w-5xl overflow-hidden rounded-[2.5rem] border border-white/95 dark:border-zinc-800 bg-white/90 dark:bg-zinc-950 p-3 sm:p-4 shadow-2xl shadow-slate-900/10 dark:shadow-black backdrop-blur-2xl group"
         >
           <div className="relative aspect-[16/9] w-full overflow-hidden rounded-[2rem]">
             <Image
@@ -139,22 +135,22 @@ export default function Hero() {
               className="object-cover object-center transition-transform duration-1000 group-hover:scale-105"
             />
 
-            <div className="absolute inset-0 bg-gradient-to-t from-slate-950/60 via-transparent to-transparent pointer-events-none" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent pointer-events-none" />
 
             {/* Floating Live Telemetry Badge: Top Right */}
-            <div className="absolute top-4 right-4 z-20 flex items-center gap-2 rounded-full bg-slate-950/85 border border-white/20 px-3.5 py-1.5 backdrop-blur-md text-white shadow-xl">
+            <div className="absolute top-4 right-4 z-20 flex items-center gap-2 rounded-full bg-black/85 border border-white/20 px-3.5 py-1.5 backdrop-blur-md text-white shadow-xl">
               <span className="flex h-2 w-2 rounded-full bg-[#10e599] animate-ping" />
               <span className="text-[11px] font-mono font-bold text-[#10e599]">IoT Telemetry &bull; LIVE STREAM</span>
             </div>
 
             {/* Floating Telemetry Badge: Bottom Left */}
-            <div className="absolute bottom-4 left-4 z-20 flex items-center gap-3 rounded-2xl bg-white/95 dark:bg-slate-900/90 border border-slate-200/90 dark:border-white/15 p-3.5 shadow-2xl backdrop-blur-md">
+            <div className="absolute bottom-4 left-4 z-20 flex items-center gap-3 rounded-2xl bg-white/95 dark:bg-zinc-900/95 border border-slate-200/90 dark:border-zinc-800 p-3.5 shadow-2xl backdrop-blur-md">
               <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-tr from-[#007bff] to-[#00d2ff] text-white shadow-md">
                 <Cpu className="h-5 w-5" />
               </div>
               <div className="text-left">
                 <p className="text-xs font-black text-slate-900 dark:text-white">Next.js Cloud &times; Ceylon Substrate</p>
-                <p className="text-[10px] font-mono font-bold text-[#059669] dark:text-[#10e599]">YieldAI™ Harvest Prediction: +28.4%</p>
+                <p className="text-[10px] font-mono font-bold text-[#059669] dark:text-emerald-400">YieldAI™ Harvest Prediction: +28.4%</p>
               </div>
             </div>
           </div>
@@ -167,11 +163,11 @@ export default function Hero() {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
-          className="mt-16 text-center border-t border-slate-200/80 dark:border-white/10 pt-10 w-full"
+          className="mt-16 text-center border-t border-slate-200/80 dark:border-zinc-800 pt-10 w-full"
         >
           <motion.p
             variants={riseVariants}
-            className="text-xs font-mono font-bold uppercase tracking-widest text-slate-400 dark:text-slate-500 mb-6"
+            className="text-xs font-mono font-bold uppercase tracking-widest text-slate-400 dark:text-zinc-500 mb-6"
           >
             Powering Sustainable Commercial Plantations &amp; Global Exports
           </motion.p>
@@ -184,10 +180,10 @@ export default function Hero() {
                 <motion.div
                   key={partner.name}
                   variants={riseVariants}
-                  className="flex items-center gap-2.5 rounded-full border border-white/80 dark:border-white/10 bg-white/70 dark:bg-slate-900/70 px-4 py-2 shadow-xs backdrop-blur-md hover:border-[#007bff]/40 hover:bg-white dark:hover:bg-slate-800 transition-all group"
+                  className="flex items-center gap-2.5 rounded-full border border-white/80 dark:border-zinc-800 bg-white/70 dark:bg-zinc-900/80 px-4 py-2 shadow-xs backdrop-blur-md hover:border-[#007bff]/40 hover:bg-white dark:hover:bg-zinc-800 transition-all group"
                 >
-                  <Icon className="h-4 w-4 text-[#007bff] dark:text-[#38bdf8] group-hover:text-[#059669] transition-colors" />
-                  <span className="text-xs font-bold text-slate-800 dark:text-slate-200">
+                  <Icon className="h-4 w-4 text-[#007bff] dark:text-cyan-400 group-hover:text-[#059669] transition-colors" />
+                  <span className="text-xs font-bold text-slate-800 dark:text-zinc-200">
                     {partner.name}
                   </span>
                 </motion.div>
