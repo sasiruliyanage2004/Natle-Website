@@ -30,9 +30,6 @@ export default function Home() {
       {/* Anime.js Staggered Scroll Reveal Engine */}
       <AnimeScrollReveal />
 
-      {/* Interactive Kinetic Grid Mesh Background Canvas */}
-      <KineticGlobalMesh />
-
       {/* Kokonut UI Animated Luminous Beams Background */}
       <BeamsBackground intensity="medium" />
 

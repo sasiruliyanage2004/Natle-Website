@@ -3,7 +3,6 @@
 import React, { useState } from "react";
 import Navbar from "@/components/Navbar";
 import CTAFooter from "@/components/CTAFooter";
-import KineticGlobalMesh from "@/components/animations/KineticGlobalMesh";
 import SmoothCursor from "@/components/magicui/smooth-cursor";
 import BeamsBackground from "@/components/animations/BeamsBackground";
 import { 
@@ -48,7 +47,6 @@ export default function ContactPage() {
 
   return (
     <main className="relative min-h-screen bg-[#EDF6F2] dark:bg-[#050505] text-slate-900 dark:text-emerald-50 antialiased selection:bg-[#059669] selection:text-white transition-colors duration-300">
-      <KineticGlobalMesh />
       <SmoothCursor />
       <BeamsBackground intensity="subtle" />
 
