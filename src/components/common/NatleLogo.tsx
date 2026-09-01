@@ -134,7 +134,7 @@ export default function NatleLogo({
         </g>
 
 
-        {/* ==================== 2. LETTER 'A' (Triangular Chevron) ==================== */}
+        {/* ==================== 2. LETTER 'A' (Triangular Chevron with Cutout) ==================== */}
         <g>
           <path
             d="M 188 114 L 218 54 L 248 114 L 230 114 L 218 88 L 206 114 Z"
@@ -142,8 +142,7 @@ export default function NatleLogo({
           />
           <polygon 
             points="218,70 228,94 208,94" 
-            fill="currentColor"
-            className="text-white dark:text-[#050505]"
+            className="fill-white dark:fill-[#050505] group-[.text-white]:fill-[#071326]"
           />
         </g>
 

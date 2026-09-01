@@ -163,7 +163,7 @@ export default function CTAFooter() {
           
           {/* Col 1: Brand & Contact Info */}
           <div className="col-span-2 lg:col-span-2 space-y-6">
-            <NatleLogo showTagline={true} />
+            <NatleLogo showTagline={true} className="text-white" />
             
             <p className="text-xs sm:text-sm text-slate-400 dark:text-emerald-200/60 max-w-sm leading-relaxed">
               Pioneering the synthesis of precision software engineering, IoT sensor telemetry, and 100% organic Ceylon coconut coir substrates with Hosma Ceylon.
