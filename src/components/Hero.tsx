@@ -15,6 +15,7 @@ import {
 import Link from "next/link";
 import Image from "next/image";
 import { Lens } from "@/components/magicui/lens";
+import { VideoText } from "@/components/magicui/video-text";
 
 const containerVariants: Variants = {
   hidden: {},
@@ -61,12 +62,12 @@ export default function Hero() {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, amount: 0.3 }}
-          className="flex flex-col items-center text-center max-w-4xl mx-auto"
+          className="flex flex-col items-center text-center max-w-4xl mx-auto w-full"
         >
           {/* Top Badge */}
           <motion.div
             variants={riseVariants}
-            className="inline-flex items-center gap-2 bg-white/80 dark:bg-zinc-900/90 backdrop-blur-md border border-emerald-200/90 dark:border-zinc-800 rounded-full px-4 py-1.5 mb-8 shadow-sm"
+            className="inline-flex items-center gap-2 bg-white/80 dark:bg-zinc-900/90 backdrop-blur-md border border-emerald-200/90 dark:border-zinc-800 rounded-full px-4 py-1.5 mb-6 shadow-sm"
           >
             <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
             <span className="text-xs font-bold text-emerald-700 dark:text-emerald-400 tracking-wider uppercase font-mono">
@@ -74,17 +75,20 @@ export default function Hero() {
             </span>
           </motion.div>
 
-          {/* Headline */}
-          <motion.h1
-            variants={riseVariants}
-            className="text-5xl sm:text-6xl md:text-7xl lg:text-[5.5rem] font-extrabold leading-[1.08] text-[#071326] dark:text-white tracking-tight mb-4"
-          >
-            <span className="block text-[#071326] dark:text-white">Empowering</span>
-            <span className="block text-[#071326] dark:text-white">Agriculture</span>
-            <span className="font-serif italic font-normal gradient-text block mt-1 pb-1">
+          {/* Magic UI VideoText Headline */}
+          <motion.div variants={riseVariants} className="w-full flex flex-col items-center justify-center">
+            <VideoText
+              src="https://cdn.magicui.design/ocean-small.webm"
+              fontSize="115"
+              className="max-w-4xl mb-1"
+            >
+              Empowering Agriculture
+            </VideoText>
+
+            <span className="font-serif italic font-normal gradient-text text-4xl sm:text-5xl md:text-6xl lg:text-7xl block mt-1 pb-1">
               with Next-Gen Code.
             </span>
-          </motion.h1>
+          </motion.div>
 
           {/* Subtitle */}
           <motion.p
