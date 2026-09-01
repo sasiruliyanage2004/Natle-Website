@@ -9,10 +9,12 @@ import {
   Cpu, 
   ShieldCheck, 
   Sparkles,
-  Radio
+  Radio,
+  Search
 } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
+import { Lens } from "@/components/magicui/lens";
 
 const containerVariants: Variants = {
   hidden: {},
@@ -118,7 +120,7 @@ export default function Hero() {
         </motion.div>
 
 
-        {/* ================= 3D ARTWORK FUSION MASTERPIECE ================= */}
+        {/* ================= 3D ARTWORK FUSION MASTERPIECE WITH MAGIC UI LENS ================= */}
         <motion.div
           initial={{ opacity: 0, y: 30, scale: 0.96 }}
           whileInView={{ opacity: 1, y: 0, scale: 1 }}
@@ -127,24 +129,29 @@ export default function Hero() {
           className="mt-14 relative w-full max-w-5xl overflow-hidden rounded-[2.5rem] border border-white/95 dark:border-zinc-800 bg-white/90 dark:bg-zinc-950 p-3 sm:p-4 shadow-2xl shadow-slate-900/10 dark:shadow-black backdrop-blur-2xl group"
         >
           <div className="relative aspect-[16/9] w-full overflow-hidden rounded-[2rem]">
-            <Image
-              src="/images/natle-fusion-hero.jpg"
-              alt="NATLE Software Engineering & Ceylon Smart Plantation Fusion"
-              fill
-              priority
-              className="object-cover object-center transition-transform duration-1000 group-hover:scale-105"
-            />
+            {/* Interactive Magic UI Zoom Lens */}
+            <Lens zoomFactor={1.75} lensSize={160}>
+              <div className="relative aspect-[16/9] w-full">
+                <Image
+                  src="/images/natle-fusion-hero.jpg"
+                  alt="NATLE Software Engineering & Ceylon Smart Plantation Fusion"
+                  fill
+                  priority
+                  className="object-cover object-center"
+                />
+              </div>
+            </Lens>
 
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent pointer-events-none" />
 
-            {/* Floating Live Telemetry Badge: Top Right */}
-            <div className="absolute top-4 right-4 z-20 flex items-center gap-2 rounded-full bg-black/85 border border-white/20 px-3.5 py-1.5 backdrop-blur-md text-white shadow-xl">
-              <span className="flex h-2 w-2 rounded-full bg-[#10e599] animate-ping" />
-              <span className="text-[11px] font-mono font-bold text-[#10e599]">IoT Telemetry &bull; LIVE STREAM</span>
+            {/* Top Right Live Telemetry & Lens Hint */}
+            <div className="absolute top-4 right-4 z-20 flex items-center gap-2 rounded-full bg-black/85 border border-white/20 px-3.5 py-1.5 backdrop-blur-md text-white shadow-xl pointer-events-none">
+              <Search className="h-3 w-3 text-[#00D2FF]" />
+              <span className="text-[11px] font-mono font-bold text-[#10e599]">Interactive 2x Lens Zoom</span>
             </div>
 
             {/* Floating Telemetry Badge: Bottom Left */}
-            <div className="absolute bottom-4 left-4 z-20 flex items-center gap-3 rounded-2xl bg-white/95 dark:bg-zinc-900/95 border border-slate-200/90 dark:border-zinc-800 p-3.5 shadow-2xl backdrop-blur-md">
+            <div className="absolute bottom-4 left-4 z-20 flex items-center gap-3 rounded-2xl bg-white/95 dark:bg-zinc-900/95 border border-slate-200/90 dark:border-zinc-800 p-3.5 shadow-2xl backdrop-blur-md pointer-events-none">
               <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-tr from-[#007bff] to-[#00d2ff] text-white shadow-md">
                 <Cpu className="h-5 w-5" />
               </div>
