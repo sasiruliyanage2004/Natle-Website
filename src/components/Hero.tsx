@@ -47,7 +47,7 @@ const partnerLogos = [
 
 export default function Hero() {
   return (
-    <section className="relative isolate min-h-screen w-full overflow-hidden bg-radial from-[#e0f7fa]/60 via-[#ffffff]/50 to-[#edf6f2] dark:from-[#0a1a0a] dark:via-[#060d06] dark:to-[#050505] font-sans antialiased pt-36 pb-20 md:pt-44 md:pb-28 select-none transition-colors duration-300">
+    <section className="relative isolate w-full overflow-hidden bg-transparent font-sans antialiased pt-36 pb-16 md:pt-44 md:pb-20 select-none transition-colors duration-300">
       
       {/* Light Mode Radial Glow */}
       <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
