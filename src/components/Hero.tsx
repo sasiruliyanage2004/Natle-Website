@@ -44,21 +44,20 @@ const partnerLogos = [
 
 export default function Hero() {
   return (
-    <section className="relative isolate min-h-screen w-full overflow-hidden bg-radial from-[#e0f7fa]/60 via-[#ffffff]/50 to-[#edf6f2] dark:from-[#08152e]/80 dark:via-[#040812] dark:to-[#02050b] font-sans antialiased pt-36 pb-20 md:pt-44 md:pb-28 select-none transition-colors duration-500">
+    <section className="relative isolate min-h-screen w-full overflow-hidden bg-radial from-[#e0f7fa]/60 via-[#ffffff]/50 to-[#edf6f2] dark:from-[#08152e]/80 dark:via-[#040812] dark:to-[#02050b] font-sans antialiased pt-36 pb-20 md:pt-44 md:pb-28 select-none transition-colors duration-300">
       
-      {/* Magic UI Style Cosmic Horizon Glow Curve */}
+      {/* Radial Ambient Glow */}
       <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
         {/* Luminous Light ambient */}
         <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[950px] h-[600px] rounded-full bg-gradient-to-tr from-[#007bff]/10 via-[#00d2ff]/10 to-[#00c9a7]/15 blur-[120px] dark:opacity-0" />
         
-        {/* Cosmic Horizon Glow (Dark mode) */}
+        {/* Dark Mode Cosmic Ambient */}
         <div className="hidden dark:block absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1100px] h-[500px] rounded-full bg-gradient-to-tr from-[#0052FF]/20 via-[#00D2FF]/25 to-[#10E599]/20 blur-[130px]" />
-        <div className="hidden dark:block absolute top-20 right-10 w-96 h-96 rounded-full bg-[#f59e0b]/10 blur-[140px]" />
       </div>
 
       <div className="mx-auto max-w-5xl px-4 md:px-8 text-center flex flex-col items-center justify-center">
         
-        {/* ================= HERO CONTENT ================= */}
+        {/* ================= HERO CONTENT (Exact Match to User Light Design) ================= */}
         <motion.div
           variants={containerVariants}
           initial="hidden"
@@ -66,10 +65,10 @@ export default function Hero() {
           viewport={{ once: true, amount: 0.3 }}
           className="flex flex-col items-center text-center max-w-4xl mx-auto"
         >
-          {/* Top Badge */}
+          {/* Top Badge: HOSMA CEYLON HERITAGE × NEXT-GEN TELEMETRY */}
           <motion.div
             variants={riseVariants}
-            className="inline-flex items-center gap-2 bg-white/70 dark:bg-slate-900/80 backdrop-blur-md border border-emerald-200/80 dark:border-emerald-500/30 rounded-full px-4 py-1.5 mb-8 shadow-sm"
+            className="inline-flex items-center gap-2 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border border-emerald-200/90 dark:border-emerald-500/30 rounded-full px-4 py-1.5 mb-8 shadow-sm"
           >
             <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
             <span className="text-xs font-bold text-emerald-700 dark:text-[#10E599] tracking-wider uppercase font-mono">
@@ -77,14 +76,14 @@ export default function Hero() {
             </span>
           </motion.div>
 
-          {/* Main Headline */}
+          {/* Headline */}
           <motion.h1
             variants={riseVariants}
             className="text-5xl sm:text-6xl md:text-7xl lg:text-[5.5rem] font-extrabold leading-[1.08] text-[#071326] dark:text-white tracking-tight mb-4"
           >
-            <span className="block">Empowering</span>
-            <span className="block">Agriculture</span>
-            <span className="font-serif italic font-normal text-gradient block mt-1 pb-1">
+            <span className="block text-[#071326] dark:text-white">Empowering</span>
+            <span className="block text-[#071326] dark:text-white">Agriculture</span>
+            <span className="font-serif italic font-normal gradient-text block mt-1 pb-1">
               with Next-Gen Code.
             </span>
           </motion.h1>
@@ -123,7 +122,7 @@ export default function Hero() {
         </motion.div>
 
 
-        {/* ================= 3D ARTWORK FUSION MASTERPIECE (Cinematic 16:9 Frame) ================= */}
+        {/* ================= 3D ARTWORK FUSION MASTERPIECE ================= */}
         <motion.div
           initial={{ opacity: 0, y: 30, scale: 0.96 }}
           whileInView={{ opacity: 1, y: 0, scale: 1 }}

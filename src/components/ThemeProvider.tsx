@@ -13,19 +13,17 @@ interface ThemeContextType {
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
+  // Strictly default to "light" mode
   const [theme, setThemeState] = useState<Theme>("light");
-  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    setMounted(true);
     const savedTheme = localStorage.getItem("natle-theme") as Theme | null;
-    if (savedTheme) {
-      setThemeState(savedTheme);
-      if (savedTheme === "dark") {
-        document.documentElement.classList.add("dark");
-      } else {
-        document.documentElement.classList.remove("dark");
-      }
+    if (savedTheme === "dark") {
+      setThemeState("dark");
+      document.documentElement.classList.add("dark");
+    } else {
+      setThemeState("light");
+      document.documentElement.classList.remove("dark");
     }
   }, []);
 
@@ -40,7 +38,8 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   };
 
   const toggleTheme = () => {
-    setTheme(theme === "light" ? "dark" : "light");
+    const nextTheme = theme === "light" ? "dark" : "light";
+    setTheme(nextTheme);
   };
 
   return (
