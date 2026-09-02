@@ -50,9 +50,9 @@ export default function Home() {
         <Hero />
         <AgentaMarquee />
         <HosmaHeritage />
+        <HardwareExplodedView />
         <SubstrateConfigurator />
         <SubstrateROICalculator />
-        <HardwareExplodedView />
         <Features />
         <AgentaHowItWorks />
         <Solutions />
