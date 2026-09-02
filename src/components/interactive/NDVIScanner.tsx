@@ -14,6 +14,7 @@ import {
   ChevronLeft, 
   ChevronRight 
 } from "lucide-react";
+import { sound } from "@/lib/sound";
 
 interface Hotspot {
   id: string;
@@ -68,6 +69,7 @@ export default function NDVIScanner() {
       const x = clientX - rect.left;
       const percentage = Math.max(5, Math.min(95, (x / rect.width) * 100));
       setSliderPos(percentage);
+      sound.playSweep(percentage / 100);
     },
     []
   );

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter, Playfair_Display } from "next/font/google";
 import { ThemeProvider } from "@/components/ThemeProvider";
+import NatleAIAssistant from "@/components/interactive/NatleAIAssistant";
 import "./globals.css";
 
 const inter = Inter({ 
@@ -30,6 +31,7 @@ export default function RootLayout({
       <body className={`${inter.variable} ${playfair.variable} font-sans bg-[#edf6f2] text-[#071326] antialiased`}>
         <ThemeProvider>
           {children}
+          <NatleAIAssistant />
         </ThemeProvider>
       </body>
     </html>

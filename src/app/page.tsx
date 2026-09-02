@@ -7,6 +7,7 @@ import HosmaHeritage from "@/components/HosmaHeritage";
 import NDVIScanner from "@/components/interactive/NDVIScanner";
 import SubstrateConfigurator from "@/components/SubstrateConfigurator";
 import SubstrateROICalculator from "@/components/interactive/SubstrateROICalculator";
+import HardwareExplodedView from "@/components/interactive/HardwareExplodedView";
 import Features from "@/components/Features";
 import AgentaHowItWorks from "@/components/AgentaHowItWorks";
 import Solutions from "@/components/Solutions";
@@ -53,6 +54,7 @@ export default function Home() {
         <NDVIScanner />
         <SubstrateConfigurator />
         <SubstrateROICalculator />
+        <HardwareExplodedView />
         <Features />
         <AgentaHowItWorks />
         <Solutions />
