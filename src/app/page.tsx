@@ -4,7 +4,6 @@ import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import AgentaMarquee from "@/components/AgentaMarquee";
 import HosmaHeritage from "@/components/HosmaHeritage";
-import NDVIScanner from "@/components/interactive/NDVIScanner";
 import SubstrateConfigurator from "@/components/SubstrateConfigurator";
 import SubstrateROICalculator from "@/components/interactive/SubstrateROICalculator";
 import HardwareExplodedView from "@/components/interactive/HardwareExplodedView";
@@ -51,7 +50,6 @@ export default function Home() {
         <Hero />
         <AgentaMarquee />
         <HosmaHeritage />
-        <NDVIScanner />
         <SubstrateConfigurator />
         <SubstrateROICalculator />
         <HardwareExplodedView />
