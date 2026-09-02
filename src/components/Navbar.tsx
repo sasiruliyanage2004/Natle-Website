@@ -9,7 +9,6 @@ import { motion, AnimatePresence } from "framer-motion";
 import NatleLogo from "@/components/common/NatleLogo";
 import CommandSearch from "@/components/common/CommandSearch";
 import AnimatedThemeToggler from "@/components/magicui/animated-theme-toggler";
-import SoundToggle from "@/components/common/SoundToggle";
 
 const navRoutes = [
   { name: "Home", path: "/" },
@@ -73,10 +72,7 @@ export default function Navbar() {
           {/* 2. Magic UI Animated Theme Toggler */}
           <AnimatedThemeToggler />
 
-          {/* 3. Bespoke Tactile Sound Toggle */}
-          <SoundToggle />
-
-          {/* 4. Primary Emerald Action CTA Button */}
+          {/* 3. Primary Emerald Action CTA Button */}
           <Link
             href="/contact"
             className="gradient-btn hidden md:inline-flex items-center gap-2 rounded-full px-5 py-2 text-xs font-black uppercase tracking-wider text-slate-950 shadow-md transition-all duration-300 hover:scale-105 active:scale-95 shrink-0"
