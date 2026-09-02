@@ -94,7 +94,7 @@ export default function Hero() {
           {/* Subtitle */}
           <motion.p
             variants={riseVariants}
-            className="mt-6 text-base sm:text-lg md:text-xl text-slate-600 dark:text-zinc-400 max-w-3xl leading-relaxed font-normal"
+            className="mt-6 text-base sm:text-lg md:text-xl text-slate-700 dark:text-zinc-400 max-w-3xl leading-relaxed font-normal"
           >
             Atmospheric intelligence meets precision Ceylon coconut substrates. We fuse wireless LoRaWAN soil telemetry with distributed cloud software to maximize harvest yields autonomously.
           </motion.p>
@@ -130,13 +130,13 @@ export default function Hero() {
             {/* Substrate Procurement Pathway */}
             <a
               href="#configurator"
-              className="glass-card rounded-2xl p-3.5 flex items-center gap-3 text-left border border-emerald-500/30 hover:border-emerald-500 hover:scale-[1.02] transition-all group"
+              className="bg-white/95 dark:bg-[#0c140d]/90 rounded-2xl p-4 flex items-center gap-3.5 text-left border border-slate-200/90 dark:border-emerald-500/20 shadow-[0_4px_20px_rgba(0,0,0,0.04)] dark:shadow-none hover:border-emerald-500 hover:shadow-lg hover:scale-[1.02] transition-all group cursor-pointer"
             >
-              <div className="w-9 h-9 rounded-xl bg-emerald-500/15 text-[#059669] dark:text-[#10E599] flex items-center justify-center shrink-0">
-                <Leaf className="w-4 h-4" />
+              <div className="w-10 h-10 rounded-xl bg-emerald-500/15 text-[#059669] dark:text-[#10E599] flex items-center justify-center shrink-0 shadow-xs">
+                <Leaf className="w-5 h-5" />
               </div>
               <div>
-                <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-[#059669] dark:text-[#10E599]">
+                <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-emerald-700 dark:text-[#10E599]">
                   Procurement &bull; Substrates
                 </span>
                 <p className="text-xs font-bold text-slate-900 dark:text-white group-hover:text-[#059669] dark:group-hover:text-[#10E599] transition-colors">
@@ -148,10 +148,10 @@ export default function Hero() {
             {/* FieldOS Technology Pathway */}
             <Link
               href="/solutions#field-os"
-              className="glass-card rounded-2xl p-3.5 flex items-center gap-3 text-left border border-[#0052FF]/30 dark:border-cyan-500/30 hover:border-[#0052FF] hover:scale-[1.02] transition-all group"
+              className="bg-white/95 dark:bg-[#0c140d]/90 rounded-2xl p-4 flex items-center gap-3.5 text-left border border-slate-200/90 dark:border-cyan-500/20 shadow-[0_4px_20px_rgba(0,0,0,0.04)] dark:shadow-none hover:border-[#0052FF] hover:shadow-lg hover:scale-[1.02] transition-all group cursor-pointer"
             >
-              <div className="w-9 h-9 rounded-xl bg-blue-500/15 text-[#0052FF] dark:text-cyan-400 flex items-center justify-center shrink-0">
-                <Cpu className="w-4 h-4" />
+              <div className="w-10 h-10 rounded-xl bg-blue-500/15 text-[#0052FF] dark:text-cyan-400 flex items-center justify-center shrink-0 shadow-xs">
+                <Cpu className="w-5 h-5" />
               </div>
               <div>
                 <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-[#0052FF] dark:text-cyan-400">
@@ -172,7 +172,7 @@ export default function Hero() {
           whileInView={{ opacity: 1, y: 0, scale: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
-          className="mt-14 relative w-full max-w-5xl overflow-hidden rounded-[2.5rem] border border-white/95 dark:border-emerald-900/40 bg-white/90 dark:bg-[#080d08] p-3 sm:p-4 shadow-2xl shadow-slate-900/10 dark:shadow-[0_20px_60px_-15px_rgba(0,0,0,0.8),0_0_40px_-10px_rgba(16,229,153,0.06)] backdrop-blur-2xl group"
+          className="mt-14 relative w-full max-w-5xl overflow-hidden rounded-[2.5rem] border border-slate-200/90 dark:border-emerald-900/40 bg-white/95 dark:bg-[#080d08] p-3 sm:p-4 shadow-2xl shadow-slate-900/10 dark:shadow-[0_20px_60px_-15px_rgba(0,0,0,0.8),0_0_40px_-10px_rgba(16,229,153,0.06)] backdrop-blur-2xl group"
         >
           <div className="relative aspect-[16/9] w-full overflow-hidden rounded-[2rem]">
             <Image

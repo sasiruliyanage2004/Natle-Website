@@ -33,20 +33,17 @@ export function VideoText({
       {/* Luminous Ambient Back-Glow for High Visibility */}
       <div 
         className={cn(
-          "absolute pointer-events-none -z-10 rounded-full blur-[80px] opacity-80",
+          "absolute pointer-events-none -z-10 rounded-full blur-[90px] opacity-30 dark:opacity-80 transition-opacity",
           isLeft 
-            ? "left-0 top-1/2 -translate-y-1/2 w-[550px] h-[220px] bg-gradient-to-r from-[#00d2ff]/25 via-[#10e599]/30 to-transparent" 
-            : "left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[750px] h-[260px] bg-gradient-to-r from-[#00d2ff]/25 via-[#10e599]/30 to-[#059669]/25"
+            ? "left-0 top-1/2 -translate-y-1/2 w-[550px] h-[220px] bg-gradient-to-r from-[#00d2ff]/20 via-[#10e599]/25 to-transparent" 
+            : "left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[750px] h-[260px] bg-gradient-to-r from-[#00d2ff]/20 via-[#10e599]/25 to-[#059669]/20"
         )} 
       />
 
       <svg
-        className="w-full h-auto overflow-visible block"
+        className="w-full h-auto overflow-visible block drop-shadow-[0_12px_28px_rgba(7,19,38,0.22)] dark:drop-shadow-[0_0_25px_rgba(0,210,255,0.4)]"
         viewBox={isLeft ? "0 0 1050 270" : "0 0 1200 300"}
         preserveAspectRatio={isLeft ? "xMinYMid meet" : "xMidYMid meet"}
-        style={{
-          filter: "drop-shadow(0 0 25px rgba(0, 210, 255, 0.4)) drop-shadow(0 4px 18px rgba(0, 0, 0, 0.7))",
-        }}
       >
         <defs>
           <mask id={maskId}>
@@ -115,13 +112,12 @@ export function VideoText({
           textAnchor={isLeft ? "start" : "middle"}
           dominantBaseline="middle"
           fill="none"
-          stroke="rgba(255, 255, 255, 0.5)"
           strokeWidth="1.5"
           fontSize={isLeft ? "120" : "130"}
           fontWeight="900"
           letterSpacing={isLeft ? "-2" : "-3"}
           fontFamily="var(--font-sans), Inter, system-ui, sans-serif"
-          className="pointer-events-none"
+          className="pointer-events-none stroke-[#071326]/25 dark:stroke-white/50"
         >
           {line1}
         </text>
@@ -132,13 +128,12 @@ export function VideoText({
           textAnchor={isLeft ? "start" : "middle"}
           dominantBaseline="middle"
           fill="none"
-          stroke="rgba(255, 255, 255, 0.5)"
           strokeWidth="1.5"
           fontSize={isLeft ? "120" : "130"}
           fontWeight="900"
           letterSpacing={isLeft ? "-2" : "-3"}
           fontFamily="var(--font-sans), Inter, system-ui, sans-serif"
-          className="pointer-events-none"
+          className="pointer-events-none stroke-[#071326]/25 dark:stroke-white/50"
         >
           {line2}
         </text>

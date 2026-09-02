@@ -163,7 +163,7 @@ export default function BeamsBackground({
       />
       {/* Soft Light Diffuser Overlay */}
       <div 
-        className="absolute inset-0 bg-[#EDF6F2]/30 dark:bg-transparent pointer-events-none"
+        className="absolute inset-0 bg-[#f8fafc]/55 dark:bg-transparent pointer-events-none"
         style={{ backdropFilter: "blur(40px)" }}
       />
     </div>
