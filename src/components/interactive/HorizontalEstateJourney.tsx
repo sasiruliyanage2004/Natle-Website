@@ -145,7 +145,6 @@ export default function HorizontalEstateJourney() {
 
   // Transform vertical travel into horizontal slide: 0% to -80% (for 5 stages)
   const x = useTransform(scrollYProgress, [0, 1], ["0%", "-80%"]);
-  const progressBarScale = useTransform(scrollYProgress, [0, 1], [0, 1]);
 
   useMotionValueEvent(scrollYProgress, "change", (latest) => {
     const step = Math.min(STAGES.length - 1, Math.floor(latest * STAGES.length));
@@ -289,23 +288,6 @@ export default function HorizontalEstateJourney() {
               );
             })}
           </motion.div>
-        </div>
-
-        {/* Bottom HUD: Dynamic Scroll Progress Bar */}
-        <div className="max-w-7xl mx-auto w-full z-30 pb-2">
-          <div className="flex items-center justify-between text-xs font-mono text-slate-400 mb-2">
-            <span>Scroll Journey Progress:</span>
-            <span className="text-[#059669] dark:text-[#10E599] font-bold">
-              {Math.round(((activeStepIndex + 1) / STAGES.length) * 100)}% Completed
-            </span>
-          </div>
-
-          <div className="w-full h-1.5 bg-slate-200 dark:bg-white/10 rounded-full overflow-hidden">
-            <motion.div 
-              style={{ scaleX: progressBarScale }}
-              className="w-full h-full bg-gradient-to-r from-[#059669] via-[#10E599] to-[#00D2FF] origin-left rounded-full"
-            />
-          </div>
         </div>
 
       </div>
