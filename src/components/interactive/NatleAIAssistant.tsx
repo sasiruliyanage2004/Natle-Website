@@ -188,7 +188,7 @@ export default function NatleAIAssistant() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 25, scale: 0.96 }}
             transition={{ type: "spring", damping: 25, stiffness: 320 }}
-            className="absolute bottom-16 right-0 w-[92vw] sm:w-[460px] h-[560px] max-h-[78vh] rounded-3xl bg-slate-950/95 dark:bg-[#070d07]/95 backdrop-blur-2xl border border-white/15 dark:border-emerald-500/30 shadow-[0_25px_60px_rgba(0,0,0,0.6)] flex flex-col overflow-hidden mb-2"
+            className="absolute bottom-13 sm:bottom-14 right-0 w-[92vw] sm:w-[440px] h-[520px] max-h-[75vh] rounded-3xl bg-slate-950/95 dark:bg-[#070d07]/95 backdrop-blur-2xl border border-white/15 dark:border-emerald-500/30 shadow-[0_25px_60px_rgba(0,0,0,0.6)] flex flex-col overflow-hidden mb-2"
           >
             {/* Header */}
             <div className="p-4 px-5 bg-slate-900/90 border-b border-white/10 flex items-center justify-between">
@@ -296,8 +296,7 @@ export default function NatleAIAssistant() {
         )}
       </AnimatePresence>
 
-      {/* ================= 2. SIGNATURE "ASK ANYTHING..." FLOATING CAPSULE PILL ================= */}
-      {/* Exactly matches user reference image: Dark rounded capsule with "Ask anything..." & white circular mic button */}
+      {/* ================= 2. SIGNATURE "ASK ANYTHING..." COMPACT FLOATING PILL ================= */}
       <motion.form
         onSubmit={(e) => {
           e.preventDefault();
@@ -306,11 +305,11 @@ export default function NatleAIAssistant() {
         initial={{ y: 20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.4 }}
-        className="relative flex items-center w-[310px] sm:w-[360px] h-12 sm:h-13 rounded-full bg-[#18181b] dark:bg-[#121316] border border-white/15 dark:border-white/10 shadow-[0_12px_36px_rgba(0,0,0,0.5)] backdrop-blur-2xl px-1.5 transition-all group hover:border-white/30"
+        className="relative flex items-center w-[230px] sm:w-[265px] h-9 sm:h-10 rounded-full bg-[#18181b]/95 dark:bg-[#121316]/95 border border-white/15 dark:border-white/10 shadow-[0_8px_24px_rgba(0,0,0,0.4)] backdrop-blur-xl px-1.5 transition-all group hover:border-white/30"
       >
         {/* Subtle Ambient Pulse Dot */}
-        <div className="pl-3.5 pr-1 flex items-center">
-          <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+        <div className="pl-2.5 pr-1 flex items-center">
+          <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
         </div>
 
         {/* Text Input */}
@@ -320,36 +319,36 @@ export default function NatleAIAssistant() {
           value={inputVal}
           onChange={(e) => setInputVal(e.target.value)}
           onFocus={() => setIsOpen(true)}
-          placeholder={isListening ? "Listening to your voice..." : "Ask anything..."}
-          className="flex-1 bg-transparent px-2 text-xs sm:text-sm text-white placeholder-slate-400 font-sans outline-none"
+          placeholder={isListening ? "Listening..." : "Ask anything..."}
+          className="flex-1 bg-transparent px-2 text-xs text-white placeholder-slate-400 font-sans outline-none"
         />
 
         {/* If text is typed, show quick Send button */}
         {inputVal.trim() && (
           <button
             type="submit"
-            className="p-1.5 rounded-full bg-[#059669] hover:bg-[#10E599] text-slate-950 font-bold transition-all mr-1 cursor-pointer"
+            className="p-1 rounded-full bg-[#059669] hover:bg-[#10E599] text-slate-950 font-bold transition-all mr-1 cursor-pointer"
           >
-            <CornerDownLeft className="w-3.5 h-3.5" />
+            <CornerDownLeft className="w-3 h-3" />
           </button>
         )}
 
-        {/* Circular White Microphone Button (Identical to reference image) */}
+        {/* Circular White Microphone Button */}
         <button
           type="button"
           onClick={toggleListening}
           title={isListening ? "Stop listening" : "Click to speak with voice"}
           className={cn(
-            "w-9 h-9 rounded-full flex items-center justify-center transition-all cursor-pointer shrink-0 shadow-md",
+            "w-7 h-7 sm:w-7.5 sm:h-7.5 rounded-full flex items-center justify-center transition-all cursor-pointer shrink-0 shadow-sm",
             isListening 
               ? "bg-red-500 text-white animate-pulse" 
               : "bg-[#f1f1f1] hover:bg-white text-slate-900 hover:scale-105 active:scale-95"
           )}
         >
           {isListening ? (
-            <MicOff className="w-4 h-4" />
+            <MicOff className="w-3.5 h-3.5" />
           ) : (
-            <Mic className="w-4 h-4" />
+            <Mic className="w-3.5 h-3.5" />
           )}
         </button>
       </motion.form>
