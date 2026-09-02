@@ -1,11 +1,21 @@
-// Pure Web Audio API Sound Synthesizer (Zero external audio files, 100% reliable, zero latency)
+// Pure Web Audio API Sound Synthesizer (Active by default, zero external files, zero latency)
 
 class SoundEngine {
   private ctx: AudioContext | null = null;
-  private isMuted: boolean = true; // Default to muted for polite web etiquette
+  private isMuted: boolean = false; // Active by default!
 
   constructor() {
-    // AudioContext will be initialized on first user interaction
+    if (typeof window !== "undefined") {
+      const unlockAudio = () => {
+        this.initContext();
+        window.removeEventListener("click", unlockAudio);
+        window.removeEventListener("touchstart", unlockAudio);
+        window.removeEventListener("keydown", unlockAudio);
+      };
+      window.addEventListener("click", unlockAudio, { passive: true });
+      window.addEventListener("touchstart", unlockAudio, { passive: true });
+      window.addEventListener("keydown", unlockAudio, { passive: true });
+    }
   }
 
   private initContext() {
@@ -21,11 +31,7 @@ class SoundEngine {
   }
 
   public toggleMute(): boolean {
-    this.initContext();
     this.isMuted = !this.isMuted;
-    if (!this.isMuted) {
-      this.playChime();
-    }
     return !this.isMuted;
   }
 
@@ -33,7 +39,7 @@ class SoundEngine {
     return !this.isMuted;
   }
 
-  // Soft metallic/wooden mechanical click for buttons
+  // Soft metallic/wooden mechanical click for buttons and interactions
   public playClick() {
     if (this.isMuted) return;
     this.initContext();
@@ -45,17 +51,17 @@ class SoundEngine {
       const gain = this.ctx.createGain();
 
       osc.type = "sine";
-      osc.frequency.setValueAtTime(600, now);
-      osc.frequency.exponentialRampToValueAtTime(180, now + 0.04);
+      osc.frequency.setValueAtTime(580, now);
+      osc.frequency.exponentialRampToValueAtTime(160, now + 0.035);
 
-      gain.gain.setValueAtTime(0.12, now);
-      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.04);
+      gain.gain.setValueAtTime(0.09, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.035);
 
       osc.connect(gain);
       gain.connect(this.ctx.destination);
 
       osc.start(now);
-      osc.stop(now + 0.04);
+      osc.stop(now + 0.035);
     } catch {
       // Audio autoplay policy fallback
     }
@@ -75,20 +81,20 @@ class SoundEngine {
       osc.type = "triangle";
       osc.frequency.setValueAtTime(1400, now);
 
-      gain.gain.setValueAtTime(0.03, now);
-      gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.02);
+      gain.gain.setValueAtTime(0.02, now);
+      gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.018);
 
       osc.connect(gain);
       gain.connect(this.ctx.destination);
 
       osc.start(now);
-      osc.stop(now + 0.02);
+      osc.stop(now + 0.018);
     } catch {
-      // Audio autoplay policy fallback
+      // Audio fallback
     }
   }
 
-  // Frequency slide sweep for sliders & NDVI scanner
+  // Frequency slide sweep for sliders & Exploded View separation
   public playSweep(pitchFactor: number = 0.5) {
     if (this.isMuted) return;
     this.initContext();
@@ -99,18 +105,18 @@ class SoundEngine {
       const osc = this.ctx.createOscillator();
       const gain = this.ctx.createGain();
 
-      const freq = 300 + pitchFactor * 800;
+      const freq = 320 + pitchFactor * 750;
       osc.type = "sine";
       osc.frequency.setValueAtTime(freq, now);
 
-      gain.gain.setValueAtTime(0.04, now);
-      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.05);
+      gain.gain.setValueAtTime(0.035, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.045);
 
       osc.connect(gain);
       gain.connect(this.ctx.destination);
 
       osc.start(now);
-      osc.stop(now + 0.05);
+      osc.stop(now + 0.045);
     } catch {
       // Audio fallback
     }
@@ -126,21 +132,21 @@ class SoundEngine {
       const notes = [523.25, 659.25, 783.99, 1046.5]; // C5, E5, G5, C6 (Major triad)
       notes.forEach((freq, idx) => {
         if (!this.ctx) return;
-        const now = this.ctx.currentTime + idx * 0.04;
+        const now = this.ctx.currentTime + idx * 0.035;
         const osc = this.ctx.createOscillator();
         const gain = this.ctx.createGain();
 
         osc.type = "sine";
         osc.frequency.setValueAtTime(freq, now);
 
-        gain.gain.setValueAtTime(0.06, now);
-        gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.35);
+        gain.gain.setValueAtTime(0.05, now);
+        gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.32);
 
         osc.connect(gain);
         gain.connect(this.ctx.destination);
 
         osc.start(now);
-        osc.stop(now + 0.35);
+        osc.stop(now + 0.32);
       });
     } catch {
       // Audio fallback
