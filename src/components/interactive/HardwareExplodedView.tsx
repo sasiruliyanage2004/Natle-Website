@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useState, useRef } from "react";
-import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
+import React, { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { 
   Sun, 
   Cpu, 
@@ -10,110 +10,121 @@ import {
   Leaf, 
   Sliders, 
   ArrowRight, 
-  Layers, 
   Sparkles,
-  Droplets,
   Zap,
-  Activity
+  Activity,
+  CheckCircle2,
+  Maximize2
 } from "lucide-react";
 import { sound } from "@/lib/sound";
 
-interface LayerData {
+interface LayerDetail {
   id: string;
   name: string;
-  category: string;
+  shortTitle: string;
+  calloutSide: "left" | "right";
   badge: string;
   accentColor: string;
-  depthOffset: number; // Y separation in px when fully exploded
+  assembledY: number;
+  explodedY: number;
   description: string;
   specs: { label: string; value: string }[];
 }
 
-const LAYERS: LayerData[] = [
+const HARDWARE_LAYERS: LayerDetail[] = [
   {
-    id: "solar-cap",
-    name: "Layer 1: Micro-Solar Panel & Aerospace Cap",
-    category: "Energy Harvesting",
-    badge: "5+ Year Autonomous Energy",
+    id: "solar",
+    name: "01. Monocrystalline Solar Micro-Harvester",
+    shortTitle: "Solar Energy Cap",
+    calloutSide: "left",
+    badge: "5+ Year Indefinite Power",
     accentColor: "#F59E0B",
-    depthOffset: -180,
-    description: "Monocrystalline silicon solar dome with anti-reflective nanocoating and ultra-low ESR supercapacitors. Generates continuous power even through thick tropical monsoon canopy cover.",
+    assembledY: 200,
+    explodedY: 70,
+    description: "High-efficiency monocrystalline solar disc embedded in an aerospace-grade titanium bezel. Paired with ultra-low ESR supercapacitors, providing indefinite power through continuous tropical cloud cover.",
     specs: [
       { label: "Solar Efficiency", value: "22.8% Monocrystalline" },
       { label: "Energy Autonomy", value: "5+ Years Maintenance-Free" },
-      { label: "Operating Temp", value: "-15°C to +70°C Tropical" },
+      { label: "Optical Coating", value: "Hydrophobic Anti-Dust Quartz" },
     ],
   },
   {
-    id: "silicon-mcu",
-    name: "Layer 2: Dual-Core Silicon & LoRaWAN Radio",
-    category: "Edge Computing",
+    id: "mcu",
+    name: "02. Silicon Logic Core & LoRaWAN Sub-GHz",
+    shortTitle: "Silicon Logic & LoRa",
+    calloutSide: "right",
     badge: "15km Sub-GHz Mesh",
     accentColor: "#00D2FF",
-    depthOffset: -90,
-    description: "Ultra-low-power industrial MCU paired with an 868/915MHz sub-GHz LoRaWAN transceiver and AES-128 cryptographic telemetry vault. Awakens from 1.8µA sleep in sub-10ms.",
+    assembledY: 235,
+    explodedY: 175,
+    description: "Multi-layer aerospace green PCB with gold ENIG traces. Features dual-core RISC-V edge silicon, an 868/915MHz LoRaWAN transceiver, and hardware AES-128 cryptographic telemetry vault.",
     specs: [
-      { label: "Wireless Range", value: "Up to 15km Line-of-Sight" },
-      { label: "Sleep Current", value: "1.8 µA Ultra-Low Power" },
-      { label: "Latency", value: "< 45ms Ingestion to FieldOS" },
+      { label: "Wireless Protocol", value: "LoRaWAN Class A/C (15km)" },
+      { label: "Deep Sleep Current", value: "1.8 µA Ultra-Low Power" },
+      { label: "Firmware", value: "Sub-50ms Event-Driven C++" },
     ],
   },
   {
-    id: "chassis-shell",
-    name: "Layer 3: IP68 Hermetic Aerospace Casing",
-    category: "Protective Shell",
+    id: "chassis",
+    name: "03. IP68 Hermetic Polycarbonate Sleeve",
+    shortTitle: "IP68 Protective Shell",
+    calloutSide: "left",
     badge: "Tractor & Chemical Proof",
     accentColor: "#10E599",
-    depthOffset: 0,
-    description: "UV-stabilized polycarbonate chassis with dual food-grade silicone hermetic O-rings. Built to withstand direct tractor compaction, agrochemical acid sprays, and 3-meter water submersion.",
+    assembledY: 280,
+    explodedY: 295,
+    description: "Reinforced cylindrical polycarbonate housing with dual food-grade fluoroelastomer O-rings. Built to withstand direct tractor compaction, agrochemical corrosion, and 3-meter water submersion.",
     specs: [
-      { label: "Waterproof Standard", value: "IP68 Submersible (3m Depth)" },
+      { label: "Waterproof Standard", value: "IP68 Hermetic (3m Depth)" },
       { label: "Impact Rating", value: "IK09 Industrial Mechanical Shock" },
-      { label: "Corrosion Seal", value: "100% Acid & Saline Proof" },
+      { label: "Chemical Seal", value: "100% Acid & Saline Resistant" },
     ],
   },
   {
-    id: "stainless-prongs",
-    name: "Layer 4: Stainless Steel 316L Multi-Depth Blades",
-    category: "Capacitance Sensing",
+    id: "prongs",
+    name: "04. Stainless Steel 316L Moisture Blades",
+    shortTitle: "Capacitance Blades",
+    calloutSide: "right",
     badge: "Tri-Depth High Frequency",
     accentColor: "#3B82F6",
-    depthOffset: 90,
-    description: "Quad 70MHz high-frequency dielectric capacitance prongs calibrated for 10cm (surface mat), 30cm (feeder zone), and 60cm (taproot) moisture, EC, and root-zone temperature.",
+    assembledY: 340,
+    explodedY: 425,
+    description: "Quad 70MHz high-frequency dielectric capacitance prongs with laser depth calibration marks at 10cm (surface), 30cm (feeder roots), and 60cm (taproot) to measure soil moisture, EC, and temperature.",
     specs: [
-      { label: "Depth Intervals", value: "10cm / 30cm / 60cm Calibrated" },
+      { label: "Depth Calibrations", value: "10cm / 30cm / 60cm Ticks" },
       { label: "Conductivity (EC)", value: "0 - 20.0 mS/cm (±0.05 res)" },
-      { label: "VWC Accuracy", value: "±1.5% Volumetric Water Content" },
+      { label: "Moisture Accuracy", value: "±1.5% Volumetric Water Content" },
     ],
   },
   {
-    id: "cocopeat-soil",
-    name: "Layer 5 (Underground): Hosma Cocopeat & Root Matrix",
-    category: "Substrate Physics",
-    badge: "Micro-Capillary Hydration",
+    id: "cocopeat",
+    name: "05. Hosma Cocopeat & Root Micro-Matrix",
+    shortTitle: "Hosma Organic Matrix",
+    calloutSide: "left",
+    badge: "850% Capillary Hydration",
     accentColor: "#059669",
-    depthOffset: 180,
-    description: "Natural Ceylon organic coconut coir substrate washed to Dutch greenhouse EC (<0.4 mS/cm). Features biological micro-capillaries providing 850% water absorption with zero fertilizer leaching.",
+    assembledY: 430,
+    explodedY: 565,
+    description: "Triple-washed natural Ceylon organic coconut coir substrate washed to Dutch greenhouse standard (EC < 0.4 mS/cm). Features biological micro-capillaries that absorb 850% water with zero nutrient leaching.",
     specs: [
-      { label: "Water Retention", value: "800% - 900% of Dry Biomass" },
-      { label: "Air Porosity", value: "22% - 25% Optimum Root Aeration" },
+      { label: "Water Absorption", value: "800% - 900% of Dry Biomass" },
+      { label: "Air Porosity", value: "22% - 25% High Root Aeration" },
       { label: "Substrate Purity", value: "OMRI Listed 100% Organic" },
     ],
   },
 ];
 
 export default function HardwareExplodedView() {
-  const [explosionRatio, setExplosionRatio] = useState<number>(0.85); // 0 = fully assembled, 1 = fully exploded
-  const [activeLayer, setActiveLayer] = useState<LayerData>(LAYERS[1]);
-  const sectionRef = useRef<HTMLElement>(null);
+  const [explosion, setExplosion] = useState<number>(0.9); // 0 = Assembled, 1 = Fully Exploded
+  const [activeLayer, setActiveLayer] = useState<LayerDetail>(HARDWARE_LAYERS[1]);
 
-  const handleSlider = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleSliderChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const val = Number(e.target.value);
-    setExplosionRatio(val);
+    setExplosion(val);
     sound.playSweep(val);
   };
 
-  const handleLayerSelect = (layer: LayerData) => {
+  const handleSelect = (layer: LayerDetail) => {
     setActiveLayer(layer);
     sound.playClick();
   };
@@ -121,12 +132,11 @@ export default function HardwareExplodedView() {
   return (
     <section 
       id="hardware-blueprint" 
-      ref={sectionRef}
       className="relative py-28 md:py-36 bg-[#EDF6F2] dark:bg-[#050505] text-slate-900 dark:text-emerald-50 select-none overflow-hidden transition-colors duration-300"
     >
       {/* Background Ambient Glows */}
-      <div className="absolute top-1/3 left-1/4 -translate-x-1/2 w-[500px] h-[500px] bg-emerald-500/10 rounded-full blur-[120px] pointer-events-none" />
-      <div className="absolute bottom-1/4 right-1/4 w-[450px] h-[450px] bg-cyan-500/10 rounded-full blur-[120px] pointer-events-none" />
+      <div className="absolute top-1/4 left-1/3 w-[600px] h-[600px] bg-emerald-500/10 rounded-full blur-[140px] pointer-events-none" />
+      <div className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-cyan-500/10 rounded-full blur-[140px] pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
@@ -139,7 +149,7 @@ export default function HardwareExplodedView() {
             className="inline-flex items-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-4 py-1.5 text-xs font-mono font-bold uppercase tracking-wider text-[#059669] dark:text-[#10E599] shadow-sm mb-4"
           >
             <Sparkles className="w-3.5 h-3.5" />
-            <span>Physical Hardware Architecture &bull; Schematics</span>
+            <span>Industrial CAD Architecture &bull; Schematics View</span>
           </motion.div>
 
           <motion.h2
@@ -149,7 +159,7 @@ export default function HardwareExplodedView() {
             transition={{ delay: 0.1 }}
             className="text-4xl sm:text-5xl md:text-6xl font-black text-slate-900 dark:text-white tracking-tight leading-tight"
           >
-            3D Exploded <span className="gradient-text">Hardware Blueprint.</span>
+            3D Exploded <span className="gradient-text">Hardware Anatomy.</span>
           </motion.h2>
 
           <motion.p
@@ -157,210 +167,405 @@ export default function HardwareExplodedView() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.15 }}
-            className="mt-4 text-base sm:text-lg text-slate-600 dark:text-emerald-100/70 leading-relaxed"
+            className="mt-4 text-base sm:text-lg text-slate-700 dark:text-emerald-100/70 leading-relaxed"
           >
-            Scroll or drag the slider below to deconstruct NATLE&apos;s IP68 LoRaWAN Soil Probe into its physical aerospace components and inspect how silicon logic interacts with Hosma Ceylon organic root physics.
+            Drag the explosion slider to deconstruct the NATLE LoRaWAN sub-GHz telemetry probe into its precision physical components. Click any layer to inspect industrial specifications.
           </motion.p>
         </div>
 
-        {/* Main Stage Grid */}
+        {/* Master Stage Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
           
-          {/* ================= LEFT COLUMN: PHYSICAL 3D EXPLODED SVG PROBE ================= */}
-          <div className="lg:col-span-7 relative h-[620px] sm:h-[720px] rounded-3xl border border-slate-200/80 dark:border-emerald-500/30 bg-slate-950 p-6 shadow-2xl flex flex-col justify-between overflow-hidden">
+          {/* ================= LEFT 7 COLS: WORLD-CLASS SVG EXPLODED ASSEMBLY CANVAS ================= */}
+          <div className="lg:col-span-7 relative h-[680px] sm:h-[760px] rounded-3xl border border-slate-200/90 dark:border-emerald-500/30 bg-slate-950 p-4 sm:p-6 shadow-2xl flex flex-col justify-between overflow-hidden">
             
-            {/* Top HUD Telemetry */}
-            <div className="flex items-center justify-between z-20 text-xs font-mono">
+            {/* Top HUD Telemetry Bar */}
+            <div className="flex items-center justify-between z-30 text-xs font-mono">
               <div className="flex items-center gap-2 text-white">
                 <span className="w-2.5 h-2.5 rounded-full bg-[#10E599] animate-pulse" />
-                <span className="font-bold">NATLE-PROBE-V4 // EXPLODED SCHEMATICS</span>
+                <span className="font-bold tracking-wider">NATLE-PROBE // ISOMETRIC ANATOMY</span>
               </div>
-              <div className="px-3 py-1 rounded-full bg-white/10 text-[#10E599] font-bold border border-white/10">
-                Separation: {Math.round(explosionRatio * 100)}%
+              <div className="px-3 py-1 rounded-full bg-white/10 text-[#10E599] font-bold border border-white/15">
+                Separation: {Math.round(explosion * 100)}%
               </div>
             </div>
 
-            {/* Central 3D Exploded Physical Canvas */}
-            <div className="relative w-full h-full flex items-center justify-center">
+            {/* Central Pure SVG Vector Engineering Canvas */}
+            <div className="relative w-full h-full flex items-center justify-center my-2">
               
-              {/* Technical Blueprint Grid Lines */}
+              {/* Background Coordinate Grid */}
               <div 
                 className="absolute inset-0 opacity-15 pointer-events-none"
                 style={{
                   backgroundImage: "radial-gradient(#10E599 1px, transparent 1px)",
-                  backgroundSize: "28px 28px"
+                  backgroundSize: "32px 32px"
                 }}
               />
 
-              {/* Central Laser Alignment Line */}
-              <div className="absolute top-8 bottom-8 w-0.5 bg-gradient-to-b from-transparent via-[#10E599]/40 to-transparent pointer-events-none" />
+              {/* Central Laser Guide Rail */}
+              <div className="absolute top-6 bottom-6 w-[2px] bg-gradient-to-b from-transparent via-[#10E599]/30 to-transparent pointer-events-none" />
 
-              {/* LAYER 1: MONOCRYSTALLINE SOLAR MICRO-HARVESTER */}
-              <motion.div
-                animate={{ y: LAYERS[0].depthOffset * explosionRatio }}
-                transition={{ type: "spring", stiffness: 300, damping: 25 }}
-                onClick={() => handleLayerSelect(LAYERS[0])}
-                className="absolute z-50 cursor-pointer group flex flex-col items-center"
+              <svg 
+                viewBox="0 0 700 680" 
+                className="w-full h-full overflow-visible select-none"
               >
-                {/* Visual Graphic: Hex Solar Cell Cap */}
-                <div className={`relative w-44 sm:w-56 h-16 rounded-2xl border-2 transition-all duration-300 flex items-center justify-center p-3 shadow-xl backdrop-blur-md ${
-                  activeLayer.id === LAYERS[0].id
-                    ? "bg-amber-950/90 border-amber-400 shadow-[0_0_35px_rgba(245,158,11,0.5)] scale-105"
-                    : "bg-slate-900/90 border-amber-500/40 hover:border-amber-400"
-                }`}>
-                  {/* Solar Hex Texture */}
-                  <div className="absolute inset-2 border border-amber-400/30 rounded-xl flex items-center justify-center gap-1.5 overflow-hidden">
-                    <div className="w-8 h-8 rounded-lg bg-amber-500/20 border border-amber-500/40 rotate-45" />
-                    <div className="w-8 h-8 rounded-lg bg-amber-500/30 border border-amber-500/40 rotate-45" />
-                    <div className="w-8 h-8 rounded-lg bg-amber-500/20 border border-amber-500/40 rotate-45" />
-                  </div>
-                  <div className="relative z-10 flex items-center gap-2 text-white font-mono text-xs font-bold">
-                    <Sun className="w-4 h-4 text-amber-400 animate-spin-slow" />
-                    <span>01. Solar Cap</span>
-                  </div>
+                <defs>
+                  {/* Gradients for Physical Materials */}
+                  <linearGradient id="solarGlass" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stopColor="#1E293B" />
+                    <stop offset="50%" stopColor="#0F172A" />
+                    <stop offset="100%" stopColor="#020617" />
+                  </linearGradient>
+
+                  <linearGradient id="titaniumBezel" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" stopColor="#E2E8F0" />
+                    <stop offset="50%" stopColor="#94A3B8" />
+                    <stop offset="100%" stopColor="#475569" />
+                  </linearGradient>
+
+                  <linearGradient id="goldTraces" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stopColor="#F59E0B" />
+                    <stop offset="50%" stopColor="#FCD34D" />
+                    <stop offset="100%" stopColor="#F59E0B" />
+                  </linearGradient>
+
+                  <linearGradient id="steelProngs" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stopColor="#E2E8F0" />
+                    <stop offset="50%" stopColor="#F8FAFC" />
+                    <stop offset="100%" stopColor="#CBD5E1" />
+                  </linearGradient>
+
+                  <linearGradient id="cocopeatBlock" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" stopColor="#2D1810" />
+                    <stop offset="100%" stopColor="#150A05" />
+                  </linearGradient>
+                </defs>
+
+                {/* ------------------------------------------------------------- */}
+                {/* LAYER 1: MONOCRYSTALLINE SOLAR MICRO-HARVESTER               */}
+                {/* ------------------------------------------------------------- */}
+                {(() => {
+                  const l = HARDWARE_LAYERS[0];
+                  const y = l.assembledY + (l.explodedY - l.assembledY) * explosion;
+                  const isSelected = activeLayer.id === l.id;
+
+                  return (
+                    <g 
+                      onClick={() => handleSelect(l)}
+                      className="cursor-pointer group"
+                      style={{ transformOrigin: "350px 340px" }}
+                    >
+                      {/* Leader Line to Left Tag */}
+                      <path 
+                        d={`M 260 ${y} L 180 ${y}`} 
+                        stroke={isSelected ? "#F59E0B" : "rgba(245,158,11,0.4)"} 
+                        strokeWidth={isSelected ? "2" : "1"} 
+                        strokeDasharray={isSelected ? "none" : "3 3"}
+                      />
+                      <circle cx="260" cy={y} r="3" fill="#F59E0B" />
+
+                      {/* Physical Solar Disc Bezel */}
+                      <ellipse 
+                        cx="350" 
+                        cy={y} 
+                        rx={isSelected ? "90" : "85"} 
+                        ry={isSelected ? "32" : "30"} 
+                        fill="url(#titaniumBezel)" 
+                        stroke={isSelected ? "#F59E0B" : "#94A3B8"}
+                        strokeWidth={isSelected ? "2.5" : "1.5"}
+                        filter={isSelected ? "drop-shadow(0 0 20px rgba(245,158,11,0.6))" : "none"}
+                      />
+
+                      {/* Inner Solar Photovoltaic Grid */}
+                      <ellipse cx="350" cy={y} rx="76" ry="24" fill="url(#solarGlass)" />
+                      {/* Hex Solar Grid Wires */}
+                      <line x1="310" y1={y - 12} x2="390" y2={y - 12} stroke="#38BDF8" strokeWidth="0.8" opacity="0.6" />
+                      <line x1="290" y1={y} x2="410" y2={y} stroke="#38BDF8" strokeWidth="0.8" opacity="0.7" />
+                      <line x1="310" y1={y + 12} x2="390" y2={y + 12} stroke="#38BDF8" strokeWidth="0.8" opacity="0.6" />
+                      <line x1="330" y1={y - 20} x2="330" y2={y + 20} stroke="#38BDF8" strokeWidth="0.8" opacity="0.5" />
+                      <line x1="370" y1={y - 20} x2="370" y2={y + 20} stroke="#38BDF8" strokeWidth="0.8" opacity="0.5" />
+
+                      {/* Solar Center LED */}
+                      <circle cx="350" cy={y} r="3.5" fill="#F59E0B" className="animate-pulse" />
+                    </g>
+                  );
+                })()}
+
+                {/* ------------------------------------------------------------- */}
+                {/* LAYER 2: SILICON LOGIC CORE & LORAWAN ANTENNA                 */}
+                {/* ------------------------------------------------------------- */}
+                {(() => {
+                  const l = HARDWARE_LAYERS[1];
+                  const y = l.assembledY + (l.explodedY - l.assembledY) * explosion;
+                  const isSelected = activeLayer.id === l.id;
+
+                  return (
+                    <g 
+                      onClick={() => handleSelect(l)}
+                      className="cursor-pointer group"
+                    >
+                      {/* Leader Line to Right Tag */}
+                      <path 
+                        d={`M 445 ${y} L 520 ${y}`} 
+                        stroke={isSelected ? "#00D2FF" : "rgba(0,210,255,0.4)"} 
+                        strokeWidth={isSelected ? "2" : "1"} 
+                        strokeDasharray={isSelected ? "none" : "3 3"}
+                      />
+                      <circle cx="445" cy={y} r="3" fill="#00D2FF" />
+
+                      {/* Circular Green/Cyan PCB Motherboard */}
+                      <ellipse 
+                        cx="350" 
+                        cy={y} 
+                        rx={isSelected ? "95" : "90"} 
+                        ry={isSelected ? "34" : "32"} 
+                        fill="#064E3B" 
+                        stroke={isSelected ? "#00D2FF" : "#10E599"}
+                        strokeWidth={isSelected ? "2.5" : "1.5"}
+                        filter={isSelected ? "drop-shadow(0 0 25px rgba(0,210,255,0.7))" : "none"}
+                      />
+
+                      {/* Gold PCB Edge Pads */}
+                      <ellipse cx="350" cy={y} rx="84" ry="26" fill="none" stroke="url(#goldTraces)" strokeWidth="1.5" strokeDasharray="4 2" />
+
+                      {/* Central RISC-V MCU Processor Package */}
+                      <rect x="330" y={y - 12} width="40" height="24" rx="4" fill="#0F172A" stroke="#00D2FF" strokeWidth="1" />
+                      <text x="350" y={y + 3} textAnchor="middle" fill="#00D2FF" fontSize="8" fontWeight="bold" fontFamily="monospace">RISC-V</text>
+
+                      {/* Sub-GHz Helical Antenna Spire with Animated Waves */}
+                      <line x1="415" y1={y - 25} x2="415" y2={y + 5} stroke="#F59E0B" strokeWidth="2.5" strokeLinecap="round" />
+                      <circle cx="415" cy={y - 25} r="3" fill="#00D2FF" />
+                      {/* Wave Rings */}
+                      <ellipse cx="415" cy={y - 25} rx="12" ry="5" fill="none" stroke="#00D2FF" strokeWidth="0.8" opacity="0.7" className="animate-ping" />
+                    </g>
+                  );
+                })()}
+
+                {/* ------------------------------------------------------------- */}
+                {/* LAYER 3: IP68 WEATHERPROOF POLYCARBONATE CASING               */}
+                {/* ------------------------------------------------------------- */}
+                {(() => {
+                  const l = HARDWARE_LAYERS[2];
+                  const y = l.assembledY + (l.explodedY - l.assembledY) * explosion;
+                  const isSelected = activeLayer.id === l.id;
+
+                  return (
+                    <g 
+                      onClick={() => handleSelect(l)}
+                      className="cursor-pointer group"
+                    >
+                      {/* Leader Line to Left Tag */}
+                      <path 
+                        d={`M 265 ${y} L 180 ${y}`} 
+                        stroke={isSelected ? "#10E599" : "rgba(16,229,153,0.4)"} 
+                        strokeWidth={isSelected ? "2" : "1"} 
+                        strokeDasharray={isSelected ? "none" : "3 3"}
+                      />
+                      <circle cx="265" cy={y} r="3" fill="#10E599" />
+
+                      {/* Cylindrical Translucent Polycarbonate Housing */}
+                      <g filter={isSelected ? "drop-shadow(0 0 25px rgba(16,229,153,0.6))" : "none"}>
+                        {/* Top Rim */}
+                        <ellipse cx="350" cy={y - 25} rx="85" ry="24" fill="#0F172A" opacity="0.6" stroke="#10E599" strokeWidth="1" />
+                        
+                        {/* Cylinder Body */}
+                        <path 
+                          d={`M 265 ${y - 25} L 265 ${y + 25} A 85 24 0 0 0 435 ${y + 25} L 435 ${y - 25} Z`} 
+                          fill="rgba(6, 78, 59, 0.25)" 
+                          stroke={isSelected ? "#10E599" : "rgba(16,229,153,0.5)"} 
+                          strokeWidth={isSelected ? "2" : "1"}
+                        />
+
+                        {/* Dual Amber O-Rings */}
+                        <ellipse cx="350" cy={y - 12} rx="84" ry="22" fill="none" stroke="#F59E0B" strokeWidth="2.5" />
+                        <ellipse cx="350" cy={y + 12} rx="84" ry="22" fill="none" stroke="#F59E0B" strokeWidth="2.5" />
+
+                        {/* Laser-Etched Technical Spec */}
+                        <text x="350" y={y + 4} textAnchor="middle" fill="#10E599" fontSize="9" fontWeight="bold" fontFamily="monospace" letterSpacing="1.5">
+                          IP68 &bull; 15KM &bull; NATLE-AG
+                        </text>
+                      </g>
+                    </g>
+                  );
+                })()}
+
+                {/* ------------------------------------------------------------- */}
+                {/* LAYER 4: STAINLESS STEEL 316L MULTI-DEPTH BLADES              */}
+                {/* ------------------------------------------------------------- */}
+                {(() => {
+                  const l = HARDWARE_LAYERS[3];
+                  const y = l.assembledY + (l.explodedY - l.assembledY) * explosion;
+                  const isSelected = activeLayer.id === l.id;
+
+                  return (
+                    <g 
+                      onClick={() => handleSelect(l)}
+                      className="cursor-pointer group"
+                    >
+                      {/* Leader Line to Right Tag */}
+                      <path 
+                        d={`M 440 ${y} L 520 ${y}`} 
+                        stroke={isSelected ? "#3B82F6" : "rgba(59,130,246,0.4)"} 
+                        strokeWidth={isSelected ? "2" : "1"} 
+                        strokeDasharray={isSelected ? "none" : "3 3"}
+                      />
+                      <circle cx="440" cy={y} r="3" fill="#3B82F6" />
+
+                      {/* Base Mounting Flange */}
+                      <ellipse 
+                        cx="350" 
+                        cy={y - 20} 
+                        rx="80" 
+                        ry="22" 
+                        fill="#334155" 
+                        stroke={isSelected ? "#3B82F6" : "#64748B"} 
+                        strokeWidth="1.5" 
+                      />
+
+                      {/* 4 Polished Stainless Steel 316L Capacitance Blades */}
+                      <g filter={isSelected ? "drop-shadow(0 0 25px rgba(59,130,246,0.7))" : "none"}>
+                        {/* Blade 1 (Left - 10cm) */}
+                        <path d={`M 295 ${y - 15} L 295 ${y + 35} L 298 ${y + 45} L 301 ${y + 35} L 301 ${y - 15} Z`} fill="url(#steelProngs)" stroke="#94A3B8" strokeWidth="0.8" />
+                        <line x1="295" y1={y + 15} x2="301" y2={y + 15} stroke="#3B82F6" strokeWidth="1.5" />
+
+                        {/* Blade 2 (Center-Left - 30cm) */}
+                        <path d={`M 330 ${y - 15} L 330 ${y + 55} L 333 ${y + 68} L 336 ${y + 55} L 336 ${y - 15} Z`} fill="url(#steelProngs)" stroke="#94A3B8" strokeWidth="0.8" />
+                        <line x1="330" y1={y + 30} x2="336" y2={y + 30} stroke="#3B82F6" strokeWidth="1.5" />
+
+                        {/* Blade 3 (Center-Right - 60cm Deep Taproot) */}
+                        <path d={`M 365 ${y - 15} L 365 ${y + 75} L 368 ${y + 90} L 371 ${y + 75} L 371 ${y - 15} Z`} fill="url(#steelProngs)" stroke="#94A3B8" strokeWidth="0.8" />
+                        <line x1="365" y1={y + 50} x2="371" y2={y + 50} stroke="#3B82F6" strokeWidth="1.5" />
+
+                        {/* Blade 4 (Right - 10cm) */}
+                        <path d={`M 400 ${y - 15} L 400 ${y + 35} L 403 ${y + 45} L 406 ${y + 35} L 406 ${y - 15} Z`} fill="url(#steelProngs)" stroke="#94A3B8" strokeWidth="0.8" />
+                        <line x1="400" y1={y + 15} x2="406" y2={y + 15} stroke="#3B82F6" strokeWidth="1.5" />
+
+                        {/* Glowing Electric Capacitance Field Arcs between blades */}
+                        <path d={`M 301 ${y + 20} Q 315 ${y + 26} 330 ${y + 20}`} fill="none" stroke="#38BDF8" strokeWidth="1.2" strokeDasharray="2 2" className="animate-pulse" />
+                        <path d={`M 336 ${y + 35} Q 350 ${y + 42} 365 ${y + 35}`} fill="none" stroke="#38BDF8" strokeWidth="1.2" strokeDasharray="2 2" className="animate-pulse" />
+                      </g>
+                    </g>
+                  );
+                })()}
+
+                {/* ------------------------------------------------------------- */}
+                {/* LAYER 5: HOSMA CEYLON COCOPEAT & ROOT MATRIX                  */}
+                {/* ------------------------------------------------------------- */}
+                {(() => {
+                  const l = HARDWARE_LAYERS[4];
+                  const y = l.assembledY + (l.explodedY - l.assembledY) * explosion;
+                  const isSelected = activeLayer.id === l.id;
+
+                  return (
+                    <g 
+                      onClick={() => handleSelect(l)}
+                      className="cursor-pointer group"
+                    >
+                      {/* Leader Line to Left Tag */}
+                      <path 
+                        d={`M 245 ${y} L 180 ${y}`} 
+                        stroke={isSelected ? "#059669" : "rgba(5,150,105,0.4)"} 
+                        strokeWidth={isSelected ? "2" : "1"} 
+                        strokeDasharray={isSelected ? "none" : "3 3"}
+                      />
+                      <circle cx="245" cy={y} r="3" fill="#059669" />
+
+                      {/* Organic Substrate Soil Matrix Block */}
+                      <g filter={isSelected ? "drop-shadow(0 0 30px rgba(5,150,105,0.7))" : "none"}>
+                        {/* Substrate Isometric Slab */}
+                        <ellipse cx="350" cy={y - 15} rx="105" ry="32" fill="#382218" stroke={isSelected ? "#10E599" : "#6E473B"} strokeWidth={isSelected ? "2" : "1"} />
+                        
+                        <path 
+                          d={`M 245 ${y - 15} L 245 ${y + 28} A 105 32 0 0 0 455 ${y + 28} L 455 ${y - 15} Z`} 
+                          fill="url(#cocopeatBlock)" 
+                          stroke={isSelected ? "#10E599" : "#4A2E24"} 
+                          strokeWidth={isSelected ? "2" : "1"} 
+                        />
+
+                        {/* Golden Plant Root Tendrils Branching in Substrate */}
+                        <path d={`M 350 ${y - 10} Q 330 ${y + 10} 310 ${y + 22}`} fill="none" stroke="#FDE68A" strokeWidth="1.5" strokeLinecap="round" />
+                        <path d={`M 350 ${y - 10} Q 370 ${y + 8} 390 ${y + 24}`} fill="none" stroke="#FDE68A" strokeWidth="1.5" strokeLinecap="round" />
+                        <path d={`M 330 ${y + 10} Q 320 ${y + 18} 315 ${y + 26}`} fill="none" stroke="#FDE68A" strokeWidth="1" strokeLinecap="round" />
+
+                        {/* Glowing Blue Water Molecules (H2O Capillaries) */}
+                        <circle cx="310" cy={y + 5} r="3" fill="#00D2FF" className="animate-ping" />
+                        <circle cx="385" cy={y + 12} r="3" fill="#00D2FF" className="animate-ping" />
+                        <circle cx="350" cy={y + 18} r="3" fill="#00D2FF" />
+                      </g>
+                    </g>
+                  );
+                })()}
+
+              </svg>
+
+              {/* ================= FLOATING TECHNICAL CALLOUT CARDS (LEFT & RIGHT) ================= */}
+              {/* These cards sit at fixed positions on the canvas sides with leader lines, ZERO OVERLAPPING! */}
+              <div className="absolute inset-0 pointer-events-none flex justify-between p-2 sm:p-4">
+                
+                {/* Left Side Callout Stack */}
+                <div className="flex flex-col justify-around pointer-events-auto h-full py-4 max-w-[170px] sm:max-w-[210px]">
+                  {HARDWARE_LAYERS.filter(l => l.calloutSide === "left").map((layer) => {
+                    const isSelected = activeLayer.id === layer.id;
+
+                    return (
+                      <button
+                        key={layer.id}
+                        onClick={() => handleSelect(layer)}
+                        className={`p-2.5 sm:p-3 rounded-2xl border text-left transition-all duration-300 backdrop-blur-xl cursor-pointer ${
+                          isSelected
+                            ? "bg-slate-900/95 border-emerald-400 shadow-[0_0_25px_rgba(16,229,153,0.35)] scale-105"
+                            : "bg-slate-900/70 border-white/10 hover:border-white/30 text-slate-400 hover:text-white"
+                        }`}
+                      >
+                        <span 
+                          className="text-[9px] sm:text-[10px] font-mono font-bold uppercase tracking-wider block mb-0.5"
+                          style={{ color: layer.accentColor }}
+                        >
+                          {layer.badge}
+                        </span>
+                        <h4 className="text-xs sm:text-sm font-black text-white leading-tight">
+                          {layer.shortTitle}
+                        </h4>
+                      </button>
+                    );
+                  })}
                 </div>
-                {/* Pointer Tag */}
-                <span className="mt-1 text-[10px] font-mono font-bold text-amber-400 uppercase tracking-widest">
-                  Aerospace Solar Bezel
-                </span>
-              </motion.div>
 
+                {/* Right Side Callout Stack */}
+                <div className="flex flex-col justify-around pointer-events-auto h-full py-16 max-w-[170px] sm:max-w-[210px]">
+                  {HARDWARE_LAYERS.filter(l => l.calloutSide === "right").map((layer) => {
+                    const isSelected = activeLayer.id === layer.id;
 
-              {/* LAYER 2: SILICON LOGIC BOARD & LORAWAN ANTENNA */}
-              <motion.div
-                animate={{ y: LAYERS[1].depthOffset * explosionRatio }}
-                transition={{ type: "spring", stiffness: 300, damping: 25 }}
-                onClick={() => handleLayerSelect(LAYERS[1])}
-                className="absolute z-40 cursor-pointer group flex flex-col items-center"
-              >
-                {/* Visual Graphic: Emerald Circuit PCB */}
-                <div className={`relative w-52 sm:w-64 h-20 rounded-2xl border-2 transition-all duration-300 flex items-center justify-between px-5 shadow-xl backdrop-blur-md ${
-                  activeLayer.id === LAYERS[1].id
-                    ? "bg-slate-900/95 border-[#00D2FF] shadow-[0_0_40px_rgba(0,210,255,0.45)] scale-105"
-                    : "bg-slate-900/85 border-cyan-500/30 hover:border-cyan-400"
-                }`}>
-                  {/* Gold Circuit Traces & Microcontroller */}
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-lg bg-cyan-500/20 border border-cyan-400/50 flex items-center justify-center text-cyan-300 shadow-inner">
-                      <Cpu className="w-5 h-5" />
-                    </div>
-                    <div>
-                      <span className="text-[10px] font-mono text-cyan-400 block font-bold">STM32 / LoRa RF</span>
-                      <span className="text-xs font-bold text-white">Silicon Logic Core</span>
-                    </div>
-                  </div>
-
-                  {/* Helical LoRaWAN Antenna with Pulse Rings */}
-                  <div className="relative flex items-center justify-center">
-                    <span className="absolute w-7 h-7 rounded-full bg-cyan-400/20 animate-ping" />
-                    <Radio className="w-5 h-5 text-cyan-400 relative z-10" />
-                  </div>
+                    return (
+                      <button
+                        key={layer.id}
+                        onClick={() => handleSelect(layer)}
+                        className={`p-2.5 sm:p-3 rounded-2xl border text-left transition-all duration-300 backdrop-blur-xl cursor-pointer ${
+                          isSelected
+                            ? "bg-slate-900/95 border-cyan-400 shadow-[0_0_25px_rgba(0,210,255,0.35)] scale-105"
+                            : "bg-slate-900/70 border-white/10 hover:border-white/30 text-slate-400 hover:text-white"
+                        }`}
+                      >
+                        <span 
+                          className="text-[9px] sm:text-[10px] font-mono font-bold uppercase tracking-wider block mb-0.5"
+                          style={{ color: layer.accentColor }}
+                        >
+                          {layer.badge}
+                        </span>
+                        <h4 className="text-xs sm:text-sm font-black text-white leading-tight">
+                          {layer.shortTitle}
+                        </h4>
+                      </button>
+                    );
+                  })}
                 </div>
-                <span className="mt-1 text-[10px] font-mono font-bold text-cyan-400 uppercase tracking-widest">
-                  LoRaWAN 15km Sub-GHz
-                </span>
-              </motion.div>
 
-
-              {/* LAYER 3: IP68 WEATHERPROOF ENCLOSURE */}
-              <motion.div
-                animate={{ y: LAYERS[2].depthOffset * explosionRatio }}
-                transition={{ type: "spring", stiffness: 300, damping: 25 }}
-                onClick={() => handleLayerSelect(LAYERS[2])}
-                className="absolute z-30 cursor-pointer group flex flex-col items-center"
-              >
-                {/* Visual Graphic: Cylindrical Translucent Polycarbonate Housing */}
-                <div className={`relative w-48 sm:w-60 h-22 rounded-3xl border-2 transition-all duration-300 flex items-center justify-center p-3 shadow-xl backdrop-blur-md ${
-                  activeLayer.id === LAYERS[2].id
-                    ? "bg-slate-900/95 border-[#10E599] shadow-[0_0_35px_rgba(16,229,153,0.45)] scale-105"
-                    : "bg-slate-900/80 border-emerald-500/30 hover:border-emerald-400"
-                }`}>
-                  {/* Silicone O-Ring Bands */}
-                  <div className="absolute top-2 left-4 right-4 h-1 bg-amber-500/70 rounded-full" />
-                  <div className="absolute bottom-2 left-4 right-4 h-1 bg-amber-500/70 rounded-full" />
-                  
-                  <div className="flex items-center gap-2 text-white font-mono text-xs font-bold">
-                    <ShieldCheck className="w-5 h-5 text-[#10E599]" />
-                    <span>03. IP68 Hermetic Shell</span>
-                  </div>
-                </div>
-                <span className="mt-1 text-[10px] font-mono font-bold text-[#10E599] uppercase tracking-widest">
-                  Tractor &amp; Acid Proof
-                </span>
-              </motion.div>
-
-
-              {/* LAYER 4: STAINLESS STEEL MULTI-DEPTH BLADES */}
-              <motion.div
-                animate={{ y: LAYERS[3].depthOffset * explosionRatio }}
-                transition={{ type: "spring", stiffness: 300, damping: 25 }}
-                onClick={() => handleLayerSelect(LAYERS[3])}
-                className="absolute z-20 cursor-pointer group flex flex-col items-center"
-              >
-                {/* Visual Graphic: 4 Capacitance Stainless Steel Blades */}
-                <div className={`relative w-56 sm:w-72 h-20 rounded-2xl border-2 transition-all duration-300 flex items-center justify-around px-4 shadow-xl backdrop-blur-md ${
-                  activeLayer.id === LAYERS[3].id
-                    ? "bg-slate-900/95 border-blue-400 shadow-[0_0_35px_rgba(59,130,246,0.45)] scale-105"
-                    : "bg-slate-900/80 border-blue-500/30 hover:border-blue-400"
-                }`}>
-                  {/* 4 Blades with Depth Calibration Ticks */}
-                  <div className="flex flex-col items-center">
-                    <div className="w-2.5 h-12 bg-gradient-to-b from-slate-200 via-slate-400 to-slate-200 rounded-b-md shadow-md" />
-                    <span className="text-[9px] font-mono text-blue-300 font-bold mt-1">10cm</span>
-                  </div>
-                  <div className="flex flex-col items-center">
-                    <div className="w-2.5 h-14 bg-gradient-to-b from-slate-200 via-slate-400 to-slate-200 rounded-b-md shadow-md" />
-                    <span className="text-[9px] font-mono text-blue-300 font-bold mt-1">30cm</span>
-                  </div>
-                  <div className="flex flex-col items-center">
-                    <div className="w-2.5 h-16 bg-gradient-to-b from-slate-200 via-slate-400 to-slate-200 rounded-b-md shadow-md" />
-                    <span className="text-[9px] font-mono text-blue-300 font-bold mt-1">60cm</span>
-                  </div>
-                </div>
-                <span className="mt-1 text-[10px] font-mono font-bold text-blue-400 uppercase tracking-widest">
-                  Stainless 316L Moisture Probes
-                </span>
-              </motion.div>
-
-
-              {/* LAYER 5: UNDERGROUND HOSMA COCOPEAT & PLANT ROOTS */}
-              <motion.div
-                animate={{ y: LAYERS[4].depthOffset * explosionRatio }}
-                transition={{ type: "spring", stiffness: 300, damping: 25 }}
-                onClick={() => handleLayerSelect(LAYERS[4])}
-                className="absolute z-10 cursor-pointer group flex flex-col items-center"
-              >
-                {/* Visual Graphic: Organic Substrate Slab with Root Filaments & Water Drops */}
-                <div className={`relative w-64 sm:w-80 h-22 rounded-2xl border-2 transition-all duration-300 flex items-center justify-between px-6 shadow-2xl backdrop-blur-md ${
-                  activeLayer.id === LAYERS[4].id
-                    ? "bg-[#1b1008] border-[#059669] shadow-[0_0_40px_rgba(5,150,105,0.5)] scale-105"
-                    : "bg-[#140b05] border-emerald-900/60 hover:border-emerald-500/60"
-                }`}>
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-xl bg-emerald-500/20 text-[#10E599] flex items-center justify-center border border-emerald-500/30">
-                      <Leaf className="w-5 h-5" />
-                    </div>
-                    <div>
-                      <span className="text-[10px] font-mono text-emerald-400 font-bold block">100% Organic Ceylon Coir</span>
-                      <span className="text-xs font-bold text-white">Hosma Substrate Matrix</span>
-                    </div>
-                  </div>
-
-                  {/* Pulsing Water Molecule Drops (H2O) */}
-                  <div className="flex items-center gap-1.5">
-                    <Droplets className="w-4 h-4 text-cyan-400 animate-bounce" />
-                    <span className="text-[11px] font-mono font-bold text-cyan-300">850% H₂O</span>
-                  </div>
-                </div>
-                <span className="mt-1 text-[10px] font-mono font-bold text-[#10E599] uppercase tracking-widest">
-                  Micro-Capillary Root Zone
-                </span>
-              </motion.div>
+              </div>
 
             </div>
 
-            {/* Bottom HUD: Explosion Slider & Controls */}
-            <div className="z-20 bg-slate-900/95 backdrop-blur-md p-4 rounded-2xl border border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4">
+            {/* Bottom HUD: Explosion Slider & Stepper Controls */}
+            <div className="z-30 bg-slate-900/95 backdrop-blur-md p-3 sm:p-4 rounded-2xl border border-white/10 flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-4">
               <div className="flex items-center gap-2 text-xs font-mono text-slate-300">
                 <Sliders className="w-4 h-4 text-[#10E599]" />
                 <span>Explosion Distance:</span>
@@ -371,30 +576,30 @@ export default function HardwareExplodedView() {
                 min="0"
                 max="1"
                 step="0.01"
-                value={explosionRatio}
-                onChange={handleSlider}
-                className="w-full sm:w-64 h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-[#10E599]"
+                value={explosion}
+                onChange={handleSliderChange}
+                className="w-full sm:w-56 h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-[#10E599]"
               />
 
               <div className="flex items-center gap-2">
                 <button
                   onClick={() => {
-                    setExplosionRatio(0);
+                    setExplosion(0);
                     sound.playClick();
                   }}
                   className={`px-3 py-1.5 rounded-xl text-xs font-mono font-bold transition-all cursor-pointer ${
-                    explosionRatio === 0 ? "bg-white text-slate-950 shadow-md" : "bg-white/10 text-slate-300 hover:bg-white/20"
+                    explosion === 0 ? "bg-white text-slate-950 shadow-md" : "bg-white/10 text-slate-300 hover:bg-white/20"
                   }`}
                 >
                   Assembled (0%)
                 </button>
                 <button
                   onClick={() => {
-                    setExplosionRatio(1);
+                    setExplosion(1);
                     sound.playClick();
                   }}
                   className={`px-3 py-1.5 rounded-xl text-xs font-mono font-bold transition-all cursor-pointer ${
-                    explosionRatio === 1 ? "bg-[#10E599] text-slate-950 shadow-md" : "bg-white/10 text-slate-300 hover:bg-white/20"
+                    explosion === 1 ? "bg-[#10E599] text-slate-950 shadow-md" : "bg-white/10 text-slate-300 hover:bg-white/20"
                   }`}
                 >
                   Exploded (100%)
@@ -404,7 +609,7 @@ export default function HardwareExplodedView() {
 
           </div>
 
-          {/* ================= RIGHT COLUMN: INTERACTIVE COMPONENT SPEC SHEET ================= */}
+          {/* ================= RIGHT 5 COLS: COMPONENT SPEC SHEET INSPECTOR ================= */}
           <div className="lg:col-span-5">
             <AnimatePresence mode="wait">
               <motion.div
@@ -412,8 +617,8 @@ export default function HardwareExplodedView() {
                 initial={{ opacity: 0, x: 25 }}
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: -25 }}
-                transition={{ duration: 0.35 }}
-                className="glass-card rounded-3xl p-8 md:p-10 shadow-2xl border border-slate-200/80 dark:border-emerald-500/30 flex flex-col justify-between"
+                transition={{ duration: 0.3 }}
+                className="glass-card rounded-3xl p-8 md:p-10 shadow-2xl border border-slate-200/90 dark:border-emerald-500/30 flex flex-col justify-between"
               >
                 <div>
                   <div className="flex items-center justify-between mb-4">
@@ -424,7 +629,7 @@ export default function HardwareExplodedView() {
                       {activeLayer.badge}
                     </span>
                     <span className="text-xs font-mono text-slate-400">
-                      {activeLayer.category}
+                      CAD Component
                     </span>
                   </div>
 
@@ -432,21 +637,21 @@ export default function HardwareExplodedView() {
                     {activeLayer.name}
                   </h3>
 
-                  <p className="mt-4 text-sm text-slate-600 dark:text-emerald-100/75 leading-relaxed font-normal">
+                  <p className="mt-4 text-sm text-slate-700 dark:text-emerald-100/75 leading-relaxed font-normal">
                     {activeLayer.description}
                   </p>
 
                   <div className="mt-8 space-y-3">
                     <h4 className="text-xs font-mono font-bold uppercase tracking-wider text-slate-400 dark:text-emerald-300/60">
-                      Material &amp; Engineering Specifications
+                      Engineering &amp; Material Specifications
                     </h4>
                     
                     {activeLayer.specs.map((spec, i) => (
                       <div 
                         key={i} 
-                        className="p-3.5 rounded-2xl bg-slate-50 dark:bg-black/40 border border-slate-100 dark:border-emerald-900/30 flex items-center justify-between"
+                        className="p-3.5 rounded-2xl bg-slate-50 dark:bg-black/40 border border-slate-200/70 dark:border-emerald-900/30 flex items-center justify-between"
                       >
-                        <span className="text-xs text-slate-500 dark:text-emerald-300/70 font-medium">
+                        <span className="text-xs text-slate-600 dark:text-emerald-300/70 font-medium">
                           {spec.label}
                         </span>
                         <span className="text-xs font-mono font-bold text-slate-900 dark:text-[#10E599]">
@@ -457,9 +662,9 @@ export default function HardwareExplodedView() {
                   </div>
                 </div>
 
-                <div className="mt-10 pt-6 border-t border-slate-100 dark:border-emerald-900/30 flex items-center justify-between">
+                <div className="mt-10 pt-6 border-t border-slate-200/80 dark:border-emerald-900/30 flex items-center justify-between">
                   <span className="text-xs font-mono text-slate-400">
-                    Industrial Pilot Available
+                    Industrial Pilot Spec
                   </span>
                   
                   <a
