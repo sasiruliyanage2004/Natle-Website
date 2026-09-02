@@ -1,152 +1,150 @@
-// Pure Web Audio API Sound Synthesizer (Active by default, zero external files, zero latency)
+// Robust Web Audio API Sound Synthesizer with Clear Audibility & Auto-Context Handling
 
 class SoundEngine {
   private ctx: AudioContext | null = null;
-  private isMuted: boolean = false; // Active by default!
+  private isMuted: boolean = false;
 
-  constructor() {
-    if (typeof window !== "undefined") {
-      const unlockAudio = () => {
-        this.initContext();
-        window.removeEventListener("click", unlockAudio);
-        window.removeEventListener("touchstart", unlockAudio);
-        window.removeEventListener("keydown", unlockAudio);
-      };
-      window.addEventListener("click", unlockAudio, { passive: true });
-      window.addEventListener("touchstart", unlockAudio, { passive: true });
-      window.addEventListener("keydown", unlockAudio, { passive: true });
-    }
-  }
+  private getAudioContext(): AudioContext | null {
+    if (typeof window === "undefined") return null;
 
-  private initContext() {
-    if (!this.ctx && typeof window !== "undefined") {
+    if (!this.ctx) {
       const AudioCtx = window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
       if (AudioCtx) {
         this.ctx = new AudioCtx();
       }
     }
-    if (this.ctx && this.ctx.state === "suspended") {
-      this.ctx.resume();
-    }
-  }
 
-  public toggleMute(): boolean {
-    this.isMuted = !this.isMuted;
-    return !this.isMuted;
+    if (this.ctx && this.ctx.state === "suspended") {
+      this.ctx.resume().catch(() => {});
+    }
+
+    return this.ctx;
   }
 
   public getIsSoundEnabled(): boolean {
     return !this.isMuted;
   }
 
-  // Soft metallic/wooden mechanical click for buttons and interactions
+  // Crisp, satisfying, clearly audible mechanical click
   public playClick() {
     if (this.isMuted) return;
-    this.initContext();
-    if (!this.ctx) return;
+    const ctx = this.getAudioContext();
+    if (!ctx) return;
 
     try {
-      const now = this.ctx.currentTime;
-      const osc = this.ctx.createOscillator();
-      const gain = this.ctx.createGain();
+      const now = ctx.currentTime;
+      
+      // Dual oscillator for rich, crisp acoustic pop
+      const osc1 = ctx.createOscillator();
+      const osc2 = ctx.createOscillator();
+      const gain = ctx.createGain();
 
-      osc.type = "sine";
-      osc.frequency.setValueAtTime(580, now);
-      osc.frequency.exponentialRampToValueAtTime(160, now + 0.035);
+      osc1.type = "sine";
+      osc1.frequency.setValueAtTime(820, now);
+      osc1.frequency.exponentialRampToValueAtTime(140, now + 0.08);
 
-      gain.gain.setValueAtTime(0.09, now);
-      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.035);
+      osc2.type = "triangle";
+      osc2.frequency.setValueAtTime(1200, now);
+      osc2.frequency.exponentialRampToValueAtTime(300, now + 0.05);
 
-      osc.connect(gain);
-      gain.connect(this.ctx.destination);
+      // Audible gain level (35% volume)
+      gain.gain.setValueAtTime(0.35, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.09);
 
-      osc.start(now);
-      osc.stop(now + 0.035);
-    } catch {
-      // Audio autoplay policy fallback
-    }
-  }
+      osc1.connect(gain);
+      osc2.connect(gain);
+      gain.connect(ctx.destination);
 
-  // Microscopic high-frequency tick on hover
-  public playHover() {
-    if (this.isMuted) return;
-    this.initContext();
-    if (!this.ctx) return;
-
-    try {
-      const now = this.ctx.currentTime;
-      const osc = this.ctx.createOscillator();
-      const gain = this.ctx.createGain();
-
-      osc.type = "triangle";
-      osc.frequency.setValueAtTime(1400, now);
-
-      gain.gain.setValueAtTime(0.02, now);
-      gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.018);
-
-      osc.connect(gain);
-      gain.connect(this.ctx.destination);
-
-      osc.start(now);
-      osc.stop(now + 0.018);
+      osc1.start(now);
+      osc2.start(now);
+      osc1.stop(now + 0.09);
+      osc2.stop(now + 0.09);
     } catch {
       // Audio fallback
     }
   }
 
-  // Frequency slide sweep for sliders & Exploded View separation
-  public playSweep(pitchFactor: number = 0.5) {
+  // Soft high-frequency blip on hover or typing
+  public playHover() {
     if (this.isMuted) return;
-    this.initContext();
-    if (!this.ctx) return;
+    const ctx = this.getAudioContext();
+    if (!ctx) return;
 
     try {
-      const now = this.ctx.currentTime;
-      const osc = this.ctx.createOscillator();
-      const gain = this.ctx.createGain();
+      const now = ctx.currentTime;
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
 
-      const freq = 320 + pitchFactor * 750;
+      osc.type = "sine";
+      osc.frequency.setValueAtTime(1200, now);
+      osc.frequency.exponentialRampToValueAtTime(800, now + 0.04);
+
+      gain.gain.setValueAtTime(0.15, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.04);
+
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+
+      osc.start(now);
+      osc.stop(now + 0.04);
+    } catch {
+      // Audio fallback
+    }
+  }
+
+  // Smooth resonant frequency sweep for sliders
+  public playSweep(pitchFactor: number = 0.5) {
+    if (this.isMuted) return;
+    const ctx = this.getAudioContext();
+    if (!ctx) return;
+
+    try {
+      const now = ctx.currentTime;
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+
+      const freq = 400 + pitchFactor * 800; // 400Hz to 1200Hz
       osc.type = "sine";
       osc.frequency.setValueAtTime(freq, now);
 
-      gain.gain.setValueAtTime(0.035, now);
-      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.045);
+      gain.gain.setValueAtTime(0.28, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.12);
 
       osc.connect(gain);
-      gain.connect(this.ctx.destination);
+      gain.connect(ctx.destination);
 
       osc.start(now);
-      osc.stop(now + 0.045);
+      osc.stop(now + 0.12);
     } catch {
       // Audio fallback
     }
   }
 
-  // Harmonic chord chime for modal opens & calculations
+  // Crystal-clear 3-note harmonic chime (like Apple Keynote / iOS alert)
   public playChime() {
     if (this.isMuted) return;
-    this.initContext();
-    if (!this.ctx) return;
+    const ctx = this.getAudioContext();
+    if (!ctx) return;
 
     try {
-      const notes = [523.25, 659.25, 783.99, 1046.5]; // C5, E5, G5, C6 (Major triad)
-      notes.forEach((freq, idx) => {
-        if (!this.ctx) return;
-        const now = this.ctx.currentTime + idx * 0.035;
-        const osc = this.ctx.createOscillator();
-        const gain = this.ctx.createGain();
+      const frequencies = [523.25, 659.25, 783.99, 1046.5]; // C5, E5, G5, C6
+      frequencies.forEach((freq, index) => {
+        if (!ctx) return;
+        const now = ctx.currentTime + index * 0.07;
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
 
         osc.type = "sine";
         osc.frequency.setValueAtTime(freq, now);
 
-        gain.gain.setValueAtTime(0.05, now);
-        gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.32);
+        gain.gain.setValueAtTime(0.28, now);
+        gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.45);
 
         osc.connect(gain);
-        gain.connect(this.ctx.destination);
+        gain.connect(ctx.destination);
 
         osc.start(now);
-        osc.stop(now + 0.32);
+        osc.stop(now + 0.45);
       });
     } catch {
       // Audio fallback

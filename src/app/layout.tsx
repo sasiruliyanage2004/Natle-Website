@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter, Playfair_Display } from "next/font/google";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import NatleAIAssistant from "@/components/interactive/NatleAIAssistant";
+import GlobalSoundManager from "@/components/common/GlobalSoundManager";
 import "./globals.css";
 
 const inter = Inter({ 
@@ -30,6 +31,7 @@ export default function RootLayout({
     <html lang="en" className="light scroll-smooth" style={{ colorScheme: "light" }}>
       <body className={`${inter.variable} ${playfair.variable} font-sans bg-[#edf6f2] text-[#071326] antialiased`}>
         <ThemeProvider>
+          <GlobalSoundManager />
           {children}
           <NatleAIAssistant />
         </ThemeProvider>
