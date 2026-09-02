@@ -19,6 +19,11 @@ const playfair = Playfair_Display({
 export const metadata: Metadata = {
   title: "NATLE | Innovate • Build • Grow",
   description: "Empowering Agriculture with Next-Gen Intelligence & Software Solutions.",
+  icons: {
+    icon: [
+      { url: "/icon.svg", type: "image/svg+xml" },
+    ],
+  },
 };
 
 export default function RootLayout({
