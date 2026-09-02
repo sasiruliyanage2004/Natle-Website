@@ -7,6 +7,7 @@ import HosmaHeritage from "@/components/HosmaHeritage";
 import SubstrateConfigurator from "@/components/SubstrateConfigurator";
 import SubstrateROICalculator from "@/components/interactive/SubstrateROICalculator";
 import HardwareExplodedView from "@/components/interactive/HardwareExplodedView";
+import HorizontalEstateJourney from "@/components/interactive/HorizontalEstateJourney";
 import Features from "@/components/Features";
 import AgentaHowItWorks from "@/components/AgentaHowItWorks";
 import Solutions from "@/components/Solutions";
@@ -51,6 +52,7 @@ export default function Home() {
         <AgentaMarquee />
         <HosmaHeritage />
         <HardwareExplodedView />
+        <HorizontalEstateJourney />
         <SubstrateConfigurator />
         <SubstrateROICalculator />
         <Features />
