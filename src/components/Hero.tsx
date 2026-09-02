@@ -9,12 +9,10 @@ import {
   Cpu, 
   ShieldCheck, 
   Sparkles,
-  Radio, 
-  Search
+  Radio 
 } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
-import { Lens } from "@/components/magicui/lens";
 import { VideoText } from "@/components/magicui/video-text";
 import VideoDemoModal from "@/components/interactive/VideoDemoModal";
 
@@ -168,7 +166,7 @@ export default function Hero() {
         </motion.div>
 
 
-        {/* ================= 3D ARTWORK FUSION MASTERPIECE WITH MAGIC UI LENS ================= */}
+        {/* ================= 3D ARTWORK FUSION SHOWCASE ================= */}
         <motion.div
           initial={{ opacity: 0, y: 30, scale: 0.96 }}
           whileInView={{ opacity: 1, y: 0, scale: 1 }}
@@ -177,26 +175,15 @@ export default function Hero() {
           className="mt-14 relative w-full max-w-5xl overflow-hidden rounded-[2.5rem] border border-white/95 dark:border-emerald-900/40 bg-white/90 dark:bg-[#080d08] p-3 sm:p-4 shadow-2xl shadow-slate-900/10 dark:shadow-[0_20px_60px_-15px_rgba(0,0,0,0.8),0_0_40px_-10px_rgba(16,229,153,0.06)] backdrop-blur-2xl group"
         >
           <div className="relative aspect-[16/9] w-full overflow-hidden rounded-[2rem]">
-            {/* Interactive Magic UI Zoom Lens */}
-            <Lens zoomFactor={1.75} lensSize={160}>
-              <div className="relative aspect-[16/9] w-full">
-                <Image
-                  src="/images/natle-fusion-hero.jpg"
-                  alt="NATLE Software Engineering & Ceylon Smart Plantation Fusion"
-                  fill
-                  priority
-                  className="object-cover object-center"
-                />
-              </div>
-            </Lens>
+            <Image
+              src="/images/natle-fusion-hero.jpg"
+              alt="NATLE Software Engineering & Ceylon Smart Plantation Fusion"
+              fill
+              priority
+              className="object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105"
+            />
 
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent pointer-events-none" />
-
-            {/* Top Right Live Telemetry & Lens Hint */}
-            <div className="absolute top-4 right-4 z-20 flex items-center gap-2 rounded-full bg-black/85 border border-white/20 px-3.5 py-1.5 backdrop-blur-md text-white shadow-xl pointer-events-none">
-              <Search className="h-3 w-3 text-[#00D2FF]" />
-              <span className="text-[11px] font-mono font-bold text-[#10e599]">Interactive 2x Lens Zoom</span>
-            </div>
 
             {/* Floating Telemetry Badge: Bottom Left */}
             <div className="absolute bottom-4 left-4 z-20 flex items-center gap-3 rounded-2xl bg-white/95 dark:bg-[#0a140a]/95 border border-slate-200/90 dark:border-emerald-900/40 p-3.5 shadow-2xl backdrop-blur-md pointer-events-none">
