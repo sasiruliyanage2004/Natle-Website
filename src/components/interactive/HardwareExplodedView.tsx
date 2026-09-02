@@ -121,7 +121,6 @@ export default function HardwareExplodedView() {
   const handleSliderChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const val = Number(e.target.value);
     setExplosion(val);
-    sound.playSweep(val);
   };
 
   const handleSelect = (layer: LayerDetail) => {

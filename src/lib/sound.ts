@@ -1,4 +1,4 @@
-// Robust Web Audio API Sound Synthesizer with Clear Audibility & Auto-Context Handling
+// Ultra-Smooth, Warm Organic Sound Engine (Zero Beeps, High-End Tactile Acoustic Feel)
 
 class SoundEngine {
   private ctx: AudioContext | null = null;
@@ -25,7 +25,12 @@ class SoundEngine {
     return !this.isMuted;
   }
 
-  // Crisp, satisfying, clearly audible mechanical click
+  public toggleMute(): boolean {
+    this.isMuted = !this.isMuted;
+    return !this.isMuted;
+  }
+
+  // Silky-Smooth, Warm Organic Micro-Thump (Whisper-Quiet, Zero High-Pitched Beep)
   public playClick() {
     if (this.isMuted) return;
     const ctx = this.getAudioContext();
@@ -34,37 +39,36 @@ class SoundEngine {
     try {
       const now = ctx.currentTime;
       
-      // Dual oscillator for rich, crisp acoustic pop
-      const osc1 = ctx.createOscillator();
-      const osc2 = ctx.createOscillator();
+      // Warm low-frequency sine wave through a gentle acoustic low-pass filter
+      const osc = ctx.createOscillator();
+      const filter = ctx.createBiquadFilter();
       const gain = ctx.createGain();
 
-      osc1.type = "sine";
-      osc1.frequency.setValueAtTime(820, now);
-      osc1.frequency.exponentialRampToValueAtTime(140, now + 0.08);
+      osc.type = "sine";
+      // Gentle warm frequency (180Hz -> 80Hz), eliminating any electronic beep
+      osc.frequency.setValueAtTime(180, now);
+      osc.frequency.exponentialRampToValueAtTime(75, now + 0.04);
 
-      osc2.type = "triangle";
-      osc2.frequency.setValueAtTime(1200, now);
-      osc2.frequency.exponentialRampToValueAtTime(300, now + 0.05);
+      // Low-pass filter to eliminate any sharp digital click or beep
+      filter.type = "lowpass";
+      filter.frequency.setValueAtTime(320, now);
 
-      // Audible gain level (35% volume)
-      gain.gain.setValueAtTime(0.35, now);
-      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.09);
+      // Gentle, whisper-soft gain (0.07 volume)
+      gain.gain.setValueAtTime(0.07, now);
+      gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.045);
 
-      osc1.connect(gain);
-      osc2.connect(gain);
+      osc.connect(filter);
+      filter.connect(gain);
       gain.connect(ctx.destination);
 
-      osc1.start(now);
-      osc2.start(now);
-      osc1.stop(now + 0.09);
-      osc2.stop(now + 0.09);
+      osc.start(now);
+      osc.stop(now + 0.05);
     } catch {
-      // Audio fallback
+      // Safe audio fallback
     }
   }
 
-  // Soft high-frequency blip on hover or typing
+  // Ultra-gentle air breath for hover
   public playHover() {
     if (this.isMuted) return;
     const ctx = this.getAudioContext();
@@ -76,78 +80,57 @@ class SoundEngine {
       const gain = ctx.createGain();
 
       osc.type = "sine";
-      osc.frequency.setValueAtTime(1200, now);
-      osc.frequency.exponentialRampToValueAtTime(800, now + 0.04);
+      osc.frequency.setValueAtTime(240, now);
+      osc.frequency.exponentialRampToValueAtTime(160, now + 0.025);
 
-      gain.gain.setValueAtTime(0.15, now);
-      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.04);
-
-      osc.connect(gain);
-      gain.connect(ctx.destination);
-
-      osc.start(now);
-      osc.stop(now + 0.04);
-    } catch {
-      // Audio fallback
-    }
-  }
-
-  // Smooth resonant frequency sweep for sliders
-  public playSweep(pitchFactor: number = 0.5) {
-    if (this.isMuted) return;
-    const ctx = this.getAudioContext();
-    if (!ctx) return;
-
-    try {
-      const now = ctx.currentTime;
-      const osc = ctx.createOscillator();
-      const gain = ctx.createGain();
-
-      const freq = 400 + pitchFactor * 800; // 400Hz to 1200Hz
-      osc.type = "sine";
-      osc.frequency.setValueAtTime(freq, now);
-
-      gain.gain.setValueAtTime(0.28, now);
-      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.12);
+      gain.gain.setValueAtTime(0.02, now);
+      gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.025);
 
       osc.connect(gain);
       gain.connect(ctx.destination);
 
       osc.start(now);
-      osc.stop(now + 0.12);
+      osc.stop(now + 0.03);
     } catch {
-      // Audio fallback
+      // Safe fallback
     }
   }
 
-  // Crystal-clear 3-note harmonic chime (like Apple Keynote / iOS alert)
+  // Silent / Smooth Sweep (No screeching)
+  public playSweep(_pitchFactor: number = 0.5) {
+    // Kept silent to preserve a clean, peaceful slider experience
+  }
+
+  // Warm, Luxurious Harmonic Chord for AI completion
   public playChime() {
     if (this.isMuted) return;
     const ctx = this.getAudioContext();
     if (!ctx) return;
 
     try {
-      const frequencies = [523.25, 659.25, 783.99, 1046.5]; // C5, E5, G5, C6
-      frequencies.forEach((freq, index) => {
-        if (!ctx) return;
-        const now = ctx.currentTime + index * 0.07;
+      const now = ctx.currentTime;
+      // Warm, soothing acoustic frequencies (E major triad: E4, G#4, B4)
+      const notes = [329.63, 415.30, 493.88];
+
+      notes.forEach((freq, idx) => {
         const osc = ctx.createOscillator();
         const gain = ctx.createGain();
+        const noteStart = now + idx * 0.06;
 
         osc.type = "sine";
-        osc.frequency.setValueAtTime(freq, now);
+        osc.frequency.setValueAtTime(freq, noteStart);
 
-        gain.gain.setValueAtTime(0.28, now);
-        gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.45);
+        gain.gain.setValueAtTime(0.04, noteStart);
+        gain.gain.exponentialRampToValueAtTime(0.0001, noteStart + 0.4);
 
         osc.connect(gain);
         gain.connect(ctx.destination);
 
-        osc.start(now);
-        osc.stop(now + 0.45);
+        osc.start(noteStart);
+        osc.stop(noteStart + 0.45);
       });
     } catch {
-      // Audio fallback
+      // Safe fallback
     }
   }
 }

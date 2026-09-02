@@ -16,7 +16,6 @@ import {
   CheckCircle2,
   Layers
 } from "lucide-react";
-import { sound } from "@/lib/sound";
 
 interface JourneyStage {
   id: string;
@@ -150,7 +149,6 @@ export default function HorizontalEstateJourney() {
     const step = Math.min(STAGES.length - 1, Math.floor(latest * STAGES.length));
     if (step !== activeStepIndex) {
       setActiveStepIndex(step);
-      sound.playClick();
     }
   });
 
