@@ -175,13 +175,8 @@ export default function HardwareScrollytelling() {
     return () => window.removeEventListener("mousemove", handleMouseMove);
   }, [isMobile]);
 
-  // Three.js Scene Setup (Only when not mobile fallback)
+  // Three.js Scene Setup
   useEffect(() => {
-    if (isMobile) {
-      setIsLoaded(true);
-      return;
-    }
-
     const wrap = canvasWrapRef.current;
     if (!wrap) return;
 
@@ -429,17 +424,26 @@ export default function HardwareScrollytelling() {
       const lookY = catmullSample(CAM_STOPS, t, "lookY");
       const rotY = catmullSample(CAM_STOPS, t, "rotY");
 
-      camera.position.set(Math.sin(rotY) * 0.6, y, z);
-      camera.fov = fov;
+      const isPortrait = camera.aspect < 1;
+      const responsiveZ = isPortrait ? z * 1.35 : z;
+      const responsiveFov = isPortrait ? fov * 1.15 : fov;
+      const responsiveLookY = isPortrait ? lookY - 0.15 : lookY;
+
+      camera.position.set(Math.sin(rotY) * (isPortrait ? 0.35 : 0.6), y, responsiveZ);
+      camera.fov = responsiveFov;
       camera.updateProjectionMatrix();
-      camera.lookAt(0, lookY, 0);
+      camera.lookAt(0, responsiveLookY, 0);
 
-      // Smooth cursor parallax tilt
-      currentTiltX += (mouseTiltRef.current.targetX - currentTiltX) * 0.08;
-      currentTiltY += (mouseTiltRef.current.targetY - currentTiltY) * 0.08;
-
-      device.rotation.x = currentTiltX;
-      device.rotation.y = rotY * 0.6 + currentTiltY;
+      // Smooth cursor parallax tilt (desktop only)
+      if (!isPortrait) {
+        currentTiltX += (mouseTiltRef.current.targetX - currentTiltX) * 0.08;
+        currentTiltY += (mouseTiltRef.current.targetY - currentTiltY) * 0.08;
+        device.rotation.x = currentTiltX;
+        device.rotation.y = rotY * 0.6 + currentTiltY;
+      } else {
+        device.rotation.x = 0;
+        device.rotation.y = rotY * 0.6;
+      }
       soilGroup.rotation.y = rotY * 0.6;
     }
 
@@ -528,33 +532,13 @@ export default function HardwareScrollytelling() {
       {/* Pinned 100vh Sticky Viewport */}
       <div className="sticky top-0 h-screen w-full overflow-hidden">
         
-        {/* ================= 2. THREE.JS 3D CANVAS / MOBILE FALLBACK ================= */}
-        {isMobile ? (
-          /* Mobile / Low-Power High-End Static Fallback */
-          <div className="absolute inset-0 flex items-center justify-center z-10 p-6 pointer-events-none">
-            <motion.div 
-              animate={{ y: [0, -8, 0] }}
-              transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
-              className="relative w-64 h-80 max-w-full"
-            >
-              <Image
-                src="/images/probe-assembled.jpg"
-                alt="NATLE Soil Intelligence Probe"
-                fill
-                priority
-                className="object-contain drop-shadow-[0_20px_45px_rgba(0,0,0,0.25)] dark:drop-shadow-[0_25px_50px_rgba(0,0,0,0.8)]"
-              />
-            </motion.div>
-          </div>
-        ) : (
-          /* Desktop WebGL Canvas with Fade-in & Depth-of-Field Pulse */
-          <div 
-            ref={canvasWrapRef} 
-            className={`absolute inset-0 w-full h-full z-10 transition-all duration-1000 ${
-              isLoaded ? "opacity-100 blur-0" : "opacity-0 blur-sm"
-            }`} 
-          />
-        )}
+        {/* ================= 2. THREE.JS 3D CANVAS ================= */}
+        <div 
+          ref={canvasWrapRef} 
+          className={`absolute inset-0 w-full h-full z-10 transition-all duration-1000 ${
+            isLoaded ? "opacity-100 blur-0" : "opacity-0 blur-sm"
+          }`} 
+        />
 
         {/* Optical Depth-of-Field Blur Pulse Overlay on Stop Change */}
         <div 
@@ -565,8 +549,8 @@ export default function HardwareScrollytelling() {
           }`} 
         />
 
-        {/* ================= 3. THIN VERTICAL PROGRESS RAIL ================= */}
-        <div className="absolute right-4 sm:right-6 top-1/2 -translate-y-1/2 z-30 flex flex-col items-center pointer-events-auto">
+        {/* ================= 3. THIN VERTICAL PROGRESS RAIL (DESKTOP / TABLET ONLY) ================= */}
+        <div className="hidden sm:flex absolute right-4 sm:right-6 top-1/2 -translate-y-1/2 z-30 flex-col items-center pointer-events-auto">
           {/* Vertical Track Tube */}
           <div className="relative w-[2px] h-48 sm:h-56 bg-slate-200 dark:bg-white/10 rounded-full">
             {/* Active Emerald-Neon Fill */}
@@ -605,16 +589,16 @@ export default function HardwareScrollytelling() {
         </div>
 
         {/* ================= 4. TOP FLOATING BAR (NAVBAR CLEARANCE) ================= */}
-        <div className="absolute top-0 left-0 right-0 z-30 flex items-center justify-between px-6 sm:px-12 pt-24 sm:pt-28 pb-4 pointer-events-none">
-          <div className="flex items-center gap-2.5">
+        <div className="absolute top-0 left-0 right-0 z-30 flex items-center justify-between px-4 sm:px-12 pt-24 sm:pt-28 pb-4 pointer-events-none">
+          <div className="flex items-center gap-2">
             <span className="w-2 h-2 rounded-full bg-[#059669] dark:bg-[#10E599] animate-pulse" />
-            <span className="font-mono text-xs font-bold tracking-wider uppercase text-slate-900 dark:text-white">
-              TERRA.SENSE <span className="font-normal text-slate-500 dark:text-slate-400">&bull; NATLE TELEMETRY PROBE</span>
+            <span className="font-mono text-[11px] sm:text-xs font-bold tracking-wider uppercase text-slate-900 dark:text-white">
+              TERRA.SENSE <span className="font-normal text-slate-500 dark:text-slate-400 hidden sm:inline">&bull; NATLE TELEMETRY PROBE</span>
             </span>
           </div>
 
-          <div className="flex items-center gap-3 sm:gap-4 pr-6 sm:pr-8">
-            <span className="font-mono text-xs font-bold tracking-widest text-slate-500 dark:text-slate-400">
+          <div className="flex items-center gap-2.5 sm:gap-4">
+            <span className="font-mono text-[11px] sm:text-xs font-bold tracking-widest text-slate-500 dark:text-slate-400">
               0{activeStage} / 05
             </span>
 
@@ -622,31 +606,31 @@ export default function HardwareScrollytelling() {
             <MagneticElement>
               <button
                 onClick={toggleTheme}
-                className="pointer-events-auto w-9 h-9 rounded-full border border-slate-200/80 dark:border-emerald-500/20 bg-white/80 dark:bg-[#0A100C]/90 backdrop-blur-xl flex items-center justify-center text-[#059669] dark:text-[#10E599] shadow-sm hover:scale-105 active:scale-95 transition-all cursor-pointer focus-visible:ring-2 focus-visible:ring-[#059669] dark:focus-visible:ring-[#10E599] focus-visible:outline-none"
+                className="pointer-events-auto w-8 h-8 sm:w-9 sm:h-9 rounded-full border border-slate-200/80 dark:border-emerald-500/20 bg-white/80 dark:bg-[#0A100C]/90 backdrop-blur-xl flex items-center justify-center text-[#059669] dark:text-[#10E599] shadow-sm hover:scale-105 active:scale-95 transition-all cursor-pointer focus-visible:ring-2 focus-visible:ring-[#059669] dark:focus-visible:ring-[#10E599] focus-visible:outline-none"
                 aria-label="Toggle Theme"
                 title="Switch light/dark theme"
               >
-                {theme === "dark" ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+                {theme === "dark" ? <Sun className="w-3.5 h-3.5 sm:w-4 sm:h-4" /> : <Moon className="w-3.5 h-3.5 sm:w-4 sm:h-4" />}
               </button>
             </MagneticElement>
           </div>
         </div>
 
         {/* ================= 5. OVERLAY COPY STAGES ================= */}
-        <div className="relative z-20 w-full h-full max-w-7xl mx-auto flex items-center justify-between p-6 sm:p-12 pointer-events-none">
+        <div className="relative z-20 w-full h-full max-w-7xl mx-auto flex items-center justify-between p-4 sm:p-12 pointer-events-none">
           
           {/* STAGE 0: HERO */}
           <div 
-            className={`absolute top-[32%] sm:top-[34%] left-6 sm:left-14 max-w-sm transition-all duration-500 ${
+            className={`absolute top-[22%] sm:top-[34%] left-4 right-4 sm:right-auto sm:left-14 max-w-sm transition-all duration-500 bg-white/80 dark:bg-[#070e08]/90 backdrop-blur-xl sm:bg-transparent sm:dark:bg-transparent sm:backdrop-blur-none p-5 sm:p-0 rounded-3xl sm:rounded-none border border-slate-200/80 dark:border-emerald-500/20 sm:border-0 shadow-xl sm:shadow-none ${
               activeStage === 0 ? "opacity-100 translate-y-0 pointer-events-auto" : "opacity-0 translate-y-4 pointer-events-none"
             }`}
           >
-            <div className="inline-flex items-center gap-2 font-mono text-[10px] font-bold tracking-[0.2em] text-[#047857] dark:text-[#10E599] uppercase mb-2.5">
+            <div className="inline-flex items-center gap-2 font-mono text-[10px] font-bold tracking-[0.2em] text-[#047857] dark:text-[#10E599] uppercase mb-2">
               <span className="w-1.5 h-1.5 rounded-full bg-[#059669] dark:bg-[#10E599] animate-pulse" />
               <span>soil probe &bull; model 02</span>
             </div>
 
-            <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-[1.03] text-slate-900 dark:text-white mb-2">
+            <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-[1.05] text-slate-900 dark:text-white mb-2">
               Built from{" "}
               <em className="font-serif italic font-normal gradient-text not-italic">
                 what
@@ -655,16 +639,16 @@ export default function HardwareScrollytelling() {
               it&apos;s buried in.
             </h1>
 
-            <p className="text-xs sm:text-sm text-slate-600 dark:text-zinc-400 leading-relaxed font-normal mt-3.5 max-w-xs">
+            <p className="text-xs sm:text-sm text-slate-600 dark:text-zinc-400 leading-relaxed font-normal mt-2.5 max-w-xs">
               Every layer of the housing is chosen for a life spent underground &mdash; sealed against moisture, readable by light, tuned to the frequency of roots.
             </p>
 
             {/* Magnetic CTA Button with Visible Focus States */}
-            <div className="mt-6 pointer-events-auto inline-block">
+            <div className="mt-5 pointer-events-auto inline-block">
               <MagneticElement>
                 <Link
                   href="/contact"
-                  className="gradient-btn group inline-flex items-center gap-2.5 rounded-full px-6 py-3 text-xs font-bold uppercase tracking-wider text-[#021A12] shadow-md hover:scale-105 active:scale-95 transition-all focus-visible:ring-2 focus-visible:ring-[#059669] dark:focus-visible:ring-[#10E599] focus-visible:outline-none"
+                  className="gradient-btn group inline-flex items-center gap-2 rounded-full px-5 py-2.5 sm:px-6 sm:py-3 text-xs font-bold uppercase tracking-wider text-[#021A12] shadow-md hover:scale-105 active:scale-95 transition-all focus-visible:ring-2 focus-visible:ring-[#059669] dark:focus-visible:ring-[#10E599] focus-visible:outline-none"
                 >
                   <span>REQUEST DEMO</span>
                   <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1" />
@@ -672,22 +656,22 @@ export default function HardwareScrollytelling() {
               </MagneticElement>
             </div>
 
-            <div className="mt-8 flex items-center gap-2.5 font-mono text-[10.5px] tracking-[0.14em] text-slate-500 dark:text-slate-400 uppercase font-bold">
-              <div className="w-[1px] h-8 bg-gradient-to-b from-[#059669] dark:from-[#10E599] to-transparent opacity-50" />
+            <div className="mt-6 sm:mt-8 flex items-center gap-2.5 font-mono text-[10px] sm:text-[10.5px] tracking-[0.14em] text-slate-500 dark:text-slate-400 uppercase font-bold">
+              <div className="w-[1px] h-6 sm:h-8 bg-gradient-to-b from-[#059669] dark:from-[#10E599] to-transparent opacity-50" />
               <span>scroll to descend</span>
             </div>
           </div>
 
           {/* STAGE 1: CAP */}
           <div 
-            className={`absolute top-[18%] right-8 sm:right-16 max-w-xs text-right transition-all duration-500 ${
+            className={`absolute top-[20%] sm:top-[18%] left-4 right-4 sm:left-auto sm:right-16 max-w-xs text-left sm:text-right transition-all duration-500 bg-white/85 dark:bg-[#070e08]/90 backdrop-blur-xl sm:bg-transparent sm:dark:bg-transparent sm:backdrop-blur-none p-4 sm:p-0 rounded-2xl sm:rounded-none border border-slate-200/80 dark:border-emerald-500/20 sm:border-0 shadow-xl sm:shadow-none ${
               activeStage === 1 ? "opacity-100 translate-y-0 pointer-events-auto" : "opacity-0 translate-y-4 pointer-events-none"
             }`}
           >
-            <div className="inline-flex items-center gap-2 font-mono text-[10px] font-bold tracking-[0.2em] text-[#F59E0B] uppercase mb-2 flex-row-reverse">
+            <div className="inline-flex items-center gap-2 font-mono text-[10px] font-bold tracking-[0.2em] text-[#F59E0B] uppercase mb-1.5 sm:flex-row-reverse">
               <span>01 &mdash; cap</span>
             </div>
-            <h3 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white tracking-tight mb-2">
+            <h3 className="text-xl sm:text-3xl font-black text-slate-900 dark:text-white tracking-tight mb-1.5">
               solar.pv cell
             </h3>
             <p className="text-xs sm:text-sm text-slate-600 dark:text-zinc-400 leading-relaxed font-normal ml-auto">
@@ -697,14 +681,14 @@ export default function HardwareScrollytelling() {
 
           {/* STAGE 2: SHELL */}
           <div 
-            className={`absolute top-[32%] left-6 sm:left-14 max-w-xs transition-all duration-500 ${
+            className={`absolute top-[22%] sm:top-[32%] left-4 right-4 sm:right-auto sm:left-14 max-w-xs transition-all duration-500 bg-white/85 dark:bg-[#070e08]/90 backdrop-blur-xl sm:bg-transparent sm:dark:bg-transparent sm:backdrop-blur-none p-4 sm:p-0 rounded-2xl sm:rounded-none border border-slate-200/80 dark:border-emerald-500/20 sm:border-0 shadow-xl sm:shadow-none ${
               activeStage === 2 ? "opacity-100 translate-y-0 pointer-events-auto" : "opacity-0 translate-y-4 pointer-events-none"
             }`}
           >
-            <div className="inline-flex items-center gap-2 font-mono text-[10px] font-bold tracking-[0.2em] text-[#00D2FF] uppercase mb-2">
+            <div className="inline-flex items-center gap-2 font-mono text-[10px] font-bold tracking-[0.2em] text-[#00D2FF] uppercase mb-1.5">
               <span>02 &mdash; shell</span>
             </div>
-            <h3 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white tracking-tight mb-2">
+            <h3 className="text-xl sm:text-3xl font-black text-slate-900 dark:text-white tracking-tight mb-1.5">
               silicon.seal jacket
             </h3>
             <p className="text-xs sm:text-sm text-slate-600 dark:text-zinc-400 leading-relaxed font-normal">
@@ -714,14 +698,14 @@ export default function HardwareScrollytelling() {
 
           {/* STAGE 3: BODY */}
           <div 
-            className={`absolute top-[42%] right-8 sm:right-16 max-w-xs text-right transition-all duration-500 ${
+            className={`absolute top-[24%] sm:top-[42%] left-4 right-4 sm:left-auto sm:right-16 max-w-xs text-left sm:text-right transition-all duration-500 bg-white/85 dark:bg-[#070e08]/90 backdrop-blur-xl sm:bg-transparent sm:dark:bg-transparent sm:backdrop-blur-none p-4 sm:p-0 rounded-2xl sm:rounded-none border border-slate-200/80 dark:border-emerald-500/20 sm:border-0 shadow-xl sm:shadow-none ${
               activeStage === 3 ? "opacity-100 translate-y-0 pointer-events-auto" : "opacity-0 translate-y-4 pointer-events-none"
             }`}
           >
-            <div className="inline-flex items-center gap-2 font-mono text-[10px] font-bold tracking-[0.2em] text-[#3B82F6] uppercase mb-2 flex-row-reverse">
+            <div className="inline-flex items-center gap-2 font-mono text-[10px] font-bold tracking-[0.2em] text-[#3B82F6] uppercase mb-1.5 sm:flex-row-reverse">
               <span>03 &mdash; body</span>
             </div>
-            <h3 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white tracking-tight mb-2">
+            <h3 className="text-xl sm:text-3xl font-black text-slate-900 dark:text-white tracking-tight mb-1.5">
               polycarbonate tube
             </h3>
             <p className="text-xs sm:text-sm text-slate-600 dark:text-zinc-400 leading-relaxed font-normal ml-auto">
@@ -731,14 +715,14 @@ export default function HardwareScrollytelling() {
 
           {/* STAGE 4: COLLAR */}
           <div 
-            className={`absolute top-[40%] left-6 sm:left-14 max-w-xs transition-all duration-500 ${
+            className={`absolute top-[26%] sm:top-[40%] left-4 right-4 sm:right-auto sm:left-14 max-w-xs transition-all duration-500 bg-white/85 dark:bg-[#070e08]/90 backdrop-blur-xl sm:bg-transparent sm:dark:bg-transparent sm:backdrop-blur-none p-4 sm:p-0 rounded-2xl sm:rounded-none border border-slate-200/80 dark:border-emerald-500/20 sm:border-0 shadow-xl sm:shadow-none ${
               activeStage === 4 ? "opacity-100 translate-y-0 pointer-events-auto" : "opacity-0 translate-y-4 pointer-events-none"
             }`}
           >
-            <div className="inline-flex items-center gap-2 font-mono text-[10px] font-bold tracking-[0.2em] text-[#84CC16] uppercase mb-2">
+            <div className="inline-flex items-center gap-2 font-mono text-[10px] font-bold tracking-[0.2em] text-[#84CC16] uppercase mb-1.5">
               <span>04 &mdash; collar</span>
             </div>
-            <h3 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white tracking-tight mb-2">
+            <h3 className="text-xl sm:text-3xl font-black text-slate-900 dark:text-white tracking-tight mb-1.5">
               stainless.316 band
             </h3>
             <p className="text-xs sm:text-sm text-slate-600 dark:text-zinc-400 leading-relaxed font-normal">
@@ -748,23 +732,23 @@ export default function HardwareScrollytelling() {
 
           {/* STAGE 5: TIP & FINAL PANEL */}
           <div 
-            className={`absolute top-[28%] sm:top-[30%] right-6 sm:right-14 max-w-sm text-right transition-all duration-500 ${
+            className={`absolute top-[20%] sm:top-[30%] left-4 right-4 sm:left-auto sm:right-14 max-w-sm text-left sm:text-right transition-all duration-500 ${
               activeStage === 5 ? "opacity-100 translate-y-0 pointer-events-auto" : "opacity-0 translate-y-4 pointer-events-none"
             }`}
           >
-            <div className="inline-flex items-center gap-2 font-mono text-[10px] font-bold tracking-[0.2em] text-[#047857] dark:text-[#10E599] uppercase mb-2 flex-row-reverse">
+            <div className="inline-flex items-center gap-2 font-mono text-[10px] font-bold tracking-[0.2em] text-[#047857] dark:text-[#10E599] uppercase mb-1.5 sm:flex-row-reverse">
               <span>05 &mdash; tip</span>
             </div>
-            <h3 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white tracking-tight mb-2">
+            <h3 className="text-xl sm:text-3xl font-black text-slate-900 dark:text-white tracking-tight mb-1.5">
               hosma.ceramic prongs
             </h3>
-            <p className="text-xs sm:text-sm text-slate-600 dark:text-zinc-400 leading-relaxed font-normal ml-auto mb-5">
+            <p className="text-xs sm:text-sm text-slate-600 dark:text-zinc-400 leading-relaxed font-normal ml-auto mb-4">
               Twin ceramic prongs read moisture and conductivity a few centimetres down, where the roots actually drink.
             </p>
 
             {/* Glass Card Final Spec Panel */}
-            <div className="glass-card rounded-3xl p-5 sm:p-6 text-left shadow-2xl border border-slate-200/90 dark:border-emerald-500/20 backdrop-blur-2xl pointer-events-auto">
-              <div className="inline-flex items-center gap-2 font-mono text-[10px] font-bold tracking-[0.2em] text-[#047857] dark:text-[#10E599] uppercase mb-2">
+            <div className="glass-card rounded-2xl sm:rounded-3xl p-4 sm:p-6 text-left shadow-2xl border border-slate-200/90 dark:border-emerald-500/20 backdrop-blur-2xl pointer-events-auto">
+              <div className="inline-flex items-center gap-2 font-mono text-[10px] font-bold tracking-[0.2em] text-[#047857] dark:text-[#10E599] uppercase mb-1.5">
                 <span className="w-1.5 h-1.5 rounded-full bg-[#059669] dark:bg-[#10E599] animate-pulse" />
                 <span>field data</span>
               </div>
@@ -772,11 +756,11 @@ export default function HardwareScrollytelling() {
               <h4 className="text-base sm:text-lg font-black text-slate-900 dark:text-white mb-1">
                 Reads every 4 hours
               </h4>
-              <p className="text-xs text-slate-600 dark:text-zinc-400 leading-relaxed mb-4 font-normal">
+              <p className="text-xs text-slate-600 dark:text-zinc-400 leading-relaxed mb-3 sm:mb-4 font-normal">
                 Moisture, temperature and salinity, synced over LoRaWAN to the NATLE FieldOS network.
               </p>
 
-              <div className="space-y-2 pt-2 border-t border-slate-200/70 dark:border-white/10 font-mono text-xs">
+              <div className="space-y-1.5 sm:space-y-2 pt-2 border-t border-slate-200/70 dark:border-white/10 font-mono text-xs">
                 <div className="flex justify-between py-1 border-b border-slate-100 dark:border-white/5 text-slate-600 dark:text-zinc-400">
                   <span>battery life</span>
                   <b className="text-slate-900 dark:text-white font-bold">6 seasons</b>
@@ -792,9 +776,7 @@ export default function HardwareScrollytelling() {
               </div>
             </div>
           </div>
-
         </div>
-
       </div>
 
       {/* Anchor target for skip link */}
