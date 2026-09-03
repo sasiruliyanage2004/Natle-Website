@@ -96,7 +96,7 @@ export function BioluminescentField({
     <div
       aria-hidden="true"
       className={cn(
-        "absolute inset-0 w-full h-full pointer-events-none select-none overflow-hidden bg-[#050505] transition-colors duration-500",
+        "absolute inset-0 w-full h-full pointer-events-none select-none overflow-hidden bg-transparent transition-colors duration-500",
         className
       )}
     >

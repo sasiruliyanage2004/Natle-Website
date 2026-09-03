@@ -187,7 +187,9 @@ export default function HardwareScrollytelling() {
 
     // ---------- SCENE & CAMERA ----------
     const scene = new THREE.Scene();
-    scene.background = null;
+    const initialBg = isCurrentDark ? bgDark : bgLight;
+    scene.background = initialBg.clone();
+    scene.fog = new THREE.Fog(initialBg.getHex(), 12, 26);
 
     const camera = new THREE.PerspectiveCamera(
       32,
@@ -366,7 +368,9 @@ export default function HardwareScrollytelling() {
 
     // Theme Updater
     updateSceneThemeRef.current = (dark: boolean) => {
-      scene.background = null;
+      const targetBg = dark ? bgDark : bgLight;
+      scene.background = targetBg.clone();
+      scene.fog = new THREE.Fog(targetBg.getHex(), 12, 26);
       fill.intensity = dark ? 0.32 : 0.55;
       key.intensity = dark ? 1.7 : 2.4;
       ground.material.opacity = dark ? 0.25 : 0.12;
@@ -527,18 +531,18 @@ export default function HardwareScrollytelling() {
       </AnimatePresence>
 
       {/* Pinned 100vh Sticky Viewport */}
-      <div className="sticky top-0 h-screen w-full overflow-hidden bg-[#050505] dark:bg-[#050505]">
+      <div className="sticky top-0 h-screen w-full overflow-hidden bg-[#F8FAFC] dark:bg-[#050505] transition-colors duration-400">
         
-        {/* ================= 1. BIOLUMINESCENT FIELD LAYER ================= */}
-        <BioluminescentField className="z-0 dark:opacity-100 opacity-25" intensity="medium" />
-
-        {/* ================= 2. THREE.JS 3D CANVAS ================= */}
+        {/* ================= 1. THREE.JS 3D CANVAS ================= */}
         <div 
           ref={canvasWrapRef} 
           className={`absolute inset-0 w-full h-full z-10 transition-all duration-1000 ${
             isLoaded ? "opacity-100 blur-0" : "opacity-0 blur-sm"
           }`} 
         />
+
+        {/* ================= 2. BIOLUMINESCENT FIELD LAYER (DARK MODE ONLY) ================= */}
+        <BioluminescentField className="z-12 hidden dark:block pointer-events-none" intensity="medium" />
 
         {/* Optical Depth-of-Field Blur Pulse Overlay on Stop Change */}
         <div 
