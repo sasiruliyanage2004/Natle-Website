@@ -2,7 +2,9 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import * as THREE from "three";
-import { Sparkles, ChevronDown } from "lucide-react";
+import Link from "next/link";
+import { ArrowRight, Sun, Moon, ChevronDown } from "lucide-react";
+import { useTheme } from "@/components/ThemeProvider";
 
 interface CamStop {
   y: number;
@@ -13,12 +15,12 @@ interface CamStop {
 }
 
 const CAM_STOPS: CamStop[] = [
-  { y: 1.4,  z: 6.2, fov: 32, lookY: 1.2,  rotY: 0.35 },  // hero: whole device
-  { y: 3.0,  z: 2.6, fov: 26, lookY: 3.05, rotY: 0.55 },  // cap
-  { y: 2.0,  z: 2.0, fov: 24, lookY: 2.0,  rotY: 0.15 },  // seal / shell
-  { y: 1.1,  z: 1.8, fov: 22, lookY: 1.2,  rotY: -0.25 }, // pcb / tube
-  { y: -0.1, z: 1.9, fov: 22, lookY: -0.25,rotY: 0.3 },   // collar
-  { y: -1.9, z: 2.4, fov: 26, lookY: -2.3, rotY: -0.15 }, // tip / soil
+  { y: 1.4,  z: 6.2, fov: 32, lookY: 1.2,  rotY: 0.35 },  // Stage 0: Hero (whole device)
+  { y: 3.0,  z: 2.6, fov: 26, lookY: 3.05, rotY: 0.55 },  // Stage 1: Solar cap
+  { y: 2.0,  z: 2.0, fov: 24, lookY: 2.0,  rotY: 0.15 },  // Stage 2: Seal / shell
+  { y: 1.1,  z: 1.8, fov: 22, lookY: 1.2,  rotY: -0.25 }, // Stage 3: Polycarbonate tube & PCB
+  { y: -0.1, z: 1.9, fov: 22, lookY: -0.25,rotY: 0.3 },   // Stage 4: Stainless 316 collar
+  { y: -1.9, z: 2.4, fov: 26, lookY: -2.3, rotY: -0.15 }, // Stage 5: Ceramic prongs & cocopeat
 ];
 
 function catmullSample(stops: CamStop[], t: number, key: keyof CamStop): number {
@@ -26,28 +28,37 @@ function catmullSample(stops: CamStop[], t: number, key: keyof CamStop): number 
   const scaled = Math.max(0, Math.min(1, t)) * (n - 1);
   const i0 = Math.max(0, Math.min(n - 2, Math.floor(scaled)));
   const localT = scaled - i0;
-  const a = stops[i0][key];
-  const b = stops[i0 + 1][key];
-  return a + (b - a) * localT;
+  return stops[i0][key] + (stops[i0 + 1][key] - stops[i0][key]) * localT;
 }
 
 export default function HardwareScrollytelling() {
   const containerRef = useRef<HTMLDivElement>(null);
   const canvasWrapRef = useRef<HTMLDivElement>(null);
+  const { theme, toggleTheme } = useTheme();
   const [activeStage, setActiveStage] = useState<number>(0);
+
+  // References to update Three.js scene dynamically on theme changes
+  const updateSceneThemeRef = useRef<((isDark: boolean) => void) | null>(null);
+
+  useEffect(() => {
+    if (updateSceneThemeRef.current) {
+      updateSceneThemeRef.current(theme === "dark");
+    }
+  }, [theme]);
 
   useEffect(() => {
     const wrap = canvasWrapRef.current;
     if (!wrap) return;
 
-    // Detect dark mode
-    const isDark = document.documentElement.classList.contains("dark");
-    const bgColor = isDark ? 0x050505 : 0xf8fafc;
+    const isCurrentDark = theme === "dark";
+    const bgLight = new THREE.Color(0xF8FAFC);
+    const bgDark = new THREE.Color(0x050505);
 
     // ---------- SCENE & CAMERA ----------
     const scene = new THREE.Scene();
-    scene.background = new THREE.Color(bgColor);
-    scene.fog = new THREE.Fog(bgColor, 12, 26);
+    const initialBg = isCurrentDark ? bgDark : bgLight;
+    scene.background = initialBg.clone();
+    scene.fog = new THREE.Fog(initialBg.getHex(), 12, 26);
 
     const camera = new THREE.PerspectiveCamera(
       32,
@@ -63,8 +74,8 @@ export default function HardwareScrollytelling() {
     renderer.shadowMap.type = THREE.PCFSoftShadowMap;
     wrap.appendChild(renderer.domElement);
 
-    // ---------- LIGHTING ----------
-    const key = new THREE.DirectionalLight(0xffffff, isDark ? 3.0 : 2.4);
+    // ---------- LIGHTING (PER NATLE SPEC) ----------
+    const key = new THREE.DirectionalLight(0xffffff, isCurrentDark ? 1.7 : 2.4);
     key.position.set(4, 8, 5);
     key.castShadow = true;
     key.shadow.mapSize.set(1024, 1024);
@@ -72,40 +83,45 @@ export default function HardwareScrollytelling() {
     key.shadow.camera.top = 6; key.shadow.camera.bottom = -6;
     scene.add(key);
 
-    const rim = new THREE.DirectionalLight(0x9fd8c8, isDark ? 1.5 : 1.1);
+    const rim = new THREE.DirectionalLight(0x10E599, 1.1); // Neon Spring rim light
     rim.position.set(-5, 3, -4);
     scene.add(rim);
 
-    const fill = new THREE.AmbientLight(0xffffff, isDark ? 0.35 : 0.55);
+    const fill = new THREE.AmbientLight(0xffffff, isCurrentDark ? 0.32 : 0.55);
     scene.add(fill);
 
-    const groundLight = new THREE.PointLight(0xe8874a, 0.6, 8);
+    const groundLight = new THREE.PointLight(0x00D2FF, 0.6, 8); // Cyber Cyan ground glow
     groundLight.position.set(0, -3.5, 1.5);
     scene.add(groundLight);
 
-    // ---------- MATERIALS ----------
-    const metal = new THREE.MeshStandardMaterial({ color: 0xc9cdd1, metalness: 1, roughness: 0.28 });
-    const darkMetal = new THREE.MeshStandardMaterial({ color: 0x8b9096, metalness: 0.9, roughness: 0.35 });
-    const glass = new THREE.MeshPhysicalMaterial({
-      color: 0xdfe7e4, transparent: true, opacity: 0.28, roughness: 0.05,
+    const brandLight = new THREE.PointLight(0x059669, 0.5, 10); // Flora Emerald accent
+    brandLight.position.set(2.5, 2, 3);
+    scene.add(brandLight);
+
+    // ---------- MATERIALS (EXACT NATLE DESIGN SYSTEM TOKENS) ----------
+    const titaniumCap = new THREE.MeshStandardMaterial({ color: 0xC9CDD1, metalness: 1.0, roughness: 0.28 });
+    const darkMetal   = new THREE.MeshStandardMaterial({ color: 0x8B9096, metalness: 0.9,  roughness: 0.35 });
+    const polycarbonate = new THREE.MeshPhysicalMaterial({
+      color: 0xDFE7E4, transparent: true, opacity: 0.28, roughness: 0.05,
       transmission: 0.9, thickness: 0.4, metalness: 0
     });
-    const rubber = new THREE.MeshStandardMaterial({ color: 0xe8874a, roughness: 0.6, metalness: 0.05 });
-    const pcbGreen = new THREE.MeshStandardMaterial({ color: 0x2f5d46, roughness: 0.6, metalness: 0.2 });
-    const chipDark = new THREE.MeshStandardMaterial({ color: 0x14140f, roughness: 0.5 });
-    const ceramic = new THREE.MeshStandardMaterial({ color: 0xe9e6df, roughness: 0.35, metalness: 0.1 });
-    const ledOrange = new THREE.MeshStandardMaterial({ color: 0xff9c4a, emissive: 0xff8a3d, emissiveIntensity: 1.4, roughness: 0.3 });
-    const markerMat = new THREE.MeshStandardMaterial({ color: 0xffffff, emissive: 0x333333, roughness: 0.2, metalness: 0.4 });
-    const soilMat = new THREE.MeshStandardMaterial({ color: 0x3a2c22, roughness: 1, metalness: 0 });
-    const soilMatDark = new THREE.MeshStandardMaterial({ color: 0x241a14, roughness: 1 });
+    const oring       = new THREE.MeshStandardMaterial({ color: 0xE8874A, roughness: 0.6, metalness: 0.05 });
+    const siliconPcb   = new THREE.MeshStandardMaterial({ color: 0x2F5D46, roughness: 0.6, metalness: 0.2 });
+    const chipDark     = new THREE.MeshStandardMaterial({ color: 0x14140F, roughness: 0.5 });
+    const ceramic      = new THREE.MeshStandardMaterial({ color: 0xE9E6DF, roughness: 0.35, metalness: 0.1 });
+    const stainless    = new THREE.MeshStandardMaterial({ color: 0xE2E8F0, metalness: 0.95, roughness: 0.2 });
+    const ledSpring    = new THREE.MeshStandardMaterial({ color: 0x10E599, emissive: 0x10E599, emissiveIntensity: 1.4, roughness: 0.3 });
+    const markerMat    = new THREE.MeshStandardMaterial({ color: 0xFFFFFF, emissive: 0x333333, roughness: 0.2, metalness: 0.4 });
+    const cocopeat     = new THREE.MeshStandardMaterial({ color: 0x3A2C22, roughness: 1.0, metalness: 0 });
+    const cocopeatDark = new THREE.MeshStandardMaterial({ color: 0x241A14, roughness: 1.0 });
 
     // ---------- DEVICE 3D GROUP ----------
     const device = new THREE.Group();
     scene.add(device);
 
-    // Top Cap
-    const cap = new THREE.Mesh(new THREE.CylinderGeometry(0.34, 0.34, 0.55, 32), metal);
-    cap.position.y = 3.05;
+    // Titanium Cap
+    const cap = new THREE.Mesh(new THREE.CylinderGeometry(0.34, 0.34, 0.55, 32), titaniumCap);
+    cap.position.y = 3.05; 
     cap.castShadow = true;
     device.add(cap);
 
@@ -113,44 +129,45 @@ export default function HardwareScrollytelling() {
     capRidge.position.y = 2.79;
     device.add(capRidge);
 
-    // LED on top
-    const led = new THREE.Mesh(new THREE.SphereGeometry(0.09, 24, 24), ledOrange);
+    // Top Solar LED
+    const led = new THREE.Mesh(new THREE.SphereGeometry(0.09, 24, 24), ledSpring);
     led.position.y = 3.34;
     device.add(led);
 
     const ledRing = new THREE.Mesh(new THREE.TorusGeometry(0.12, 0.015, 12, 32), darkMetal);
-    ledRing.rotation.x = Math.PI / 2;
+    ledRing.rotation.x = Math.PI / 2; 
     ledRing.position.y = 3.33;
     device.add(ledRing);
 
-    // Top rubber ring
-    const ringTop = new THREE.Mesh(new THREE.TorusGeometry(0.335, 0.045, 16, 40), rubber);
-    ringTop.rotation.x = Math.PI / 2;
+    // Top Fluoroelastomer O-Ring
+    const ringTop = new THREE.Mesh(new THREE.TorusGeometry(0.335, 0.045, 16, 40), oring);
+    ringTop.rotation.x = Math.PI / 2; 
     ringTop.position.y = 2.68;
     device.add(ringTop);
 
-    // Glass tube body
-    const tube = new THREE.Mesh(new THREE.CylinderGeometry(0.3, 0.3, 2.2, 32, 1, true), glass);
+    // Optical Polycarbonate Body
+    const tube = new THREE.Mesh(new THREE.CylinderGeometry(0.3, 0.3, 2.2, 32, 1, true), polycarbonate);
     tube.position.y = 1.5;
     device.add(tube);
 
-    // PCB inside
-    const pcb = new THREE.Mesh(new THREE.BoxGeometry(0.12, 1.9, 0.4), pcbGreen);
+    // Silicon PCB Board Inside
+    const pcb = new THREE.Mesh(new THREE.BoxGeometry(0.12, 1.9, 0.4), siliconPcb);
     pcb.position.y = 1.5;
     device.add(pcb);
 
+    // Dual-Core RISC-V Logic Package
     const chip = new THREE.Mesh(new THREE.BoxGeometry(0.14, 0.22, 0.22), chipDark);
     chip.position.set(0.03, 1.75, 0);
     device.add(chip);
 
-    // Small SMD components on PCB
+    // SMD Micro-Components
     for (let i = 0; i < 7; i++) {
       const dot = new THREE.Mesh(new THREE.SphereGeometry(0.025, 8, 8), darkMetal);
       dot.position.set(0.08, 0.7 + i * 0.22, (i % 2 === 0 ? 0.12 : -0.12));
       device.add(dot);
     }
 
-    // White contact markers (telemetry nodes)
+    // Contact Telemetry Markers
     const markerPositions = [3.34, 2.05, 1.15, 0.35, -2.3];
     markerPositions.forEach((y) => {
       const m = new THREE.Mesh(new THREE.SphereGeometry(0.045, 16, 16), markerMat);
@@ -158,15 +175,15 @@ export default function HardwareScrollytelling() {
       device.add(m);
     });
 
-    // Bottom rubber ring
-    const ringBottom = new THREE.Mesh(new THREE.TorusGeometry(0.3, 0.045, 16, 40), rubber);
-    ringBottom.rotation.x = Math.PI / 2;
+    // Lower O-Ring
+    const ringBottom = new THREE.Mesh(new THREE.TorusGeometry(0.3, 0.045, 16, 40), oring);
+    ringBottom.rotation.x = Math.PI / 2; 
     ringBottom.position.y = 0.34;
     device.add(ringBottom);
 
-    // Lower metal collar
-    const collar = new THREE.Mesh(new THREE.CylinderGeometry(0.27, 0.24, 0.9, 32), metal);
-    collar.position.y = -0.25;
+    // Stainless Steel 316 Collar
+    const collar = new THREE.Mesh(new THREE.CylinderGeometry(0.27, 0.24, 0.9, 32), stainless);
+    collar.position.y = -0.25; 
     collar.castShadow = true;
     device.add(collar);
 
@@ -174,18 +191,16 @@ export default function HardwareScrollytelling() {
     collarRidge.position.y = -0.7;
     device.add(collarRidge);
 
-    // Ceramic prong tip (two prongs)
+    // Ceramic Moisture Prongs
     function makeProng(xOff: number) {
       const prong = new THREE.Mesh(new THREE.ConeGeometry(0.07, 1.05, 16), ceramic);
       prong.position.set(xOff, -1.35, 0);
       prong.castShadow = true;
       return prong;
     }
-    const prongL = makeProng(-0.09);
-    const prongR = makeProng(0.09);
-    device.add(prongL, prongR);
+    device.add(makeProng(-0.09), makeProng(0.09));
 
-    // ---------- SOIL BLOCK ----------
+    // ---------- COCOPEAT SUBSTRATE BLOCK ----------
     const soilGroup = new THREE.Group();
     scene.add(soilGroup);
 
@@ -200,18 +215,18 @@ export default function HardwareScrollytelling() {
     }
     soilGeo.computeVertexNormals();
 
-    const soilBlock = new THREE.Mesh(soilGeo, soilMat);
+    const soilBlock = new THREE.Mesh(soilGeo, cocopeat);
     soilBlock.position.y = -2.9;
-    soilBlock.receiveShadow = true;
+    soilBlock.receiveShadow = true; 
     soilBlock.castShadow = true;
     soilGroup.add(soilBlock);
 
-    // Soil crumbs
+    // Organic Soil Crumbs
     for (let i = 0; i < 26; i++) {
       const s = 0.03 + Math.random() * 0.07;
       const crumb = new THREE.Mesh(
         new THREE.DodecahedronGeometry(s, 0),
-        Math.random() > 0.5 ? soilMat : soilMatDark
+        Math.random() > 0.5 ? cocopeat : cocopeatDark
       );
       const ang = Math.random() * Math.PI * 2;
       const r = 0.9 + Math.random() * 0.5;
@@ -221,19 +236,27 @@ export default function HardwareScrollytelling() {
       soilGroup.add(crumb);
     }
 
-    // Ground plane shadow catcher
+    // Ground Plane Shadow Catcher
     const ground = new THREE.Mesh(
       new THREE.PlaneGeometry(40, 40),
-      new THREE.ShadowMaterial({ opacity: isDark ? 0.3 : 0.12 })
+      new THREE.ShadowMaterial({ opacity: isCurrentDark ? 0.25 : 0.12 })
     );
     ground.rotation.x = -Math.PI / 2;
     ground.position.y = -4.2;
     ground.receiveShadow = true;
     scene.add(ground);
 
+    // Dynamic Theme Updater
+    updateSceneThemeRef.current = (dark: boolean) => {
+      const targetBg = dark ? bgDark : bgLight;
+      scene.background = targetBg.clone();
+      scene.fog = new THREE.Fog(targetBg.getHex(), 12, 26);
+      fill.intensity = dark ? 0.32 : 0.55;
+      key.intensity = dark ? 1.7 : 2.4;
+      ground.material.opacity = dark ? 0.25 : 0.12;
+    };
 
-
-    // ---------- CAMERA & ANIMATION LOOP ----------
+    // ---------- SCROLL & ANIMATION LOOP ----------
     let scrollProgress = 0;
     let targetProgress = 0;
     let animId: number;
@@ -245,7 +268,7 @@ export default function HardwareScrollytelling() {
       const totalScroll = container.scrollHeight - window.innerHeight;
       const current = -rect.top;
       targetProgress = Math.max(0, Math.min(1, current / totalScroll));
-      
+
       const stage = Math.min(5, Math.floor(targetProgress * 6));
       setActiveStage(stage);
     };
@@ -301,63 +324,96 @@ export default function HardwareScrollytelling() {
     <section
       ref={containerRef}
       id="hardware-scrollytelling"
-      className="relative h-[600vh] bg-[#F8FAFC] dark:bg-[#050505] text-[#14140F] dark:text-white transition-colors duration-300"
+      className="relative h-[600vh] bg-[#F8FAFC] dark:bg-[#050505] text-[#09131F] dark:text-white transition-colors duration-400 select-none font-sans"
     >
-      {/* Pinned 100vh Sticky Canvas Viewport */}
+      {/* Pinned 100vh Sticky Viewport */}
       <div className="sticky top-0 h-screen w-full overflow-hidden">
         
         {/* Three.js 3D WebGL Canvas */}
         <div ref={canvasWrapRef} className="absolute inset-0 w-full h-full z-10" />
 
-        {/* Top Minimal Telemetry Bar */}
-        <div className="absolute top-0 left-0 right-0 z-30 flex items-center justify-between p-6 sm:px-12 pointer-events-none">
+        {/* Top Floating Bar */}
+        <div className="absolute top-0 left-0 right-0 z-30 flex items-center justify-between px-6 sm:px-12 pt-7 pb-4 pointer-events-none">
           <div className="flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-[#3aa383] animate-pulse" />
-            <span className="font-mono text-xs tracking-wider uppercase opacity-80">
-              terra.sense &bull; natle telemetry probe
+            <span className="w-2 h-2 rounded-full bg-[#059669] dark:bg-[#10E599] animate-pulse" />
+            <span className="font-mono text-xs font-bold tracking-wider uppercase text-slate-900 dark:text-white">
+              TERRA.SENSE <span className="font-normal text-slate-400 dark:text-slate-500">&bull; NATLE TELEMETRY PROBE</span>
             </span>
           </div>
-          <div className="font-mono text-xs tracking-widest opacity-80">
-            0{activeStage} / 05
+
+          <div className="flex items-center gap-4">
+            <span className="font-mono text-xs font-bold tracking-widest text-slate-400 dark:text-slate-500">
+              0{activeStage} / 05
+            </span>
+
+            {/* Global Theme Toggle Button */}
+            <button
+              onClick={toggleTheme}
+              className="pointer-events-auto w-9 h-9 rounded-full border border-slate-200/80 dark:border-emerald-500/20 bg-white/80 dark:bg-[#0A100C]/90 backdrop-blur-xl flex items-center justify-center text-[#059669] dark:text-[#10E599] shadow-sm hover:scale-105 active:scale-95 transition-all cursor-pointer"
+              aria-label="Toggle Theme"
+              title="Switch light/dark theme"
+            >
+              {theme === "dark" ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+            </button>
           </div>
         </div>
 
-        {/* Overlay Copy Stages (Fade in based on activeStage) */}
+        {/* Overlay Copy Stages (Fade in with Stage Progress) */}
         <div className="relative z-20 w-full h-full max-w-7xl mx-auto flex items-center justify-between p-6 sm:p-12 pointer-events-none">
           
           {/* STAGE 0: HERO (Whole Device) */}
           <div 
-            className={`absolute top-[35%] left-6 sm:left-14 max-w-sm transition-all duration-500 ${
+            className={`absolute top-[34%] left-6 sm:left-14 max-w-sm transition-all duration-500 ${
               activeStage === 0 ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4 pointer-events-none"
             }`}
           >
-            <span className="text-xs font-mono text-[#3aa383] tracking-widest uppercase block mb-3">
-              Soil Probe &bull; Model 02
-            </span>
-            <h2 className="text-3xl sm:text-5xl font-black tracking-tight leading-tight mb-4">
-              Built from what <br />
-              <span className="text-[#3aa383]">it&apos;s buried in.</span>
-            </h2>
-            <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
-              Every layer of the housing is chosen for a life spent underground — sealed against moisture, readable by light, tuned to the frequency of roots.
+            <div className="inline-flex items-center gap-2 font-mono text-[10px] font-bold tracking-[0.2em] text-[#059669] dark:text-[#10E599] uppercase mb-2.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#059669] dark:bg-[#10E599]" />
+              <span>soil probe &bull; model 02</span>
+            </div>
+
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-[1.03] text-slate-900 dark:text-white mb-2">
+              Built from{" "}
+              <em className="font-serif italic font-normal gradient-text not-italic">
+                what
+              </em>
+              <br />
+              it&apos;s buried in.
+            </h1>
+
+            <p className="text-xs sm:text-sm text-slate-600 dark:text-zinc-400 leading-relaxed font-normal mt-3.5 max-w-xs">
+              Every layer of the housing is chosen for a life spent underground &mdash; sealed against moisture, readable by light, tuned to the frequency of roots.
             </p>
-            <div className="mt-8 flex items-center gap-3 text-xs font-mono text-slate-400">
-              <ChevronDown className="w-4 h-4 text-[#3aa383] animate-bounce" />
-              <span>Scroll to descend</span>
+
+            <div className="mt-6 pointer-events-auto">
+              <Link
+                href="/contact"
+                className="gradient-btn inline-flex items-center gap-2 rounded-full px-6 py-3 text-xs font-bold uppercase tracking-wider text-[#021A12] shadow-md hover:scale-105 active:scale-95 transition-all"
+              >
+                <span>REQUEST DEMO</span>
+                <ArrowRight className="w-3.5 h-3.5" />
+              </Link>
+            </div>
+
+            <div className="mt-8 flex items-center gap-2.5 font-mono text-[10.5px] tracking-[0.14em] text-slate-400 dark:text-slate-500 uppercase font-bold">
+              <div className="w-[1px] h-8 bg-gradient-to-b from-[#059669] dark:from-[#10E599] to-transparent opacity-50" />
+              <span>scroll to descend</span>
             </div>
           </div>
 
           {/* STAGE 1: CAP (Solar PV Cell) */}
           <div 
-            className={`absolute top-[20%] right-6 sm:right-14 max-w-xs text-right transition-all duration-500 ${
+            className={`absolute top-[18%] right-6 sm:right-14 max-w-xs text-right transition-all duration-500 ${
               activeStage === 1 ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4 pointer-events-none"
             }`}
           >
-            <span className="text-xs font-mono text-[#e8874a] tracking-widest uppercase block mb-2">
-              01 &mdash; Cap
-            </span>
-            <h3 className="text-2xl sm:text-3xl font-black mb-2">solar.pv cell</h3>
-            <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 leading-relaxed ml-auto">
+            <div className="inline-flex items-center gap-2 font-mono text-[10px] font-bold tracking-[0.2em] text-[#F59E0B] uppercase mb-2 flex-row-reverse">
+              <span>01 &mdash; cap</span>
+            </div>
+            <h3 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white tracking-tight mb-2">
+              solar.pv cell
+            </h3>
+            <p className="text-xs sm:text-sm text-slate-600 dark:text-zinc-400 leading-relaxed font-normal ml-auto">
               A single photovoltaic disc trickle-charges the internal cell whenever the crown breaks the soil line.
             </p>
           </div>
@@ -368,11 +424,13 @@ export default function HardwareScrollytelling() {
               activeStage === 2 ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4 pointer-events-none"
             }`}
           >
-            <span className="text-xs font-mono text-[#e8874a] tracking-widest uppercase block mb-2">
-              02 &mdash; Shell
-            </span>
-            <h3 className="text-2xl sm:text-3xl font-black mb-2">silicon.seal jacket</h3>
-            <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
+            <div className="inline-flex items-center gap-2 font-mono text-[10px] font-bold tracking-[0.2em] text-[#00D2FF] uppercase mb-2">
+              <span>02 &mdash; shell</span>
+            </div>
+            <h3 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white tracking-tight mb-2">
+              silicon.seal jacket
+            </h3>
+            <p className="text-xs sm:text-sm text-slate-600 dark:text-zinc-400 leading-relaxed font-normal">
               Cast silicone sleeve absorbs the shock of insertion and keeps groundwater out of the electronics bay.
             </p>
           </div>
@@ -383,11 +441,13 @@ export default function HardwareScrollytelling() {
               activeStage === 3 ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4 pointer-events-none"
             }`}
           >
-            <span className="text-xs font-mono text-[#e8874a] tracking-widest uppercase block mb-2">
-              03 &mdash; Body
-            </span>
-            <h3 className="text-2xl sm:text-3xl font-black mb-2">polycarbonate tube</h3>
-            <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 leading-relaxed ml-auto">
+            <div className="inline-flex items-center gap-2 font-mono text-[10px] font-bold tracking-[0.2em] text-[#3B82F6] uppercase mb-2 flex-row-reverse">
+              <span>03 &mdash; body</span>
+            </div>
+            <h3 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white tracking-tight mb-2">
+              polycarbonate tube
+            </h3>
+            <p className="text-xs sm:text-sm text-slate-600 dark:text-zinc-400 leading-relaxed font-normal ml-auto">
               Optically clear polycarbonate lets the board&apos;s status lights read through the wall without a window cut.
             </p>
           </div>
@@ -398,43 +458,60 @@ export default function HardwareScrollytelling() {
               activeStage === 4 ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4 pointer-events-none"
             }`}
           >
-            <span className="text-xs font-mono text-[#e8874a] tracking-widest uppercase block mb-2">
-              04 &mdash; Collar
-            </span>
-            <h3 className="text-2xl sm:text-3xl font-black mb-2">stainless.316 band</h3>
-            <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
+            <div className="inline-flex items-center gap-2 font-mono text-[10px] font-bold tracking-[0.2em] text-[#84CC16] uppercase mb-2">
+              <span>04 &mdash; collar</span>
+            </div>
+            <h3 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white tracking-tight mb-2">
+              stainless.316 band
+            </h3>
+            <p className="text-xs sm:text-sm text-slate-600 dark:text-zinc-400 leading-relaxed font-normal">
               A marine-grade steel collar anchors the tip assembly and grounds the sensor array against static drift.
             </p>
           </div>
 
-          {/* STAGE 5: TIP (Hosma Ceramic Prongs & Field Data) */}
+          {/* STAGE 5: TIP & FINAL TELEMETRY SPEC PANEL */}
           <div 
-            className={`absolute top-[32%] right-6 sm:right-14 max-w-sm text-right transition-all duration-500 ${
+            className={`absolute top-[30%] right-6 sm:right-14 max-w-sm text-right transition-all duration-500 ${
               activeStage === 5 ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4 pointer-events-none"
             }`}
           >
-            <span className="text-xs font-mono text-[#e8874a] tracking-widest uppercase block mb-2">
-              05 &mdash; Tip
-            </span>
-            <h3 className="text-2xl sm:text-3xl font-black mb-2">hosma.ceramic prongs</h3>
-            <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 leading-relaxed ml-auto mb-6">
+            <div className="inline-flex items-center gap-2 font-mono text-[10px] font-bold tracking-[0.2em] text-[#10E599] uppercase mb-2 flex-row-reverse">
+              <span>05 &mdash; tip</span>
+            </div>
+            <h3 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white tracking-tight mb-2">
+              hosma.ceramic prongs
+            </h3>
+            <p className="text-xs sm:text-sm text-slate-600 dark:text-zinc-400 leading-relaxed font-normal ml-auto mb-6">
               Twin ceramic prongs read moisture and conductivity a few centimetres down, where the roots actually drink.
             </p>
 
-            {/* Spec Box */}
-            <div className="p-4 rounded-2xl bg-white/80 dark:bg-black/60 backdrop-blur-md border border-slate-200 dark:border-white/10 shadow-lg text-left text-xs font-mono space-y-2">
-              <div className="text-[10px] text-[#e8874a] uppercase font-bold tracking-wider mb-2">Field Telemetry</div>
-              <div className="flex justify-between py-1 border-b border-slate-100 dark:border-white/10 text-slate-600 dark:text-slate-400">
-                <span>Battery Life</span>
-                <span className="font-bold text-slate-900 dark:text-white">6 seasons</span>
+            {/* Glass Card Final Spec Panel */}
+            <div className="glass-card rounded-3xl p-5 sm:p-6 text-left shadow-2xl border border-slate-200/90 dark:border-emerald-500/20 backdrop-blur-2xl">
+              <div className="inline-flex items-center gap-2 font-mono text-[10px] font-bold tracking-[0.2em] text-[#059669] dark:text-[#10E599] uppercase mb-2">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#059669] dark:bg-[#10E599]" />
+                <span>field data</span>
               </div>
-              <div className="flex justify-between py-1 border-b border-slate-100 dark:border-white/10 text-slate-600 dark:text-slate-400">
-                <span>Wireless Range</span>
-                <span className="font-bold text-slate-900 dark:text-white">2.1 km LoRa</span>
-              </div>
-              <div className="flex justify-between py-1 text-slate-600 dark:text-slate-400">
-                <span>Reading Depth</span>
-                <span className="font-bold text-slate-900 dark:text-white">4 &ndash; 12 cm</span>
+              
+              <h4 className="text-lg font-black text-slate-900 dark:text-white mb-1.5">
+                Reads every 4 hours
+              </h4>
+              <p className="text-xs text-slate-600 dark:text-zinc-400 leading-relaxed mb-4">
+                Moisture, temperature and salinity, synced over LoRaWAN to the NATLE FieldOS network.
+              </p>
+
+              <div className="space-y-2 pt-2 border-t border-slate-200/70 dark:border-white/10 font-mono text-xs">
+                <div className="flex justify-between py-1 border-b border-slate-100 dark:border-white/5 text-slate-600 dark:text-zinc-400">
+                  <span>battery life</span>
+                  <b className="text-slate-900 dark:text-white font-bold">6 seasons</b>
+                </div>
+                <div className="flex justify-between py-1 border-b border-slate-100 dark:border-white/5 text-slate-600 dark:text-zinc-400">
+                  <span>range</span>
+                  <b className="text-slate-900 dark:text-white font-bold">2.1 km LoRa</b>
+                </div>
+                <div className="flex justify-between py-1 text-slate-600 dark:text-zinc-400">
+                  <span>depth</span>
+                  <b className="text-slate-900 dark:text-white font-bold">4 &ndash; 12 cm</b>
+                </div>
               </div>
             </div>
           </div>
