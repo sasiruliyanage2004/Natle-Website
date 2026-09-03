@@ -36,9 +36,11 @@ export function BioluminescentField({
   showGrid = true,
   showGlows = true,
 }: BioluminescentFieldProps) {
+  const [mounted, setMounted] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
+    setMounted(true);
     const checkMobile = () => {
       setIsMobile(window.innerWidth < 768);
     };
@@ -142,17 +144,17 @@ export function BioluminescentField({
         />
       )}
 
-      {/* LAYER 3: BIOLUMINESCENT SPORE PARTICLES */}
+      {/* LAYER 3: BIOLUMINESCENT SPORE PARTICLES (CLIENT MOUNTED ONLY) */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        {particles.map((p) => (
+        {mounted && particles.map((p) => (
           <div
             key={p.id}
             className="bioluminescent-particle bioluminescent-animated absolute rounded-full pointer-events-none"
             style={{
-              left: p.x + "%",
-              top: p.y + "%",
-              width: p.size + "px",
-              height: p.size + "px",
+              left: `${p.x.toFixed(3)}%`,
+              top: `${p.y.toFixed(3)}%`,
+              width: `${p.size.toFixed(1)}px`,
+              height: `${p.size.toFixed(1)}px`,
               background: "radial-gradient(circle, " + p.color + " 0%, rgba(16, 229, 153, 0) 70%)",
               boxShadow: "0 0 " + (p.size * 2.5) + "px " + p.color,
               animationDuration: `${p.duration}s`,
