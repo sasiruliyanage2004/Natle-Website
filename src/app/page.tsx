@@ -19,6 +19,7 @@ import AgentaFAQ from "@/components/AgentaFAQ";
 import Testimonials from "@/components/Testimonials";
 import CTAFooter from "@/components/CTAFooter";
 import BeamsBackground from "@/components/animations/BeamsBackground";
+import BioluminescentField from "@/components/common/BioluminescentField";
 import { useTheme } from "@/components/ThemeProvider";
 
 export default function Home() {
@@ -29,6 +30,9 @@ export default function Home() {
     <main className="relative min-h-screen bg-[#F8FAFC] dark:bg-[#050505] text-slate-900 dark:text-emerald-50 antialiased selection:bg-[#059669] selection:text-white transition-colors duration-300">
       {/* Kokonut UI Animated Luminous Beams Background */}
       <BeamsBackground intensity="medium" />
+
+      {/* Global Bioluminescent Background Layer (Single instance, fixed full-viewport, continuous across scroll) */}
+      <BioluminescentField className="fixed inset-0 z-0 pointer-events-none hidden dark:block" intensity="medium" />
 
       {/* Main Page Flow Architecture */}
       <div className="relative z-10">

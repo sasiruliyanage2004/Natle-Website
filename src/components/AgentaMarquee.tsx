@@ -41,8 +41,8 @@ export default function AgentaMarquee() {
     <section className="relative overflow-hidden py-6 select-none">
       
       {/* Gradient Fades on Edges */}
-      <div className="pointer-events-none absolute inset-y-0 left-0 w-24 sm:w-40 bg-gradient-to-r from-[#EDF6F2] dark:from-[#050505] to-transparent z-10" />
-      <div className="pointer-events-none absolute inset-y-0 right-0 w-24 sm:w-40 bg-gradient-to-l from-[#EDF6F2] dark:from-[#050505] to-transparent z-10" />
+      <div className="pointer-events-none absolute inset-y-0 left-0 w-24 sm:w-40 bg-gradient-to-r from-[#F8FAFC] dark:from-[#050505] to-transparent z-10" />
+      <div className="pointer-events-none absolute inset-y-0 right-0 w-24 sm:w-40 bg-gradient-to-l from-[#F8FAFC] dark:from-[#050505] to-transparent z-10" />
 
       <div className="flex flex-col gap-4">
         

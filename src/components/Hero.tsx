@@ -50,8 +50,8 @@ export default function Hero() {
   return (
     <section className="relative isolate w-full overflow-hidden bg-transparent font-sans antialiased pt-36 pb-16 md:pt-44 md:pb-20 select-none transition-colors duration-300">
       
-      {/* Light Mode Radial Glow */}
-      <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
+      {/* Light Mode Radial Glow with soft radial fade mask */}
+      <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden [mask-image:radial-gradient(ellipse_at_center,black_40%,transparent_75%)]">
         <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[950px] h-[600px] rounded-full bg-gradient-to-tr from-[#007bff]/10 via-[#00d2ff]/10 to-[#00c9a7]/15 blur-[120px] dark:from-[#059669]/15 dark:via-[#10e599]/8 dark:to-transparent" />
       </div>
 

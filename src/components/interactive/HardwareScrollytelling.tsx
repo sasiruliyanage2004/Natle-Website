@@ -19,7 +19,6 @@ import {
 } from "lucide-react";
 import { useTheme } from "@/components/ThemeProvider";
 import NatleLogo from "@/components/common/NatleLogo";
-import BioluminescentField from "@/components/common/BioluminescentField";
 import { sound } from "@/lib/sound";
 
 interface CamStop {
@@ -187,9 +186,9 @@ export default function HardwareScrollytelling() {
 
     // ---------- SCENE & CAMERA ----------
     const scene = new THREE.Scene();
-    const initialBg = isCurrentDark ? bgDark : bgLight;
-    scene.background = initialBg.clone();
-    scene.fog = new THREE.Fog(initialBg.getHex(), 12, 26);
+    scene.background = null;
+    const initialFogColor = isCurrentDark ? bgDark : bgLight;
+    scene.fog = new THREE.Fog(initialFogColor.getHex(), 12, 28);
 
     const camera = new THREE.PerspectiveCamera(
       32,
@@ -199,6 +198,7 @@ export default function HardwareScrollytelling() {
     );
 
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: "high-performance" });
+    renderer.setClearColor(0x000000, 0);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     renderer.setSize(wrap.clientWidth, wrap.clientHeight);
     renderer.shadowMap.enabled = true;
@@ -232,9 +232,9 @@ export default function HardwareScrollytelling() {
     // ---------- MATERIALS (EXACT SPEC HEX TOKENS) ----------
     const titaniumCap = new THREE.MeshStandardMaterial({ color: 0xC9CDD1, metalness: 1.0, roughness: 0.28 });
     const darkMetal   = new THREE.MeshStandardMaterial({ color: 0x8B9096, metalness: 0.9,  roughness: 0.35 });
-    const polycarbonate = new THREE.MeshPhysicalMaterial({
-      color: 0xDFE7E4, transparent: true, opacity: 0.28, roughness: 0.05,
-      transmission: 0.9, thickness: 0.4, metalness: 0
+    const polycarbonate = new THREE.MeshStandardMaterial({
+      color: 0xDFE7E4, transparent: true, opacity: 0.38, roughness: 0.08,
+      metalness: 0.25
     });
     const oring       = new THREE.MeshStandardMaterial({ color: 0xE8874A, roughness: 0.6, metalness: 0.05 });
     const siliconPcb   = new THREE.MeshStandardMaterial({ color: 0x2F5D46, roughness: 0.6, metalness: 0.2 });
@@ -368,9 +368,8 @@ export default function HardwareScrollytelling() {
 
     // Theme Updater
     updateSceneThemeRef.current = (dark: boolean) => {
-      const targetBg = dark ? bgDark : bgLight;
-      scene.background = targetBg.clone();
-      scene.fog = new THREE.Fog(targetBg.getHex(), 12, 26);
+      scene.background = null;
+      scene.fog = new THREE.Fog(dark ? 0x050505 : 0xF8FAFC, 12, 28);
       fill.intensity = dark ? 0.32 : 0.55;
       key.intensity = dark ? 1.7 : 2.4;
       ground.material.opacity = dark ? 0.25 : 0.12;
@@ -491,7 +490,7 @@ export default function HardwareScrollytelling() {
       ref={containerRef}
       id="hardware-scrollytelling"
       aria-label="3D Interactive Soil Telemetry Probe"
-      className="relative h-[600vh] bg-[#F8FAFC] dark:bg-[#050505] text-[#09131F] dark:text-white transition-colors duration-400 select-none font-sans"
+      className="relative h-[600vh] bg-transparent text-[#09131F] dark:text-white transition-colors duration-400 select-none font-sans"
     >
       {/* ================= ACCESSIBILITY: SKIP LINK ================= */}
       <a 
@@ -531,7 +530,7 @@ export default function HardwareScrollytelling() {
       </AnimatePresence>
 
       {/* Pinned 100vh Sticky Viewport */}
-      <div className="sticky top-0 h-screen w-full overflow-hidden bg-[#F8FAFC] dark:bg-[#050505] transition-colors duration-400">
+      <div className="sticky top-0 h-screen w-full overflow-hidden bg-transparent">
         
         {/* ================= 1. THREE.JS 3D CANVAS ================= */}
         <div 
@@ -540,9 +539,6 @@ export default function HardwareScrollytelling() {
             isLoaded ? "opacity-100 blur-0" : "opacity-0 blur-sm"
           }`} 
         />
-
-        {/* ================= 2. BIOLUMINESCENT FIELD LAYER (DARK MODE ONLY) ================= */}
-        <BioluminescentField className="z-12 hidden dark:block pointer-events-none" intensity="medium" />
 
         {/* Optical Depth-of-Field Blur Pulse Overlay on Stop Change */}
         <div 

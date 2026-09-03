@@ -15,8 +15,8 @@ export default function HosmaHeritage() {
   return (
     <section id="heritage" className="relative overflow-hidden py-24 md:py-32 select-none bg-transparent transition-colors duration-300">
       
-      {/* Background Ambient Multi-Glow */}
-      <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
+      {/* Background Ambient Multi-Glow with soft radial fade mask */}
+      <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden [mask-image:radial-gradient(ellipse_at_center,black_30%,transparent_70%)]">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1000px] h-[650px] rounded-full bg-gradient-to-tr from-[#059669]/10 via-[#0052FF]/10 to-transparent blur-[140px]" />
       </div>
 
