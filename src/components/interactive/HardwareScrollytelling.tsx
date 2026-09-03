@@ -19,6 +19,7 @@ import {
 } from "lucide-react";
 import { useTheme } from "@/components/ThemeProvider";
 import NatleLogo from "@/components/common/NatleLogo";
+import BioluminescentField from "@/components/common/BioluminescentField";
 import { sound } from "@/lib/sound";
 
 interface CamStop {
@@ -186,9 +187,7 @@ export default function HardwareScrollytelling() {
 
     // ---------- SCENE & CAMERA ----------
     const scene = new THREE.Scene();
-    const initialBg = isCurrentDark ? bgDark : bgLight;
-    scene.background = initialBg.clone();
-    scene.fog = new THREE.Fog(initialBg.getHex(), 12, 26);
+    scene.background = null;
 
     const camera = new THREE.PerspectiveCamera(
       32,
@@ -367,9 +366,7 @@ export default function HardwareScrollytelling() {
 
     // Theme Updater
     updateSceneThemeRef.current = (dark: boolean) => {
-      const targetBg = dark ? bgDark : bgLight;
-      scene.background = targetBg.clone();
-      scene.fog = new THREE.Fog(targetBg.getHex(), 12, 26);
+      scene.background = null;
       fill.intensity = dark ? 0.32 : 0.55;
       key.intensity = dark ? 1.7 : 2.4;
       ground.material.opacity = dark ? 0.25 : 0.12;
@@ -530,8 +527,11 @@ export default function HardwareScrollytelling() {
       </AnimatePresence>
 
       {/* Pinned 100vh Sticky Viewport */}
-      <div className="sticky top-0 h-screen w-full overflow-hidden">
+      <div className="sticky top-0 h-screen w-full overflow-hidden bg-[#050505] dark:bg-[#050505]">
         
+        {/* ================= 1. BIOLUMINESCENT FIELD LAYER ================= */}
+        <BioluminescentField className="z-0 dark:opacity-100 opacity-25" intensity="medium" />
+
         {/* ================= 2. THREE.JS 3D CANVAS ================= */}
         <div 
           ref={canvasWrapRef} 
