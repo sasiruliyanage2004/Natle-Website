@@ -123,6 +123,7 @@ export default function HardwareScrollytelling() {
   const containerRef = useRef<HTMLDivElement>(null);
   const [activeLayerIndex, setActiveLayerIndex] = useState<number>(0);
   const [manualScrub, setManualScrub] = useState<number | null>(null);
+  const [viewMode, setViewMode] = useState<"assembled" | "exploded">("assembled");
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -133,7 +134,6 @@ export default function HardwareScrollytelling() {
 
   useMotionValueEvent(scrollYProgress, "change", (latest) => {
     setScrollVal(latest);
-    // Determine active layer from progress
     const idx = LAYERS.findIndex(
       (l) => latest >= l.triggerMin && latest <= l.triggerMax
     );
@@ -148,7 +148,22 @@ export default function HardwareScrollytelling() {
 
   // Subtle camera focus glide on the real 3D image
   const imageScale = useTransform(scrollYProgress, [0, 0.25, 0.5, 0.75, 1], [1.02, 1.08, 1.05, 1.08, 1.12]);
-  const imageY = useTransform(scrollYProgress, [0, 0.25, 0.5, 0.75, 1], ["0%", "4%", "0%", "-4%", "-8%"]);
+  const imageY = useTransform(scrollYProgress, [0, 0.25, 0.5, 0.75, 1], ["0%", "3%", "0%", "-3%", "-6%"]);
+
+  // Calculate target Y position dynamically based on viewMode
+  const getTargetY = (layer: HardwareLayer) => {
+    if (viewMode === "assembled") {
+      switch (layer.id) {
+        case "solar": return 12;
+        case "pcb": return 30;
+        case "casing": return 44;
+        case "blades": return 62;
+        case "cocopeat": return 82;
+        default: return layer.targetYPercent;
+      }
+    }
+    return layer.targetYPercent;
+  };
 
   return (
     <section 
@@ -184,32 +199,65 @@ export default function HardwareScrollytelling() {
         {/* ================= 2. MAIN 2-COLUMN STAGE: REAL 3D IMAGE + ANIME.JS LEADER LINES ================= */}
         <div className="relative z-20 max-w-7xl mx-auto w-full flex-1 grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-10 items-center overflow-hidden my-2">
           
-          {/* LEFT 7 COLS: THE REAL PHOTOREALISTIC 3D EXPLODED RENDER WITH LEADER LINES */}
+          {/* LEFT 7 COLS: REAL 3D HARDWARE (ASSEMBLED BY DEFAULT) WITH LEADER LINES */}
           <div className="lg:col-span-7 relative h-[380px] sm:h-[480px] lg:h-[520px] rounded-3xl bg-white/70 dark:bg-[#0b0f0d]/80 backdrop-blur-xl border border-slate-200/90 dark:border-white/10 shadow-2xl p-4 flex items-center justify-center overflow-hidden">
             
+            {/* View Mode Switcher: Original Assembled (Default) vs Exploded Anatomy */}
+            <div className="absolute top-4 right-4 z-30 flex items-center gap-1.5 p-1 rounded-full bg-white/85 dark:bg-black/70 backdrop-blur-md border border-slate-200 dark:border-white/10 shadow-sm">
+              <button
+                type="button"
+                onClick={() => {
+                  setViewMode("assembled");
+                  sound.playClick();
+                }}
+                className={`px-3 py-1 rounded-full text-[10px] font-mono font-bold transition-all cursor-pointer ${
+                  viewMode === "assembled"
+                    ? "bg-slate-900 text-white dark:bg-white dark:text-slate-950 shadow-xs"
+                    : "text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                }`}
+              >
+                Original Assembled
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  setViewMode("exploded");
+                  sound.playClick();
+                }}
+                className={`px-3 py-1 rounded-full text-[10px] font-mono font-bold transition-all cursor-pointer ${
+                  viewMode === "exploded"
+                    ? "bg-slate-900 text-white dark:bg-white dark:text-slate-950 shadow-xs"
+                    : "text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                }`}
+              >
+                Exploded View
+              </button>
+            </div>
+
             {/* Real 3D Image Container */}
             <motion.div 
               style={{ scale: imageScale, y: imageY }}
               className="relative w-full h-full max-w-[420px] max-h-[490px] flex items-center justify-center will-change-transform"
             >
               <Image
-                src="/images/hardware-exploded-realistic.jpg"
-                alt="NATLE Photorealistic 3D Exploded Soil Probe"
+                src={viewMode === "assembled" ? "/images/probe-assembled.jpg" : "/images/hardware-exploded-realistic.jpg"}
+                alt="NATLE Photorealistic 3D Soil Probe"
                 fill
                 sizes="(max-width: 768px) 100vw, 550px"
                 priority
-                className="object-contain drop-shadow-[0_20px_45px_rgba(0,0,0,0.2)] dark:drop-shadow-[0_25px_50px_rgba(0,0,0,0.85)]"
+                className="object-contain drop-shadow-[0_20px_45px_rgba(0,0,0,0.2)] dark:drop-shadow-[0_25px_50px_rgba(0,0,0,0.85)] transition-all duration-300"
               />
 
               {/* Dynamic Interactive Leader Lines & Pointer Rings (Anime.js Image 5 style!) */}
               {LAYERS.map((layer, idx) => {
                 const isActive = activeLayerIndex === idx;
+                const targetY = getTargetY(layer);
 
                 return (
                   <div 
                     key={layer.id}
-                    style={{ top: `${layer.targetYPercent}%` }}
-                    className="absolute left-1/2 -translate-x-1/2 -translate-y-1/2 w-full flex items-center justify-between pointer-events-none z-30"
+                    style={{ top: `${targetY}%` }}
+                    className="absolute left-1/2 -translate-x-1/2 -translate-y-1/2 w-full flex items-center justify-between pointer-events-none z-30 transition-all duration-300"
                   >
                     {/* Left Leader Line */}
                     <div className="w-1/3 flex items-center justify-end pr-8">
