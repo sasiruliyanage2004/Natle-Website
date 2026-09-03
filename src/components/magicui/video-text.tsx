@@ -20,8 +20,6 @@ export function VideoText({
 }: VideoTextProps) {
   const maskId = useId().replace(/:/g, "_");
   const isLeft = align === "left";
-  const [videoLoaded, setVideoLoaded] = useState(false);
-  const [videoError, setVideoError] = useState(false);
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
 
   useEffect(() => {
@@ -32,8 +30,6 @@ export function VideoText({
     mediaQuery.addEventListener("change", handler);
     return () => mediaQuery.removeEventListener("change", handler);
   }, []);
-
-  const showVideo = videoLoaded && !videoError && !prefersReducedMotion;
 
   return (
     <div
@@ -113,72 +109,62 @@ export function VideoText({
           </mask>
         </defs>
 
-        {/* Base Fallback Gradient Text Layer (Instantly visible in first 300ms & reduced-motion) */}
-        <g className="transition-opacity duration-700">
-          <text
-            x={isLeft ? "10" : "600"}
-            y={isLeft ? "100" : "110"}
-            textAnchor={isLeft ? "start" : "middle"}
-            dominantBaseline="middle"
-            fill={`url(#${maskId}_grad)`}
-            fontSize={isLeft ? "124" : "136"}
-            fontWeight="900"
-            letterSpacing={isLeft ? "-2" : "-3.5"}
-            fontFamily="var(--font-sans), Inter, system-ui, sans-serif"
-          >
-            {line1}
-          </text>
-          <text
-            x={isLeft ? "10" : "600"}
-            y={isLeft ? "232" : "248"}
-            textAnchor={isLeft ? "start" : "middle"}
-            dominantBaseline="middle"
-            fill={`url(#${maskId}_grad)`}
-            fontSize={isLeft ? "124" : "136"}
-            fontWeight="900"
-            letterSpacing={isLeft ? "-2" : "-3.5"}
-            fontFamily="var(--font-sans), Inter, system-ui, sans-serif"
-          >
-            {line2}
-          </text>
-        </g>
-
-        {/* Masked Agricultural Drone Video Layer (Fades in over fallback once playing) */}
-        {!prefersReducedMotion && (
+        {/* 1. Masked Video Container (Always active & playing) */}
+        {!prefersReducedMotion ? (
           <foreignObject
             x="0"
             y="0"
             width="100%"
             height="100%"
             mask={`url(#${maskId})`}
-            className={`transition-opacity duration-700 ${showVideo ? "opacity-100" : "opacity-0"}`}
           >
             <div className="w-full h-full relative overflow-hidden bg-slate-950">
               <video
-                src={src}
                 autoPlay
                 loop
                 muted
                 playsInline
-                onLoadedData={() => setVideoLoaded(true)}
-                onError={() => setVideoError(true)}
                 className="w-full h-full object-cover"
                 style={{
                   minHeight: isLeft ? "280px" : "320px",
-                  filter: "brightness(0.92) contrast(1.22) saturate(0.85)",
+                  filter: "brightness(1.35) contrast(1.25) saturate(1.45)",
                 }}
-              />
-
-              {/* Duotone Brand Overlay: --flora-emerald (#059669) & --neon-spring (#10E599) */}
-              <div 
-                className="absolute inset-0 pointer-events-none"
-                style={{
-                  background: "linear-gradient(135deg, rgba(5, 150, 105, 0.42) 0%, rgba(16, 229, 153, 0.36) 55%, rgba(0, 210, 255, 0.24) 100%)",
-                  mixBlendMode: "color",
-                }}
-              />
+              >
+                <source src={src} type="video/webm" />
+                <source src="https://cdn.magicui.design/ocean-small.webm" type="video/webm" />
+              </video>
             </div>
           </foreignObject>
+        ) : (
+          /* 2. Reduced-Motion Static Gradient Text Fallback */
+          <g>
+            <text
+              x={isLeft ? "10" : "600"}
+              y={isLeft ? "100" : "110"}
+              textAnchor={isLeft ? "start" : "middle"}
+              dominantBaseline="middle"
+              fill={`url(#${maskId}_grad)`}
+              fontSize={isLeft ? "124" : "136"}
+              fontWeight="900"
+              letterSpacing={isLeft ? "-2" : "-3.5"}
+              fontFamily="var(--font-sans), Inter, system-ui, sans-serif"
+            >
+              {line1}
+            </text>
+            <text
+              x={isLeft ? "10" : "600"}
+              y={isLeft ? "232" : "248"}
+              textAnchor={isLeft ? "start" : "middle"}
+              dominantBaseline="middle"
+              fill={`url(#${maskId}_grad)`}
+              fontSize={isLeft ? "124" : "136"}
+              fontWeight="900"
+              letterSpacing={isLeft ? "-2" : "-3.5"}
+              fontFamily="var(--font-sans), Inter, system-ui, sans-serif"
+            >
+              {line2}
+            </text>
+          </g>
         )}
       </svg>
     </div>
