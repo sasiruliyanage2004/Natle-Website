@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useRef, useState } from "react";
+import Image from "next/image";
 import { motion, useScroll, useTransform, useMotionValueEvent, AnimatePresence } from "framer-motion";
 import { 
   Sun, 
@@ -10,9 +11,10 @@ import {
   Leaf, 
   Sparkles, 
   ArrowRight, 
-  Activity, 
   Layers,
-  ChevronDown
+  ChevronDown,
+  Eye,
+  Scan
 } from "lucide-react";
 import { sound } from "@/lib/sound";
 
@@ -24,6 +26,7 @@ interface PhaseSpec {
   badge: string;
   accentColor: string;
   depthLabel: string;
+  beaconTop: string; // Vertical position on the photorealistic image (percentage)
   description: string;
   specs: { label: string; value: string }[];
 }
@@ -37,7 +40,8 @@ const PHASES: PhaseSpec[] = [
     badge: "5+ Year Perpetual Energy",
     accentColor: "#F59E0B",
     depthLabel: "Altitude: +15cm (Atmosphere)",
-    description: "High-efficiency monocrystalline solar disc sealed in an aerospace-grade titanium bezel. Paired with ultra-low ESR supercapacitors to provide indefinite power through continuous tropical monsoon cloud cover.",
+    beaconTop: "14%",
+    description: "High-efficiency monocrystalline solar disc sealed in an aerospace-grade brushed titanium bezel. Paired with ultra-low ESR supercapacitors to provide perpetual autonomous telemetry through continuous tropical monsoon cloud cover.",
     specs: [
       { label: "Solar Efficiency", value: "22.8% Monocrystalline" },
       { label: "Energy Autonomy", value: "5+ Years Maintenance-Free" },
@@ -52,7 +56,8 @@ const PHASES: PhaseSpec[] = [
     badge: "15km Sub-GHz Mesh",
     accentColor: "#00D2FF",
     depthLabel: "Altitude: +5cm (Edge MCU)",
-    description: "Aerospace green PCB with gold ENIG traces. Features dual-core RISC-V edge silicon, an 868/915MHz sub-GHz transceiver, and hardware AES-128 cryptographic telemetry vault penetrating dense tea mountain canopies.",
+    beaconTop: "28%",
+    description: "Multi-layer aerospace green PCB with gold ENIG traces. Features dual-core RISC-V edge silicon, an 868/915MHz sub-GHz transceiver, and hardware AES-128 cryptographic telemetry vault penetrating dense tea mountain canopies.",
     specs: [
       { label: "Wireless Protocol", value: "LoRaWAN Class A/C (15km)" },
       { label: "Deep Sleep Current", value: "1.8 µA Ultra-Low Power" },
@@ -67,6 +72,7 @@ const PHASES: PhaseSpec[] = [
     badge: "Tri-Depth High Frequency",
     accentColor: "#3B82F6",
     depthLabel: "Depth: 10cm / 30cm / 60cm",
+    beaconTop: "58%",
     description: "Quad 70MHz dielectric capacitance prongs with laser calibration depth markers at 10cm (surface moisture), 30cm (feeder roots), and 60cm (taproot) to measure volumetric soil moisture, EC, and temperature.",
     specs: [
       { label: "Depth Calibrations", value: "10cm / 30cm / 60cm Ticks" },
@@ -82,6 +88,7 @@ const PHASES: PhaseSpec[] = [
     badge: "850% Capillary Hydration",
     accentColor: "#059669",
     depthLabel: "Subsoil: -30cm to -80cm",
+    beaconTop: "84%",
     description: "Triple-washed natural Ceylon organic coconut coir substrate washed to Dutch greenhouse standards (EC < 0.4 mS/cm). Biological micro-capillaries absorb 850% water with zero nutrient leaching.",
     specs: [
       { label: "Water Absorption", value: "850% of Dry Biomass" },
@@ -94,6 +101,7 @@ const PHASES: PhaseSpec[] = [
 export default function HardwareScrollytelling() {
   const containerRef = useRef<HTMLDivElement>(null);
   const [activePhaseIndex, setActivePhaseIndex] = useState<number>(0);
+  const [showAnnotated, setShowAnnotated] = useState<boolean>(false);
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -109,21 +117,22 @@ export default function HardwareScrollytelling() {
     }
   });
 
-  // Smooth camera zoom & vertical translation linked to scroll
-  // Phase 0: Solar Cap focus (Zoom in top)
-  // Phase 1: Silicon Core focus
-  // Phase 2: Prongs focus
-  // Phase 3: Soil deep dive (Zoom in bottom root matrix)
-  const cameraScale = useTransform(scrollYProgress, [0, 0.25, 0.5, 0.75, 1], [1.15, 1.25, 1.1, 1.2, 1.35]);
-  const cameraY = useTransform(scrollYProgress, [0, 0.25, 0.5, 0.75, 1], [40, -10, -80, -160, -220]);
-  const probeExplosion = useTransform(scrollYProgress, [0, 0.3, 0.7, 1], [0.15, 0.9, 0.95, 0.85]);
-
-  // Physical SVG Layer Vertical Offsets mapped to scroll
-  const solarY = useTransform(probeExplosion, [0, 1], [190, 80]);
-  const mcuY = useTransform(probeExplosion, [0, 1], [225, 180]);
-  const chassisY = useTransform(probeExplosion, [0, 1], [270, 290]);
-  const prongsY = useTransform(probeExplosion, [0, 1], [330, 420]);
-  const cocopeatY = useTransform(probeExplosion, [0, 1], [420, 560]);
+  // Photorealistic Camera Zoom & Pan transforms mapped to scroll progress
+  // Phase 0 (0-25%): Focus on Solar Cap at the top (scale up, pan down)
+  // Phase 1 (25-50%): Focus on Green PCB Logic Core
+  // Phase 2 (50-75%): Focus on Stainless Steel Blades
+  // Phase 3 (75-100%): Dive deep into the Cocopeat root block at the bottom
+  const cameraScale = useTransform(
+    scrollYProgress, 
+    [0, 0.25, 0.5, 0.75, 1], 
+    [1.15, 1.45, 1.5, 1.45, 1.65]
+  );
+  
+  const cameraY = useTransform(
+    scrollYProgress, 
+    [0, 0.25, 0.5, 0.75, 1], 
+    ["18%", "26%", "8%", "-16%", "-32%"]
+  );
 
   const activePhase = PHASES[activePhaseIndex];
 
@@ -148,10 +157,10 @@ export default function HardwareScrollytelling() {
             </div>
             <div>
               <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-[#059669] dark:text-[#10E599] block">
-                3D Scrollytelling Assembly &bull; Apple Launch Edition
+                Photorealistic 3D Keynote &bull; Apple Launch Edition
               </span>
               <h3 className="text-sm sm:text-base font-black text-slate-900 dark:text-white">
-                NATLE IP68 Telemetry Probe &amp; Ceylon Substrate
+                NATLE IP68 LoRaWAN Soil Probe &amp; Ceylon Cocopeat
               </h3>
             </div>
           </div>
@@ -180,22 +189,38 @@ export default function HardwareScrollytelling() {
         {/* ================= MAIN 2-COLUMN STAGE ================= */}
         <div className="max-w-7xl mx-auto w-full flex-1 grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 items-center overflow-hidden my-2">
           
-          {/* LEFT 7 COLS: 3D SCROLL-DRIVEN CAMERA CAD CANVAS */}
-          <div className="lg:col-span-7 relative h-[420px] sm:h-[500px] lg:h-[540px] rounded-3xl border border-slate-200/90 dark:border-emerald-500/30 bg-slate-950 p-4 sm:p-6 shadow-2xl overflow-hidden flex items-center justify-center">
+          {/* ================= LEFT 7 COLS: PHOTOREALISTIC 3D STUDIO SHOWCASE ================= */}
+          {/* Clean, luxury studio background with NO dark blue grid, soft shadows & camera zoom */}
+          <div className="lg:col-span-7 relative h-[420px] sm:h-[500px] lg:h-[540px] rounded-3xl border border-slate-200/90 dark:border-white/10 bg-gradient-to-b from-[#f1f5f9]/90 via-[#e2e8f0]/80 to-[#cbd5e1]/70 dark:from-[#111613] dark:via-[#090e0b] dark:to-[#040605] p-3 sm:p-5 shadow-2xl overflow-hidden flex items-center justify-center">
             
-            {/* Ambient CAD Grid */}
-            <div 
-              className="absolute inset-0 opacity-15 pointer-events-none"
-              style={{
-                backgroundImage: "radial-gradient(#10E599 1px, transparent 1px)",
-                backgroundSize: "28px 28px"
-              }}
-            />
+            {/* Soft Ambient Radial Light Studio Glow */}
+            <div className="absolute inset-0 bg-radial-[at_50%_40%] from-white/70 via-transparent to-transparent dark:from-emerald-500/10 dark:via-transparent dark:to-transparent pointer-events-none" />
 
-            {/* Central Laser Alignment Rail */}
-            <div className="absolute top-4 bottom-4 w-[2px] bg-gradient-to-b from-transparent via-[#10E599]/35 to-transparent pointer-events-none" />
+            {/* View Mode Toggle: Clean Studio 3D vs Annotated Blueprint */}
+            <div className="absolute top-4 right-4 z-30 flex items-center gap-1.5 p-1 rounded-full bg-white/80 dark:bg-black/60 backdrop-blur-md border border-slate-300/80 dark:border-white/15 shadow-sm">
+              <button
+                onClick={() => setShowAnnotated(false)}
+                className={`px-2.5 py-1 rounded-full text-[10px] font-mono font-bold transition-all cursor-pointer ${
+                  !showAnnotated 
+                    ? "bg-slate-900 text-white dark:bg-white dark:text-slate-950 shadow-xs" 
+                    : "text-slate-600 dark:text-slate-400 hover:text-black dark:hover:text-white"
+                }`}
+              >
+                Clean 3D
+              </button>
+              <button
+                onClick={() => setShowAnnotated(true)}
+                className={`px-2.5 py-1 rounded-full text-[10px] font-mono font-bold transition-all cursor-pointer ${
+                  showAnnotated 
+                    ? "bg-slate-900 text-white dark:bg-white dark:text-slate-950 shadow-xs" 
+                    : "text-slate-600 dark:text-slate-400 hover:text-black dark:hover:text-white"
+                }`}
+              >
+                Annotated
+              </button>
+            </div>
 
-            {/* Camera Frame that scales and pans with scroll */}
+            {/* Dynamic Camera Frame that zooms and pans with mouse wheel scroll */}
             <motion.div 
               style={{ 
                 scale: cameraScale, 
@@ -203,180 +228,49 @@ export default function HardwareScrollytelling() {
               }}
               className="relative w-full h-full flex items-center justify-center will-change-transform"
             >
-              <svg 
-                viewBox="0 0 700 680" 
-                className="w-full h-full overflow-visible select-none"
-              >
-                <defs>
-                  <linearGradient id="scrollSolarGlass" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" stopColor="#1E293B" />
-                    <stop offset="50%" stopColor="#0F172A" />
-                    <stop offset="100%" stopColor="#020617" />
-                  </linearGradient>
+              <div className="relative w-full h-full max-w-[480px] max-h-[500px]">
+                <Image
+                  src={showAnnotated ? "/images/hardware-exploded-annotated.jpg" : "/images/hardware-exploded-realistic.jpg"}
+                  alt="NATLE 3D Exploded Hardware Probe"
+                  fill
+                  sizes="(max-width: 768px) 100vw, 600px"
+                  priority
+                  className="object-contain drop-shadow-[0_20px_45px_rgba(0,0,0,0.25)] dark:drop-shadow-[0_25px_50px_rgba(0,0,0,0.85)] transition-all duration-300 rounded-2xl"
+                />
 
-                  <linearGradient id="scrollTitanium" x1="0%" y1="0%" x2="0%" y2="100%">
-                    <stop offset="0%" stopColor="#F8FAFC" />
-                    <stop offset="50%" stopColor="#94A3B8" />
-                    <stop offset="100%" stopColor="#475569" />
-                  </linearGradient>
-
-                  <linearGradient id="scrollGoldTraces" x1="0%" y1="0%" x2="100%" y2="0%">
-                    <stop offset="0%" stopColor="#F59E0B" />
-                    <stop offset="50%" stopColor="#FCD34D" />
-                    <stop offset="100%" stopColor="#F59E0B" />
-                  </linearGradient>
-
-                  <linearGradient id="scrollSteelProngs" x1="0%" y1="0%" x2="100%" y2="0%">
-                    <stop offset="0%" stopColor="#E2E8F0" />
-                    <stop offset="50%" stopColor="#F8FAFC" />
-                    <stop offset="100%" stopColor="#CBD5E1" />
-                  </linearGradient>
-
-                  <linearGradient id="scrollCocopeatBlock" x1="0%" y1="0%" x2="0%" y2="100%">
-                    <stop offset="0%" stopColor="#2D1810" />
-                    <stop offset="100%" stopColor="#150A05" />
-                  </linearGradient>
-                </defs>
-
-                {/* ------------------------------------------------------------- */}
-                {/* 1. SOLAR MICRO-HARVESTER                                      */}
-                {/* ------------------------------------------------------------- */}
-                <motion.g style={{ y: solarY }}>
-                  {/* Titanium Bezel */}
-                  <ellipse 
-                    cx="350" 
-                    cy="0" 
-                    rx={activePhaseIndex === 0 ? "95" : "85"} 
-                    ry={activePhaseIndex === 0 ? "35" : "30"} 
-                    fill="url(#scrollTitanium)" 
-                    stroke={activePhaseIndex === 0 ? "#F59E0B" : "#94A3B8"}
-                    strokeWidth={activePhaseIndex === 0 ? "3" : "1.5"}
-                    filter={activePhaseIndex === 0 ? "drop-shadow(0 0 25px rgba(245,158,11,0.8))" : "none"}
-                  />
-                  {/* Inner Monocrystalline Photovoltaic Disc */}
-                  <ellipse cx="350" cy="0" rx="76" ry="24" fill="url(#scrollSolarGlass)" />
-                  {/* Hex Wires */}
-                  <line x1="310" y1="-12" x2="390" y2="-12" stroke="#38BDF8" strokeWidth="0.8" opacity="0.6" />
-                  <line x1="290" y1="0" x2="410" y2="0" stroke="#38BDF8" strokeWidth="0.8" opacity="0.7" />
-                  <line x1="310" y1="12" x2="390" y2="12" stroke="#38BDF8" strokeWidth="0.8" opacity="0.6" />
-                  <circle cx="350" cy="0" r="4" fill="#F59E0B" className="animate-pulse" />
-                </motion.g>
-
-                {/* ------------------------------------------------------------- */}
-                {/* 2. SILICON LOGIC CORE & LORAWAN TRANSCEIVER                   */}
-                {/* ------------------------------------------------------------- */}
-                <motion.g style={{ y: mcuY }}>
-                  {/* Green PCB */}
-                  <ellipse 
-                    cx="350" 
-                    cy="0" 
-                    rx={activePhaseIndex === 1 ? "98" : "90"} 
-                    ry={activePhaseIndex === 1 ? "36" : "32"} 
-                    fill="#064E3B" 
-                    stroke={activePhaseIndex === 1 ? "#00D2FF" : "#10E599"}
-                    strokeWidth={activePhaseIndex === 1 ? "3" : "1.5"}
-                    filter={activePhaseIndex === 1 ? "drop-shadow(0 0 30px rgba(0,210,255,0.8))" : "none"}
-                  />
-                  <ellipse cx="350" cy="0" rx="84" ry="26" fill="none" stroke="url(#scrollGoldTraces)" strokeWidth="1.5" strokeDasharray="4 2" />
-                  
-                  {/* RISC-V Silicon Processor */}
-                  <rect x="330" y="-12" width="40" height="24" rx="4" fill="#0F172A" stroke="#00D2FF" strokeWidth="1" />
-                  <text x="350" y="3" textAnchor="middle" fill="#00D2FF" fontSize="8" fontWeight="bold" fontFamily="monospace">RISC-V</text>
-
-                  {/* Helical LoRa Antenna Spire with Radiating Electromagnetic Waves */}
-                  <line x1="415" y1="-25" x2="415" y2="5" stroke="#F59E0B" strokeWidth="2.5" strokeLinecap="round" />
-                  <circle cx="415" cy="-25" r="3" fill="#00D2FF" />
-                  <ellipse cx="415" cy="-25" rx="14" ry="6" fill="none" stroke="#00D2FF" strokeWidth="1" opacity="0.8" className="animate-ping" />
-                </motion.g>
-
-                {/* ------------------------------------------------------------- */}
-                {/* 3. IP68 HERMETIC SLEEVE                                      */}
-                {/* ------------------------------------------------------------- */}
-                <motion.g style={{ y: chassisY }}>
-                  <ellipse cx="350" cy="-25" rx="85" ry="24" fill="#0F172A" opacity="0.6" stroke="#10E599" strokeWidth="1" />
-                  <path 
-                    d="M 265 -25 L 265 25 A 85 24 0 0 0 435 25 L 435 -25 Z" 
-                    fill="rgba(6, 78, 59, 0.25)" 
-                    stroke="rgba(16,229,153,0.5)" 
-                    strokeWidth="1" 
-                  />
-                  <ellipse cx="350" cy="-12" rx="84" ry="22" fill="none" stroke="#F59E0B" strokeWidth="2.5" />
-                  <ellipse cx="350" cy="12" rx="84" ry="22" fill="none" stroke="#F59E0B" strokeWidth="2.5" />
-                  <text x="350" y="4" textAnchor="middle" fill="#10E599" fontSize="9" fontWeight="bold" fontFamily="monospace" letterSpacing="1.5">
-                    IP68 &bull; 15KM &bull; NATLE-AG
-                  </text>
-                </motion.g>
-
-                {/* ------------------------------------------------------------- */}
-                {/* 4. STAINLESS STEEL 316L CAPACITANCE BLADES                    */}
-                {/* ------------------------------------------------------------- */}
-                <motion.g style={{ y: prongsY }}>
-                  <ellipse 
-                    cx="350" 
-                    cy="-20" 
-                    rx="80" 
-                    ry="22" 
-                    fill="#334155" 
-                    stroke={activePhaseIndex === 2 ? "#3B82F6" : "#64748B"} 
-                    strokeWidth="1.5" 
-                  />
-                  <g filter={activePhaseIndex === 2 ? "drop-shadow(0 0 30px rgba(59,130,246,0.8))" : "none"}>
-                    {/* 4 Blades with Depth Marks */}
-                    <path d="M 295 -15 L 295 35 L 298 45 L 301 35 L 301 -15 Z" fill="url(#scrollSteelProngs)" stroke="#94A3B8" strokeWidth="0.8" />
-                    <line x1="295" y1="15" x2="301" y2="15" stroke="#3B82F6" strokeWidth="2" />
-
-                    <path d="M 330 -15 L 330 55 L 333 68 L 336 55 L 336 -15 Z" fill="url(#scrollSteelProngs)" stroke="#94A3B8" strokeWidth="0.8" />
-                    <line x1="330" y1="30" x2="336" y2="30" stroke="#3B82F6" strokeWidth="2" />
-
-                    <path d="M 365 -15 L 365 75 L 368 90 L 371 75 L 371 -15 Z" fill="url(#scrollSteelProngs)" stroke="#94A3B8" strokeWidth="0.8" />
-                    <line x1="365" y1="50" x2="371" y2="50" stroke="#3B82F6" strokeWidth="2" />
-
-                    <path d="M 400 -15 L 400 35 L 403 45 L 406 35 L 406 -15 Z" fill="url(#scrollSteelProngs)" stroke="#94A3B8" strokeWidth="0.8" />
-                    <line x1="400" y1="15" x2="406" y2="15" stroke="#3B82F6" strokeWidth="2" />
-
-                    {/* Glowing Electric Capacitance Arcs */}
-                    <path d="M 301 20 Q 315 26 330 20" fill="none" stroke="#38BDF8" strokeWidth="1.5" strokeDasharray="3 2" className="animate-pulse" />
-                    <path d="M 336 35 Q 350 42 365 35" fill="none" stroke="#38BDF8" strokeWidth="1.5" strokeDasharray="3 2" className="animate-pulse" />
-                  </g>
-                </motion.g>
-
-                {/* ------------------------------------------------------------- */}
-                {/* 5. HOSMA COCOPEAT & ROOT MICRO-MATRIX                        */}
-                {/* ------------------------------------------------------------- */}
-                <motion.g style={{ y: cocopeatY }}>
-                  <g filter={activePhaseIndex === 3 ? "drop-shadow(0 0 35px rgba(5,150,105,0.9))" : "none"}>
-                    <ellipse cx="350" cy="-15" rx="110" ry="32" fill="#382218" stroke={activePhaseIndex === 3 ? "#10E599" : "#6E473B"} strokeWidth={activePhaseIndex === 3 ? "2.5" : "1"} />
-                    <path 
-                      d="M 240 -15 L 240 32 A 110 32 0 0 0 460 32 L 460 -15 Z" 
-                      fill="url(#scrollCocopeatBlock)" 
-                      stroke={activePhaseIndex === 3 ? "#10E599" : "#4A2E24"} 
-                      strokeWidth={activePhaseIndex === 3 ? "2" : "1"} 
+                {/* Pulsing Active Component Beacon / Radar Indicator */}
+                {!showAnnotated && (
+                  <motion.div
+                    key={activePhase.id}
+                    initial={{ scale: 0, opacity: 0 }}
+                    animate={{ scale: 1, opacity: 1 }}
+                    exit={{ scale: 0, opacity: 0 }}
+                    transition={{ type: "spring", damping: 15 }}
+                    style={{ top: activePhase.beaconTop, left: "50%" }}
+                    className="absolute -translate-x-1/2 -translate-y-1/2 z-20 pointer-events-none flex items-center justify-center"
+                  >
+                    <span 
+                      className="absolute w-12 h-12 rounded-full opacity-60 animate-ping"
+                      style={{ backgroundColor: activePhase.accentColor }}
                     />
-
-                    {/* Plant Root Capillaries */}
-                    <path d="M 350 -10 Q 330 10 310 22" fill="none" stroke="#FDE68A" strokeWidth="2" strokeLinecap="round" />
-                    <path d="M 350 -10 Q 370 8 390 24" fill="none" stroke="#FDE68A" strokeWidth="2" strokeLinecap="round" />
-                    <path d="M 330 10 Q 320 18 315 26" fill="none" stroke="#FDE68A" strokeWidth="1.5" strokeLinecap="round" />
-
-                    {/* Glowing Blue Water Droplets (850% H2O) */}
-                    <circle cx="310" cy="5" r="4" fill="#00D2FF" className="animate-ping" />
-                    <circle cx="385" cy="12" r="4" fill="#00D2FF" className="animate-ping" />
-                    <circle cx="350" cy="18" r="4" fill="#00D2FF" />
-                  </g>
-                </motion.g>
-
-              </svg>
+                    <span 
+                      className="w-4 h-4 rounded-full border-2 border-white shadow-lg"
+                      style={{ backgroundColor: activePhase.accentColor }}
+                    />
+                  </motion.div>
+                )}
+              </div>
             </motion.div>
 
             {/* Bottom HUD: Live Depth & Altitude Readout */}
-            <div className="absolute bottom-4 left-4 z-20 px-3 py-1.5 rounded-full bg-black/80 backdrop-blur-md border border-white/10 text-xs font-mono flex items-center gap-2 text-white">
+            <div className="absolute bottom-4 left-4 z-20 px-3 py-1.5 rounded-full bg-white/90 dark:bg-black/80 backdrop-blur-md border border-slate-200 dark:border-white/10 text-xs font-mono flex items-center gap-2 text-slate-900 dark:text-white shadow-sm">
               <span className="w-2 h-2 rounded-full" style={{ backgroundColor: activePhase.accentColor }} />
-              <span>{activePhase.depthLabel}</span>
+              <span className="font-bold">{activePhase.depthLabel}</span>
             </div>
 
           </div>
 
-          {/* RIGHT 5 COLS: DYNAMIC SPEC SHEET INSPECTOR */}
+          {/* ================= RIGHT 5 COLS: DYNAMIC SPEC SHEET INSPECTOR ================= */}
           <div className="lg:col-span-5">
             <AnimatePresence mode="wait">
               <motion.div
@@ -438,7 +332,7 @@ export default function HardwareScrollytelling() {
                     href="/contact"
                     className="gradient-btn inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-black uppercase tracking-wider text-slate-950 shadow-md hover:scale-105 transition-transform"
                   >
-                    <span>Request CAD Blueprint</span>
+                    <span>Request Hardware Spec</span>
                     <ArrowRight className="w-3.5 h-3.5" />
                   </a>
                 </div>
@@ -452,7 +346,7 @@ export default function HardwareScrollytelling() {
         <div className="max-w-7xl mx-auto w-full z-30 pb-1 flex items-center justify-between text-xs font-mono text-slate-400">
           <div className="flex items-center gap-2">
             <ChevronDown className="w-4 h-4 text-[#10E599] animate-bounce" />
-            <span>Scroll mouse wheel to glide camera and assemble hardware</span>
+            <span>Scroll mouse wheel to zoom camera through realistic 3D layers</span>
           </div>
           <div className="text-[11px] text-[#059669] dark:text-[#10E599] font-bold">
             Phase 0{activePhaseIndex + 1} / 04 Active
