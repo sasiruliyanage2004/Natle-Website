@@ -566,7 +566,7 @@ export default function HardwareScrollytelling() {
         />
 
         {/* ================= 3. THIN VERTICAL PROGRESS RAIL ================= */}
-        <div className="fixed right-4 sm:right-6 top-1/2 -translate-y-1/2 z-30 flex flex-col items-center pointer-events-auto">
+        <div className="absolute right-4 sm:right-6 top-1/2 -translate-y-1/2 z-30 flex flex-col items-center pointer-events-auto">
           {/* Vertical Track Tube */}
           <div className="relative w-[2px] h-48 sm:h-56 bg-slate-200 dark:bg-white/10 rounded-full">
             {/* Active Emerald-Neon Fill */}
