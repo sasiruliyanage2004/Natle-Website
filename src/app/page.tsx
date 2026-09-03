@@ -19,7 +19,6 @@ import AgentaFAQ from "@/components/AgentaFAQ";
 import Testimonials from "@/components/Testimonials";
 import CTAFooter from "@/components/CTAFooter";
 import BeamsBackground from "@/components/animations/BeamsBackground";
-import Particles from "@/components/magicui/particles";
 import SmoothCursor from "@/components/magicui/smooth-cursor";
 import { useTheme } from "@/components/ThemeProvider";
 
@@ -31,16 +30,6 @@ export default function Home() {
     <main className="relative min-h-screen bg-[#EDF6F2] dark:bg-[#050505] text-slate-900 dark:text-emerald-50 antialiased selection:bg-[#059669] selection:text-white transition-colors duration-300">
       {/* Kokonut UI Animated Luminous Beams Background */}
       <BeamsBackground intensity="medium" />
-
-      {/* Magic UI Interactive Floating Particles Background */}
-      <Particles
-        className="fixed inset-0 pointer-events-none z-0"
-        quantity={70}
-        ease={70}
-        size={0.5}
-        color={isDark ? "#10E599" : "#059669"}
-        refresh
-      />
 
       {/* Magic UI Smooth Cursor in Ceylon Emerald */}
       <SmoothCursor />

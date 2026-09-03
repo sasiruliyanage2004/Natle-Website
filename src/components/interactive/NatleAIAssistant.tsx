@@ -39,6 +39,8 @@ export default function NatleAIAssistant() {
   const [inputVal, setInputVal] = useState("");
   const [isTyping, setIsTyping] = useState(false);
   const [isListening, setIsListening] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
+  const isExpanded = isHovered || isOpen || inputVal.trim().length > 0 || isListening;
   const [messages, setMessages] = useState<Message[]>([
     {
       id: "welcome-1",
@@ -296,61 +298,97 @@ export default function NatleAIAssistant() {
         )}
       </AnimatePresence>
 
-      {/* ================= 2. SIGNATURE "ASK ANYTHING..." COMPACT FLOATING PILL ================= */}
+      {/* ================= 2. HOVER/CLICK-EXPANDABLE CIRCULAR AI LOGO ================= */}
       <motion.form
         onSubmit={(e) => {
           e.preventDefault();
           handleSend();
         }}
-        initial={{ y: 20, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.4 }}
-        className="relative flex items-center w-[230px] sm:w-[265px] h-9 sm:h-10 rounded-full bg-[#18181b]/95 dark:bg-[#121316]/95 border border-white/15 dark:border-white/10 shadow-[0_8px_24px_rgba(0,0,0,0.4)] backdrop-blur-xl px-1.5 transition-all group hover:border-white/30"
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => {
+          if (!isOpen && !inputVal.trim() && !isListening) {
+            setIsHovered(false);
+          }
+        }}
+        animate={{
+          width: isExpanded ? (typeof window !== "undefined" && window.innerWidth < 640 ? 240 : 275) : 46,
+          height: 46,
+        }}
+        transition={{ type: "spring", stiffness: 380, damping: 28 }}
+        className="relative flex items-center justify-end rounded-full bg-[#18181b]/95 dark:bg-[#0c120c]/95 border border-white/20 dark:border-emerald-500/30 shadow-[0_10px_30px_rgba(0,0,0,0.5)] backdrop-blur-xl overflow-hidden cursor-pointer group"
       >
-        {/* Subtle Ambient Pulse Dot */}
-        <div className="pl-2.5 pr-1 flex items-center">
-          <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-        </div>
-
-        {/* Text Input */}
-        <input
-          ref={inputRef}
-          type="text"
-          value={inputVal}
-          onChange={(e) => setInputVal(e.target.value)}
-          onFocus={() => setIsOpen(true)}
-          placeholder={isListening ? "Listening..." : "Ask anything..."}
-          className="flex-1 bg-transparent px-2 text-xs text-white placeholder-slate-400 font-sans outline-none"
-        />
-
-        {/* If text is typed, show quick Send button */}
-        {inputVal.trim() && (
+        {/* State A: Collapsed Round Circle Badge Icon */}
+        {!isExpanded && (
           <button
-            type="submit"
-            className="p-1 rounded-full bg-[#059669] hover:bg-[#10E599] text-slate-950 font-bold transition-all mr-1 cursor-pointer"
+            type="button"
+            onClick={() => {
+              setIsHovered(true);
+              setIsOpen(true);
+              sound.playClick();
+            }}
+            className="w-[46px] h-[46px] flex items-center justify-center text-[#10E599] hover:scale-105 transition-transform shrink-0 relative"
+            aria-label="Open NATLE AI Co-Pilot"
+            title="NATLE FieldOS AI Co-Pilot"
           >
-            <CornerDownLeft className="w-3 h-3" />
+            <Sparkles className="w-5 h-5 text-[#10E599] drop-shadow-[0_0_8px_#10E599]" />
+            <span className="w-2 h-2 rounded-full bg-[#10E599] animate-ping absolute top-2.5 right-2.5" />
+            <span className="w-1.5 h-1.5 rounded-full bg-[#059669] absolute top-2.5 right-2.5" />
           </button>
         )}
 
-        {/* Circular White Microphone Button */}
-        <button
-          type="button"
-          onClick={toggleListening}
-          title={isListening ? "Stop listening" : "Click to speak with voice"}
-          className={cn(
-            "w-7 h-7 sm:w-7.5 sm:h-7.5 rounded-full flex items-center justify-center transition-all cursor-pointer shrink-0 shadow-sm",
-            isListening 
-              ? "bg-red-500 text-white animate-pulse" 
-              : "bg-[#f1f1f1] hover:bg-white text-slate-900 hover:scale-105 active:scale-95"
-          )}
-        >
-          {isListening ? (
-            <MicOff className="w-3.5 h-3.5" />
-          ) : (
-            <Mic className="w-3.5 h-3.5" />
-          )}
-        </button>
+        {/* State B: Expanded Input Pill */}
+        {isExpanded && (
+          <div className="flex items-center w-full px-2">
+            {/* Subtle Ambient Pulse Dot */}
+            <div className="pl-1 pr-1 flex items-center">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+            </div>
+
+            {/* Text Input */}
+            <input
+              ref={inputRef}
+              type="text"
+              value={inputVal}
+              onChange={(e) => setInputVal(e.target.value)}
+              onFocus={() => {
+                setIsHovered(true);
+                setIsOpen(true);
+              }}
+              placeholder={isListening ? "Listening..." : "Ask anything..."}
+              className="flex-1 bg-transparent px-2 text-xs text-white placeholder-slate-400 font-sans outline-none"
+              autoFocus={isHovered && isOpen}
+            />
+
+            {/* If text is typed, show quick Send button */}
+            {inputVal.trim() && (
+              <button
+                type="submit"
+                className="p-1 rounded-full bg-[#059669] hover:bg-[#10E599] text-slate-950 font-bold transition-all mr-1 cursor-pointer"
+              >
+                <CornerDownLeft className="w-3 h-3" />
+              </button>
+            )}
+
+            {/* Circular Microphone Button */}
+            <button
+              type="button"
+              onClick={toggleListening}
+              title={isListening ? "Stop listening" : "Click to speak with voice"}
+              className={cn(
+                "w-7 h-7 sm:w-7.5 sm:h-7.5 rounded-full flex items-center justify-center transition-all cursor-pointer shrink-0 shadow-sm",
+                isListening 
+                  ? "bg-red-500 text-white animate-pulse" 
+                  : "bg-[#f1f1f1] hover:bg-white text-slate-900 hover:scale-105 active:scale-95"
+              )}
+            >
+              {isListening ? (
+                <MicOff className="w-3.5 h-3.5" />
+              ) : (
+                <Mic className="w-3.5 h-3.5" />
+              )}
+            </button>
+          </div>
+        )}
       </motion.form>
 
     </div>
