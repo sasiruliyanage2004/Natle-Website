@@ -19,7 +19,6 @@ import AgentaFAQ from "@/components/AgentaFAQ";
 import Testimonials from "@/components/Testimonials";
 import CTAFooter from "@/components/CTAFooter";
 import BeamsBackground from "@/components/animations/BeamsBackground";
-import SmoothCursor from "@/components/magicui/smooth-cursor";
 import { useTheme } from "@/components/ThemeProvider";
 
 export default function Home() {
@@ -27,12 +26,9 @@ export default function Home() {
   const isDark = theme === "dark";
 
   return (
-    <main className="relative min-h-screen bg-[#EDF6F2] dark:bg-[#050505] text-slate-900 dark:text-emerald-50 antialiased selection:bg-[#059669] selection:text-white transition-colors duration-300">
+    <main className="relative min-h-screen bg-[#F8FAFC] dark:bg-[#050505] text-slate-900 dark:text-emerald-50 antialiased selection:bg-[#059669] selection:text-white transition-colors duration-300">
       {/* Kokonut UI Animated Luminous Beams Background */}
       <BeamsBackground intensity="medium" />
-
-      {/* Magic UI Smooth Cursor in Ceylon Emerald */}
-      <SmoothCursor />
 
       {/* Main Page Flow Architecture */}
       <div className="relative z-10">

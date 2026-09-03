@@ -104,39 +104,6 @@ export function VideoText({
             />
           </div>
         </foreignObject>
-
-        {/* 2. Crisp Edge Definition Outlines for Razor-Sharp Readability */}
-        <text
-          x={isLeft ? "10" : "600"}
-          y={isLeft ? "100" : "110"}
-          textAnchor={isLeft ? "start" : "middle"}
-          dominantBaseline="middle"
-          fill="none"
-          strokeWidth="1.5"
-          fontSize={isLeft ? "120" : "130"}
-          fontWeight="900"
-          letterSpacing={isLeft ? "-2" : "-3"}
-          fontFamily="var(--font-sans), Inter, system-ui, sans-serif"
-          className="pointer-events-none stroke-[#071326]/25 dark:stroke-white/50"
-        >
-          {line1}
-        </text>
-
-        <text
-          x={isLeft ? "10" : "600"}
-          y={isLeft ? "225" : "240"}
-          textAnchor={isLeft ? "start" : "middle"}
-          dominantBaseline="middle"
-          fill="none"
-          strokeWidth="1.5"
-          fontSize={isLeft ? "120" : "130"}
-          fontWeight="900"
-          letterSpacing={isLeft ? "-2" : "-3"}
-          fontFamily="var(--font-sans), Inter, system-ui, sans-serif"
-          className="pointer-events-none stroke-[#071326]/25 dark:stroke-white/50"
-        >
-          {line2}
-        </text>
       </svg>
     </div>
   );
