@@ -231,13 +231,7 @@ export default function HardwareScrollytelling() {
     ground.receiveShadow = true;
     scene.add(ground);
 
-    // Decorative floating ring
-    const decoRing = new THREE.Mesh(
-      new THREE.TorusGeometry(0.28, 0.012, 8, 40),
-      new THREE.MeshBasicMaterial({ color: 0x3aa383 })
-    );
-    decoRing.position.set(-2.4, 1.4, -1.5);
-    scene.add(decoRing);
+
 
     // ---------- CAMERA & ANIMATION LOOP ----------
     let scrollProgress = 0;
