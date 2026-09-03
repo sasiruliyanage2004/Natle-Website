@@ -20,6 +20,7 @@ import {
 import NatleLogo from "@/components/common/NatleLogo";
 import SocialShareButton from "@/components/common/SocialShareButton";
 import ViewOnMap from "@/components/common/ViewOnMap";
+import { CardPattern } from "@/components/ui/CardPattern";
 
 const footerNavigation = {
   solutions: [
@@ -84,7 +85,10 @@ export default function CTAFooter() {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-16 pb-12">
         
         {/* ================= 1. TOP INTERACTIVE CTA BENTO BANNER ================= */}
-        <div className="relative rounded-[2.5rem] border border-white/10 dark:border-emerald-900/40 bg-gradient-to-b from-white/[0.07] to-white/[0.02] dark:from-[#0a140a]/90 dark:to-[#050505]/95 p-8 sm:p-12 shadow-2xl backdrop-blur-2xl overflow-hidden mb-16">
+        <div className="relative rounded-[2.5rem] border border-white/10 dark:border-emerald-900/40 bg-gradient-to-b from-white/[0.07] to-white/[0.02] dark:from-[#0a140a]/90 dark:to-[#050505]/95 p-8 sm:p-12 shadow-2xl backdrop-blur-2xl overflow-hidden mb-16 group">
+          
+          {/* Advanced Geometric Telemetry Lattice */}
+          <CardPattern variant="bio-hex" position="top-right" theme="colored" className="w-80 h-80 sm:w-96 sm:h-96" />
           
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center relative z-10">
             
@@ -112,8 +116,9 @@ export default function CTAFooter() {
 
             {/* Interactive Farm Assessment Form */}
             <div className="lg:col-span-5">
-              <div className="rounded-3xl border border-white/15 dark:border-emerald-900/50 bg-black/40 dark:bg-[#080d08]/90 p-6 shadow-xl backdrop-blur-xl">
-                <span className="text-xs font-mono font-bold text-[#10E599] uppercase tracking-wider block mb-2">
+              <div className="relative rounded-3xl border border-white/15 dark:border-emerald-900/50 bg-black/40 dark:bg-[#080d08]/90 p-6 shadow-xl backdrop-blur-xl overflow-hidden group/form">
+                <CardPattern variant="circuit" position="top-right" theme="emerald" className="w-44 h-44 opacity-40" />
+                <span className="relative z-10 text-xs font-mono font-bold text-[#10E599] uppercase tracking-wider block mb-2">
                   Get Free Farm Assessment
                 </span>
 

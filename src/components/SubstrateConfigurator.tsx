@@ -18,6 +18,7 @@ import {
   Leaf
 } from "lucide-react";
 import Link from "next/link";
+import { CardPattern } from "@/components/ui/CardPattern";
 
 interface CropPreset {
   id: string;
@@ -199,8 +200,14 @@ Direct Inquiries: contact@natle.tech | sales@hosmaceylon.com
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch max-w-6xl mx-auto">
           
           {/* Left Column: Form Controls */}
-          <div className="lg:col-span-7 glass-card rounded-[2.5rem] p-6 sm:p-10 flex flex-col justify-between space-y-6">
-            <div>
+          <div className="lg:col-span-7 glass-card rounded-[2.5rem] p-6 sm:p-10 flex flex-col justify-between space-y-6 relative overflow-hidden group">
+            <CardPattern 
+              variant="circuit" 
+              position="top-right" 
+              theme="auto" 
+              className="w-64 h-64 opacity-25 group-hover:opacity-50" 
+            />
+            <div className="relative z-10">
               <div className="flex items-center justify-between pb-6 border-b border-slate-200/80 dark:border-emerald-900/30 mb-6">
                 <div className="flex items-center gap-2.5">
                   <div className="w-10 h-10 rounded-2xl bg-emerald-50 dark:bg-emerald-950/60 text-[#059669] dark:text-[#10E599] flex items-center justify-center font-bold">
@@ -300,12 +307,20 @@ Direct Inquiries: contact@natle.tech | sales@hosmaceylon.com
           </div>
 
           {/* Right Column: Live Technical Spec Sheet Card */}
-          <div className="lg:col-span-5 rounded-[2.5rem] bg-[#071326] dark:bg-[#080d08] border border-emerald-500/30 p-6 sm:p-8 text-white shadow-2xl flex flex-col justify-between relative overflow-hidden backdrop-blur-2xl">
+          <div className="lg:col-span-5 rounded-[2.5rem] bg-[#071326] dark:bg-[#080d08] border border-emerald-500/30 p-6 sm:p-8 text-white shadow-2xl flex flex-col justify-between relative overflow-hidden backdrop-blur-2xl group">
             
+            {/* Advanced Bio-Hex Honeycomb Telemetry Motif */}
+            <CardPattern 
+              variant="bio-hex" 
+              position="top-right" 
+              theme="emerald" 
+              className="w-64 h-64 sm:w-80 sm:h-80 opacity-35 group-hover:opacity-65" 
+            />
+
             {/* Ambient Background Glow */}
             <div className="absolute top-0 right-0 w-48 h-48 bg-[#10E599]/10 rounded-full blur-3xl pointer-events-none" />
 
-            <div>
+            <div className="relative z-10">
               <div className="flex items-center justify-between pb-5 border-b border-white/10">
                 <div className="flex items-center gap-2">
                   <FileSpreadsheet className="w-4 h-4 text-[#10E599]" />

@@ -14,6 +14,7 @@ import {
   Zap
 } from "lucide-react";
 import Link from "next/link";
+import { CardPattern } from "@/components/ui/CardPattern";
 
 const SOLUTIONS = [
   {
@@ -111,7 +112,13 @@ export default function Solutions() {
         </div>
 
         {/* Solution Details Card */}
-        <div className="relative rounded-3xl border border-slate-200/80 dark:border-emerald-900/30 bg-slate-50/80 dark:bg-[#0a140a]/90 p-8 md:p-12 shadow-xl backdrop-blur-xl">
+        <div className="relative rounded-3xl border border-slate-200/80 dark:border-emerald-900/30 bg-slate-50/80 dark:bg-[#0a140a]/90 p-8 md:p-12 shadow-xl backdrop-blur-xl overflow-hidden group">
+          <CardPattern 
+            variant="topographic" 
+            position="top-right" 
+            theme="auto" 
+            className="w-72 h-72 sm:w-96 sm:h-96 opacity-35 group-hover:opacity-65" 
+          />
           <AnimatePresence mode="wait">
             <motion.div
               key={current.id}
@@ -119,7 +126,7 @@ export default function Solutions() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -15 }}
               transition={{ duration: 0.4 }}
-              className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center"
+              className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center relative z-10"
             >
               {/* Left Column: Description */}
               <div className="lg:col-span-7 space-y-6">

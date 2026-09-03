@@ -14,6 +14,7 @@ import {
   Activity
 } from "lucide-react";
 import Link from "next/link";
+import { CardPattern } from "@/components/ui/CardPattern";
 
 const bentoMetrics = [
   {
@@ -116,9 +117,15 @@ export default function Features() {
                 transition={{ duration: 0.45, delay: index * 0.08 }}
                 whileHover={{ y: -6, scale: 1.02, transition: { duration: 0.2 } }}
                 whileTap={{ scale: 0.98 }}
-                className={`glass-card rounded-3xl p-6 border-l-4 ${item.borderColor} transition-all duration-300 group shadow-md hover:shadow-xl cursor-pointer`}
+                className={`glass-card rounded-3xl p-6 border-l-4 ${item.borderColor} transition-all duration-300 group shadow-md hover:shadow-xl cursor-pointer relative overflow-hidden`}
               >
-                <div className="flex justify-between items-start mb-6">
+                <CardPattern 
+                  variant="bio-hex" 
+                  position="top-right" 
+                  theme="auto" 
+                  className="w-36 h-36 opacity-30 group-hover:opacity-60" 
+                />
+                <div className="relative z-10 flex justify-between items-start mb-6">
                   <span className="text-xs font-bold font-mono text-slate-500 dark:text-emerald-300/70 uppercase">
                     {item.title}
                   </span>
@@ -178,9 +185,15 @@ export default function Features() {
             viewport={{ once: true, margin: "-30px" }}
             transition={{ duration: 0.5, delay: 0.1 }}
             whileHover={{ y: -6, scale: 1.015, transition: { duration: 0.2 } }}
-            className="glass-card rounded-3xl p-8 md:p-10 flex flex-col justify-between hover:shadow-2xl transition-all group"
+            className="glass-card rounded-3xl p-8 md:p-10 flex flex-col justify-between hover:shadow-2xl transition-all group relative overflow-hidden"
           >
-            <div>
+            <CardPattern 
+              variant="circuit" 
+              position="top-right" 
+              theme="cyan" 
+              className="w-56 h-56 sm:w-72 sm:h-72 opacity-30 group-hover:opacity-60" 
+            />
+            <div className="relative z-10">
               <div className="w-12 h-12 rounded-2xl bg-blue-50 dark:bg-emerald-950/60 text-[#0052FF] dark:text-[#10E599] border border-blue-100 dark:border-emerald-800/40 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
                 <Cpu className="w-6 h-6" />
               </div>
@@ -195,7 +208,7 @@ export default function Features() {
               </p>
             </div>
 
-            <div className="mt-8 pt-6 border-t border-slate-100 dark:border-emerald-900/30 flex items-center justify-between">
+            <div className="relative z-10 mt-8 pt-6 border-t border-slate-100 dark:border-emerald-900/30 flex items-center justify-between">
               <span className="text-xs font-bold text-slate-500 dark:text-emerald-300/60">
                 IP68 Submersible Enclosures
               </span>
@@ -213,9 +226,15 @@ export default function Features() {
             viewport={{ once: true, margin: "-30px" }}
             transition={{ duration: 0.5, delay: 0.2 }}
             whileHover={{ y: -6, scale: 1.015, transition: { duration: 0.2 } }}
-            className="glass-card rounded-3xl p-8 md:p-10 flex flex-col justify-between hover:shadow-2xl transition-all group"
+            className="glass-card rounded-3xl p-8 md:p-10 flex flex-col justify-between hover:shadow-2xl transition-all group relative overflow-hidden"
           >
-            <div>
+            <CardPattern 
+              variant="bio-hex" 
+              position="top-right" 
+              theme="emerald" 
+              className="w-56 h-56 sm:w-72 sm:h-72 opacity-30 group-hover:opacity-60" 
+            />
+            <div className="relative z-10">
               <div className="w-12 h-12 rounded-2xl bg-emerald-50 dark:bg-emerald-950/60 text-[#059669] dark:text-[#10E599] border border-emerald-100 dark:border-emerald-800/40 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
                 <CloudCog className="w-6 h-6" />
               </div>

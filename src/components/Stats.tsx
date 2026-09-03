@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { motion, useInView, animate } from "framer-motion";
 import { Tractor, Gauge, TrendingUp, Globe2, type LucideIcon } from "lucide-react";
+import { CardPattern } from "@/components/ui/CardPattern";
 
 type Stat = {
   icon: LucideIcon;
@@ -46,8 +47,20 @@ export default function Stats() {
   return (
     <section className="relative overflow-hidden bg-transparent py-20">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="glass-card rounded-[2.5rem] p-8 sm:p-12">
-          <div className="mx-auto max-w-xl text-center mb-12">
+        <div className="glass-card rounded-[2.5rem] p-8 sm:p-12 relative overflow-hidden group">
+          <CardPattern 
+            variant="telemetry" 
+            position="top-right" 
+            theme="auto" 
+            className="w-64 h-64 sm:w-80 sm:h-80 opacity-25 group-hover:opacity-50" 
+          />
+          <CardPattern 
+            variant="bio-hex" 
+            position="bottom-left" 
+            theme="auto" 
+            className="w-56 h-56 opacity-20 group-hover:opacity-40" 
+          />
+          <div className="relative z-10 mx-auto max-w-xl text-center mb-12">
             <p className="text-xs font-mono font-bold uppercase tracking-wider text-[#059669] dark:text-[#10E599]">
               Impact, Measured &bull; Real Estate Telemetry
             </p>
