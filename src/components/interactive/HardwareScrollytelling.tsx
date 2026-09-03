@@ -392,17 +392,6 @@ export default function HardwareScrollytelling() {
       const clamped = Math.max(0, Math.min(1, current / totalScroll));
       targetProgress = clamped;
       setScrollFraction(clamped);
-
-      const stage = Math.min(5, Math.floor(clamped * 6));
-      if (stage !== lastStage) {
-        lastStage = stage;
-        setActiveStage(stage);
-        sound.playClick();
-        
-        // Trigger subtle depth-of-field blur pulse on stop change
-        setIsBlurPulsing(true);
-        setTimeout(() => setIsBlurPulsing(false), 450);
-      }
     };
 
     window.addEventListener("scroll", handleScroll, { passive: true });
@@ -453,6 +442,18 @@ export default function HardwareScrollytelling() {
       updateCamera(scrollProgress);
       led.material.emissiveIntensity = 1.2 + Math.sin(Date.now() * 0.003) * 0.3;
       renderer.render(scene, camera);
+
+      // Synchronize activeStage precisely with the camera's smoothed progress
+      const currentStage = Math.min(5, Math.max(0, Math.round(scrollProgress * 5)));
+      if (currentStage !== lastStage) {
+        lastStage = currentStage;
+        setActiveStage(currentStage);
+        sound.playClick();
+        
+        // Trigger subtle depth-of-field blur pulse on stop change
+        setIsBlurPulsing(true);
+        setTimeout(() => setIsBlurPulsing(false), 450);
+      }
     }
     animate();
 
@@ -662,21 +663,44 @@ export default function HardwareScrollytelling() {
             </div>
           </div>
 
-          {/* STAGE 1: CAP */}
+          {/* STAGE 1: CAP — Intentionally centered in the upper void above the probe cap */}
           <div 
-            className={`absolute top-[20%] sm:top-[18%] left-4 right-4 sm:left-auto sm:right-16 max-w-xs text-left sm:text-right transition-all duration-500 bg-white/85 dark:bg-[#070e08]/90 backdrop-blur-xl sm:bg-transparent sm:dark:bg-transparent sm:backdrop-blur-none p-4 sm:p-0 rounded-2xl sm:rounded-none border border-slate-200/80 dark:border-emerald-500/20 sm:border-0 shadow-xl sm:shadow-none ${
-              activeStage === 1 ? "opacity-100 translate-y-0 pointer-events-auto" : "opacity-0 translate-y-4 pointer-events-none"
+            className={`absolute top-[14%] sm:top-[15%] md:top-[16%] left-1/2 -translate-x-1/2 w-[92%] sm:w-auto sm:max-w-md text-center transition-all duration-500 flex flex-col items-center pointer-events-none ${
+              activeStage === 1 ? "opacity-100 translate-y-0 pointer-events-auto" : "opacity-0 -translate-y-4 pointer-events-none"
             }`}
           >
-            <div className="inline-flex items-center gap-2 font-mono text-[10px] font-bold tracking-[0.2em] text-[#F59E0B] uppercase mb-1.5 sm:flex-row-reverse">
-              <span>01 &mdash; cap</span>
+            {/* Atmospheric Upper Glow for Stage 1 */}
+            <div className="absolute -top-10 left-1/2 -translate-x-1/2 w-72 h-36 bg-[#10E599]/15 dark:bg-[#10E599]/20 blur-3xl rounded-full pointer-events-none" />
+
+            <div className="relative w-full bg-white/85 dark:bg-[#070e08]/90 backdrop-blur-xl px-6 py-4.5 rounded-3xl border border-slate-200/90 dark:border-emerald-500/25 shadow-2xl dark:shadow-[0_8px_32px_rgba(16,229,153,0.15)] flex flex-col items-center">
+              <div className="inline-flex items-center gap-2 font-mono text-[10.5px] font-bold tracking-[0.22em] text-[#D97706] dark:text-[#FBBF24] uppercase mb-1">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#D97706] dark:bg-[#FBBF24] animate-pulse" />
+                <span>01 &mdash; cap</span>
+                <span className="text-slate-300 dark:text-zinc-600">&bull;</span>
+                <span className="text-slate-400 dark:text-zinc-400">solar array</span>
+              </div>
+
+              <h3 className="text-2xl sm:text-3xl lg:text-4xl font-black text-slate-900 dark:text-white tracking-tight mb-2">
+                solar.pv cell
+              </h3>
+
+              <p className="text-xs sm:text-sm text-slate-600 dark:text-zinc-300 leading-relaxed font-normal max-w-sm">
+                A single photovoltaic disc trickle-charges the internal cell whenever the crown breaks the soil line.
+              </p>
+
+              {/* Telemetry Chips */}
+              <div className="mt-3 flex items-center gap-2 font-mono text-[9px] sm:text-[9.5px] font-bold tracking-wider text-slate-600 dark:text-emerald-400/90 uppercase">
+                <span className="px-2.5 py-0.5 rounded-full bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10">3.3V Trickle</span>
+                <span className="px-2.5 py-0.5 rounded-full bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10">Monocrystalline</span>
+              </div>
             </div>
-            <h3 className="text-xl sm:text-3xl font-black text-slate-900 dark:text-white tracking-tight mb-1.5">
-              solar.pv cell
-            </h3>
-            <p className="text-xs sm:text-sm text-slate-600 dark:text-zinc-400 leading-relaxed font-normal ml-auto">
-              A single photovoltaic disc trickle-charges the internal cell whenever the crown breaks the soil line.
-            </p>
+
+            {/* Subtle Vertical Guide Line & Dot Marker connecting Label down to Cap */}
+            <div className="flex flex-col items-center mt-2.5 pointer-events-none">
+              <div className="w-2 h-2 rounded-full border border-[#10E599] bg-[#10E599]/30 shadow-[0_0_8px_#10E599]" />
+              <div className="w-[1px] h-10 sm:h-16 bg-gradient-to-b from-[#10E599]/70 via-[#10E599]/30 to-transparent" />
+              <span className="font-mono text-[8.5px] tracking-[0.2em] text-[#059669] dark:text-[#10E599]/80 uppercase mt-0.5">crown focal point</span>
+            </div>
           </div>
 
           {/* STAGE 2: SHELL */}
