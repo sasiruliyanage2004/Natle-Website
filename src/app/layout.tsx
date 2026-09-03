@@ -33,7 +33,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="light scroll-smooth" style={{ colorScheme: "light" }}>
-      <body className={`${inter.variable} ${playfair.variable} font-sans bg-[#edf6f2] text-[#071326] antialiased`}>
+      <body className={`${inter.variable} ${playfair.variable} font-sans bg-[#F8FAFC] dark:bg-[#050505] text-[#071326] dark:text-white antialiased`}>
         <ThemeProvider>
           {children}
           <NatleAIAssistant />

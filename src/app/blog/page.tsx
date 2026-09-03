@@ -13,7 +13,7 @@ export const metadata = {
 
 export default function BlogPage() {
   return (
-    <main className="relative min-h-screen bg-[#EDF6F2] dark:bg-[#050505] text-slate-900 dark:text-emerald-50 antialiased selection:bg-[#059669] selection:text-white transition-colors duration-300">
+    <main className="relative min-h-screen bg-[#F8FAFC] dark:bg-[#050505] text-slate-900 dark:text-emerald-50 antialiased selection:bg-[#059669] selection:text-white transition-colors duration-300">
       {/* Background Luminous Beams */}
       <BeamsBackground intensity="subtle" />
       <SmoothCursor />

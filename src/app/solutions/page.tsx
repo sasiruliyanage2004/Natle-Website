@@ -63,7 +63,7 @@ const solutions = [
 
 export default function SolutionsPage() {
   return (
-    <main className="relative min-h-screen bg-[#EDF6F2] dark:bg-[#050505] text-slate-900 dark:text-emerald-50 antialiased selection:bg-[#059669] selection:text-white transition-colors duration-300 select-none">
+    <main className="relative min-h-screen bg-[#F8FAFC] dark:bg-[#050505] text-slate-900 dark:text-emerald-50 antialiased selection:bg-[#059669] selection:text-white transition-colors duration-300 select-none">
       <BeamsBackground intensity="subtle" className="absolute inset-0 z-0 pointer-events-none" />
       <SmoothCursor />
 
