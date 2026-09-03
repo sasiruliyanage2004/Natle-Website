@@ -166,102 +166,55 @@ export default function Hero() {
         </motion.div>
 
 
-        {/* ================= DUAL SHOWCASE PANELS: THE STACK & THE FIELD ================= */}
+        {/* ================= UNIFIED ISOMETRIC SHOWCASE: THE CLOUD & THE FIELD ================= */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0, y: 30, scale: 0.98 }}
+          whileInView={{ opacity: 1, y: 0, scale: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8, ease: "easeOut", delay: 0.15 }}
-          className="mt-14 w-full max-w-5xl"
+          className="mt-14 relative w-full max-w-5xl rounded-[2rem] sm:rounded-[2.5rem] border border-emerald-500/25 dark:border-emerald-500/30 shadow-[0_20px_50px_rgba(0,0,0,0.12)] dark:shadow-[0_20px_60px_-15px_rgba(0,0,0,0.8),0_0_40px_-10px_rgba(16,229,153,0.15)] overflow-hidden group p-0 bg-transparent"
         >
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 items-stretch">
-            
-            {/* PANEL 1: THE STACK (Dashboard / Cloud Telemetry) */}
-            <div className="group relative rounded-3xl border border-slate-200/80 dark:border-emerald-500/20 bg-white/90 dark:bg-[#09100a]/90 p-3 sm:p-4 shadow-xl dark:shadow-[0_15px_35px_rgba(0,0,0,0.6)] backdrop-blur-2xl flex flex-col justify-between overflow-hidden transition-all duration-300 hover:border-emerald-500/40 hover:shadow-2xl">
-              <div className="relative aspect-[16/10] w-full overflow-hidden rounded-2xl bg-slate-950">
-                <Image
-                  src="/images/natle-fusion-hero.jpg"
-                  alt="The Stack — NATLE Next.js Cloud Dashboard & IoT Telemetry"
-                  fill
-                  priority
-                  className="object-cover object-left transition-transform duration-700 ease-out group-hover:scale-105"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/15 to-transparent pointer-events-none" />
+          <div className="relative aspect-[16/9] w-full overflow-hidden bg-slate-950">
+            <Image
+              src="/images/chatgpt-fusion.png"
+              alt="NATLE FieldOS Next.js Cloud Dashboard & Precision Ceylon Smart Greenhouse Telemetry"
+              fill
+              priority
+              className="object-cover object-center transition-transform duration-700 ease-out group-hover:scale-[1.02]"
+            />
 
-                {/* Overlaid Label Badge: Top Left */}
-                <div className="absolute top-3 left-3 z-10 inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-950/80 border border-white/15 backdrop-blur-md">
-                  <Cpu className="w-3.5 h-3.5 text-[#00D2FF]" />
-                  <span className="font-mono text-[10px] font-bold uppercase tracking-widest text-[#00D2FF]">
-                    THE STACK
-                  </span>
-                </div>
+            {/* Subtle High-Contrast Gradient Overlays for Razor-Sharp Text Readability */}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/30 pointer-events-none" />
 
-                {/* Overlaid Feature Chip: Bottom Left */}
-                <div className="absolute bottom-3 left-3 z-10 text-left">
-                  <p className="text-xs font-black text-white">Next.js Cloud &times; Go Telemetry</p>
-                  <p className="text-[10px] font-mono font-medium text-slate-300">Sub-50ms Telemetry Pipeline</p>
-                </div>
+            {/* Top Left Floating Ecosystem Badge */}
+            <div className="absolute top-4 left-4 sm:top-5 sm:left-5 z-20 inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-950/85 border border-white/15 backdrop-blur-md shadow-lg">
+              <span className="w-2 h-2 rounded-full bg-[#10E599] animate-pulse" />
+              <span className="font-mono text-[10px] sm:text-xs font-bold uppercase tracking-widest text-[#10E599]">
+                NATLE FIELDOS™ &bull; THE STACK &times; THE FIELD
+              </span>
+            </div>
+
+            {/* Bottom Left: The Stack Telemetry Chip */}
+            <div className="absolute bottom-4 left-4 sm:bottom-5 sm:left-5 z-20 flex items-center gap-3 rounded-2xl bg-slate-950/90 border border-white/15 p-3 sm:p-3.5 shadow-2xl backdrop-blur-md">
+              <div className="flex h-9 w-9 sm:h-10 sm:w-10 items-center justify-center rounded-xl bg-gradient-to-tr from-[#0052FF] to-[#00D2FF] text-white shadow-md shrink-0">
+                <Cpu className="h-5 w-5" />
               </div>
-
-              {/* Caption Footer */}
-              <div className="pt-3 px-1 flex items-center justify-between text-left">
-                <div>
-                  <span className="font-mono text-[10px] font-bold uppercase tracking-widest text-[#059669] dark:text-[#10E599] block">
-                    THE STACK &bull; CLOUD ARCHITECTURE
-                  </span>
-                  <p className="text-xs font-semibold text-slate-700 dark:text-zinc-300">
-                    Precision LoRaWAN Edge &amp; Neural Analytics
-                  </p>
-                </div>
-                <span className="text-[10px] font-mono font-bold text-slate-400 dark:text-slate-500 hidden sm:inline shrink-0">
-                  v4.2 Cloud
-                </span>
+              <div className="text-left">
+                <p className="text-xs sm:text-sm font-black text-white">Next.js Cloud &times; Go Engine</p>
+                <p className="text-[10px] font-mono font-medium text-slate-300">Sub-50ms LoRa Telemetry Pipeline</p>
               </div>
             </div>
 
-            {/* PANEL 2: THE FIELD (Greenhouse & Substrates) */}
-            <div className="group relative rounded-3xl border border-slate-200/80 dark:border-emerald-500/20 bg-white/90 dark:bg-[#09100a]/90 p-3 sm:p-4 shadow-xl dark:shadow-[0_15px_35px_rgba(0,0,0,0.6)] backdrop-blur-2xl flex flex-col justify-between overflow-hidden transition-all duration-300 hover:border-emerald-500/40 hover:shadow-2xl">
-              <div className="relative aspect-[16/10] w-full overflow-hidden rounded-2xl bg-slate-950">
-                <Image
-                  src="/images/natle-fusion-hero.jpg"
-                  alt="The Field — Ceylon Smart Greenhouses & Organic Cocopeat"
-                  fill
-                  priority
-                  className="object-cover object-right transition-transform duration-700 ease-out group-hover:scale-105"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/15 to-transparent pointer-events-none" />
-
-                {/* Overlaid Label Badge: Top Left */}
-                <div className="absolute top-3 left-3 z-10 inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-950/80 border border-white/15 backdrop-blur-md">
-                  <Leaf className="w-3.5 h-3.5 text-[#10E599]" />
-                  <span className="font-mono text-[10px] font-bold uppercase tracking-widest text-[#10E599]">
-                    THE FIELD
-                  </span>
-                </div>
-
-                {/* Overlaid Feature Chip: Bottom Left */}
-                <div className="absolute bottom-3 left-3 z-10 text-left">
-                  <p className="text-xs font-black text-white">Hosma Ceylon &times; High Aeration</p>
-                  <p className="text-[10px] font-mono font-medium text-slate-300">100% Organic Micro-Capillaries</p>
-                </div>
+            {/* Bottom Right: The Field Agronomy Chip */}
+            <div className="absolute bottom-4 right-4 sm:bottom-5 sm:right-5 z-20 hidden sm:flex items-center gap-3 rounded-2xl bg-slate-950/90 border border-white/15 p-3 sm:p-3.5 shadow-2xl backdrop-blur-md">
+              <div className="flex h-9 w-9 sm:h-10 sm:w-10 items-center justify-center rounded-xl bg-gradient-to-tr from-[#059669] to-[#10E599] text-slate-950 shadow-md shrink-0">
+                <Leaf className="h-5 w-5" />
               </div>
-
-              {/* Caption Footer */}
-              <div className="pt-3 px-1 flex items-center justify-between text-left">
-                <div>
-                  <span className="font-mono text-[10px] font-bold uppercase tracking-widest text-[#059669] dark:text-[#10E599] block">
-                    THE FIELD &bull; LIVING BIOMASS
-                  </span>
-                  <p className="text-xs font-semibold text-slate-700 dark:text-zinc-300">
-                    Hosma Ultra-Washed Cocopeat &amp; Crop Canopy
-                  </p>
-                </div>
-                <span className="text-[10px] font-mono font-bold text-slate-400 dark:text-slate-500 hidden sm:inline shrink-0">
-                  OMRI Listed
-                </span>
+              <div className="text-left">
+                <p className="text-xs sm:text-sm font-black text-white">Smart Canopy &times; Hosma Organic</p>
+                <p className="text-[10px] font-mono font-bold text-[#10E599]">YieldAI™ Harvest Prediction: +28.4%</p>
               </div>
             </div>
-
           </div>
         </motion.div>
 
