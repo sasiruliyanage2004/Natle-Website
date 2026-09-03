@@ -332,8 +332,8 @@ export default function HardwareScrollytelling() {
         {/* Three.js 3D WebGL Canvas */}
         <div ref={canvasWrapRef} className="absolute inset-0 w-full h-full z-10" />
 
-        {/* Top Floating Bar */}
-        <div className="absolute top-0 left-0 right-0 z-30 flex items-center justify-between px-6 sm:px-12 pt-7 pb-4 pointer-events-none">
+        {/* Top Floating Bar with Navbar Clearance */}
+        <div className="absolute top-0 left-0 right-0 z-30 flex items-center justify-between px-6 sm:px-12 pt-24 sm:pt-28 pb-4 pointer-events-none">
           <div className="flex items-center gap-2">
             <span className="w-2 h-2 rounded-full bg-[#059669] dark:bg-[#10E599] animate-pulse" />
             <span className="font-mono text-xs font-bold tracking-wider uppercase text-slate-900 dark:text-white">

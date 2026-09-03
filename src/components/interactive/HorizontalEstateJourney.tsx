@@ -155,13 +155,13 @@ export default function HorizontalEstateJourney() {
   return (
     <section 
       ref={containerRef}
-      className="relative h-[380vh] bg-[#EDF6F2] dark:bg-[#050505] text-slate-900 dark:text-emerald-50 select-none transition-colors duration-300"
+      className="relative h-[380vh] bg-[#F8FAFC] dark:bg-[#050505] text-slate-900 dark:text-emerald-50 select-none transition-colors duration-300"
     >
       {/* Pinned / Sticky Viewport Wrapper */}
-      <div className="sticky top-0 h-screen w-full overflow-hidden flex flex-col justify-between py-6 px-4 sm:px-8">
+      <div className="sticky top-0 h-screen w-full overflow-hidden flex flex-col justify-between pt-0 pb-6 px-4 sm:px-8">
         
-        {/* Top Sticky HUD Header */}
-        <div className="max-w-7xl mx-auto w-full flex items-center justify-between z-30 pt-16 sm:pt-14 pb-4 border-b border-slate-200/80 dark:border-white/10">
+        {/* Top Sticky HUD Header with Navbar Clearance */}
+        <div className="max-w-7xl mx-auto w-full flex items-center justify-between z-30 pt-28 sm:pt-32 pb-4 border-b border-slate-200/80 dark:border-white/10">
           <div className="flex items-center gap-3">
             <div className="w-8 h-8 rounded-xl bg-emerald-500/15 text-[#059669] dark:text-[#10E599] flex items-center justify-center font-bold">
               <Activity className="w-4 h-4" />
