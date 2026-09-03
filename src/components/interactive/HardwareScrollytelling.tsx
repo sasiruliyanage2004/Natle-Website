@@ -1,399 +1,660 @@
 "use client";
 
 import React, { useRef, useState } from "react";
-import Image from "next/image";
 import { motion, useScroll, useTransform, useMotionValueEvent, AnimatePresence } from "framer-motion";
 import { 
-  Sun, 
-  Cpu, 
-  ShieldCheck, 
-  Radio, 
-  Leaf, 
   Sparkles, 
   ArrowRight, 
-  Layers,
-  ChevronDown,
-  CheckCircle2,
-  Box,
-  SlidersHorizontal
+  Layers, 
+  Sliders, 
+  Activity,
+  Maximize2,
+  Compass,
+  CheckCircle2
 } from "lucide-react";
 import { sound } from "@/lib/sound";
 
-interface PhaseSpec {
-  phaseIndex: number;
+interface TechCallout {
   id: string;
   name: string;
-  shortTitle: string;
-  badge: string;
+  detail: string;
+  side: "top-right" | "bottom-left";
+  x: number;
+  y: number;
+  labelX: number;
+  labelY: number;
+  triggerProgress: number; // 0 to 1
   accentColor: string;
-  depthLabel: string;
-  beaconTop: string;
-  description: string;
-  specs: { label: string; value: string }[];
 }
 
-const PHASES: PhaseSpec[] = [
+const CALLOUTS: TechCallout[] = [
+  // Top-Right Branch
   {
-    phaseIndex: 0,
-    id: "assembled",
-    name: "00. NATLE IP68 Telemetry Probe (Fully Assembled)",
-    shortTitle: "Assembled Probe",
-    badge: "100% Sealed & Ready",
-    accentColor: "#10E599",
-    depthLabel: "Unified System State",
-    beaconTop: "50%",
-    description: "The completed, factory-calibrated NATLE Soil Probe standing as a single airtight cylinder. Hermetically sealed to IP68 standards, it withstands tractor compaction, direct monsoons, and extreme agrochemical exposure.",
-    specs: [
-      { label: "Enclosure Standard", value: "IP68 Hermetic Waterproof" },
-      { label: "Mechanical Resistance", value: "IK09 Industrial Impact" },
-      { label: "Operating Autonomy", value: "5+ Years Maintenance-Free" },
-    ],
-  },
-  {
-    phaseIndex: 1,
     id: "solar",
-    name: "01. Monocrystalline Solar Micro-Harvester",
-    shortTitle: "Solar Energy Cap",
-    badge: "5+ Year Perpetual Energy",
+    name: "solar.photovoltaic",
+    detail: "22.8% monocrystalline titanium cap",
+    side: "top-right",
+    x: 280,
+    y: 190,
+    labelX: 630,
+    labelY: 90,
+    triggerProgress: 0.15,
     accentColor: "#F59E0B",
-    depthLabel: "Altitude: +15cm (Atmosphere)",
-    beaconTop: "14%",
-    description: "High-efficiency monocrystalline solar disc sealed in an aerospace-grade brushed titanium bezel. Decouples energy from tropical cloud cover, charging ultra-low ESR supercapacitors indefinitely.",
-    specs: [
-      { label: "Solar Efficiency", value: "22.8% Monocrystalline" },
-      { label: "Energy Autonomy", value: "5+ Years Maintenance-Free" },
-      { label: "Optical Coating", value: "Hydrophobic Anti-Dust Quartz" },
-    ],
   },
   {
-    phaseIndex: 2,
-    id: "silicon",
-    name: "02. Silicon Logic Core & LoRaWAN Sub-GHz Spire",
-    shortTitle: "Silicon Logic & LoRa",
-    badge: "15km Sub-GHz Mesh",
+    id: "mcu",
+    name: "silicon.mcu.riscv",
+    detail: "Dual-core 32-bit edge telemetric processor",
+    side: "top-right",
+    x: 320,
+    y: 225,
+    labelX: 630,
+    labelY: 125,
+    triggerProgress: 0.28,
     accentColor: "#00D2FF",
-    depthLabel: "Altitude: +5cm (Edge MCU)",
-    beaconTop: "28%",
-    description: "Multi-layer aerospace green PCB with gold ENIG traces. Features dual-core RISC-V edge silicon, an 868/915MHz sub-GHz transceiver, and hardware AES-128 cryptographic telemetry vault penetrating dense tea mountain canopies.",
-    specs: [
-      { label: "Wireless Protocol", value: "LoRaWAN Class A/C (15km)" },
-      { label: "Deep Sleep Current", value: "1.8 µA Ultra-Low Power" },
-      { label: "Firmware", value: "Sub-50ms Event-Driven C++" },
-    ],
   },
   {
-    phaseIndex: 3,
-    id: "prongs",
-    name: "03. Stainless 316L Tri-Depth Capacitance Blades",
-    shortTitle: "Capacitance Blades",
-    badge: "Tri-Depth High Frequency",
+    id: "lora",
+    name: "lorawan.868mhz.mesh",
+    detail: "15km sub-GHz helical transceiver coil",
+    side: "top-right",
+    x: 360,
+    y: 260,
+    labelX: 630,
+    labelY: 160,
+    triggerProgress: 0.42,
+    accentColor: "#10E599",
+  },
+  {
+    id: "casing",
+    name: "polycarbonate.sleeve",
+    detail: "IK09 impact-resistant transparent housing",
+    side: "top-right",
+    x: 410,
+    y: 300,
+    labelX: 630,
+    labelY: 195,
+    triggerProgress: 0.55,
     accentColor: "#3B82F6",
-    depthLabel: "Depth: 10cm / 30cm / 60cm",
-    beaconTop: "58%",
-    description: "Quad 70MHz dielectric capacitance prongs with laser calibration depth markers at 10cm (surface moisture), 30cm (feeder roots), and 60cm (taproot) to measure volumetric soil moisture, EC, and temperature.",
-    specs: [
-      { label: "Depth Calibrations", value: "10cm / 30cm / 60cm Ticks" },
-      { label: "Conductivity (EC)", value: "0 - 20.0 mS/cm (±0.05 res)" },
-      { label: "Moisture Accuracy", value: "±1.5% Volumetric Water Content" },
-    ],
   },
   {
-    phaseIndex: 4,
+    id: "armor",
+    name: "curved.shield.armor",
+    detail: "Agrochemical & UV repellent outer plates",
+    side: "top-right",
+    x: 460,
+    y: 345,
+    labelX: 630,
+    labelY: 230,
+    triggerProgress: 0.68,
+    accentColor: "#EC4899",
+  },
+
+  // Bottom-Left Branch
+  {
+    id: "oring",
+    name: "fluoroelastomer.o-rings",
+    detail: "Dual IP68 hermetic compression seals",
+    side: "bottom-left",
+    x: 340,
+    y: 380,
+    labelX: 50,
+    labelY: 530,
+    triggerProgress: 0.60,
+    accentColor: "#F59E0B",
+  },
+  {
+    id: "capacitance",
+    name: "capacitance.70mhz",
+    detail: "High-frequency soil dielectric resonance",
+    side: "bottom-left",
+    x: 385,
+    y: 425,
+    labelX: 50,
+    labelY: 565,
+    triggerProgress: 0.72,
+    accentColor: "#00D2FF",
+  },
+  {
+    id: "blades",
+    name: "stainless.316l.blades",
+    detail: "Tri-depth 10cm / 30cm / 60cm laser ticks",
+    side: "bottom-left",
+    x: 430,
+    y: 470,
+    labelX: 50,
+    labelY: 600,
+    triggerProgress: 0.82,
+    accentColor: "#3B82F6",
+  },
+  {
     id: "cocopeat",
-    name: "04. Hosma Ceylon Cocopeat & Root Micro-Matrix",
-    shortTitle: "Hosma Organic Matrix",
-    badge: "850% Capillary Hydration",
+    name: "hosma.organic.substrate",
+    detail: "100% natural washed Ceylon coconut coir",
+    side: "bottom-left",
+    x: 480,
+    y: 520,
+    labelX: 50,
+    labelY: 635,
+    triggerProgress: 0.90,
     accentColor: "#059669",
-    depthLabel: "Subsoil: -30cm to -80cm",
-    beaconTop: "84%",
-    description: "Triple-washed natural Ceylon organic coconut coir substrate washed to Dutch greenhouse standards (EC < 0.4 mS/cm). Biological micro-capillaries absorb 850% water with zero nutrient leaching.",
-    specs: [
-      { label: "Water Absorption", value: "850% of Dry Biomass" },
-      { label: "Air-Filled Porosity", value: "22% - 25% High Root Aeration" },
-      { label: "Substrate Purity", value: "OMRI Listed 100% Organic" },
-    ],
+  },
+  {
+    id: "hydration",
+    name: "micro.capillary.850%",
+    detail: "Biological water retention with zero leaching",
+    side: "bottom-left",
+    x: 520,
+    y: 565,
+    labelX: 50,
+    labelY: 670,
+    triggerProgress: 0.95,
+    accentColor: "#10E599",
   },
 ];
 
 export default function HardwareScrollytelling() {
   const containerRef = useRef<HTMLDivElement>(null);
-  const [activePhaseIndex, setActivePhaseIndex] = useState<number>(0);
+  const [activeCalloutId, setActiveCalloutId] = useState<string>("solar");
+  const [manualScrub, setManualScrub] = useState<number | null>(null);
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start start", "end end"],
   });
 
-  // Track phase crossings with whisper-soft haptic audio
-  // 5 Phases:
-  // 0: Assembled (0% - 15%)
-  // 1: Solar Cap (15% - 38%)
-  // 2: Silicon Core (38% - 60%)
-  // 3: Stainless Blades (60% - 82%)
-  // 4: Ceylon Cocopeat (82% - 100%)
-  useMotionValueEvent(scrollYProgress, "change", (latest) => {
-    let p = 0;
-    if (latest < 0.15) p = 0;
-    else if (latest < 0.38) p = 1;
-    else if (latest < 0.60) p = 2;
-    else if (latest < 0.82) p = 3;
-    else p = 4;
+  // Calculate effective progress (either from scroll or manual scrubber)
+  const [scrollVal, setScrollVal] = useState(0);
 
-    if (p !== activePhaseIndex) {
-      setActivePhaseIndex(p);
+  useMotionValueEvent(scrollYProgress, "change", (latest) => {
+    setScrollVal(latest);
+    // Find active callout matching progress
+    const active = CALLOUTS.reduce((prev, curr) => {
+      return (latest >= curr.triggerProgress) ? curr : prev;
+    }, CALLOUTS[0]);
+
+    if (active.id !== activeCalloutId) {
+      setActiveCalloutId(active.id);
       sound.playClick();
     }
   });
 
-  // Crossfade between Assembled Probe & Exploded Probe based on scroll progress
-  // At scroll < 0.15: Assembled probe is 100% visible
-  // At scroll > 0.20: Exploded probe takes over and begins zooming into separated pieces!
-  const assembledOpacity = useTransform(scrollYProgress, [0, 0.14, 0.20], [1, 1, 0]);
-  const explodedOpacity = useTransform(scrollYProgress, [0.14, 0.22, 1], [0, 1, 1]);
+  const progress = manualScrub !== null ? manualScrub : scrollVal;
 
-  // Camera Zoom & Pan linked to each exploding phase
-  const cameraScale = useTransform(
-    scrollYProgress, 
-    [0, 0.14, 0.25, 0.45, 0.70, 0.90, 1], 
-    [1.0, 1.05, 1.45, 1.55, 1.50, 1.65, 1.70]
-  );
-  
-  const cameraY = useTransform(
-    scrollYProgress, 
-    [0, 0.14, 0.25, 0.45, 0.70, 0.90, 1], 
-    ["0%", "0%", "28%", "10%", "-14%", "-32%", "-35%"]
-  );
+  // 45-Degree Axial Separation Offsets (along isometric vector [-0.7, -0.7])
+  // 1. Solar Cap (moves far up-left)
+  const solarSeparation = progress * 130;
+  // 2. Silicon Logic Core
+  const mcuSeparation = progress * 85;
+  // 3. LoRa Antenna Coil
+  const loraSeparation = progress * 50;
+  // 4. Center IP68 Casing (pivot anchor)
+  // 5. Outer Armor Shells (explode outward perpendicularly!)
+  const armorShellOffset = progress * 65;
+  // 6. Stainless Blades (moves down-right)
+  const bladesSeparation = progress * 75;
+  // 7. Substrate Core (moves far down-right)
+  const substrateSeparation = progress * 135;
 
-  const activePhase = PHASES[activePhaseIndex];
+  const currentCallout = CALLOUTS.find(c => c.id === activeCalloutId) || CALLOUTS[0];
 
   return (
     <section 
       ref={containerRef}
       id="hardware-scrollytelling"
-      className="relative h-[420vh] bg-[#F8FAFC] dark:bg-[#050505] text-slate-900 dark:text-emerald-50 select-none transition-colors duration-300"
+      className="relative h-[400vh] bg-[#F4F2EC] dark:bg-[#0B0C0E] text-[#18181B] dark:text-[#E4E4E7] select-none transition-colors duration-300"
     >
-      {/* Pinned 100vh Sticky Viewport */}
-      <div className="sticky top-0 h-screen w-full flex flex-col justify-between py-4 sm:py-6 px-4 sm:px-8 overflow-hidden">
+      {/* Pinned 100vh Sticky Canvas Viewport */}
+      <div className="sticky top-0 h-screen w-full flex flex-col justify-between p-4 sm:p-8 lg:p-12 overflow-hidden">
         
-        {/* Background Ambient Studio Halos */}
-        <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-emerald-500/10 rounded-full blur-[140px] pointer-events-none" />
-        <div className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-cyan-500/10 rounded-full blur-[140px] pointer-events-none" />
+        {/* Subtle Architectural Blueprint Grid */}
+        <div 
+          className="absolute inset-0 opacity-[0.035] dark:opacity-[0.05] pointer-events-none"
+          style={{
+            backgroundImage: `
+              linear-gradient(to right, currentColor 1px, transparent 1px),
+              linear-gradient(to bottom, currentColor 1px, transparent 1px)
+            `,
+            backgroundSize: "36px 36px"
+          }}
+        />
 
-        {/* Top HUD Telemetry Bar */}
-        <div className="max-w-7xl mx-auto w-full flex items-center justify-between z-30 pt-16 sm:pt-14 pb-3 border-b border-slate-200/80 dark:border-white/10">
-          <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-xl bg-emerald-500/15 text-[#059669] dark:text-[#10E599] flex items-center justify-center font-bold">
-              <Sparkles className="w-4 h-4" />
-            </div>
-            <div>
-              <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-[#059669] dark:text-[#10E599] block">
-                Scroll-Linked Deconstruction &bull; Apple Keynote Edition
-              </span>
-              <h3 className="text-sm sm:text-base font-black text-slate-900 dark:text-white">
-                From Assembled Unit to Exploded Soil Anatomy
-              </h3>
-            </div>
-          </div>
+        {/* Ambient Radial Vignette */}
+        <div className="absolute inset-0 bg-radial-[at_50%_50%] from-transparent via-transparent to-black/5 dark:to-black/40 pointer-events-none" />
 
-          {/* Stepper Phase Pills */}
-          <div className="flex items-center gap-1 sm:gap-2 overflow-x-auto no-scrollbar">
-            {PHASES.map((p, idx) => {
-              const isActive = activePhaseIndex === idx;
-              return (
-                <div
-                  key={p.id}
-                  className={`px-2.5 sm:px-3 py-1 rounded-full text-[9px] sm:text-xs font-mono font-bold transition-all duration-300 border shrink-0 ${
-                    isActive 
-                      ? "bg-slate-900 text-white dark:bg-white dark:text-slate-950 border-emerald-500 shadow-md scale-105" 
-                      : "bg-white/60 dark:bg-white/5 text-slate-500 dark:text-slate-400 border-slate-200 dark:border-white/10"
-                  }`}
-                >
-                  <span className="hidden md:inline">0{idx}. </span>
-                  <span>{p.shortTitle}</span>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-
-        {/* ================= MAIN 2-COLUMN STAGE ================= */}
-        <div className="max-w-7xl mx-auto w-full flex-1 grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 items-center overflow-hidden my-2">
-          
-          {/* ================= LEFT 7 COLS: PHOTOREALISTIC DYNAMIC 3D STAGE ================= */}
-          {/* Starts with the unified assembled probe, and deconstructs layer-by-layer as you scroll! */}
-          <div className="lg:col-span-7 relative h-[420px] sm:h-[500px] lg:h-[540px] rounded-3xl border border-slate-200/90 dark:border-white/10 bg-gradient-to-b from-[#f1f5f9]/90 via-[#e2e8f0]/80 to-[#cbd5e1]/70 dark:from-[#111613] dark:via-[#090e0b] dark:to-[#040605] p-3 sm:p-5 shadow-2xl overflow-hidden flex items-center justify-center">
-            
-            {/* Soft Ambient Radial Light Studio Glow */}
-            <div className="absolute inset-0 bg-radial-[at_50%_40%] from-white/75 via-transparent to-transparent dark:from-emerald-500/10 dark:via-transparent dark:to-transparent pointer-events-none" />
-
-            {/* Live Assembly Status Indicator Badge */}
-            <div className="absolute top-4 left-4 z-30 flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/90 dark:bg-black/70 backdrop-blur-md border border-slate-200 dark:border-white/10 text-[11px] font-mono shadow-sm">
-              <span 
-                className="w-2 h-2 rounded-full animate-pulse"
-                style={{ backgroundColor: activePhase.accentColor }}
-              />
-              <span className="text-slate-900 dark:text-white font-bold">
-                {activePhaseIndex === 0 ? "STATE: 100% ASSEMBLED" : `DECONSTRUCTED // ${activePhase.shortTitle.toUpperCase()}`}
-              </span>
-            </div>
-
-            {/* Dynamic Camera Container */}
-            <motion.div 
-              style={{ 
-                scale: cameraScale, 
-                y: cameraY,
-              }}
-              className="relative w-full h-full flex items-center justify-center will-change-transform"
+        {/* ================= TOP SECTION: ANIME.JS STYLE EDITORIAL HEADER ================= */}
+        <div className="relative z-20 max-w-7xl mx-auto w-full pt-10 sm:pt-6 flex flex-col md:flex-row md:items-start justify-between gap-6">
+          <div className="max-w-xl">
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-black/5 dark:bg-white/10 text-[#059669] dark:text-[#10E599] text-[10px] font-mono font-bold tracking-widest uppercase mb-3 border border-black/5 dark:border-white/10"
             >
-              <div className="relative w-full h-full max-w-[460px] max-h-[490px]">
-                
-                {/* 1. Fully Assembled Probe State (Scroll = 0% to 15%) */}
-                <motion.div 
-                  style={{ opacity: assembledOpacity }}
-                  className="absolute inset-0 w-full h-full"
-                >
-                  <Image
-                    src="/images/probe-assembled.jpg"
-                    alt="NATLE Fully Assembled Smart Soil Probe"
-                    fill
-                    sizes="(max-width: 768px) 100vw, 600px"
-                    priority
-                    className="object-contain drop-shadow-[0_20px_45px_rgba(0,0,0,0.25)] dark:drop-shadow-[0_25px_50px_rgba(0,0,0,0.85)] rounded-2xl"
-                  />
-                </motion.div>
-
-                {/* 2. Deconstructed / Exploded Layers State (Scroll > 15%) */}
-                <motion.div 
-                  style={{ opacity: explodedOpacity }}
-                  className="absolute inset-0 w-full h-full"
-                >
-                  <Image
-                    src="/images/hardware-exploded-realistic.jpg"
-                    alt="NATLE Exploded Hardware & Soil Anatomy"
-                    fill
-                    sizes="(max-width: 768px) 100vw, 600px"
-                    className="object-contain drop-shadow-[0_20px_45px_rgba(0,0,0,0.25)] dark:drop-shadow-[0_25px_50px_rgba(0,0,0,0.85)] rounded-2xl"
-                  />
-
-                  {/* Active Radar Beacon Indicator on Active Separated Layer */}
-                  {activePhaseIndex > 0 && (
-                    <motion.div
-                      key={activePhase.id}
-                      initial={{ scale: 0, opacity: 0 }}
-                      animate={{ scale: 1, opacity: 1 }}
-                      exit={{ scale: 0, opacity: 0 }}
-                      transition={{ type: "spring", damping: 15 }}
-                      style={{ top: activePhase.beaconTop, left: "50%" }}
-                      className="absolute -translate-x-1/2 -translate-y-1/2 z-20 pointer-events-none flex items-center justify-center"
-                    >
-                      <span 
-                        className="absolute w-12 h-12 rounded-full opacity-60 animate-ping"
-                        style={{ backgroundColor: activePhase.accentColor }}
-                      />
-                      <span 
-                        className="w-4 h-4 rounded-full border-2 border-white shadow-lg"
-                        style={{ backgroundColor: activePhase.accentColor }}
-                      />
-                    </motion.div>
-                  )}
-                </motion.div>
-
-              </div>
+              <Sparkles className="w-3 h-3" />
+              <span>Anime.js Hardware Architecture &bull; 45&deg; Isometric Deconstruction</span>
             </motion.div>
 
-            {/* Bottom HUD: Live Altitude / Depth Readout */}
-            <div className="absolute bottom-4 left-4 z-20 px-3 py-1.5 rounded-full bg-white/90 dark:bg-black/80 backdrop-blur-md border border-slate-200 dark:border-white/10 text-xs font-mono flex items-center gap-2 text-slate-900 dark:text-white shadow-sm">
-              <span className="w-2 h-2 rounded-full" style={{ backgroundColor: activePhase.accentColor }} />
-              <span className="font-bold">{activePhase.depthLabel}</span>
+            <h2 className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-[1.05] text-[#18181B] dark:text-white">
+              The complete <br />
+              <span className="text-[#059669] dark:text-[#10E599]">hardware anatomy.</span>
+            </h2>
+
+            <p className="mt-3 text-xs sm:text-sm text-slate-600 dark:text-zinc-400 font-normal leading-relaxed">
+              Industrial LoRaWAN telemetry meets precision Ceylon coconut coir substrate. Scroll down or drag the scrubber to deconstruct all 7 mechanical barrels along the central axis.
+            </p>
+          </div>
+
+          {/* Top Right Mini HUD Lens Display (Inspired by Image 2 & 3) */}
+          <div className="hidden sm:flex items-center gap-4 p-3 rounded-2xl bg-white/70 dark:bg-[#15171B]/80 backdrop-blur-md border border-black/5 dark:border-white/10 shadow-lg">
+            {/* Circular Reticle Gauge */}
+            <div className="relative w-16 h-16 rounded-full flex items-center justify-center p-1 border border-black/10 dark:border-white/20">
+              <svg className="w-full h-full -rotate-90" viewBox="0 0 40 40">
+                <circle cx="20" cy="20" r="17" fill="none" stroke="currentColor" strokeWidth="1.5" className="text-slate-200 dark:text-zinc-800" />
+                <circle 
+                  cx="20" 
+                  cy="20" 
+                  r="17" 
+                  fill="none" 
+                  stroke="#10E599" 
+                  strokeWidth="2" 
+                  strokeDasharray="106" 
+                  strokeDashoffset={106 - 106 * progress}
+                  className="transition-all duration-150"
+                />
+              </svg>
+              <div className="absolute inset-0 flex flex-col items-center justify-center font-mono text-[9px] font-bold">
+                <span>{Math.round(progress * 100)}%</span>
+              </div>
             </div>
 
+            <div className="font-mono text-left">
+              <span className="text-[10px] text-slate-400 dark:text-zinc-500 uppercase tracking-wider block">Active Barrel</span>
+              <span className="text-xs font-bold text-slate-900 dark:text-white block truncate max-w-[140px]">
+                {currentCallout.name}
+              </span>
+              <span className="text-[9px] text-[#059669] dark:text-[#10E599]">
+                {progress === 0 ? "100% Assembled" : "Exploded State"}
+              </span>
+            </div>
           </div>
+        </div>
 
-          {/* ================= RIGHT 5 COLS: DYNAMIC SPEC SHEET INSPECTOR ================= */}
-          <div className="lg:col-span-5">
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={activePhase.id}
-                initial={{ opacity: 0, x: 30 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -30 }}
-                transition={{ duration: 0.35, ease: "easeOut" }}
-                className="glass-card rounded-3xl p-6 sm:p-8 lg:p-10 shadow-2xl border border-slate-200/90 dark:border-emerald-500/30 flex flex-col justify-between"
-              >
-                <div>
-                  <div className="flex items-center justify-between mb-3">
-                    <span 
-                      className="px-3.5 py-1.5 rounded-full text-xs font-mono font-bold uppercase tracking-wider text-slate-950 shadow-sm"
-                      style={{ backgroundColor: activePhase.accentColor }}
-                    >
-                      {activePhase.badge}
-                    </span>
-                    <span className="text-xs font-mono text-slate-400">
-                      Phase 0{activePhaseIndex} of 04
-                    </span>
-                  </div>
+        {/* ================= CENTER: 45-DEGREE ISOMETRIC DECONSTRUCTING CAD CANVAS ================= */}
+        <div className="relative flex-1 w-full max-w-6xl mx-auto flex items-center justify-center overflow-visible my-1 sm:my-2">
+          
+          <svg
+            viewBox="0 0 800 700"
+            className="w-full h-full max-h-[580px] overflow-visible select-none"
+          >
+            <defs>
+              {/* Knurled Metal & Titanium Shading */}
+              <linearGradient id="cadTitanium" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor="#E2E8F0" />
+                <stop offset="50%" stopColor="#94A3B8" />
+                <stop offset="100%" stopColor="#475569" />
+              </linearGradient>
 
-                  <h3 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white leading-tight">
-                    {activePhase.name}
-                  </h3>
+              {/* Optical Solar Disc */}
+              <linearGradient id="cadSolarPrism" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor="#0F172A" />
+                <stop offset="60%" stopColor="#1E293B" />
+                <stop offset="100%" stopColor="#0284C7" />
+              </linearGradient>
 
-                  <p className="mt-3.5 text-xs sm:text-sm text-slate-700 dark:text-emerald-100/75 leading-relaxed font-normal">
-                    {activePhase.description}
-                  </p>
+              {/* Gold Contact Traces */}
+              <linearGradient id="cadGoldTraces" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stopColor="#F59E0B" />
+                <stop offset="50%" stopColor="#FCD34D" />
+                <stop offset="100%" stopColor="#D97706" />
+              </linearGradient>
 
-                  <div className="mt-6 space-y-2.5">
-                    <h4 className="text-xs font-mono font-bold uppercase tracking-wider text-slate-400 dark:text-emerald-300/60">
-                      Engineering &amp; Material Specifications
-                    </h4>
-                    
-                    {activePhase.specs.map((spec, i) => (
-                      <div 
-                        key={i} 
-                        className="p-3 rounded-2xl bg-slate-50 dark:bg-black/40 border border-slate-200/70 dark:border-emerald-900/30 flex items-center justify-between"
-                      >
-                        <span className="text-xs text-slate-600 dark:text-emerald-300/70 font-medium">
-                          {spec.label}
-                        </span>
-                        <span className="text-xs font-mono font-bold text-slate-900 dark:text-[#10E599]">
-                          {spec.value}
-                        </span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
+              {/* Stainless Steel Prongs */}
+              <linearGradient id="cadSteelProngs" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor="#FFFFFF" />
+                <stop offset="40%" stopColor="#E2E8F0" />
+                <stop offset="100%" stopColor="#94A3B8" />
+              </linearGradient>
 
-                <div className="mt-6 pt-5 border-t border-slate-200/80 dark:border-emerald-900/30 flex items-center justify-between">
-                  <span className="text-xs font-mono text-slate-400">
-                    {activePhaseIndex === 0 ? "Scroll down to deconstruct layers &darr;" : "Scroll down for next component &darr;"}
-                  </span>
-                  
-                  <a
-                    href="/contact"
-                    className="gradient-btn inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-black uppercase tracking-wider text-slate-950 shadow-md hover:scale-105 transition-transform"
+              {/* Ceylon Cocopeat Substrate */}
+              <linearGradient id="cadCocopeat" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stopColor="#3E2723" />
+                <stop offset="100%" stopColor="#1B0F0B" />
+              </linearGradient>
+            </defs>
+
+            {/* Central 45-Degree Axis Guide Laser Line */}
+            <line 
+              x1="180" 
+              y1="90" 
+              x2="620" 
+              y2="660" 
+              stroke="currentColor" 
+              strokeWidth="0.8" 
+              strokeDasharray="4 4"
+              className="text-slate-300 dark:text-zinc-800 pointer-events-none"
+            />
+
+            {/* ------------------------------------------------------------- */}
+            {/* 1. TOP SOLAR KNURLED BEZEL & PRISM (Separates Up-Left)        */}
+            {/* ------------------------------------------------------------- */}
+            <g 
+              transform={`translate(${-solarSeparation * 0.7}, ${-solarSeparation * 0.7})`}
+              className="cursor-pointer transition-transform duration-75"
+              onClick={() => setActiveCalloutId("solar")}
+            >
+              {/* Outer Knurled Rim with Mechanical Teeth */}
+              <ellipse cx="280" cy="190" rx="72" ry="36" fill="url(#cadTitanium)" stroke="currentColor" strokeWidth="1.5" className="text-slate-800 dark:text-slate-300" />
+              <ellipse cx="280" cy="198" rx="72" ry="36" fill="none" stroke="currentColor" strokeWidth="1.2" className="text-slate-700 dark:text-slate-400" />
+              
+              {/* Knurling Serration Lines */}
+              {[-50, -35, -20, -5, 10, 25, 40, 55].map((off, i) => (
+                <line key={i} x1={280 + off} y1={190 + Math.sin(i) * 12} x2={280 + off} y2={198 + Math.sin(i) * 12} stroke="currentColor" strokeWidth="1" opacity="0.6" />
+              ))}
+
+              {/* Photovoltaic Solar Glass Disc */}
+              <ellipse cx="280" cy="190" rx="60" ry="28" fill="url(#cadSolarPrism)" stroke="#38BDF8" strokeWidth="0.8" />
+              <line x1="240" y1="185" x2="320" y2="185" stroke="#38BDF8" strokeWidth="0.8" opacity="0.7" />
+              <line x1="230" y1="192" x2="330" y2="192" stroke="#38BDF8" strokeWidth="0.8" opacity="0.7" />
+              <line x1="270" y1="170" x2="270" y2="210" stroke="#38BDF8" strokeWidth="0.8" opacity="0.5" />
+              <circle cx="280" cy="190" r="3.5" fill="#F59E0B" className="animate-pulse" />
+            </g>
+
+            {/* ------------------------------------------------------------- */}
+            {/* 2. SILICON RISC-V PCB & LORAWAN COIL (Separates Up-Left)      */}
+            {/* ------------------------------------------------------------- */}
+            <g 
+              transform={`translate(${-mcuSeparation * 0.7}, ${-mcuSeparation * 0.7})`}
+              className="cursor-pointer transition-transform duration-75"
+              onClick={() => setActiveCalloutId("mcu")}
+            >
+              {/* Circular Green PCB Motherboard */}
+              <ellipse cx="320" cy="235" rx="68" ry="32" fill="#064E3B" stroke="#10E599" strokeWidth="1.5" />
+              {/* Gold Contact Edge Ring */}
+              <ellipse cx="320" cy="235" rx="63" ry="28" fill="none" stroke="url(#cadGoldTraces)" strokeWidth="1.2" strokeDasharray="4 2" />
+
+              {/* RISC-V Dual-Core Silicon Chip Package */}
+              <rect x="304" y="224" width="32" height="20" rx="3" fill="#0F172A" stroke="#00D2FF" strokeWidth="1" />
+              <text x="320" y="238" textAnchor="middle" fill="#00D2FF" fontSize="7" fontWeight="bold" fontFamily="monospace">RISC-V</text>
+
+              {/* Helical LoRa Antenna Coil Spire */}
+              <ellipse cx="355" cy="225" rx="14" ry="7" fill="none" stroke="#F59E0B" strokeWidth="1.8" />
+              <ellipse cx="355" cy="225" rx="20" ry="10" fill="none" stroke="#00D2FF" strokeWidth="0.8" opacity="0.6" className="animate-ping" />
+            </g>
+
+            {/* ------------------------------------------------------------- */}
+            {/* 3. CENTER CYLINDRICAL POLYCARBONATE IP68 BARREL (Core Anchor) */}
+            {/* ------------------------------------------------------------- */}
+            <g 
+              className="cursor-pointer"
+              onClick={() => setActiveCalloutId("casing")}
+            >
+              {/* Cylindrical Translucent Wall */}
+              <path 
+                d="M 330 270 L 330 360 A 75 35 0 0 0 480 360 L 480 270 A 75 35 0 0 1 330 270 Z" 
+                fill="rgba(5, 150, 105, 0.08)" 
+                stroke="currentColor" 
+                strokeWidth="1.5" 
+                className="text-slate-800 dark:text-emerald-400/70"
+              />
+
+              {/* Dual Orange Silicone O-Rings */}
+              <ellipse cx="405" cy="290" rx="74" ry="32" fill="none" stroke="#F59E0B" strokeWidth="3" />
+              <ellipse cx="405" cy="340" rx="74" ry="32" fill="none" stroke="#F59E0B" strokeWidth="3" />
+
+              {/* Laser-Etched Serial Text */}
+              <text x="405" y="318" textAnchor="middle" fill="#10E599" fontSize="8" fontWeight="bold" fontFamily="monospace" letterSpacing="2">
+                IP68 &bull; NATLE-AG-868
+              </text>
+            </g>
+
+            {/* ------------------------------------------------------------- */}
+            {/* 4. OUTER CURVED ARMOR SHIELD PLATES (Explodes Outward!)       */}
+            {/* ------------------------------------------------------------- */}
+            {/* Left Outer Shield Plate */}
+            <g 
+              transform={`translate(${-armorShellOffset * 0.9}, ${armorShellOffset * 0.5})`}
+              className="cursor-pointer transition-transform duration-75"
+              onClick={() => setActiveCalloutId("armor")}
+            >
+              <path 
+                d="M 280 290 Q 295 320 310 350 L 325 340 Q 310 310 295 280 Z" 
+                fill="url(#cadTitanium)" 
+                stroke="currentColor" 
+                strokeWidth="1.2"
+                className="text-slate-700 dark:text-zinc-300"
+              />
+              <line x1="290" y1="295" x2="305" y2="330" stroke="#00D2FF" strokeWidth="1" strokeDasharray="3 2" />
+            </g>
+
+            {/* Right Outer Shield Plate */}
+            <g 
+              transform={`translate(${armorShellOffset * 0.9}, ${-armorShellOffset * 0.5})`}
+              className="cursor-pointer transition-transform duration-75"
+              onClick={() => setActiveCalloutId("armor")}
+            >
+              <path 
+                d="M 495 280 Q 510 310 525 340 L 510 350 Q 495 320 480 290 Z" 
+                fill="url(#cadTitanium)" 
+                stroke="currentColor" 
+                strokeWidth="1.2"
+                className="text-slate-700 dark:text-zinc-300"
+              />
+              <line x1="492" y1="295" x2="507" y2="330" stroke="#00D2FF" strokeWidth="1" strokeDasharray="3 2" />
+            </g>
+
+            {/* ------------------------------------------------------------- */}
+            {/* 5. STAINLESS STEEL 316L PROBE BLADES (Separates Down-Right)   */}
+            {/* ------------------------------------------------------------- */}
+            <g 
+              transform={`translate(${bladesSeparation * 0.7}, ${bladesSeparation * 0.7})`}
+              className="cursor-pointer transition-transform duration-75"
+              onClick={() => setActiveCalloutId("blades")}
+            >
+              {/* Base Flange Mounting Plate */}
+              <ellipse cx="445" cy="400" rx="66" ry="28" fill="#334155" stroke="#94A3B8" strokeWidth="1.5" />
+
+              {/* 4 Multi-Depth Stainless Steel Tines */}
+              {/* Blade 1 (10cm) */}
+              <path d="M 405 400 L 405 470 L 408 480 L 411 470 L 411 400 Z" fill="url(#cadSteelProngs)" stroke="#64748B" strokeWidth="0.8" />
+              <line x1="405" y1="435" x2="411" y2="435" stroke="#3B82F6" strokeWidth="2" />
+
+              {/* Blade 2 (30cm Feeder Root) */}
+              <path d="M 430 400 L 430 495 L 433 505 L 436 495 L 436 400 Z" fill="url(#cadSteelProngs)" stroke="#64748B" strokeWidth="0.8" />
+              <line x1="430" y1="455" x2="436" y2="455" stroke="#3B82F6" strokeWidth="2" />
+
+              {/* Blade 3 (60cm Deep Taproot) */}
+              <path d="M 455 400 L 455 515 L 458 528 L 461 515 L 461 400 Z" fill="url(#cadSteelProngs)" stroke="#64748B" strokeWidth="0.8" />
+              <line x1="455" y1="475" x2="461" y2="475" stroke="#3B82F6" strokeWidth="2" />
+
+              {/* Blade 4 (10cm) */}
+              <path d="M 480 400 L 480 470 L 483 480 L 486 470 L 486 400 Z" fill="url(#cadSteelProngs)" stroke="#64748B" strokeWidth="0.8" />
+              <line x1="480" y1="435" x2="486" y2="435" stroke="#3B82F6" strokeWidth="2" />
+
+              {/* Dielectric Capacitance Waves */}
+              <path d="M 411 445 Q 420 452 430 445" fill="none" stroke="#38BDF8" strokeWidth="1.2" strokeDasharray="2 2" className="animate-pulse" />
+              <path d="M 436 465 Q 445 472 455 465" fill="none" stroke="#38BDF8" strokeWidth="1.2" strokeDasharray="2 2" className="animate-pulse" />
+            </g>
+
+            {/* ------------------------------------------------------------- */}
+            {/* 6. HOSMA ORGANIC CEYLON COCOPEAT BASE (Separates Down-Right) */}
+            {/* ------------------------------------------------------------- */}
+            <g 
+              transform={`translate(${substrateSeparation * 0.7}, ${substrateSeparation * 0.7})`}
+              className="cursor-pointer transition-transform duration-75"
+              onClick={() => setActiveCalloutId("cocopeat")}
+            >
+              <ellipse cx="510" cy="495" rx="88" ry="34" fill="#382218" stroke="#6E473B" strokeWidth="1.5" />
+              <path 
+                d="M 422 495 L 422 550 A 88 34 0 0 0 598 550 L 598 495 Z" 
+                fill="url(#cadCocopeat)" 
+                stroke="#4A2E24" 
+                strokeWidth="1.5" 
+              />
+              {/* Plant Root Tendrils */}
+              <path d="M 510 500 Q 480 525 460 540" fill="none" stroke="#FDE68A" strokeWidth="1.8" strokeLinecap="round" />
+              <path d="M 510 500 Q 535 520 560 542" fill="none" stroke="#FDE68A" strokeWidth="1.8" strokeLinecap="round" />
+              {/* Glowing Water Droplets */}
+              <circle cx="485" cy="520" r="3.5" fill="#00D2FF" className="animate-ping" />
+              <circle cx="535" cy="528" r="3.5" fill="#00D2FF" />
+            </g>
+
+            {/* ================= ARCHITECTURAL LEADER LINES (TOP-RIGHT BRANCH) ================= */}
+            {CALLOUTS.filter(c => c.side === "top-right").map((callout) => {
+              const isVisible = progress >= (callout.triggerProgress - 0.08);
+              const isActive = activeCalloutId === callout.id;
+
+              return (
+                <g 
+                  key={callout.id}
+                  onClick={() => setActiveCalloutId(callout.id)}
+                  className="cursor-pointer transition-opacity duration-300"
+                  style={{ opacity: isVisible ? 1 : 0.25 }}
+                >
+                  {/* Angled Leader Pointer Path */}
+                  <path
+                    d={`M ${callout.x} ${callout.y} L ${callout.labelX - 30} ${callout.labelY} L ${callout.labelX} ${callout.labelY}`}
+                    fill="none"
+                    stroke={isActive ? callout.accentColor : "currentColor"}
+                    strokeWidth={isActive ? "1.8" : "0.8"}
+                    strokeDasharray={isActive ? "none" : "3 3"}
+                    className="text-slate-400 dark:text-zinc-600"
+                  />
+                  <circle cx={callout.x} cy={callout.y} r="3" fill={callout.accentColor} />
+
+                  {/* Label Text */}
+                  <text
+                    x={callout.labelX + 8}
+                    y={callout.labelY + 4}
+                    fill={isActive ? callout.accentColor : "currentColor"}
+                    fontSize="11"
+                    fontWeight={isActive ? "bold" : "normal"}
+                    fontFamily="var(--font-mono), monospace"
+                    className="text-slate-800 dark:text-zinc-300"
                   >
-                    <span>Request Hardware Spec</span>
-                    <ArrowRight className="w-3.5 h-3.5" />
-                  </a>
-                </div>
-              </motion.div>
-            </AnimatePresence>
-          </div>
+                    {callout.name}
+                  </text>
+                </g>
+              );
+            })}
+
+            {/* ================= ARCHITECTURAL LEADER LINES (BOTTOM-LEFT BRANCH) ================= */}
+            {CALLOUTS.filter(c => c.side === "bottom-left").map((callout) => {
+              const isVisible = progress >= (callout.triggerProgress - 0.08);
+              const isActive = activeCalloutId === callout.id;
+
+              return (
+                <g 
+                  key={callout.id}
+                  onClick={() => setActiveCalloutId(callout.id)}
+                  className="cursor-pointer transition-opacity duration-300"
+                  style={{ opacity: isVisible ? 1 : 0.25 }}
+                >
+                  {/* Angled Leader Pointer Path */}
+                  <path
+                    d={`M ${callout.x} ${callout.y} L ${callout.labelX + 170} ${callout.labelY} L ${callout.labelX + 140} ${callout.labelY}`}
+                    fill="none"
+                    stroke={isActive ? callout.accentColor : "currentColor"}
+                    strokeWidth={isActive ? "1.8" : "0.8"}
+                    strokeDasharray={isActive ? "none" : "3 3"}
+                    className="text-slate-400 dark:text-zinc-600"
+                  />
+                  <circle cx={callout.x} cy={callout.y} r="3" fill={callout.accentColor} />
+
+                  {/* Label Text */}
+                  <text
+                    x={callout.labelX + 130}
+                    y={callout.labelY + 4}
+                    textAnchor="end"
+                    fill={isActive ? callout.accentColor : "currentColor"}
+                    fontSize="11"
+                    fontWeight={isActive ? "bold" : "normal"}
+                    fontFamily="var(--font-mono), monospace"
+                    className="text-slate-800 dark:text-zinc-300"
+                  >
+                    {callout.name}
+                  </text>
+                </g>
+              );
+            })}
+
+          </svg>
 
         </div>
 
-        {/* Bottom Scroll Indicator */}
-        <div className="max-w-7xl mx-auto w-full z-30 pb-1 flex items-center justify-between text-xs font-mono text-slate-400">
-          <div className="flex items-center gap-2">
-            <ChevronDown className="w-4 h-4 text-[#10E599] animate-bounce" />
-            <span>
-              {activePhaseIndex === 0 
-                ? "Scroll mouse wheel to deconstruct the assembled probe into separated layers" 
-                : "Scrolling through separated physical hardware layers"}
+        {/* ================= BOTTOM BAR: ANIME.JS STYLE RULER SCRUBBER (IMAGE 5 STYLE) ================= */}
+        <div className="relative z-30 max-w-7xl mx-auto w-full flex flex-col sm:flex-row items-center justify-between gap-4 pt-2">
+          
+          {/* Active Callout Detail Badge */}
+          <div className="flex items-center gap-3">
+            <span 
+              className="w-2.5 h-2.5 rounded-full animate-ping"
+              style={{ backgroundColor: currentCallout.accentColor }}
+            />
+            <span className="font-mono text-xs font-bold text-[#18181B] dark:text-white">
+              {currentCallout.name}:
+            </span>
+            <span className="text-xs text-slate-600 dark:text-zinc-400 font-normal">
+              {currentCallout.detail}
             </span>
           </div>
-          <div className="text-[11px] text-[#059669] dark:text-[#10E599] font-bold">
-            Phase 0{activePhaseIndex} / 04 Active
+
+          {/* Anime.js Iconic Linear Tick Ruler Scrubber (Exact match to Images 4 & 5!) */}
+          <div className="flex items-center gap-3">
+            <span className="text-[10px] font-mono text-slate-400 uppercase tracking-widest hidden md:inline">
+              Deconstruction Scrub:
+            </span>
+
+            {/* Scrubber Capsule */}
+            <div 
+              className="relative flex items-center h-9 px-3 rounded-full bg-[#18181B] text-white border border-black/10 dark:border-white/15 shadow-xl select-none cursor-ew-resize"
+              onMouseMove={(e) => {
+                if (e.buttons === 1) {
+                  const rect = e.currentTarget.getBoundingClientRect();
+                  const val = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
+                  setManualScrub(val);
+                }
+              }}
+              onClick={(e) => {
+                const rect = e.currentTarget.getBoundingClientRect();
+                const val = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
+                setManualScrub(val);
+                sound.playClick();
+              }}
+            >
+              {/* Vertical Tick Marks */}
+              <div className="flex items-center gap-1">
+                {Array.from({ length: 28 }).map((_, i) => (
+                  <span 
+                    key={i}
+                    className={`w-[1px] rounded-full transition-colors ${
+                      i % 5 === 0 
+                        ? "h-4 bg-zinc-400" 
+                        : "h-2.5 bg-zinc-600"
+                    }`}
+                  />
+                ))}
+              </div>
+
+              {/* Red/Emerald Active Needle Indicator */}
+              <motion.div 
+                style={{ 
+                  left: `calc(12px + ${progress * (100 - 15)}%)` 
+                }}
+                className="absolute top-1.5 bottom-1.5 w-[2px] bg-red-500 rounded-full shadow-[0_0_8px_rgba(239,68,68,0.9)]"
+              />
+            </div>
+
+            {/* Reset to Scroll Auto Mode */}
+            {manualScrub !== null && (
+              <button
+                onClick={() => setManualScrub(null)}
+                className="text-[10px] font-mono font-bold text-[#059669] hover:underline cursor-pointer"
+              >
+                Auto Scroll
+              </button>
+            )}
           </div>
+
         </div>
 
       </div>
