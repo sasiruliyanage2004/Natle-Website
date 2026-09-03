@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useId } from "react";
+import React, { useId, useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
 
 export interface VideoTextProps {
@@ -8,12 +8,11 @@ export interface VideoTextProps {
   line1?: string;
   line2?: string;
   align?: "left" | "center";
-  children?: React.ReactNode;
   className?: string;
 }
 
 export function VideoText({
-  src = "https://cdn.magicui.design/ocean-small.webm",
+  src = "/videos/agriculture-crop-field.webm",
   line1 = "Empowering",
   line2 = "Agriculture",
   align = "center",
@@ -21,59 +20,92 @@ export function VideoText({
 }: VideoTextProps) {
   const maskId = useId().replace(/:/g, "_");
   const isLeft = align === "left";
+  const [videoLoaded, setVideoLoaded] = useState(false);
+  const [videoError, setVideoError] = useState(false);
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+    setPrefersReducedMotion(mediaQuery.matches);
+
+    const handler = (e: MediaQueryListEvent) => setPrefersReducedMotion(e.matches);
+    mediaQuery.addEventListener("change", handler);
+    return () => mediaQuery.removeEventListener("change", handler);
+  }, []);
+
+  const showVideo = videoLoaded && !videoError && !prefersReducedMotion;
 
   return (
     <div
       className={cn(
-        "relative w-full overflow-visible select-none flex items-center",
-        isLeft ? "justify-start text-left" : "justify-center text-center",
+        "relative w-full overflow-visible select-none flex flex-col items-center",
+        isLeft ? "items-start text-left" : "items-center text-center",
         className
       )}
     >
-      {/* Luminous Ambient Back-Glow for High Visibility */}
+      {/* 1. Subtle Dark Radial Vignette for High Text Silhouette Contrast */}
       <div 
         className={cn(
-          "absolute pointer-events-none -z-10 rounded-full blur-[90px] opacity-30 dark:opacity-80 transition-opacity",
+          "absolute pointer-events-none -z-20 rounded-full blur-[70px] transition-opacity duration-700",
           isLeft 
-            ? "left-0 top-1/2 -translate-y-1/2 w-[550px] h-[220px] bg-gradient-to-r from-[#00d2ff]/20 via-[#10e599]/25 to-transparent" 
-            : "left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[750px] h-[260px] bg-gradient-to-r from-[#00d2ff]/20 via-[#10e599]/25 to-[#059669]/20"
+            ? "left-0 top-1/2 -translate-y-1/2 w-[580px] h-[260px] bg-black/70 dark:bg-black/85" 
+            : "left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[850px] h-[300px] bg-black/60 dark:bg-black/85"
         )} 
       />
 
+      {/* 2. Ambient Flora-Emerald & Cyan Halo Glow */}
+      <div 
+        className={cn(
+          "absolute pointer-events-none -z-10 rounded-full blur-[100px] opacity-40 dark:opacity-75 transition-opacity duration-700",
+          isLeft 
+            ? "left-0 top-1/2 -translate-y-1/2 w-[550px] h-[220px] bg-gradient-to-r from-[#00D2FF]/20 via-[#10E599]/25 to-transparent" 
+            : "left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[780px] h-[260px] bg-gradient-to-r from-[#00D2FF]/20 via-[#10E599]/25 to-[#059669]/20"
+        )} 
+      />
+
+      {/* 3. SVG Display Headline with Video Mask & Instant Gradient Fallback */}
       <svg
-        className="w-full h-auto overflow-visible block drop-shadow-[0_12px_28px_rgba(7,19,38,0.22)] dark:drop-shadow-[0_0_25px_rgba(0,210,255,0.4)]"
-        viewBox={isLeft ? "0 0 1050 270" : "0 0 1200 300"}
+        className="w-full h-auto overflow-visible block drop-shadow-[0_4px_24px_rgba(7,19,38,0.35)] dark:drop-shadow-[0_0_20px_rgba(16,229,153,0.35)]"
+        viewBox={isLeft ? "0 0 1050 280" : "0 0 1200 320"}
         preserveAspectRatio={isLeft ? "xMinYMid meet" : "xMidYMid meet"}
       >
         <defs>
+          {/* Brand Gradient for Pre-load & Reduced-Motion Fallback */}
+          <linearGradient id={`${maskId}_grad`} x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor="#10E599" />
+            <stop offset="45%" stopColor="#059669" />
+            <stop offset="100%" stopColor="#00D2FF" />
+          </linearGradient>
+
+          {/* Precision Text Shape Mask with font-black 900 weight */}
           <mask id={maskId}>
             <rect width="100%" height="100%" fill="black" />
 
-            {/* Line 1: Empowering */}
+            {/* Line 1: Empowering — Heavyweight 900 Display */}
             <text
               x={isLeft ? "10" : "600"}
               y={isLeft ? "100" : "110"}
               textAnchor={isLeft ? "start" : "middle"}
               dominantBaseline="middle"
               fill="white"
-              fontSize={isLeft ? "120" : "130"}
+              fontSize={isLeft ? "124" : "136"}
               fontWeight="900"
-              letterSpacing={isLeft ? "-2" : "-3"}
+              letterSpacing={isLeft ? "-2" : "-3.5"}
               fontFamily="var(--font-sans), Inter, system-ui, sans-serif"
             >
               {line1}
             </text>
 
-            {/* Line 2: Agriculture */}
+            {/* Line 2: Agriculture — Heavyweight 900 Display */}
             <text
               x={isLeft ? "10" : "600"}
-              y={isLeft ? "225" : "240"}
+              y={isLeft ? "232" : "248"}
               textAnchor={isLeft ? "start" : "middle"}
               dominantBaseline="middle"
               fill="white"
-              fontSize={isLeft ? "120" : "130"}
+              fontSize={isLeft ? "124" : "136"}
               fontWeight="900"
-              letterSpacing={isLeft ? "-2" : "-3"}
+              letterSpacing={isLeft ? "-2" : "-3.5"}
               fontFamily="var(--font-sans), Inter, system-ui, sans-serif"
             >
               {line2}
@@ -81,29 +113,73 @@ export function VideoText({
           </mask>
         </defs>
 
-        {/* 1. Masked Pristine Video Container */}
-        <foreignObject
-          x="0"
-          y="0"
-          width="100%"
-          height="100%"
-          mask={`url(#${maskId})`}
-        >
-          <div className="w-full h-full relative overflow-hidden bg-[#071326]">
-            <video
-              src={src}
-              autoPlay
-              loop
-              muted
-              playsInline
-              className="w-full h-full object-cover"
-              style={{
-                minHeight: isLeft ? "280px" : "300px",
-                filter: "brightness(1.4) contrast(1.25) saturate(1.45)",
-              }}
-            />
-          </div>
-        </foreignObject>
+        {/* Base Fallback Gradient Text Layer (Instantly visible in first 300ms & reduced-motion) */}
+        <g className="transition-opacity duration-700">
+          <text
+            x={isLeft ? "10" : "600"}
+            y={isLeft ? "100" : "110"}
+            textAnchor={isLeft ? "start" : "middle"}
+            dominantBaseline="middle"
+            fill={`url(#${maskId}_grad)`}
+            fontSize={isLeft ? "124" : "136"}
+            fontWeight="900"
+            letterSpacing={isLeft ? "-2" : "-3.5"}
+            fontFamily="var(--font-sans), Inter, system-ui, sans-serif"
+          >
+            {line1}
+          </text>
+          <text
+            x={isLeft ? "10" : "600"}
+            y={isLeft ? "232" : "248"}
+            textAnchor={isLeft ? "start" : "middle"}
+            dominantBaseline="middle"
+            fill={`url(#${maskId}_grad)`}
+            fontSize={isLeft ? "124" : "136"}
+            fontWeight="900"
+            letterSpacing={isLeft ? "-2" : "-3.5"}
+            fontFamily="var(--font-sans), Inter, system-ui, sans-serif"
+          >
+            {line2}
+          </text>
+        </g>
+
+        {/* Masked Agricultural Drone Video Layer (Fades in over fallback once playing) */}
+        {!prefersReducedMotion && (
+          <foreignObject
+            x="0"
+            y="0"
+            width="100%"
+            height="100%"
+            mask={`url(#${maskId})`}
+            className={`transition-opacity duration-700 ${showVideo ? "opacity-100" : "opacity-0"}`}
+          >
+            <div className="w-full h-full relative overflow-hidden bg-slate-950">
+              <video
+                src={src}
+                autoPlay
+                loop
+                muted
+                playsInline
+                onLoadedData={() => setVideoLoaded(true)}
+                onError={() => setVideoError(true)}
+                className="w-full h-full object-cover"
+                style={{
+                  minHeight: isLeft ? "280px" : "320px",
+                  filter: "brightness(0.92) contrast(1.22) saturate(0.85)",
+                }}
+              />
+
+              {/* Duotone Brand Overlay: --flora-emerald (#059669) & --neon-spring (#10E599) */}
+              <div 
+                className="absolute inset-0 pointer-events-none"
+                style={{
+                  background: "linear-gradient(135deg, rgba(5, 150, 105, 0.42) 0%, rgba(16, 229, 153, 0.36) 55%, rgba(0, 210, 255, 0.24) 100%)",
+                  mixBlendMode: "color",
+                }}
+              />
+            </div>
+          </foreignObject>
+        )}
       </svg>
     </div>
   );

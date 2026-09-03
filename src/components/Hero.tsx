@@ -79,7 +79,7 @@ export default function Hero() {
           {/* Magic UI 2-Line VideoText Headline (No Clipping, Perfectly Centered) */}
           <motion.div variants={riseVariants} className="w-full flex flex-col items-center justify-center text-center mb-2">
             <VideoText
-              src="https://cdn.magicui.design/ocean-small.webm"
+              src="/videos/agriculture-crop-field.webm"
               line1="Empowering"
               line2="Agriculture"
               align="center"
