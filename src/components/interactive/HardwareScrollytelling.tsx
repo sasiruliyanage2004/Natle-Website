@@ -1,10 +1,25 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, useCallback } from "react";
 import * as THREE from "three";
 import Link from "next/link";
-import { ArrowRight, Sun, Moon, ChevronDown } from "lucide-react";
+import Image from "next/image";
+import { motion, AnimatePresence } from "framer-motion";
+import { 
+  ArrowRight, 
+  Sun, 
+  Moon, 
+  ChevronDown, 
+  CheckCircle2, 
+  ShieldCheck, 
+  Cpu, 
+  Sparkles,
+  Layers,
+  Activity
+} from "lucide-react";
 import { useTheme } from "@/components/ThemeProvider";
+import NatleLogo from "@/components/common/NatleLogo";
+import { sound } from "@/lib/sound";
 
 interface CamStop {
   y: number;
@@ -23,30 +38,150 @@ const CAM_STOPS: CamStop[] = [
   { y: -1.9, z: 2.4, fov: 26, lookY: -2.3, rotY: -0.15 }, // Stage 5: Ceramic prongs & cocopeat
 ];
 
+const STAGE_LABELS = [
+  { idx: 0, label: "00 Overview", short: "Overview" },
+  { idx: 1, label: "01 Solar Cap", short: "Solar Cap" },
+  { idx: 2, label: "02 Seal Shell", short: "Silicone" },
+  { idx: 3, label: "03 Logic Tube", short: "PCB Body" },
+  { idx: 4, label: "04 Steel Collar", short: "Collar" },
+  { idx: 5, label: "05 Soil Tip", short: "Prongs" },
+];
+
+// Smooth cubic easing for settling stops
 function catmullSample(stops: CamStop[], t: number, key: keyof CamStop): number {
   const n = stops.length;
-  const scaled = Math.max(0, Math.min(1, t)) * (n - 1);
+  const clampedT = Math.max(0, Math.min(1, t));
+  const scaled = clampedT * (n - 1);
   const i0 = Math.max(0, Math.min(n - 2, Math.floor(scaled)));
   const localT = scaled - i0;
-  return stops[i0][key] + (stops[i0 + 1][key] - stops[i0][key]) * localT;
+
+  // S-curve cubic easing so camera settles into each stop
+  const smoothT = localT < 0.5 
+    ? 4 * localT * localT * localT 
+    : 1 - Math.pow(-2 * localT + 2, 3) / 2;
+
+  const a = stops[i0][key];
+  const b = stops[i0 + 1][key];
+  return a + (b - a) * smoothT;
+}
+
+// Magnetic Micro-Interaction Wrapper
+function MagneticElement({ 
+  children, 
+  className = "" 
+}: { 
+  children: React.ReactNode; 
+  className?: string; 
+}) {
+  const ref = useRef<HTMLDivElement>(null);
+  const [offset, setOffset] = useState({ x: 0, y: 0 });
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (typeof window === "undefined" || window.innerWidth < 1024) return;
+    const rect = ref.current?.getBoundingClientRect();
+    if (!rect) return;
+    const x = (e.clientX - (rect.left + rect.width / 2)) * 0.3;
+    const y = (e.clientY - (rect.top + rect.height / 2)) * 0.3;
+    setOffset({ x, y });
+  };
+
+  const handleMouseLeave = () => setOffset({ x: 0, y: 0 });
+
+  return (
+    <motion.div
+      ref={ref}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      animate={{ x: offset.x, y: offset.y }}
+      transition={{ type: "spring", stiffness: 350, damping: 20 }}
+      className={className}
+    >
+      {children}
+    </motion.div>
+  );
 }
 
 export default function HardwareScrollytelling() {
   const containerRef = useRef<HTMLDivElement>(null);
   const canvasWrapRef = useRef<HTMLDivElement>(null);
   const { theme, toggleTheme } = useTheme();
+
+  // State
   const [activeStage, setActiveStage] = useState<number>(0);
+  const [scrollFraction, setScrollFraction] = useState<number>(0);
+  const [isLoaded, setIsLoaded] = useState<boolean>(false);
+  const [loadPercent, setLoadPercent] = useState<number>(15);
+  const [isMobile, setIsMobile] = useState<boolean>(false);
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState<boolean>(false);
+  const [isBlurPulsing, setIsBlurPulsing] = useState<boolean>(false);
 
-  // References to update Three.js scene dynamically on theme changes
+  // Dynamic Three.js Theme Updater Ref
   const updateSceneThemeRef = useRef<((isDark: boolean) => void) | null>(null);
+  const mouseTiltRef = useRef<{ targetX: number; targetY: number }>({ targetX: 0, targetY: 0 });
 
+  // Sync theme changes with Three.js scene
   useEffect(() => {
     if (updateSceneThemeRef.current) {
       updateSceneThemeRef.current(theme === "dark");
     }
   }, [theme]);
 
+  // Loading Screen Progression
   useEffect(() => {
+    const timer = setInterval(() => {
+      setLoadPercent((prev) => {
+        if (prev >= 100) {
+          clearInterval(timer);
+          setTimeout(() => setIsLoaded(true), 250);
+          return 100;
+        }
+        return prev + 25;
+      });
+    }, 100);
+
+    return () => clearInterval(timer);
+  }, []);
+
+  // Check Mobile Viewport & Reduced Motion
+  useEffect(() => {
+    const checkCapabilities = () => {
+      setIsMobile(window.innerWidth < 768);
+      const media = window.matchMedia("(prefers-reduced-motion: reduce)");
+      setPrefersReducedMotion(media.matches);
+    };
+
+    checkCapabilities();
+    window.addEventListener("resize", checkCapabilities);
+    return () => window.removeEventListener("resize", checkCapabilities);
+  }, []);
+
+  // Desktop Mouse Parallax Tracker
+  useEffect(() => {
+    if (isMobile) return;
+
+    const handleMouseMove = (e: MouseEvent) => {
+      if (window.innerWidth < 1024) return;
+      // Normalized coordinates from -1 to 1
+      const normX = (e.clientX / window.innerWidth - 0.5) * 2;
+      const normY = (e.clientY / window.innerHeight - 0.5) * 2;
+      // Clamp to subtle rotation offset (+/- 0.08 rad)
+      mouseTiltRef.current = {
+        targetX: Math.max(-0.08, Math.min(0.08, normY * 0.08)),
+        targetY: Math.max(-0.08, Math.min(0.08, normX * 0.08)),
+      };
+    };
+
+    window.addEventListener("mousemove", handleMouseMove, { passive: true });
+    return () => window.removeEventListener("mousemove", handleMouseMove);
+  }, [isMobile]);
+
+  // Three.js Scene Setup (Only when not mobile fallback)
+  useEffect(() => {
+    if (isMobile) {
+      setIsLoaded(true);
+      return;
+    }
+
     const wrap = canvasWrapRef.current;
     if (!wrap) return;
 
@@ -67,14 +202,14 @@ export default function HardwareScrollytelling() {
       100
     );
 
-    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: "high-performance" });
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     renderer.setSize(wrap.clientWidth, wrap.clientHeight);
     renderer.shadowMap.enabled = true;
     renderer.shadowMap.type = THREE.PCFSoftShadowMap;
     wrap.appendChild(renderer.domElement);
 
-    // ---------- LIGHTING (PER NATLE SPEC) ----------
+    // ---------- LIGHTING ----------
     const key = new THREE.DirectionalLight(0xffffff, isCurrentDark ? 1.7 : 2.4);
     key.position.set(4, 8, 5);
     key.castShadow = true;
@@ -83,22 +218,22 @@ export default function HardwareScrollytelling() {
     key.shadow.camera.top = 6; key.shadow.camera.bottom = -6;
     scene.add(key);
 
-    const rim = new THREE.DirectionalLight(0x10E599, 1.1); // Neon Spring rim light
+    const rim = new THREE.DirectionalLight(0x10E599, 1.1); // Neon Spring
     rim.position.set(-5, 3, -4);
     scene.add(rim);
 
     const fill = new THREE.AmbientLight(0xffffff, isCurrentDark ? 0.32 : 0.55);
     scene.add(fill);
 
-    const groundLight = new THREE.PointLight(0x00D2FF, 0.6, 8); // Cyber Cyan ground glow
+    const groundLight = new THREE.PointLight(0x00D2FF, 0.6, 8); // Cyber Cyan
     groundLight.position.set(0, -3.5, 1.5);
     scene.add(groundLight);
 
-    const brandLight = new THREE.PointLight(0x059669, 0.5, 10); // Flora Emerald accent
+    const brandLight = new THREE.PointLight(0x059669, 0.5, 10); // Flora Emerald
     brandLight.position.set(2.5, 2, 3);
     scene.add(brandLight);
 
-    // ---------- MATERIALS (EXACT NATLE DESIGN SYSTEM TOKENS) ----------
+    // ---------- MATERIALS (EXACT SPEC HEX TOKENS) ----------
     const titaniumCap = new THREE.MeshStandardMaterial({ color: 0xC9CDD1, metalness: 1.0, roughness: 0.28 });
     const darkMetal   = new THREE.MeshStandardMaterial({ color: 0x8B9096, metalness: 0.9,  roughness: 0.35 });
     const polycarbonate = new THREE.MeshPhysicalMaterial({
@@ -115,59 +250,53 @@ export default function HardwareScrollytelling() {
     const cocopeat     = new THREE.MeshStandardMaterial({ color: 0x3A2C22, roughness: 1.0, metalness: 0 });
     const cocopeatDark = new THREE.MeshStandardMaterial({ color: 0x241A14, roughness: 1.0 });
 
-    // ---------- DEVICE 3D GROUP ----------
+    // ---------- 3D DEVICE GROUP ----------
     const device = new THREE.Group();
     scene.add(device);
 
     // Titanium Cap
     const cap = new THREE.Mesh(new THREE.CylinderGeometry(0.34, 0.34, 0.55, 32), titaniumCap);
-    cap.position.y = 3.05; 
-    cap.castShadow = true;
+    cap.position.y = 3.05; cap.castShadow = true;
     device.add(cap);
 
     const capRidge = new THREE.Mesh(new THREE.CylinderGeometry(0.345, 0.345, 0.05, 32), darkMetal);
     capRidge.position.y = 2.79;
     device.add(capRidge);
 
-    // Top Solar LED
+    // LED
     const led = new THREE.Mesh(new THREE.SphereGeometry(0.09, 24, 24), ledSpring);
     led.position.y = 3.34;
     device.add(led);
 
     const ledRing = new THREE.Mesh(new THREE.TorusGeometry(0.12, 0.015, 12, 32), darkMetal);
-    ledRing.rotation.x = Math.PI / 2; 
-    ledRing.position.y = 3.33;
+    ledRing.rotation.x = Math.PI / 2; ledRing.position.y = 3.33;
     device.add(ledRing);
 
-    // Top Fluoroelastomer O-Ring
+    // Top O-Ring
     const ringTop = new THREE.Mesh(new THREE.TorusGeometry(0.335, 0.045, 16, 40), oring);
-    ringTop.rotation.x = Math.PI / 2; 
-    ringTop.position.y = 2.68;
+    ringTop.rotation.x = Math.PI / 2; ringTop.position.y = 2.68;
     device.add(ringTop);
 
-    // Optical Polycarbonate Body
+    // Polycarbonate Body
     const tube = new THREE.Mesh(new THREE.CylinderGeometry(0.3, 0.3, 2.2, 32, 1, true), polycarbonate);
     tube.position.y = 1.5;
     device.add(tube);
 
-    // Silicon PCB Board Inside
+    // Silicon PCB
     const pcb = new THREE.Mesh(new THREE.BoxGeometry(0.12, 1.9, 0.4), siliconPcb);
     pcb.position.y = 1.5;
     device.add(pcb);
 
-    // Dual-Core RISC-V Logic Package
     const chip = new THREE.Mesh(new THREE.BoxGeometry(0.14, 0.22, 0.22), chipDark);
     chip.position.set(0.03, 1.75, 0);
     device.add(chip);
 
-    // SMD Micro-Components
     for (let i = 0; i < 7; i++) {
       const dot = new THREE.Mesh(new THREE.SphereGeometry(0.025, 8, 8), darkMetal);
       dot.position.set(0.08, 0.7 + i * 0.22, (i % 2 === 0 ? 0.12 : -0.12));
       device.add(dot);
     }
 
-    // Contact Telemetry Markers
     const markerPositions = [3.34, 2.05, 1.15, 0.35, -2.3];
     markerPositions.forEach((y) => {
       const m = new THREE.Mesh(new THREE.SphereGeometry(0.045, 16, 16), markerMat);
@@ -177,21 +306,19 @@ export default function HardwareScrollytelling() {
 
     // Lower O-Ring
     const ringBottom = new THREE.Mesh(new THREE.TorusGeometry(0.3, 0.045, 16, 40), oring);
-    ringBottom.rotation.x = Math.PI / 2; 
-    ringBottom.position.y = 0.34;
+    ringBottom.rotation.x = Math.PI / 2; ringBottom.position.y = 0.34;
     device.add(ringBottom);
 
-    // Stainless Steel 316 Collar
+    // Collar
     const collar = new THREE.Mesh(new THREE.CylinderGeometry(0.27, 0.24, 0.9, 32), stainless);
-    collar.position.y = -0.25; 
-    collar.castShadow = true;
+    collar.position.y = -0.25; collar.castShadow = true;
     device.add(collar);
 
     const collarRidge = new THREE.Mesh(new THREE.CylinderGeometry(0.245, 0.245, 0.04, 32), darkMetal);
     collarRidge.position.y = -0.7;
     device.add(collarRidge);
 
-    // Ceramic Moisture Prongs
+    // Ceramic Prongs
     function makeProng(xOff: number) {
       const prong = new THREE.Mesh(new THREE.ConeGeometry(0.07, 1.05, 16), ceramic);
       prong.position.set(xOff, -1.35, 0);
@@ -200,7 +327,7 @@ export default function HardwareScrollytelling() {
     }
     device.add(makeProng(-0.09), makeProng(0.09));
 
-    // ---------- COCOPEAT SUBSTRATE BLOCK ----------
+    // ---------- SOIL GROUP ----------
     const soilGroup = new THREE.Group();
     scene.add(soilGroup);
 
@@ -217,11 +344,9 @@ export default function HardwareScrollytelling() {
 
     const soilBlock = new THREE.Mesh(soilGeo, cocopeat);
     soilBlock.position.y = -2.9;
-    soilBlock.receiveShadow = true; 
-    soilBlock.castShadow = true;
+    soilBlock.receiveShadow = true; soilBlock.castShadow = true;
     soilGroup.add(soilBlock);
 
-    // Organic Soil Crumbs
     for (let i = 0; i < 26; i++) {
       const s = 0.03 + Math.random() * 0.07;
       const crumb = new THREE.Mesh(
@@ -236,7 +361,6 @@ export default function HardwareScrollytelling() {
       soilGroup.add(crumb);
     }
 
-    // Ground Plane Shadow Catcher
     const ground = new THREE.Mesh(
       new THREE.PlaneGeometry(40, 40),
       new THREE.ShadowMaterial({ opacity: isCurrentDark ? 0.25 : 0.12 })
@@ -246,7 +370,7 @@ export default function HardwareScrollytelling() {
     ground.receiveShadow = true;
     scene.add(ground);
 
-    // Dynamic Theme Updater
+    // Theme Updater
     updateSceneThemeRef.current = (dark: boolean) => {
       const targetBg = dark ? bgDark : bgLight;
       scene.background = targetBg.clone();
@@ -256,9 +380,12 @@ export default function HardwareScrollytelling() {
       ground.material.opacity = dark ? 0.25 : 0.12;
     };
 
-    // ---------- SCROLL & ANIMATION LOOP ----------
+    // ---------- RENDER LOOP WITH SPRING SETTLING & TILT ----------
     let scrollProgress = 0;
     let targetProgress = 0;
+    let currentTiltX = 0;
+    let currentTiltY = 0;
+    let lastStage = 0;
     let animId: number;
 
     const handleScroll = () => {
@@ -267,16 +394,35 @@ export default function HardwareScrollytelling() {
       const rect = container.getBoundingClientRect();
       const totalScroll = container.scrollHeight - window.innerHeight;
       const current = -rect.top;
-      targetProgress = Math.max(0, Math.min(1, current / totalScroll));
+      const clamped = Math.max(0, Math.min(1, current / totalScroll));
+      targetProgress = clamped;
+      setScrollFraction(clamped);
 
-      const stage = Math.min(5, Math.floor(targetProgress * 6));
-      setActiveStage(stage);
+      const stage = Math.min(5, Math.floor(clamped * 6));
+      if (stage !== lastStage) {
+        lastStage = stage;
+        setActiveStage(stage);
+        sound.playClick();
+        
+        // Trigger subtle depth-of-field blur pulse on stop change
+        setIsBlurPulsing(true);
+        setTimeout(() => setIsBlurPulsing(false), 450);
+      }
     };
 
     window.addEventListener("scroll", handleScroll, { passive: true });
     handleScroll();
 
     function updateCamera(t: number) {
+      if (prefersReducedMotion) {
+        // Static camera for reduced-motion users
+        camera.position.set(0.2, CAM_STOPS[0].y, CAM_STOPS[0].z);
+        camera.fov = CAM_STOPS[0].fov;
+        camera.updateProjectionMatrix();
+        camera.lookAt(0, CAM_STOPS[0].lookY, 0);
+        return;
+      }
+
       const y = catmullSample(CAM_STOPS, t, "y");
       const z = catmullSample(CAM_STOPS, t, "z");
       const fov = catmullSample(CAM_STOPS, t, "fov");
@@ -288,13 +434,18 @@ export default function HardwareScrollytelling() {
       camera.updateProjectionMatrix();
       camera.lookAt(0, lookY, 0);
 
-      device.rotation.y = rotY * 0.6;
+      // Smooth cursor parallax tilt
+      currentTiltX += (mouseTiltRef.current.targetX - currentTiltX) * 0.08;
+      currentTiltY += (mouseTiltRef.current.targetY - currentTiltY) * 0.08;
+
+      device.rotation.x = currentTiltX;
+      device.rotation.y = rotY * 0.6 + currentTiltY;
       soilGroup.rotation.y = rotY * 0.6;
     }
 
     function animate() {
       animId = requestAnimationFrame(animate);
-      scrollProgress += (targetProgress - scrollProgress) * 0.08;
+      scrollProgress += (targetProgress - scrollProgress) * 0.09;
       updateCamera(scrollProgress);
       led.material.emissiveIntensity = 1.2 + Math.sin(Date.now() * 0.003) * 0.3;
       renderer.render(scene, camera);
@@ -318,61 +469,184 @@ export default function HardwareScrollytelling() {
         wrap.removeChild(renderer.domElement);
       }
     };
+  }, [isMobile, prefersReducedMotion]);
+
+  // Jump to stage via progress rail click
+  const scrollToStage = useCallback((stageIdx: number) => {
+    const container = containerRef.current;
+    if (!container) return;
+    const totalScroll = container.scrollHeight - window.innerHeight;
+    const targetY = container.offsetTop + (stageIdx / 5) * totalScroll;
+    window.scrollTo({ top: targetY, behavior: "smooth" });
+    sound.playClick();
   }, []);
 
   return (
     <section
       ref={containerRef}
       id="hardware-scrollytelling"
+      aria-label="3D Interactive Soil Telemetry Probe"
       className="relative h-[600vh] bg-[#F8FAFC] dark:bg-[#050505] text-[#09131F] dark:text-white transition-colors duration-400 select-none font-sans"
     >
+      {/* ================= ACCESSIBILITY: SKIP LINK ================= */}
+      <a 
+        href="#after-hardware-section" 
+        className="sr-only focus:not-sr-only focus:fixed focus:top-24 focus:left-6 z-50 px-4 py-2 bg-[#059669] dark:bg-[#10E599] text-white dark:text-slate-950 rounded-full font-mono text-xs font-bold shadow-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
+      >
+        Skip 3D Probe Animation &rarr; Next Section
+      </a>
+
+      {/* ================= 1. BRANDED PRELOADER SCREEN ================= */}
+      <AnimatePresence>
+        {!isLoaded && (
+          <motion.div
+            initial={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.6, ease: "easeInOut" }}
+            className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-[#F8FAFC] dark:bg-[#050505]"
+          >
+            <div className="flex flex-col items-center max-w-xs text-center space-y-5">
+              <NatleLogo showTagline={false} />
+              
+              {/* Slim Gradient Progress Bar */}
+              <div className="w-48 h-1 bg-slate-200 dark:bg-zinc-800 rounded-full overflow-hidden relative">
+                <motion.div 
+                  className="h-full bg-gradient-to-r from-[#059669] via-[#10E599] to-[#00D2FF]"
+                  style={{ width: `${loadPercent}%` }}
+                  transition={{ duration: 0.2 }}
+                />
+              </div>
+
+              <span className="font-mono text-[10.5px] tracking-widest uppercase text-slate-500 dark:text-zinc-500">
+                Initializing 3D Telemetry Engine...
+              </span>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       {/* Pinned 100vh Sticky Viewport */}
       <div className="sticky top-0 h-screen w-full overflow-hidden">
         
-        {/* Three.js 3D WebGL Canvas */}
-        <div ref={canvasWrapRef} className="absolute inset-0 w-full h-full z-10" />
+        {/* ================= 2. THREE.JS 3D CANVAS / MOBILE FALLBACK ================= */}
+        {isMobile ? (
+          /* Mobile / Low-Power High-End Static Fallback */
+          <div className="absolute inset-0 flex items-center justify-center z-10 p-6 pointer-events-none">
+            <motion.div 
+              animate={{ y: [0, -8, 0] }}
+              transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
+              className="relative w-64 h-80 max-w-full"
+            >
+              <Image
+                src="/images/probe-assembled.jpg"
+                alt="NATLE Soil Intelligence Probe"
+                fill
+                priority
+                className="object-contain drop-shadow-[0_20px_45px_rgba(0,0,0,0.25)] dark:drop-shadow-[0_25px_50px_rgba(0,0,0,0.8)]"
+              />
+            </motion.div>
+          </div>
+        ) : (
+          /* Desktop WebGL Canvas with Fade-in & Depth-of-Field Pulse */
+          <div 
+            ref={canvasWrapRef} 
+            className={`absolute inset-0 w-full h-full z-10 transition-all duration-1000 ${
+              isLoaded ? "opacity-100 blur-0" : "opacity-0 blur-sm"
+            }`} 
+          />
+        )}
 
-        {/* Top Floating Bar with Navbar Clearance */}
-        <div className="absolute top-0 left-0 right-0 z-30 flex items-center justify-between px-6 sm:px-12 pt-24 sm:pt-28 pb-4 pointer-events-none">
-          <div className="flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-[#059669] dark:bg-[#10E599] animate-pulse" />
-            <span className="font-mono text-xs font-bold tracking-wider uppercase text-slate-900 dark:text-white">
-              TERRA.SENSE <span className="font-normal text-slate-400 dark:text-slate-500">&bull; NATLE TELEMETRY PROBE</span>
-            </span>
+        {/* Optical Depth-of-Field Blur Pulse Overlay on Stop Change */}
+        <div 
+          className={`absolute inset-0 pointer-events-none z-15 transition-all duration-400 ease-out ${
+            isBlurPulsing 
+              ? "backdrop-blur-[4px] bg-emerald-500/[0.02]" 
+              : "backdrop-blur-none bg-transparent"
+          }`} 
+        />
+
+        {/* ================= 3. THIN VERTICAL PROGRESS RAIL ================= */}
+        <div className="fixed right-4 sm:right-6 top-1/2 -translate-y-1/2 z-30 flex flex-col items-center pointer-events-auto">
+          {/* Vertical Track Tube */}
+          <div className="relative w-[2px] h-48 sm:h-56 bg-slate-200 dark:bg-white/10 rounded-full">
+            {/* Active Emerald-Neon Fill */}
+            <motion.div
+              className="absolute top-0 left-0 w-full rounded-full bg-gradient-to-b from-[#059669] via-[#10E599] to-[#00D2FF]"
+              style={{ height: `${Math.min(100, scrollFraction * 100)}%` }}
+            />
           </div>
 
-          <div className="flex items-center gap-4">
-            <span className="font-mono text-xs font-bold tracking-widest text-slate-400 dark:text-slate-500">
-              0{activeStage} / 05
-            </span>
-
-            {/* Global Theme Toggle Button */}
-            <button
-              onClick={toggleTheme}
-              className="pointer-events-auto w-9 h-9 rounded-full border border-slate-200/80 dark:border-emerald-500/20 bg-white/80 dark:bg-[#0A100C]/90 backdrop-blur-xl flex items-center justify-center text-[#059669] dark:text-[#10E599] shadow-sm hover:scale-105 active:scale-95 transition-all cursor-pointer"
-              aria-label="Toggle Theme"
-              title="Switch light/dark theme"
-            >
-              {theme === "dark" ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
-            </button>
+          {/* 6 Clickable Stage Dots */}
+          <div className="absolute inset-y-0 -left-[5px] flex flex-col justify-between py-1">
+            {STAGE_LABELS.map((stage) => {
+              const isActive = activeStage === stage.idx;
+              return (
+                <button
+                  key={stage.idx}
+                  onClick={() => scrollToStage(stage.idx)}
+                  className="group relative flex items-center justify-center w-3 h-3 rounded-full cursor-pointer focus-visible:ring-2 focus-visible:ring-[#059669] dark:focus-visible:ring-[#10E599] focus-visible:outline-none"
+                  aria-label={`Jump to stage ${stage.label}`}
+                >
+                  <span 
+                    className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                      isActive
+                        ? "bg-[#059669] dark:bg-[#10E599] scale-125 shadow-[0_0_8px_#10E599]"
+                        : "bg-slate-300 dark:bg-white/25 group-hover:scale-110 group-hover:bg-[#059669]"
+                    }`}
+                  />
+                  {/* Floating Tooltip */}
+                  <span className="absolute right-6 opacity-0 group-hover:opacity-100 transition-opacity font-mono text-[9px] font-bold tracking-wider uppercase px-2 py-0.5 rounded-md bg-slate-900 text-white dark:bg-white dark:text-slate-950 whitespace-nowrap shadow-md pointer-events-none">
+                    {stage.short}
+                  </span>
+                </button>
+              );
+            })}
           </div>
         </div>
 
-        {/* Overlay Copy Stages (Fade in with Stage Progress) */}
+        {/* ================= 4. TOP FLOATING BAR (NAVBAR CLEARANCE) ================= */}
+        <div className="absolute top-0 left-0 right-0 z-30 flex items-center justify-between px-6 sm:px-12 pt-24 sm:pt-28 pb-4 pointer-events-none">
+          <div className="flex items-center gap-2.5">
+            <span className="w-2 h-2 rounded-full bg-[#059669] dark:bg-[#10E599] animate-pulse" />
+            <span className="font-mono text-xs font-bold tracking-wider uppercase text-slate-900 dark:text-white">
+              TERRA.SENSE <span className="font-normal text-slate-500 dark:text-slate-400">&bull; NATLE TELEMETRY PROBE</span>
+            </span>
+          </div>
+
+          <div className="flex items-center gap-3 sm:gap-4 pr-6 sm:pr-8">
+            <span className="font-mono text-xs font-bold tracking-widest text-slate-500 dark:text-slate-400">
+              0{activeStage} / 05
+            </span>
+
+            {/* Global Theme Toggle Button with Magnetic Feel */}
+            <MagneticElement>
+              <button
+                onClick={toggleTheme}
+                className="pointer-events-auto w-9 h-9 rounded-full border border-slate-200/80 dark:border-emerald-500/20 bg-white/80 dark:bg-[#0A100C]/90 backdrop-blur-xl flex items-center justify-center text-[#059669] dark:text-[#10E599] shadow-sm hover:scale-105 active:scale-95 transition-all cursor-pointer focus-visible:ring-2 focus-visible:ring-[#059669] dark:focus-visible:ring-[#10E599] focus-visible:outline-none"
+                aria-label="Toggle Theme"
+                title="Switch light/dark theme"
+              >
+                {theme === "dark" ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+              </button>
+            </MagneticElement>
+          </div>
+        </div>
+
+        {/* ================= 5. OVERLAY COPY STAGES ================= */}
         <div className="relative z-20 w-full h-full max-w-7xl mx-auto flex items-center justify-between p-6 sm:p-12 pointer-events-none">
           
-          {/* STAGE 0: HERO (Whole Device) */}
+          {/* STAGE 0: HERO */}
           <div 
-            className={`absolute top-[34%] left-6 sm:left-14 max-w-sm transition-all duration-500 ${
-              activeStage === 0 ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4 pointer-events-none"
+            className={`absolute top-[32%] sm:top-[34%] left-6 sm:left-14 max-w-sm transition-all duration-500 ${
+              activeStage === 0 ? "opacity-100 translate-y-0 pointer-events-auto" : "opacity-0 translate-y-4 pointer-events-none"
             }`}
           >
-            <div className="inline-flex items-center gap-2 font-mono text-[10px] font-bold tracking-[0.2em] text-[#059669] dark:text-[#10E599] uppercase mb-2.5">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#059669] dark:bg-[#10E599]" />
+            <div className="inline-flex items-center gap-2 font-mono text-[10px] font-bold tracking-[0.2em] text-[#047857] dark:text-[#10E599] uppercase mb-2.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#059669] dark:bg-[#10E599] animate-pulse" />
               <span>soil probe &bull; model 02</span>
             </div>
 
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-[1.03] text-slate-900 dark:text-white mb-2">
+            <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-[1.03] text-slate-900 dark:text-white mb-2">
               Built from{" "}
               <em className="font-serif italic font-normal gradient-text not-italic">
                 what
@@ -385,26 +659,29 @@ export default function HardwareScrollytelling() {
               Every layer of the housing is chosen for a life spent underground &mdash; sealed against moisture, readable by light, tuned to the frequency of roots.
             </p>
 
-            <div className="mt-6 pointer-events-auto">
-              <Link
-                href="/contact"
-                className="gradient-btn inline-flex items-center gap-2 rounded-full px-6 py-3 text-xs font-bold uppercase tracking-wider text-[#021A12] shadow-md hover:scale-105 active:scale-95 transition-all"
-              >
-                <span>REQUEST DEMO</span>
-                <ArrowRight className="w-3.5 h-3.5" />
-              </Link>
+            {/* Magnetic CTA Button with Visible Focus States */}
+            <div className="mt-6 pointer-events-auto inline-block">
+              <MagneticElement>
+                <Link
+                  href="/contact"
+                  className="gradient-btn group inline-flex items-center gap-2.5 rounded-full px-6 py-3 text-xs font-bold uppercase tracking-wider text-[#021A12] shadow-md hover:scale-105 active:scale-95 transition-all focus-visible:ring-2 focus-visible:ring-[#059669] dark:focus-visible:ring-[#10E599] focus-visible:outline-none"
+                >
+                  <span>REQUEST DEMO</span>
+                  <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1" />
+                </Link>
+              </MagneticElement>
             </div>
 
-            <div className="mt-8 flex items-center gap-2.5 font-mono text-[10.5px] tracking-[0.14em] text-slate-400 dark:text-slate-500 uppercase font-bold">
+            <div className="mt-8 flex items-center gap-2.5 font-mono text-[10.5px] tracking-[0.14em] text-slate-500 dark:text-slate-400 uppercase font-bold">
               <div className="w-[1px] h-8 bg-gradient-to-b from-[#059669] dark:from-[#10E599] to-transparent opacity-50" />
               <span>scroll to descend</span>
             </div>
           </div>
 
-          {/* STAGE 1: CAP (Solar PV Cell) */}
+          {/* STAGE 1: CAP */}
           <div 
-            className={`absolute top-[18%] right-6 sm:right-14 max-w-xs text-right transition-all duration-500 ${
-              activeStage === 1 ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4 pointer-events-none"
+            className={`absolute top-[18%] right-8 sm:right-16 max-w-xs text-right transition-all duration-500 ${
+              activeStage === 1 ? "opacity-100 translate-y-0 pointer-events-auto" : "opacity-0 translate-y-4 pointer-events-none"
             }`}
           >
             <div className="inline-flex items-center gap-2 font-mono text-[10px] font-bold tracking-[0.2em] text-[#F59E0B] uppercase mb-2 flex-row-reverse">
@@ -418,10 +695,10 @@ export default function HardwareScrollytelling() {
             </p>
           </div>
 
-          {/* STAGE 2: SHELL (Silicon Seal Jacket) */}
+          {/* STAGE 2: SHELL */}
           <div 
             className={`absolute top-[32%] left-6 sm:left-14 max-w-xs transition-all duration-500 ${
-              activeStage === 2 ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4 pointer-events-none"
+              activeStage === 2 ? "opacity-100 translate-y-0 pointer-events-auto" : "opacity-0 translate-y-4 pointer-events-none"
             }`}
           >
             <div className="inline-flex items-center gap-2 font-mono text-[10px] font-bold tracking-[0.2em] text-[#00D2FF] uppercase mb-2">
@@ -435,10 +712,10 @@ export default function HardwareScrollytelling() {
             </p>
           </div>
 
-          {/* STAGE 3: BODY (Polycarbonate Tube) */}
+          {/* STAGE 3: BODY */}
           <div 
-            className={`absolute top-[42%] right-6 sm:right-14 max-w-xs text-right transition-all duration-500 ${
-              activeStage === 3 ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4 pointer-events-none"
+            className={`absolute top-[42%] right-8 sm:right-16 max-w-xs text-right transition-all duration-500 ${
+              activeStage === 3 ? "opacity-100 translate-y-0 pointer-events-auto" : "opacity-0 translate-y-4 pointer-events-none"
             }`}
           >
             <div className="inline-flex items-center gap-2 font-mono text-[10px] font-bold tracking-[0.2em] text-[#3B82F6] uppercase mb-2 flex-row-reverse">
@@ -452,10 +729,10 @@ export default function HardwareScrollytelling() {
             </p>
           </div>
 
-          {/* STAGE 4: COLLAR (Stainless 316 Band) */}
+          {/* STAGE 4: COLLAR */}
           <div 
             className={`absolute top-[40%] left-6 sm:left-14 max-w-xs transition-all duration-500 ${
-              activeStage === 4 ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4 pointer-events-none"
+              activeStage === 4 ? "opacity-100 translate-y-0 pointer-events-auto" : "opacity-0 translate-y-4 pointer-events-none"
             }`}
           >
             <div className="inline-flex items-center gap-2 font-mono text-[10px] font-bold tracking-[0.2em] text-[#84CC16] uppercase mb-2">
@@ -469,33 +746,33 @@ export default function HardwareScrollytelling() {
             </p>
           </div>
 
-          {/* STAGE 5: TIP & FINAL TELEMETRY SPEC PANEL */}
+          {/* STAGE 5: TIP & FINAL PANEL */}
           <div 
-            className={`absolute top-[30%] right-6 sm:right-14 max-w-sm text-right transition-all duration-500 ${
-              activeStage === 5 ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4 pointer-events-none"
+            className={`absolute top-[28%] sm:top-[30%] right-6 sm:right-14 max-w-sm text-right transition-all duration-500 ${
+              activeStage === 5 ? "opacity-100 translate-y-0 pointer-events-auto" : "opacity-0 translate-y-4 pointer-events-none"
             }`}
           >
-            <div className="inline-flex items-center gap-2 font-mono text-[10px] font-bold tracking-[0.2em] text-[#10E599] uppercase mb-2 flex-row-reverse">
+            <div className="inline-flex items-center gap-2 font-mono text-[10px] font-bold tracking-[0.2em] text-[#047857] dark:text-[#10E599] uppercase mb-2 flex-row-reverse">
               <span>05 &mdash; tip</span>
             </div>
             <h3 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white tracking-tight mb-2">
               hosma.ceramic prongs
             </h3>
-            <p className="text-xs sm:text-sm text-slate-600 dark:text-zinc-400 leading-relaxed font-normal ml-auto mb-6">
+            <p className="text-xs sm:text-sm text-slate-600 dark:text-zinc-400 leading-relaxed font-normal ml-auto mb-5">
               Twin ceramic prongs read moisture and conductivity a few centimetres down, where the roots actually drink.
             </p>
 
             {/* Glass Card Final Spec Panel */}
-            <div className="glass-card rounded-3xl p-5 sm:p-6 text-left shadow-2xl border border-slate-200/90 dark:border-emerald-500/20 backdrop-blur-2xl">
-              <div className="inline-flex items-center gap-2 font-mono text-[10px] font-bold tracking-[0.2em] text-[#059669] dark:text-[#10E599] uppercase mb-2">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#059669] dark:bg-[#10E599]" />
+            <div className="glass-card rounded-3xl p-5 sm:p-6 text-left shadow-2xl border border-slate-200/90 dark:border-emerald-500/20 backdrop-blur-2xl pointer-events-auto">
+              <div className="inline-flex items-center gap-2 font-mono text-[10px] font-bold tracking-[0.2em] text-[#047857] dark:text-[#10E599] uppercase mb-2">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#059669] dark:bg-[#10E599] animate-pulse" />
                 <span>field data</span>
               </div>
               
-              <h4 className="text-lg font-black text-slate-900 dark:text-white mb-1.5">
+              <h4 className="text-base sm:text-lg font-black text-slate-900 dark:text-white mb-1">
                 Reads every 4 hours
               </h4>
-              <p className="text-xs text-slate-600 dark:text-zinc-400 leading-relaxed mb-4">
+              <p className="text-xs text-slate-600 dark:text-zinc-400 leading-relaxed mb-4 font-normal">
                 Moisture, temperature and salinity, synced over LoRaWAN to the NATLE FieldOS network.
               </p>
 
@@ -519,6 +796,9 @@ export default function HardwareScrollytelling() {
         </div>
 
       </div>
+
+      {/* Anchor target for skip link */}
+      <div id="after-hardware-section" className="relative -top-24" />
     </section>
   );
 }
