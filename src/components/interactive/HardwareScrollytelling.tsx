@@ -13,8 +13,9 @@ import {
   ArrowRight, 
   Layers,
   ChevronDown,
-  Eye,
-  Scan
+  CheckCircle2,
+  Box,
+  SlidersHorizontal
 } from "lucide-react";
 import { sound } from "@/lib/sound";
 
@@ -26,7 +27,7 @@ interface PhaseSpec {
   badge: string;
   accentColor: string;
   depthLabel: string;
-  beaconTop: string; // Vertical position on the photorealistic image (percentage)
+  beaconTop: string;
   description: string;
   specs: { label: string; value: string }[];
 }
@@ -34,6 +35,22 @@ interface PhaseSpec {
 const PHASES: PhaseSpec[] = [
   {
     phaseIndex: 0,
+    id: "assembled",
+    name: "00. NATLE IP68 Telemetry Probe (Fully Assembled)",
+    shortTitle: "Assembled Probe",
+    badge: "100% Sealed & Ready",
+    accentColor: "#10E599",
+    depthLabel: "Unified System State",
+    beaconTop: "50%",
+    description: "The completed, factory-calibrated NATLE Soil Probe standing as a single airtight cylinder. Hermetically sealed to IP68 standards, it withstands tractor compaction, direct monsoons, and extreme agrochemical exposure.",
+    specs: [
+      { label: "Enclosure Standard", value: "IP68 Hermetic Waterproof" },
+      { label: "Mechanical Resistance", value: "IK09 Industrial Impact" },
+      { label: "Operating Autonomy", value: "5+ Years Maintenance-Free" },
+    ],
+  },
+  {
+    phaseIndex: 1,
     id: "solar",
     name: "01. Monocrystalline Solar Micro-Harvester",
     shortTitle: "Solar Energy Cap",
@@ -41,7 +58,7 @@ const PHASES: PhaseSpec[] = [
     accentColor: "#F59E0B",
     depthLabel: "Altitude: +15cm (Atmosphere)",
     beaconTop: "14%",
-    description: "High-efficiency monocrystalline solar disc sealed in an aerospace-grade brushed titanium bezel. Paired with ultra-low ESR supercapacitors to provide perpetual autonomous telemetry through continuous tropical monsoon cloud cover.",
+    description: "High-efficiency monocrystalline solar disc sealed in an aerospace-grade brushed titanium bezel. Decouples energy from tropical cloud cover, charging ultra-low ESR supercapacitors indefinitely.",
     specs: [
       { label: "Solar Efficiency", value: "22.8% Monocrystalline" },
       { label: "Energy Autonomy", value: "5+ Years Maintenance-Free" },
@@ -49,7 +66,7 @@ const PHASES: PhaseSpec[] = [
     ],
   },
   {
-    phaseIndex: 1,
+    phaseIndex: 2,
     id: "silicon",
     name: "02. Silicon Logic Core & LoRaWAN Sub-GHz Spire",
     shortTitle: "Silicon Logic & LoRa",
@@ -65,7 +82,7 @@ const PHASES: PhaseSpec[] = [
     ],
   },
   {
-    phaseIndex: 2,
+    phaseIndex: 3,
     id: "prongs",
     name: "03. Stainless 316L Tri-Depth Capacitance Blades",
     shortTitle: "Capacitance Blades",
@@ -81,7 +98,7 @@ const PHASES: PhaseSpec[] = [
     ],
   },
   {
-    phaseIndex: 3,
+    phaseIndex: 4,
     id: "cocopeat",
     name: "04. Hosma Ceylon Cocopeat & Root Micro-Matrix",
     shortTitle: "Hosma Organic Matrix",
@@ -101,7 +118,6 @@ const PHASES: PhaseSpec[] = [
 export default function HardwareScrollytelling() {
   const containerRef = useRef<HTMLDivElement>(null);
   const [activePhaseIndex, setActivePhaseIndex] = useState<number>(0);
-  const [showAnnotated, setShowAnnotated] = useState<boolean>(false);
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -109,29 +125,43 @@ export default function HardwareScrollytelling() {
   });
 
   // Track phase crossings with whisper-soft haptic audio
+  // 5 Phases:
+  // 0: Assembled (0% - 15%)
+  // 1: Solar Cap (15% - 38%)
+  // 2: Silicon Core (38% - 60%)
+  // 3: Stainless Blades (60% - 82%)
+  // 4: Ceylon Cocopeat (82% - 100%)
   useMotionValueEvent(scrollYProgress, "change", (latest) => {
-    const p = Math.min(3, Math.floor(latest * 4));
+    let p = 0;
+    if (latest < 0.15) p = 0;
+    else if (latest < 0.38) p = 1;
+    else if (latest < 0.60) p = 2;
+    else if (latest < 0.82) p = 3;
+    else p = 4;
+
     if (p !== activePhaseIndex) {
       setActivePhaseIndex(p);
       sound.playClick();
     }
   });
 
-  // Photorealistic Camera Zoom & Pan transforms mapped to scroll progress
-  // Phase 0 (0-25%): Focus on Solar Cap at the top (scale up, pan down)
-  // Phase 1 (25-50%): Focus on Green PCB Logic Core
-  // Phase 2 (50-75%): Focus on Stainless Steel Blades
-  // Phase 3 (75-100%): Dive deep into the Cocopeat root block at the bottom
+  // Crossfade between Assembled Probe & Exploded Probe based on scroll progress
+  // At scroll < 0.15: Assembled probe is 100% visible
+  // At scroll > 0.20: Exploded probe takes over and begins zooming into separated pieces!
+  const assembledOpacity = useTransform(scrollYProgress, [0, 0.14, 0.20], [1, 1, 0]);
+  const explodedOpacity = useTransform(scrollYProgress, [0.14, 0.22, 1], [0, 1, 1]);
+
+  // Camera Zoom & Pan linked to each exploding phase
   const cameraScale = useTransform(
     scrollYProgress, 
-    [0, 0.25, 0.5, 0.75, 1], 
-    [1.15, 1.45, 1.5, 1.45, 1.65]
+    [0, 0.14, 0.25, 0.45, 0.70, 0.90, 1], 
+    [1.0, 1.05, 1.45, 1.55, 1.50, 1.65, 1.70]
   );
   
   const cameraY = useTransform(
     scrollYProgress, 
-    [0, 0.25, 0.5, 0.75, 1], 
-    ["18%", "26%", "8%", "-16%", "-32%"]
+    [0, 0.14, 0.25, 0.45, 0.70, 0.90, 1], 
+    ["0%", "0%", "28%", "10%", "-14%", "-32%", "-35%"]
   );
 
   const activePhase = PHASES[activePhaseIndex];
@@ -140,12 +170,12 @@ export default function HardwareScrollytelling() {
     <section 
       ref={containerRef}
       id="hardware-scrollytelling"
-      className="relative h-[360vh] bg-[#F8FAFC] dark:bg-[#050505] text-slate-900 dark:text-emerald-50 select-none transition-colors duration-300"
+      className="relative h-[420vh] bg-[#F8FAFC] dark:bg-[#050505] text-slate-900 dark:text-emerald-50 select-none transition-colors duration-300"
     >
       {/* Pinned 100vh Sticky Viewport */}
       <div className="sticky top-0 h-screen w-full flex flex-col justify-between py-4 sm:py-6 px-4 sm:px-8 overflow-hidden">
         
-        {/* Background Ambient Bioluminescent Halos */}
+        {/* Background Ambient Studio Halos */}
         <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-emerald-500/10 rounded-full blur-[140px] pointer-events-none" />
         <div className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-cyan-500/10 rounded-full blur-[140px] pointer-events-none" />
 
@@ -157,28 +187,28 @@ export default function HardwareScrollytelling() {
             </div>
             <div>
               <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-[#059669] dark:text-[#10E599] block">
-                Photorealistic 3D Keynote &bull; Apple Launch Edition
+                Scroll-Linked Deconstruction &bull; Apple Keynote Edition
               </span>
               <h3 className="text-sm sm:text-base font-black text-slate-900 dark:text-white">
-                NATLE IP68 LoRaWAN Soil Probe &amp; Ceylon Cocopeat
+                From Assembled Unit to Exploded Soil Anatomy
               </h3>
             </div>
           </div>
 
           {/* Stepper Phase Pills */}
-          <div className="flex items-center gap-1.5 sm:gap-2">
+          <div className="flex items-center gap-1 sm:gap-2 overflow-x-auto no-scrollbar">
             {PHASES.map((p, idx) => {
               const isActive = activePhaseIndex === idx;
               return (
                 <div
                   key={p.id}
-                  className={`px-2.5 sm:px-3.5 py-1 rounded-full text-[10px] sm:text-xs font-mono font-bold transition-all duration-300 border ${
+                  className={`px-2.5 sm:px-3 py-1 rounded-full text-[9px] sm:text-xs font-mono font-bold transition-all duration-300 border shrink-0 ${
                     isActive 
                       ? "bg-slate-900 text-white dark:bg-white dark:text-slate-950 border-emerald-500 shadow-md scale-105" 
                       : "bg-white/60 dark:bg-white/5 text-slate-500 dark:text-slate-400 border-slate-200 dark:border-white/10"
                   }`}
                 >
-                  <span className="hidden md:inline">0{idx + 1}. </span>
+                  <span className="hidden md:inline">0{idx}. </span>
                   <span>{p.shortTitle}</span>
                 </div>
               );
@@ -189,38 +219,25 @@ export default function HardwareScrollytelling() {
         {/* ================= MAIN 2-COLUMN STAGE ================= */}
         <div className="max-w-7xl mx-auto w-full flex-1 grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 items-center overflow-hidden my-2">
           
-          {/* ================= LEFT 7 COLS: PHOTOREALISTIC 3D STUDIO SHOWCASE ================= */}
-          {/* Clean, luxury studio background with NO dark blue grid, soft shadows & camera zoom */}
+          {/* ================= LEFT 7 COLS: PHOTOREALISTIC DYNAMIC 3D STAGE ================= */}
+          {/* Starts with the unified assembled probe, and deconstructs layer-by-layer as you scroll! */}
           <div className="lg:col-span-7 relative h-[420px] sm:h-[500px] lg:h-[540px] rounded-3xl border border-slate-200/90 dark:border-white/10 bg-gradient-to-b from-[#f1f5f9]/90 via-[#e2e8f0]/80 to-[#cbd5e1]/70 dark:from-[#111613] dark:via-[#090e0b] dark:to-[#040605] p-3 sm:p-5 shadow-2xl overflow-hidden flex items-center justify-center">
             
             {/* Soft Ambient Radial Light Studio Glow */}
-            <div className="absolute inset-0 bg-radial-[at_50%_40%] from-white/70 via-transparent to-transparent dark:from-emerald-500/10 dark:via-transparent dark:to-transparent pointer-events-none" />
+            <div className="absolute inset-0 bg-radial-[at_50%_40%] from-white/75 via-transparent to-transparent dark:from-emerald-500/10 dark:via-transparent dark:to-transparent pointer-events-none" />
 
-            {/* View Mode Toggle: Clean Studio 3D vs Annotated Blueprint */}
-            <div className="absolute top-4 right-4 z-30 flex items-center gap-1.5 p-1 rounded-full bg-white/80 dark:bg-black/60 backdrop-blur-md border border-slate-300/80 dark:border-white/15 shadow-sm">
-              <button
-                onClick={() => setShowAnnotated(false)}
-                className={`px-2.5 py-1 rounded-full text-[10px] font-mono font-bold transition-all cursor-pointer ${
-                  !showAnnotated 
-                    ? "bg-slate-900 text-white dark:bg-white dark:text-slate-950 shadow-xs" 
-                    : "text-slate-600 dark:text-slate-400 hover:text-black dark:hover:text-white"
-                }`}
-              >
-                Clean 3D
-              </button>
-              <button
-                onClick={() => setShowAnnotated(true)}
-                className={`px-2.5 py-1 rounded-full text-[10px] font-mono font-bold transition-all cursor-pointer ${
-                  showAnnotated 
-                    ? "bg-slate-900 text-white dark:bg-white dark:text-slate-950 shadow-xs" 
-                    : "text-slate-600 dark:text-slate-400 hover:text-black dark:hover:text-white"
-                }`}
-              >
-                Annotated
-              </button>
+            {/* Live Assembly Status Indicator Badge */}
+            <div className="absolute top-4 left-4 z-30 flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/90 dark:bg-black/70 backdrop-blur-md border border-slate-200 dark:border-white/10 text-[11px] font-mono shadow-sm">
+              <span 
+                className="w-2 h-2 rounded-full animate-pulse"
+                style={{ backgroundColor: activePhase.accentColor }}
+              />
+              <span className="text-slate-900 dark:text-white font-bold">
+                {activePhaseIndex === 0 ? "STATE: 100% ASSEMBLED" : `DECONSTRUCTED // ${activePhase.shortTitle.toUpperCase()}`}
+              </span>
             </div>
 
-            {/* Dynamic Camera Frame that zooms and pans with mouse wheel scroll */}
+            {/* Dynamic Camera Container */}
             <motion.div 
               style={{ 
                 scale: cameraScale, 
@@ -228,41 +245,63 @@ export default function HardwareScrollytelling() {
               }}
               className="relative w-full h-full flex items-center justify-center will-change-transform"
             >
-              <div className="relative w-full h-full max-w-[480px] max-h-[500px]">
-                <Image
-                  src={showAnnotated ? "/images/hardware-exploded-annotated.jpg" : "/images/hardware-exploded-realistic.jpg"}
-                  alt="NATLE 3D Exploded Hardware Probe"
-                  fill
-                  sizes="(max-width: 768px) 100vw, 600px"
-                  priority
-                  className="object-contain drop-shadow-[0_20px_45px_rgba(0,0,0,0.25)] dark:drop-shadow-[0_25px_50px_rgba(0,0,0,0.85)] transition-all duration-300 rounded-2xl"
-                />
+              <div className="relative w-full h-full max-w-[460px] max-h-[490px]">
+                
+                {/* 1. Fully Assembled Probe State (Scroll = 0% to 15%) */}
+                <motion.div 
+                  style={{ opacity: assembledOpacity }}
+                  className="absolute inset-0 w-full h-full"
+                >
+                  <Image
+                    src="/images/probe-assembled.jpg"
+                    alt="NATLE Fully Assembled Smart Soil Probe"
+                    fill
+                    sizes="(max-width: 768px) 100vw, 600px"
+                    priority
+                    className="object-contain drop-shadow-[0_20px_45px_rgba(0,0,0,0.25)] dark:drop-shadow-[0_25px_50px_rgba(0,0,0,0.85)] rounded-2xl"
+                  />
+                </motion.div>
 
-                {/* Pulsing Active Component Beacon / Radar Indicator */}
-                {!showAnnotated && (
-                  <motion.div
-                    key={activePhase.id}
-                    initial={{ scale: 0, opacity: 0 }}
-                    animate={{ scale: 1, opacity: 1 }}
-                    exit={{ scale: 0, opacity: 0 }}
-                    transition={{ type: "spring", damping: 15 }}
-                    style={{ top: activePhase.beaconTop, left: "50%" }}
-                    className="absolute -translate-x-1/2 -translate-y-1/2 z-20 pointer-events-none flex items-center justify-center"
-                  >
-                    <span 
-                      className="absolute w-12 h-12 rounded-full opacity-60 animate-ping"
-                      style={{ backgroundColor: activePhase.accentColor }}
-                    />
-                    <span 
-                      className="w-4 h-4 rounded-full border-2 border-white shadow-lg"
-                      style={{ backgroundColor: activePhase.accentColor }}
-                    />
-                  </motion.div>
-                )}
+                {/* 2. Deconstructed / Exploded Layers State (Scroll > 15%) */}
+                <motion.div 
+                  style={{ opacity: explodedOpacity }}
+                  className="absolute inset-0 w-full h-full"
+                >
+                  <Image
+                    src="/images/hardware-exploded-realistic.jpg"
+                    alt="NATLE Exploded Hardware & Soil Anatomy"
+                    fill
+                    sizes="(max-width: 768px) 100vw, 600px"
+                    className="object-contain drop-shadow-[0_20px_45px_rgba(0,0,0,0.25)] dark:drop-shadow-[0_25px_50px_rgba(0,0,0,0.85)] rounded-2xl"
+                  />
+
+                  {/* Active Radar Beacon Indicator on Active Separated Layer */}
+                  {activePhaseIndex > 0 && (
+                    <motion.div
+                      key={activePhase.id}
+                      initial={{ scale: 0, opacity: 0 }}
+                      animate={{ scale: 1, opacity: 1 }}
+                      exit={{ scale: 0, opacity: 0 }}
+                      transition={{ type: "spring", damping: 15 }}
+                      style={{ top: activePhase.beaconTop, left: "50%" }}
+                      className="absolute -translate-x-1/2 -translate-y-1/2 z-20 pointer-events-none flex items-center justify-center"
+                    >
+                      <span 
+                        className="absolute w-12 h-12 rounded-full opacity-60 animate-ping"
+                        style={{ backgroundColor: activePhase.accentColor }}
+                      />
+                      <span 
+                        className="w-4 h-4 rounded-full border-2 border-white shadow-lg"
+                        style={{ backgroundColor: activePhase.accentColor }}
+                      />
+                    </motion.div>
+                  )}
+                </motion.div>
+
               </div>
             </motion.div>
 
-            {/* Bottom HUD: Live Depth & Altitude Readout */}
+            {/* Bottom HUD: Live Altitude / Depth Readout */}
             <div className="absolute bottom-4 left-4 z-20 px-3 py-1.5 rounded-full bg-white/90 dark:bg-black/80 backdrop-blur-md border border-slate-200 dark:border-white/10 text-xs font-mono flex items-center gap-2 text-slate-900 dark:text-white shadow-sm">
               <span className="w-2 h-2 rounded-full" style={{ backgroundColor: activePhase.accentColor }} />
               <span className="font-bold">{activePhase.depthLabel}</span>
@@ -290,7 +329,7 @@ export default function HardwareScrollytelling() {
                       {activePhase.badge}
                     </span>
                     <span className="text-xs font-mono text-slate-400">
-                      Phase 0{activePhaseIndex + 1} of 04
+                      Phase 0{activePhaseIndex} of 04
                     </span>
                   </div>
 
@@ -325,7 +364,7 @@ export default function HardwareScrollytelling() {
 
                 <div className="mt-6 pt-5 border-t border-slate-200/80 dark:border-emerald-900/30 flex items-center justify-between">
                   <span className="text-xs font-mono text-slate-400">
-                    Scroll down for next phase &darr;
+                    {activePhaseIndex === 0 ? "Scroll down to deconstruct layers &darr;" : "Scroll down for next component &darr;"}
                   </span>
                   
                   <a
@@ -346,10 +385,14 @@ export default function HardwareScrollytelling() {
         <div className="max-w-7xl mx-auto w-full z-30 pb-1 flex items-center justify-between text-xs font-mono text-slate-400">
           <div className="flex items-center gap-2">
             <ChevronDown className="w-4 h-4 text-[#10E599] animate-bounce" />
-            <span>Scroll mouse wheel to zoom camera through realistic 3D layers</span>
+            <span>
+              {activePhaseIndex === 0 
+                ? "Scroll mouse wheel to deconstruct the assembled probe into separated layers" 
+                : "Scrolling through separated physical hardware layers"}
+            </span>
           </div>
           <div className="text-[11px] text-[#059669] dark:text-[#10E599] font-bold">
-            Phase 0{activePhaseIndex + 1} / 04 Active
+            Phase 0{activePhaseIndex} / 04 Active
           </div>
         </div>
 
