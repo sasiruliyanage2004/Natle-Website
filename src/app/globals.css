@@ -107,3 +107,18 @@ body {
 ::-webkit-scrollbar-thumb:hover { background: rgba(14,165,233,0.6); }
 
 
+
+@theme {
+  --color-base: #070D24;
+  --color-base-raised: #0d1535;
+  --color-base-border: #151f47;
+  --color-accent-cyan: #0EA5E9;
+  --color-accent-lime: #5AEC8F;
+  --color-ink: #E7ECFB;
+  --color-ink-muted: #8C97BE;
+
+  --font-display: var(--font-space-grotesk), sans-serif;
+  --font-body: var(--font-inter), sans-serif;
+
+  --border-radius-xl2: 1.25rem;
+}
