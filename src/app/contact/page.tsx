@@ -23,8 +23,10 @@ import {
   Bot, 
   Radio, 
   Sparkles, 
-  ArrowRight 
+  ArrowRight,
+  Layers
 } from "lucide-react";
+import { sanitizeInput, validateEmail, sanitizeMessage } from "@/lib/security";
 
 type InquiryType = "software" | "agritech";
 
@@ -47,6 +49,18 @@ export default function ContactPage() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    if (!validateEmail(formData.email)) {
+      alert("Please provide a valid enterprise email address.");
+      return;
+    }
+    // Clean and sanitize all fields
+    setFormData((prev) => ({
+      ...prev,
+      name: sanitizeInput(prev.name),
+      email: sanitizeInput(prev.email),
+      company: sanitizeInput(prev.company),
+      message: sanitizeMessage(prev.message),
+    }));
     setSubmitted(true);
   };
 

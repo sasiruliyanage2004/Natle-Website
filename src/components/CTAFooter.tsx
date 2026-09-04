@@ -21,6 +21,7 @@ import NatleLogo from "@/components/common/NatleLogo";
 import SocialShareButton from "@/components/common/SocialShareButton";
 import ViewOnMap from "@/components/common/ViewOnMap";
 import { CardPattern } from "@/components/ui/CardPattern";
+import { sanitizeInput, validateEmail } from "@/lib/security";
 
 const footerNavigation = {
   solutions: [
@@ -62,7 +63,8 @@ export default function CTAFooter() {
 
   const handleSubscribe = (e: React.FormEvent) => {
     e.preventDefault();
-    if (emailInput.trim()) {
+    const cleanEmail = sanitizeInput(emailInput);
+    if (cleanEmail && validateEmail(cleanEmail)) {
       setSubscribed(true);
       setTimeout(() => setSubscribed(false), 5000);
       setEmailInput("");

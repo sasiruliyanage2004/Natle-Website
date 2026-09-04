@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter, Playfair_Display } from "next/font/google";
 import { ThemeProvider } from "@/components/ThemeProvider";
+import SecurityShield from "@/components/common/SecurityShield";
 import NatleAIAssistant from "@/components/interactive/NatleAIAssistant";
 import "./globals.css";
 
@@ -37,6 +38,7 @@ export default function RootLayout({
         <ThemeProvider>
           {children}
           <NatleAIAssistant />
+          <SecurityShield />
         </ThemeProvider>
       </body>
     </html>
