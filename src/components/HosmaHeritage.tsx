@@ -54,7 +54,7 @@ export default function HosmaHeritage() {
             transition={{ delay: 0.15 }}
             className="mt-4 text-base sm:text-lg text-slate-600 dark:text-emerald-200/70 font-normal leading-relaxed"
           >
-            NATLE was born from <strong>Hosma Ceylon</strong> (<a href="https://hosmaceylon.com" target="_blank" rel="noreferrer" className="text-[#059669] dark:text-[#10E599] font-bold hover:underline">hosmaceylon.com</a>) — Sri Lanka&apos;s premier exporter of 100% organic coconut coir substrates, now supercharged with next-generation IoT telemetry and predictive cloud intelligence.
+            NATLE was born from <strong>Hosma Ceylon</strong> (<a href="https://hosmaceylon.com" target="_blank" rel="noopener noreferrer" className="text-[#059669] dark:text-[#10E599] font-bold hover:underline">hosmaceylon.com</a>) — Sri Lanka&apos;s premier exporter of 100% organic coconut coir substrates, now supercharged with next-generation IoT telemetry and predictive cloud intelligence.
           </motion.p>
         </div>
 
@@ -146,7 +146,7 @@ export default function HosmaHeritage() {
               <a 
                 href="https://hosmaceylon.com" 
                 target="_blank" 
-                rel="noreferrer" 
+                rel="noopener noreferrer" 
                 className="group inline-flex items-center gap-1 text-xs font-bold text-[#059669] dark:text-[#10E599] hover:text-[#0052FF] transition-colors"
               >
                 <span>Visit Hosma Ceylon</span>
@@ -233,7 +233,7 @@ export default function HosmaHeritage() {
               <a 
                 href="https://hosmaceylon.com/contact" 
                 target="_blank" 
-                rel="noreferrer" 
+                rel="noopener noreferrer" 
                 className="group inline-flex items-center gap-1 text-xs font-bold text-[#059669] dark:text-[#10E599] hover:text-[#0052FF] transition-colors"
               >
                 <span>Request Freight Quote</span>

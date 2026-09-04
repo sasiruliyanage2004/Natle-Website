@@ -97,7 +97,7 @@ export default function AboutPage() {
               transition={{ duration: 0.6, delay: 0.15 }}
               className="mt-6 text-xl text-slate-600 dark:text-emerald-100/70 font-normal leading-relaxed max-w-3xl mx-auto"
             >
-              NATLE is the dual-power fusion of <strong>Hosma Ceylon</strong> (<a href="https://hosmaceylon.com" target="_blank" rel="noreferrer" className="text-[#059669] dark:text-[#10E599] font-bold hover:underline">hosmaceylon.com</a>), premier organic coconut substrate exporter, and cutting-edge software engineering. We empower growers globally with automated telemetry, predictive algorithms, and organic Sri Lankan substrates.
+              NATLE is the dual-power fusion of <strong>Hosma Ceylon</strong> (<a href="https://hosmaceylon.com" target="_blank" rel="noopener noreferrer" className="text-[#059669] dark:text-[#10E599] font-bold hover:underline">hosmaceylon.com</a>), premier organic coconut substrate exporter, and cutting-edge software engineering. We empower growers globally with automated telemetry, predictive algorithms, and organic Sri Lankan substrates.
             </motion.p>
           </div>
         </section>

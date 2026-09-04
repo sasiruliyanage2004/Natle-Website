@@ -174,7 +174,7 @@ export default function GlobalExportMap() {
               <a
                 href="https://hosmaceylon.com"
                 target="_blank"
-                rel="noreferrer"
+                rel="noopener noreferrer"
                 className="text-[#059669] dark:text-[#10E599] font-bold hover:underline flex items-center gap-1"
               >
                 <span>hosmaceylon.com</span>

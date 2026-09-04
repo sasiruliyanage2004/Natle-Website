@@ -426,7 +426,7 @@ export default function ContactPage() {
                   <a
                     href="https://hosmaceylon.com"
                     target="_blank"
-                    rel="noreferrer"
+                    rel="noopener noreferrer"
                     className="text-[#10E599] font-bold hover:underline"
                   >
                     hosmaceylon.com &rarr;

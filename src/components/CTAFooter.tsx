@@ -229,7 +229,7 @@ export default function CTAFooter() {
                   <a 
                     href={item.href}
                     target="_blank"
-                    rel="noreferrer"
+                    rel="noopener noreferrer"
                     className="text-slate-400 hover:text-white dark:hover:text-[#10E599] transition-colors inline-flex items-center gap-1 group"
                   >
                     <span>{item.name}</span>
