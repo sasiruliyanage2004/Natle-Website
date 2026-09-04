@@ -1,4 +1,4 @@
-﻿@import "tailwindcss";
+@import "tailwindcss";
 
 /* ═══════════════════════════════════════════════════════════════════
    NATLE TECHNOLOGIES — Design System v2.0
@@ -106,5 +106,4 @@ body {
 ::-webkit-scrollbar-thumb { background: rgba(14,165,233,0.3); border-radius: 3px; }
 ::-webkit-scrollbar-thumb:hover { background: rgba(14,165,233,0.6); }
 
-/* Theme layer wrapper for globals */
-@custom-variant dark (&:where(.dark, .dark *, [data-theme="dark"], [data-theme="dark"] *));
+
