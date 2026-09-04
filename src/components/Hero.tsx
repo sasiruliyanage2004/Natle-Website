@@ -4,7 +4,6 @@ import React, { useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import { ArrowRight, ShieldCheck } from "lucide-react";
 import Link from "next/link";
-import * as THREE from "three";
 
 export default function Hero() {
   const mountRef = useRef<HTMLDivElement>(null);
@@ -12,212 +11,304 @@ export default function Hero() {
   useEffect(() => {
     if (!mountRef.current) return;
 
-    // Three.js Setup
-    const scene = new THREE.Scene();
-    
-    // Camera
-    const camera = new THREE.PerspectiveCamera(45, 1, 0.1, 1000);
-    camera.position.z = 2.5;
-
-    // Renderer
-    const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
-    renderer.setSize(500, 500);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    mountRef.current.appendChild(renderer.domElement);
-
-    // Neural Network Sphere Geometry
-    const nodes: THREE.Vector3[] = [];
-    const numNodes = 80;
-    const phi = Math.PI * (3 - Math.sqrt(5)); // golden angle
-
-    for (let i = 0; i < numNodes; i++) {
-      const y = 1 - (i / (numNodes - 1)) * 2;
-      const radius = Math.sqrt(1 - y * y);
-      const theta = phi * i;
-
-      const x = Math.cos(theta) * radius;
-      const z = Math.sin(theta) * radius;
-      nodes.push(new THREE.Vector3(x, y, z));
-    }
-
-    // Node Material
-    const nodeGeometry = new THREE.SphereGeometry(0.06, 16, 16);
-    const nodeMaterial = new THREE.MeshBasicMaterial({ color: 0x0ea5e9, transparent: true, opacity: 0.9 });
-    
-    const nodeGroup = new THREE.Group();
-    scene.add(nodeGroup);
-
-    nodes.forEach(pos => {
-      const mesh = new THREE.Mesh(nodeGeometry, nodeMaterial);
-      mesh.position.copy(pos);
-      nodeGroup.add(mesh);
-    });
-
-    // Edges
-    const edgesMaterial = new THREE.LineBasicMaterial({ color: 0x1a3a8f, transparent: true, opacity: 0.4 });
-    const lineGeometry = new THREE.BufferGeometry();
-    const positions: number[] = [];
-
-    for (let i = 0; i < nodes.length; i++) {
-      for (let j = i + 1; j < nodes.length; j++) {
-        const dist = nodes[i].distanceTo(nodes[j]);
-        if (dist < 0.8) {
-          positions.push(nodes[i].x, nodes[i].y, nodes[i].z);
-          positions.push(nodes[j].x, nodes[j].y, nodes[j].z);
-        }
-      }
-    }
-
-    lineGeometry.setAttribute("position", new THREE.Float32BufferAttribute(positions, 3));
-    const lines = new THREE.LineSegments(lineGeometry, edgesMaterial);
-    nodeGroup.add(lines);
-
-    // Outer Glow Nodes
-    const glowGeometry = new THREE.SphereGeometry(0.1, 16, 16);
-    const glowMaterial = new THREE.MeshBasicMaterial({ color: 0x5aec8f, transparent: true, opacity: 0.8 });
-    for(let i = 0; i < 12; i++) {
-      const mesh = new THREE.Mesh(glowGeometry, glowMaterial);
-      mesh.position.copy(nodes[Math.floor(Math.random() * nodes.length)]);
-      nodeGroup.add(mesh);
-    }
-
-    // Lights
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
-    scene.add(ambientLight);
-    const pointLight = new THREE.PointLight(0x0ea5e9, 2);
-    pointLight.position.set(2, 2, 2);
-    scene.add(pointLight);
-
-    // Mouse Interaction
-    let targetRotationX = 0;
-    let targetRotationY = 0;
-
-    const onMouseMove = (event: MouseEvent) => {
-      const rect = renderer.domElement.getBoundingClientRect();
-      const x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
-      const y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
-      targetRotationX = y * 0.3;
-      targetRotationY = x * 0.3;
-    };
-    window.addEventListener("mousemove", onMouseMove);
-
-    // Animation Loop
+    let THREE: any;
     let animationFrameId: number;
-    const render = () => {
-      nodeGroup.rotation.y += 0.003;
-      nodeGroup.rotation.x += (targetRotationX - nodeGroup.rotation.x) * 0.05;
-      nodeGroup.rotation.y += (targetRotationY - nodeGroup.rotation.y) * 0.05;
-      renderer.render(scene, camera);
-      animationFrameId = requestAnimationFrame(render);
+    let renderer: any;
+
+    const init = async () => {
+      try {
+        THREE = await import("three");
+        if (!mountRef.current) return;
+
+        const width = mountRef.current.clientWidth || 500;
+        const height = mountRef.current.clientHeight || 500;
+
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 1000);
+        camera.position.z = 3;
+
+        renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+        renderer.setSize(width, height);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        renderer.setClearColor(0x000000, 0);
+        mountRef.current.appendChild(renderer.domElement);
+
+        // Sphere group
+        const group = new THREE.Group();
+        scene.add(group);
+
+        // Create nodes on sphere surface using fibonacci lattice
+        const numNodes = 60;
+        const phi = Math.PI * (3 - Math.sqrt(5));
+        const nodePositions: { x: number; y: number; z: number; distanceTo: (v: any) => number }[] = [];
+
+        for (let i = 0; i < numNodes; i++) {
+          const y = 1 - (i / (numNodes - 1)) * 2;
+          const r = Math.sqrt(1 - y * y);
+          const theta = phi * i;
+          const x = Math.cos(theta) * r;
+          const z = Math.sin(theta) * r;
+          nodePositions.push(new THREE.Vector3(x, y, z));
+        }
+
+        // Small nodes
+        const nodeGeo = new THREE.SphereGeometry(0.025, 8, 8);
+        const nodeMat = new THREE.MeshBasicMaterial({ color: 0x818cf8 });
+        nodePositions.forEach(pos => {
+          const mesh = new THREE.Mesh(nodeGeo, nodeMat);
+          mesh.position.copy(pos);
+          group.add(mesh);
+        });
+
+        // A few brighter accent nodes
+        const accentGeo = new THREE.SphereGeometry(0.045, 8, 8);
+        const accentMat = new THREE.MeshBasicMaterial({ color: 0x0ea5e9 });
+        [0, 10, 20, 30, 40, 50].forEach(i => {
+          const mesh = new THREE.Mesh(accentGeo, accentMat);
+          mesh.position.copy(nodePositions[i]);
+          group.add(mesh);
+        });
+
+        // Thin edges between nearby nodes
+        const edgeMat = new THREE.LineBasicMaterial({ color: 0x4f46e5, transparent: true, opacity: 0.35 });
+        const edgePositions: number[] = [];
+        for (let i = 0; i < nodePositions.length; i++) {
+          for (let j = i + 1; j < nodePositions.length; j++) {
+            if (nodePositions[i].distanceTo(nodePositions[j]) < 0.65) {
+              edgePositions.push(
+                nodePositions[i].x, nodePositions[i].y, nodePositions[i].z,
+                nodePositions[j].x, nodePositions[j].y, nodePositions[j].z
+              );
+            }
+          }
+        }
+        const edgeGeo = new THREE.BufferGeometry();
+        edgeGeo.setAttribute("position", new THREE.Float32BufferAttribute(edgePositions, 3));
+        group.add(new THREE.LineSegments(edgeGeo, edgeMat));
+
+        // Mouse interaction
+        let mouseX = 0;
+        let mouseY = 0;
+        const onMouseMove = (e: MouseEvent) => {
+          mouseX = (e.clientX / window.innerWidth - 0.5) * 0.5;
+          mouseY = (e.clientY / window.innerHeight - 0.5) * 0.5;
+        };
+        window.addEventListener("mousemove", onMouseMove);
+
+        // Animate
+        const render = () => {
+          animationFrameId = requestAnimationFrame(render);
+          group.rotation.y += 0.004;
+          group.rotation.x += (mouseY - group.rotation.x) * 0.03;
+          group.rotation.y += (mouseX - group.rotation.y) * 0.01;
+          renderer.render(scene, camera);
+        };
+        render();
+
+        // Cleanup
+        return () => {
+          window.removeEventListener("mousemove", onMouseMove);
+          cancelAnimationFrame(animationFrameId);
+          if (mountRef.current && renderer.domElement.parentNode === mountRef.current) {
+            mountRef.current.removeChild(renderer.domElement);
+          }
+          renderer.dispose();
+          nodeGeo.dispose();
+          nodeMat.dispose();
+          accentGeo.dispose();
+          accentMat.dispose();
+          edgeGeo.dispose();
+          edgeMat.dispose();
+        };
+      } catch (err) {
+        console.error("Three.js failed:", err);
+      }
     };
-    render();
+
+    let cleanup: (() => void) | undefined;
+    init().then(fn => { cleanup = fn; });
 
     return () => {
-      window.removeEventListener("mousemove", onMouseMove);
-      cancelAnimationFrame(animationFrameId);
-      if (mountRef.current) mountRef.current.removeChild(renderer.domElement);
-      renderer.dispose();
-      nodeGeometry.dispose();
-      nodeMaterial.dispose();
-      edgesMaterial.dispose();
-      glowGeometry.dispose();
-      glowMaterial.dispose();
+      if (cleanup) cleanup();
+      else {
+        cancelAnimationFrame(animationFrameId);
+        if (renderer) renderer.dispose();
+      }
     };
   }, []);
 
   return (
-    <section className="relative w-full min-h-screen overflow-hidden bg-[#070d24] flex items-center pt-24 pb-16 dot-grid-bg">
-      {/* Aurora FX */}
-      <div className="aurora-blob-blue w-[600px] h-[600px] -top-32 -left-32"></div>
-      <div className="aurora-blob-cyan w-[500px] h-[500px] top-10 right-0 opacity-50"></div>
-      <div className="aurora-blob-lime w-[400px] h-[400px] bottom-0 left-1/2 -translate-x-1/2 opacity-30"></div>
+    <section className="relative w-full min-h-screen overflow-hidden flex items-center pt-28 pb-16"
+      style={{ background: "linear-gradient(135deg, #070d24 0%, #0d0b2e 40%, #0a0a1a 100%)" }}>
+      
+      {/* Aurora blobs — NATLE logo colors */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        <div className="absolute top-0 left-0 w-[700px] h-[500px] rounded-full opacity-30"
+          style={{ background: "radial-gradient(circle, #1a3a8f 0%, #0ea5e9 40%, transparent 70%)", filter: "blur(100px)" }}></div>
+        <div className="absolute bottom-0 right-0 w-[600px] h-[500px] rounded-full opacity-20"
+          style={{ background: "radial-gradient(circle, #0ea5e9 0%, #00c9a7 40%, transparent 70%)", filter: "blur(120px)" }}></div>
+        <div className="absolute top-1/2 left-1/3 w-[350px] h-[350px] rounded-full opacity-15"
+          style={{ background: "radial-gradient(circle, #5aec8f 0%, transparent 70%)", filter: "blur(80px)" }}></div>
+      </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full relative z-10">
-        <div className="grid lg:grid-cols-2 gap-12 lg:gap-8 items-center">
-          
-          {/* Left Column: Content */}
+      {/* Subtle dot grid */}
+      <div className="absolute inset-0 pointer-events-none"
+        style={{ backgroundImage: "radial-gradient(rgba(99,102,241,0.1) 1px, transparent 1px)", backgroundSize: "32px 32px" }}></div>
+
+      <div className="max-w-7xl mx-auto px-6 lg:px-8 w-full relative z-10">
+        <div className="grid lg:grid-cols-2 gap-12 items-center">
+
+          {/* LEFT: Copy */}
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="flex flex-col items-center lg:items-start text-center lg:text-left"
+            transition={{ duration: 0.9 }}
+            className="flex flex-col items-start text-left"
           >
-            <div className="inline-flex items-center gap-2 rounded-full border border-[#0ea5e9]/30 bg-[#0ea5e9]/10 px-4 py-1.5 text-xs font-mono font-bold uppercase tracking-wider text-[#0ea5e9] mb-6">
-              ?? Enterprise AI Platform
-            </div>
-            
-            <h1 className="font-display text-5xl sm:text-6xl lg:text-7xl font-bold text-[#e8f0fe] leading-tight mb-6">
-              Transforming <span className="gradient-text">Industries</span><br className="hidden sm:block"/>
-              with Artificial <span className="gradient-text">Intelligence</span>
-            </h1>
-            
-            <p className="text-[#94a3b8] text-lg max-w-2xl leading-relaxed mb-8">
+            {/* Badge */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2 }}
+              className="inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-xs font-mono font-bold uppercase tracking-wider mb-6 border"
+              style={{ background: "rgba(14,165,233,0.12)", borderColor: "rgba(14,165,233,0.4)", color: "#0ea5e9" }}
+            >
+              <span className="w-1.5 h-1.5 rounded-full bg-[#0ea5e9] animate-pulse"></span>
+              Enterprise AI Platform
+            </motion.div>
+
+            {/* Headline */}
+            <motion.h1
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3, duration: 0.8 }}
+              className="font-display font-bold text-white leading-[1.1] mb-6"
+              style={{ fontSize: "clamp(2.5rem, 5vw, 4rem)" }}
+            >
+              Transforming<br />
+              <span style={{
+                background: "linear-gradient(90deg, #1a6fd4 0%, #0ea5e9 45%, #5aec8f 100%)",
+                WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text"
+              }}>
+                Industries
+              </span>{" "}with<br />
+              Artificial<br />
+              Intelligence
+            </motion.h1>
+
+            {/* Subtitle */}
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.4 }}
+              className="text-[#94a3b8] text-lg leading-relaxed mb-8 max-w-xl"
+            >
               NATLE delivers intelligent, scalable AI solutions that transform how enterprises operate, compete, and grow across Healthcare, Agriculture, Retail, EdTech, and HR.
-            </p>
-            
-            <div className="flex flex-col sm:flex-row items-center gap-4 mb-12">
-              <Link href="/services" className="gradient-btn px-8 py-4 rounded-full w-full sm:w-auto text-sm">
-                Explore Our Services
-              </Link>
-              <Link href="/contact" className="outline-btn px-8 py-4 rounded-full w-full sm:w-auto flex items-center justify-center gap-2 text-sm">
-                <ShieldCheck className="w-4 h-4" />
-                Talk to a Specialist
-              </Link>
-            </div>
+            </motion.p>
 
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 w-full max-w-2xl">
-              <div>
-                <div className="text-2xl font-bold font-mono text-[#e8f0fe]">9+</div>
-                <div className="text-xs text-[#64748b] uppercase tracking-wider mt-1">Projects</div>
-              </div>
-              <div>
-                <div className="text-2xl font-bold font-mono text-[#0ea5e9]">98.2%</div>
-                <div className="text-xs text-[#64748b] uppercase tracking-wider mt-1">Accuracy</div>
-              </div>
-              <div>
-                <div className="text-2xl font-bold font-mono text-[#5aec8f]">5</div>
-                <div className="text-xs text-[#64748b] uppercase tracking-wider mt-1">Continents</div>
-              </div>
-              <div>
-                <div className="text-2xl font-bold font-mono text-[#00c9a7]">6</div>
-                <div className="text-xs text-[#64748b] uppercase tracking-wider mt-1">Domains</div>
-              </div>
-            </div>
+            {/* CTAs */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.5 }}
+              className="flex flex-col sm:flex-row gap-4 mb-12"
+            >
+              <Link
+                href="/services"
+                className="flex items-center justify-center gap-2 px-8 py-4 rounded-full font-bold text-white text-sm transition-all duration-300 hover:scale-105"
+                style={{
+                  background: "linear-gradient(135deg, #1a3a8f 0%, #0ea5e9 55%, #5aec8f 100%)",
+                  boxShadow: "0 8px 32px -8px rgba(14,165,233,0.6)"
+                }}
+              >
+                Explore Our Services <ArrowRight className="w-4 h-4" />
+              </Link>
+              <Link
+                href="/contact"
+                className="flex items-center justify-center gap-2 px-8 py-4 rounded-full font-bold text-sm transition-all duration-300 hover:scale-105"
+                style={{
+                  background: "rgba(14,165,233,0.08)",
+                  border: "1px solid rgba(14,165,233,0.35)",
+                  color: "#38bdf8"
+                }}
+              >
+                <ShieldCheck className="w-4 h-4" /> Talk to a Specialist
+              </Link>
+            </motion.div>
+
+            {/* Stats row */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.7 }}
+              className="flex gap-8"
+            >
+              {[
+                { val: "9+", label: "Projects" },
+                { val: "98.2%", label: "Accuracy" },
+                { val: "5", label: "Continents" },
+                { val: "6", label: "AI Domains" },
+              ].map(s => (
+                <div key={s.label}>
+                  <div className="font-display text-2xl font-bold" style={{
+                    background: "linear-gradient(90deg, #0ea5e9, #5aec8f)",
+                    WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text"
+                  }}>{s.val}</div>
+                  <div className="text-[#64748b] text-xs uppercase tracking-wider mt-0.5">{s.label}</div>
+                </div>
+              ))}
+            </motion.div>
           </motion.div>
 
-          {/* Right Column: 3D Neural Sphere */}
+          {/* RIGHT: Three.js Sphere — properly contained */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
+            initial={{ opacity: 0, scale: 0.85 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 1, delay: 0.2 }}
-            className="relative hidden lg:flex items-center justify-center h-[500px]"
+            transition={{ duration: 1.1, delay: 0.3 }}
+            className="relative hidden lg:flex items-center justify-center"
+            style={{ height: "520px" }}
           >
-            <div ref={mountRef} className="absolute inset-0 flex items-center justify-center" />
-            
-            {/* Floating Domain Badges */}
-            <motion.div className="absolute top-10 left-0 badge-healthcare px-3 py-1.5 rounded-full text-xs font-bold animate-float" style={{ animationDelay: "0s" }}>
-              Healthcare AI
-            </motion.div>
-            <motion.div className="absolute top-20 right-10 badge-agriculture px-3 py-1.5 rounded-full text-xs font-bold animate-float" style={{ animationDelay: "0.5s" }}>
-              AgriTech
-            </motion.div>
-            <motion.div className="absolute bottom-32 left-10 badge-pos px-3 py-1.5 rounded-full text-xs font-bold animate-float" style={{ animationDelay: "1s" }}>
-              POS Systems
-            </motion.div>
-            <motion.div className="absolute top-1/2 -right-4 badge-education px-3 py-1.5 rounded-full text-xs font-bold animate-float" style={{ animationDelay: "1.5s" }}>
-              EdTech
-            </motion.div>
-            <motion.div className="absolute bottom-10 right-20 badge-hr px-3 py-1.5 rounded-full text-xs font-bold animate-float" style={{ animationDelay: "2s" }}>
-              HR Analytics
-            </motion.div>
-            <motion.div className="absolute bottom-20 left-1/4 badge-custom px-3 py-1.5 rounded-full text-xs font-bold animate-float" style={{ animationDelay: "2.5s" }}>
-              Custom AI
-            </motion.div>
+            {/* Canvas container — fixed size, centered */}
+            <div
+              ref={mountRef}
+              className="absolute inset-0 flex items-center justify-center"
+              style={{ width: "100%", height: "100%" }}
+            />
+
+            {/* Outer glow ring behind sphere */}
+            <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+              <div className="w-72 h-72 rounded-full"
+                style={{ background: "radial-gradient(circle, rgba(99,102,241,0.2) 0%, rgba(99,102,241,0.05) 50%, transparent 70%)", filter: "blur(20px)" }}></div>
+            </div>
+
+            {/* Floating domain badges — positioned around sphere */}
+            {[
+              { label: "Healthcare AI", color: "#0ea5e9", top: "8%", left: "5%" },
+              { label: "AgriTech", color: "#5aec8f", top: "18%", right: "2%" },
+              { label: "POS Systems", color: "#f97316", bottom: "28%", left: "0%" },
+              { label: "EdTech", color: "#c084fc", top: "52%", right: "0%" },
+              { label: "HR Analytics", color: "#2dd4bf", bottom: "10%", right: "12%" },
+              { label: "Custom AI", color: "#fbbf24", bottom: "18%", left: "18%" },
+            ].map((b, i) => (
+              <motion.div
+                key={b.label}
+                className="absolute px-3 py-1.5 rounded-full text-xs font-bold backdrop-blur-md z-10"
+                style={{
+                  ...b,
+                  background: `${b.color}18`,
+                  border: `1px solid ${b.color}55`,
+                  color: b.color,
+                  animation: `float ${3.5 + i * 0.4}s ease-in-out infinite`,
+                  animationDelay: `${i * 0.5}s`
+                }}
+              >
+                {b.label}
+              </motion.div>
+            ))}
           </motion.div>
-          
+
         </div>
       </div>
     </section>
   );
 }
-
