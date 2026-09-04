@@ -207,16 +207,16 @@ export const MagneticButton = React.forwardRef<HTMLElement, MagneticButtonProps>
 MagneticButton.displayName = "MagneticButton";
 
 // -------------------------------------------------------------------------
-// 3. MAIN COMPONENT (CONFIGURED FOR NATLE & HOSMA CEYLON)
+// 3. MAIN COMPONENT (CONFIGURED FOR NATLE ENTERPRISE AI)
 // -------------------------------------------------------------------------
 const MarqueeItem = () => (
   <div className="flex items-center space-x-10 px-6">
-    <span>Autonomous Agronomy</span> <span className="text-emerald-500">✦</span>
-    <span>Hosma Ceylon Substrates</span> <span className="text-cyan-400">✦</span>
-    <span>15km LoRaWAN Telemetry</span> <span className="text-emerald-500">✦</span>
-    <span>Next.js &amp; Go Cloud Stack</span> <span className="text-cyan-400">✦</span>
-    <span>Zero Leaching Hydroponics</span> <span className="text-emerald-500">✦</span>
-    <span>Global Cold-Chain Export</span> <span className="text-cyan-400">✦</span>
+    <span>Healthcare Diagnostic AI</span> <span className="text-emerald-500">✦</span>
+    <span>Autonomous Agriculture IoT</span> <span className="text-cyan-400">✦</span>
+    <span>Omnichannel Retail POS</span> <span className="text-emerald-500">✦</span>
+    <span>Adaptive EdTech Systems</span> <span className="text-cyan-400">✦</span>
+    <span>SOC 2 &amp; HIPAA Compliant</span> <span className="text-emerald-500">✦</span>
+    <span>Industry 4.0 Architecture</span> <span className="text-cyan-400">✦</span>
   </div>
 );
 

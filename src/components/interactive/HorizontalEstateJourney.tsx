@@ -39,7 +39,7 @@ const STAGES: JourneyStage[] = [
     tagline: "Dielectric Capacitance & Micro-Capillaries",
     accentColor: "#059669",
     icon: Leaf,
-    description: "Multi-depth stainless steel probes monitor root-zone moisture, electrical conductivity (EC), and temperature inside Hosma Ceylon 100% organic cocopeat slabs at 10cm, 30cm, and 60cm depths.",
+    description: "Multi-depth stainless steel probes monitor root-zone moisture, electrical conductivity (EC), and temperature inside precision organic growing matrices at 10cm, 30cm, and 60cm depths.",
     metrics: [
       { label: "Moisture Precision", value: "±1.5% VWC" },
       { label: "Sampling Frequency", value: "Sub-10s" },
@@ -119,7 +119,7 @@ const STAGES: JourneyStage[] = [
     tagline: "From Colombo Port to 24+ Global Destinations",
     accentColor: "#F59E0B",
     icon: Ship,
-    description: "Every 40ft container of certified low-EC Hosma coconut coir slabs and export crops carries a cryptographic QR passport with real-time IoT temperature, humidity, and chemical purity telemetry for overseas buyers.",
+    description: "Every shipment of certified low-EC high-yield agricultural produce and commercial harvests carries a cryptographic QR passport with real-time IoT temperature, humidity, and chemical purity telemetry for overseas buyers.",
     metrics: [
       { label: "Audit Pass Rate", value: "100% Certified" },
       { label: "Global Reach", value: "24+ Countries" },

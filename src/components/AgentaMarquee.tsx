@@ -15,25 +15,25 @@ import {
 } from "lucide-react";
 
 const row1 = [
-  { label: "LoRaWAN Sensor Mesh", icon: Radio },
-  { label: "Ceylon Cocopeat Growbags", icon: Leaf },
-  { label: "FieldOS™ Cloud Platform", icon: CloudCog },
-  { label: "YieldAI™ Harvest Predictor", icon: Activity },
-  { label: "NDVI Satellite Telemetry", icon: Globe2 },
-  { label: "Autonomous Drip Valves", icon: Droplets },
-  { label: "TraceLink™ Blockchain", icon: ShieldCheck },
-  { label: "100% Organic Substrates", icon: Leaf },
+  { label: "Healthcare Diagnostic AI", icon: Activity },
+  { label: "Autonomous Agriculture IoT", icon: Leaf },
+  { label: "FieldOS™ Edge Telemetry", icon: Radio },
+  { label: "Omnichannel Retail POS", icon: Zap },
+  { label: "Adaptive EdTech Engines", icon: Globe2 },
+  { label: "Predictive Human Resources", icon: CloudCog },
+  { label: "Sovereign On-Premises LLMs", icon: Cpu },
+  { label: "SOC 2 Type II Certified", icon: ShieldCheck },
 ];
 
 const row2 = [
-  { label: "Low-EC Washed Peat", icon: Droplets },
-  { label: "Sub-50ms API Latency", icon: Zap },
-  { label: "GlobalG.A.P Audit Ready", icon: ShieldCheck },
-  { label: "OMRI Listed Organic", icon: Leaf },
-  { label: "Micro-Climate Mesh", icon: Radio },
-  { label: "Yield Boost +28.4%", icon: Activity },
-  { label: "40ft Bulk Container Logistics", icon: Globe2 },
-  { label: "Next.js Enterprise Telemetry", icon: Cpu },
+  { label: "HIPAA Compliant Vision", icon: ShieldCheck },
+  { label: "Sub-15ms Edge Latency", icon: Zap },
+  { label: "98.2% Diagnostic Accuracy", icon: Activity },
+  { label: "LoRaWAN 15km Sensor Mesh", icon: Radio },
+  { label: "Industry 4.0 Architecture", icon: Cpu },
+  { label: "Real-Time Fraud Prevention", icon: ShieldCheck },
+  { label: "100% Data Sovereignty", icon: CloudCog },
+  { label: "Next.js Enterprise Cloud", icon: Globe2 },
 ];
 
 export default function AgentaMarquee() {

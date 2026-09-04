@@ -32,18 +32,18 @@ const jobs = [
     snippet: "Build high-throughput real-time telemetry pipelines and responsive farmer-facing dashboards for NATLE FieldOS™.",
   },
   {
-    title: "Agronomy Research Specialist",
-    department: "Hosma Substrate Lab",
-    location: "Kurunegala / Field Operations",
+    title: "AI Solutions Architect (Healthcare & Enterprise)",
+    department: "Enterprise Solutions",
+    location: "Colombo 05, Sri Lanka / Hybrid",
     type: "Full-Time",
-    snippet: "Conduct substrate water-holding capacity, EC leaching, and plant nutrient uptake trials on commercial coconut growbags.",
+    snippet: "Design and deploy clinical diagnostic vision pipelines, PACS/EHR integrations, and multi-branch retail POS machine learning models.",
   },
   {
     title: "Computer Vision / AI Engineer",
-    department: "YieldAI™ Lab",
+    department: "Applied ML Lab",
     location: "Colombo, Sri Lanka / Remote",
     type: "Full-Time",
-    snippet: "Develop multispectral satellite NDVI anomaly detection and crop yield forecasting neural networks using PyTorch.",
+    snippet: "Develop convolutional neural networks, PACS lesion detection, and satellite crop NDVI anomaly models using PyTorch.",
   },
 ];
 
@@ -51,12 +51,12 @@ const perks = [
   {
     icon: Cpu,
     title: "Cutting-Edge Tech Stack",
-    description: "Work with satellite imaging, LoRaWAN mesh networks, and high-performance distributed cloud software.",
+    description: "Work with PyTorch, CUDA, FHIR healthcare standards, LoRaWAN mesh networks, and high-performance distributed cloud software.",
   },
   {
     icon: Leaf,
-    title: "Tangible Environmental Impact",
-    description: "Every line of code directly saves millions of liters of fresh water and prevents chemical agricultural runoff.",
+    title: "Tangible Global Impact",
+    description: "Every line of code directly reduces clinical diagnostic miss rates, saves water across 50,000 hectares, or scales enterprise productivity.",
   },
   {
     icon: HeartHandshake,

@@ -7,26 +7,25 @@ import SmoothCursor from "@/components/magicui/smooth-cursor";
 import BeamsBackground from "@/components/animations/BeamsBackground";
 import { motion } from "framer-motion";
 import { 
-  Code2, 
-  Bot, 
-  Smartphone, 
-  Radio, 
-  Leaf, 
-  Plane, 
-  Droplets, 
-  Layers, 
+  Activity, 
+  Sprout, 
+  ShoppingBag, 
+  GraduationCap, 
+  Users, 
+  Cpu, 
   ArrowUpRight, 
   CheckCircle2, 
   Sparkles, 
-  Cpu, 
-  Database, 
-  Globe2 
+  ShieldCheck, 
+  Brain,
+  Zap
 } from "lucide-react";
 import Link from "next/link";
+import CardPattern from "@/components/common/CardPattern";
 
 interface ServiceItem {
   id: string;
-  category: "software" | "agritech";
+  category: "all" | "healthcare" | "agriculture" | "pos" | "edtech" | "hr" | "custom-ai";
   icon: React.ElementType;
   badge: string;
   title: string;
@@ -34,104 +33,103 @@ interface ServiceItem {
   specs: string[];
   deliverables: string[];
   techPills: string[];
+  accentGlow: string;
+  badgeColor: string;
 }
 
 const servicesList: ServiceItem[] = [
-  // ================= DIVISION 1: SOFTWARE ENGINEERING & AI =================
   {
-    id: "software-web",
-    category: "software",
-    icon: Code2,
-    badge: "Cloud & Web Engineering",
-    title: "Full-Stack Web & SaaS Platform Engineering",
-    description: "Designing hyper-scalable, sub-50ms web applications and real-time enterprise SaaS portals with Next.js, Go microservices, distributed WebSockets, and TimescaleDB.",
-    specs: ["Sub-50ms Server Response", "Microservices & Distributed Architecture", "Real-Time WebSocket Sync", "99.99% Uptime Guarantee"],
-    deliverables: ["Custom Web Application Architecture", "Secure Role-Based User Portals", "RESTful & GraphQL APIs", "Automated CI/CD Deployment Pipelines"],
-    techPills: ["Next.js 15", "TypeScript", "Go / Golang", "PostgreSQL", "Docker", "AWS / GCP"],
+    id: "healthcare-ai",
+    category: "healthcare",
+    icon: Activity,
+    badge: "Domain 01: Healthcare",
+    title: "Clinical Diagnostic AI & PACS / EHR Integration",
+    description: "Deep learning computer vision diagnostic algorithms integrated directly with hospital PACS and HL7/FHIR-compliant Electronic Health Record workflows. Empowers radiologists with sub-second lesion highlighting, reducing diagnostic miss rates by 34%.",
+    specs: ["PACS & FHIR / HL7 Native Bridge", "Sub-15ms Diagnostic Vision Inference", "HIPAA & GDPR Patient Confidentiality", "Radiological Review Time Slashed by 50%"],
+    deliverables: ["Clinical Decision Support System (CDSS)", "DICOM / PACS Diagnostic Microservices", "Automated Patient Triage Pipeline", "Compliance Audit Trail & Verification"],
+    techPills: ["TensorFlow", "PyTorch", "FHIR / HL7", "DICOM", "FastAPI", "React", "Docker"],
+    accentGlow: "rgba(14, 165, 233, 0.18)",
+    badgeColor: "border-sky-500/30 text-sky-400 bg-sky-500/10",
   },
   {
-    id: "software-ai",
-    category: "software",
-    icon: Bot,
-    badge: "Artificial Intelligence",
-    title: "Enterprise AI, Machine Learning & Computer Vision",
-    description: "Building proprietary neural networks, predictive anomaly detection models, automated document processing, and custom LLM agent integrations tailored to enterprise datasets.",
-    specs: ["Custom Model Training & Fine-Tuning", "Real-Time Edge Computer Vision", "Predictive Trend & Risk Algorithms", "Privacy-Preserving On-Premises LLMs"],
-    deliverables: ["Production-Ready PyTorch / ONNX Models", "Computer Vision Inspection Pipelines", "Automated Decision Support Engine", "Model Performance & Accuracy Reports"],
-    techPills: ["PyTorch", "Python", "OpenCV", "TensorFlow", "FastAPI", "Hugging Face"],
+    id: "agriculture-ai",
+    category: "agriculture",
+    icon: Sprout,
+    badge: "Domain 02: Agriculture AI & IoT",
+    title: "FieldOS™ Edge Telemetry & Crop Intelligence",
+    description: "Autonomous agricultural operating system uniting multi-depth LoRaWAN root telemetry (capacitance moisture, EC salinity, microclimate) with drone/satellite multispectral crop stress models to automate precision irrigation and prevent crop yield decay.",
+    specs: ["15km Sub-GHz LoRaWAN Mesh Coverage", "Multi-Depth Moisture & Salinity Sensing", "Multispectral NDVI Canopy Analytics", "Closed-Loop Solenoid Pulse Actuation"],
+    deliverables: ["FieldOS™ Unified Cloud Telemetry Hub", "Industrial IP68 Edge Probe Hardware", "YieldAI™ Harvest Forecasting Engine", "Mobile Estate Manager PWA"],
+    techPills: ["FieldOS™ v4.2", "PyTorch", "LoRaWAN", "AWS IoT Core", "PostgreSQL", "Next.js"],
+    accentGlow: "rgba(16, 229, 153, 0.18)",
+    badgeColor: "border-emerald-500/30 text-emerald-400 bg-emerald-500/10",
   },
   {
-    id: "software-mobile",
-    category: "software",
-    icon: Smartphone,
-    badge: "Mobile Architecture",
-    title: "Cross-Platform & Native Mobile Applications",
-    description: "Developing blazing-fast iOS and Android applications with Flutter and React Native, featuring offline-first local SQLite sync and hardware Bluetooth/NFC telemetry hooks.",
-    specs: ["60 FPS Fluid Native UI", "Offline-First Local Data Persistence", "Background Geofencing & Telemetry Sync", "Biometric Authentication"],
-    deliverables: ["iOS App Store & Google Play Release", "Responsive Tablet / POS Layouts", "Push Notification Architecture", "Cross-Platform Design System"],
-    techPills: ["Flutter", "Dart", "React Native", "iOS / Swift", "Android / Kotlin", "SQLite"],
+    id: "pos-systems",
+    category: "pos",
+    icon: ShoppingBag,
+    badge: "Domain 03: Retail & POS",
+    title: "Intelligent Multi-Branch Point of Sales & Inventory AI",
+    description: "Enterprise POS infrastructure engineered for high-concurrency retail chains. Features AI-powered demand forecasting, dynamic barcode scanning, real-time inventory rebalancing across distributed warehouses, and automated shrinkage prevention.",
+    specs: ["Offline-First Local SQLite Resilience", "Sub-Second Barcode Indexing & Billing", "Automated Inter-Branch Stock Transfers", "99.9% Production SLA Across 60+ Stores"],
+    deliverables: ["Cross-Platform Cashier & Manager Terminals", "Predictive Restocking Neural Module", "Loss Prevention & Shrinkage Analytics", "Executive Real-Time Sales Dashboards"],
+    techPills: ["React", "Electron", "Node.js", "PostgreSQL", "TensorFlow Lite", "Redis"],
+    accentGlow: "rgba(249, 115, 22, 0.18)",
+    badgeColor: "border-orange-500/30 text-orange-400 bg-orange-500/10",
   },
   {
-    id: "software-iot",
-    category: "software",
+    id: "edtech-ai",
+    category: "edtech",
+    icon: GraduationCap,
+    badge: "Domain 04: Education Technology",
+    title: "Adaptive Learning Architectures & Cognitive LMS",
+    description: "Next-generation Learning Management System powered by adaptive neural algorithms that tailor curriculum difficulty to individual student cognitive speeds. Deployed at scale across 200,000+ active learners across 12 countries.",
+    specs: ["Dynamic Cognitive Difficulty Modeling", "Real-Time Student Retention Analytics", "Low-Bandwidth WebRTC Live Classrooms", "Automated Plagiarism & Grading AI"],
+    deliverables: ["Enterprise Adaptive LMS Platform", "Intelligent Tutoring Algorithms", "Institutional Analytics & Dean Portals", "White-Label Native Mobile Apps"],
+    techPills: ["Next.js", "FastAPI", "MongoDB", "PyTorch", "WebRTC", "Tailwind CSS"],
+    accentGlow: "rgba(168, 85, 247, 0.18)",
+    badgeColor: "border-purple-500/30 text-purple-400 bg-purple-500/10",
+  },
+  {
+    id: "human-resources-ai",
+    category: "hr",
+    icon: Users,
+    badge: "Domain 05: Human Resources",
+    title: "Enterprise HR Tech, Automated Payroll & Talent AI",
+    description: "Comprehensive human capital platform combining AI talent acquisition screening, automated multi-currency statutory payroll calculation, facial-recognition attendance verification, and predictive employee sentiment analytics.",
+    specs: ["Automated Multi-Jurisdiction Payroll", "Facial Biometric & Geofenced Clock-In", "AI Resume Parsing & Bias-Free Ranking", "SOC 2 & GDPR PII Cryptographic Vault"],
+    deliverables: ["End-to-End Enterprise HRMS Portal", "Payroll Engine with Statutory Tax Export", "Employee Self-Service Mobile Portal", "Predictive Attrition & Sentiment Engine"],
+    techPills: ["React", "FastAPI", "PostgreSQL", "PyTorch", "OpenCV", "AWS KMS"],
+    accentGlow: "rgba(20, 184, 166, 0.18)",
+    badgeColor: "border-teal-500/30 text-teal-400 bg-teal-500/10",
+  },
+  {
+    id: "custom-ai-solutions",
+    category: "custom-ai",
     icon: Cpu,
-    badge: "Hardware & Firmware",
-    title: "Custom Embedded IoT Hardware & Firmware Engineering",
-    description: "Custom PCB design, ultra-low-power microcontrollers (ESP32, STM32, Nordic), long-range LoRaWAN sub-GHz telemetry, and industrial sensor network integration.",
-    specs: ["5+ Year Ultra-Low Power Sleep Modes", "15km LoRaWAN Mesh Wireless Range", "IP68 Submersible Enclosures", "Over-The-Air (OTA) Firmware Updates"],
-    deliverables: ["Custom PCB Layout & Schematics", "Industrial C/C++ Firmware", "LoRaWAN & Cellular Gateway Setup", "Hardware In-Field Test Bench"],
-    techPills: ["Embedded C/C++", "ESP32", "STM32", "LoRaWAN", "MQTT", "PCB Design"],
-  },
-
-  // ================= DIVISION 2: AGRITECH & SUBSTRATES =================
-  {
-    id: "agri-telemetry",
-    category: "agritech",
-    icon: Radio,
-    badge: "AgriTech Telemetry",
-    title: "NATLE FieldOS™ Commercial Telemetry Network",
-    description: "Multi-depth capacitive probes measuring root-zone moisture, electrical conductivity (EC), and temperature at 10cm, 30cm, and 60cm depths with autonomous closed-loop triggers.",
-    specs: ["Multi-Depth Soil Sensing", "Automated Irrigation Valve Sync", "Vapor Pressure Deficit (VPD) Curves", "Instant Frost/Drought Mobile Alerts"],
-    deliverables: ["LoRaWAN Gateway Installation", "Multi-Depth Capacitance Soil Probes", "Weather Micro-Station", "Real-Time Cloud Dashboard"],
-    techPills: ["FieldOS™ v4.2", "LoRaWAN", "TimescaleDB", "Mobile PWA", "Solar Nodes"],
-  },
-  {
-    id: "agri-substrates",
-    category: "agritech",
-    icon: Leaf,
-    badge: "Hosma Ceylon Export",
-    title: "Hosma Ceylon 100% Organic Cocopeat Substrates",
-    description: "Export-grade 100% organic coconut coir growbags, buffered slabs, and open-top blocks washed to ultra-low EC (<0.5 mS/cm) Dutch greenhouse standards.",
-    specs: ["Triple Washed EC < 0.5 mS/cm", "800-900% Water Retention Capacity", "Optimum 5.8 - 6.5 pH Level", "Custom 70/30 or 50/50 Ratios"],
-    deliverables: ["Custom Growbag Sizing (100x15x10cm)", "OMRI / GlobalG.A.P Certification", "Direct 40ft Container Freight", "Dedicated Agronomist Support"],
-    techPills: ["OMRI Listed", "ISO 9001:2015", "GlobalG.A.P", "40ft Container Direct", "100% Organic"],
-  },
-  {
-    id: "agri-automation",
-    category: "agritech",
-    icon: Droplets,
-    badge: "Irrigation Automation",
-    title: "Autonomous Fertigation & Drip Valve Control",
-    description: "Cloud-triggered solenoid valves that pulse irrigation only when VPD and soil suction thresholds demand it, reducing nutrient runoff to near zero.",
-    specs: ["35% Average Water Conservation", "22% Fertilizer Runoff Cut", "<50ms Solenoid Response", "Fail-Safe Cloud Override"],
-    deliverables: ["Solenoid Valve Controllers", "Solar-Powered Pressure Nodes", "Automated Dosing Rules Engine", "Fail-Safe Manual Override"],
-    techPills: ["Smart Valves", "Closed-Loop Dosing", "Energy Efficient", "Zero Waste"],
-  },
-  {
-    id: "agri-drones",
-    category: "agritech",
-    icon: Plane,
-    badge: "Aerial Vision",
-    title: "Drone Multispectral & Satellite NDVI Canopy Mapping",
-    description: "High-resolution multispectral imagery converted into calibrated NDVI maps to detect crop stress, nitrogen deficiency, and pest hot spots 14 days before visible symptoms.",
-    specs: ["2.1cm/px Spatial Resolution", "<6 hrs Analysis Turnaround", "500 Acres/Day Aerial Coverage", "GIS Boundary Integration"],
-    deliverables: ["Weekly Canopy Health Reports", "Variable Rate Fertilizer Maps", "Zonal Biomass Forecasting", "GIS Boundary Integration"],
-    techPills: ["Sentinel-2", "Multispectral Drone", "NDVI / NDRE", "Computer Vision"],
+    badge: "Domain 06: Custom AI & Consulting",
+    title: "Bespoke Enterprise Neural Networks & Applied ML",
+    description: "Custom-architected machine learning solutions engineered from scratch for specialized enterprise workflows: proprietary LLM fine-tuning, retrieval-augmented generation (RAG), edge computer vision inspection, and digital transformation consulting.",
+    specs: ["Zero Data Leakage On-Premises LLMs", "Sub-10ms Quantized ONNX Edge Inference", "Multi-Modal Document Parsing Pipelines", "Full Enterprise Model IP Ownership"],
+    deliverables: ["Production PyTorch / TensorRT Neural Models", "Vector Knowledge Embeddings (pgvector)", "Private API Endpoints & SDK Wrappers", "90-Day Deployment Execution Roadmap"],
+    techPills: ["PyTorch", "ONNX", "LangChain", "FastAPI", "Hugging Face", "CUDA"],
+    accentGlow: "rgba(99, 102, 241, 0.18)",
+    badgeColor: "border-indigo-500/30 text-indigo-400 bg-indigo-500/10",
   },
 ];
 
+const categoryTabs = [
+  { id: "all", label: "All Platforms (6)" },
+  { id: "healthcare", label: "Healthcare AI" },
+  { id: "agriculture", label: "Agriculture AI" },
+  { id: "pos", label: "POS & Retail" },
+  { id: "edtech", label: "EdTech" },
+  { id: "hr", label: "HR Tech" },
+  { id: "custom-ai", label: "Custom AI" },
+];
+
 export default function ServicesPage() {
-  const [filter, setFilter] = useState<"all" | "software" | "agritech">("all");
+  const [filter, setFilter] = useState("all");
 
   const filteredServices = servicesList.filter((s) => {
     if (filter === "all") return true;
@@ -155,7 +153,7 @@ export default function ServicesPage() {
               className="inline-flex items-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-4 py-1.5 text-xs font-mono font-bold uppercase tracking-wider text-[#059669] dark:text-[#10E599] shadow-sm mb-6"
             >
               <Sparkles className="w-4 h-4 text-[#059669] dark:text-[#10E599]" />
-              <span>Full-Spectrum Technology &bull; Software &bull; AI &bull; AgriTech</span>
+              <span>Six Specialized Enterprise AI Domains</span>
             </motion.div>
 
             <motion.h1 
@@ -164,9 +162,9 @@ export default function ServicesPage() {
               transition={{ delay: 0.1 }}
               className="text-5xl sm:text-6xl md:text-7xl font-extrabold text-slate-900 dark:text-white tracking-tight leading-[1.08]"
             >
-              Engineering Excellence Across{" "}
+              Intelligent Technology for{" "}
               <span className="gradient-text">
-                Code &amp; Agriculture.
+                Every Industry.
               </span>
             </motion.h1>
 
@@ -176,110 +174,83 @@ export default function ServicesPage() {
               transition={{ delay: 0.15 }}
               className="mt-6 text-lg md:text-xl text-slate-600 dark:text-emerald-100/70 font-normal leading-relaxed max-w-3xl mx-auto"
             >
-              NATLE operates two high-performance divisions: Silicon Valley grade <strong>Software, AI &amp; IoT Engineering</strong>, and world-class <strong>Precision AgriTech &amp; Hosma Ceylon Organic Substrates</strong>.
+              NATLE delivers production-grade, audited artificial intelligence across Healthcare, Agriculture, Retail, Education, Human Resources, and Custom Enterprise pipelines — engineered for measurable commercial impact.
             </motion.p>
 
             {/* Filter Switcher Tabs */}
-            <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
-              <button
-                onClick={() => setFilter("all")}
-                className={`px-5 py-2.5 rounded-full text-xs font-bold transition-all cursor-pointer ${
-                  filter === "all"
-                    ? "bg-[#059669] text-white shadow-md scale-105"
-                    : "glass-card text-slate-700 dark:text-emerald-200/70 hover:border-emerald-500/40"
-                }`}
-              >
-                All Capabilities ({servicesList.length})
-              </button>
-
-              <button
-                onClick={() => setFilter("software")}
-                className={`px-5 py-2.5 rounded-full text-xs font-bold transition-all flex items-center gap-2 cursor-pointer ${
-                  filter === "software"
-                    ? "bg-slate-900 text-white dark:bg-[#00D2FF] dark:text-slate-950 shadow-md scale-105"
-                    : "glass-card text-slate-700 dark:text-emerald-200/70 hover:border-emerald-500/40"
-                }`}
-              >
-                <Code2 className="w-3.5 h-3.5 text-[#00D2FF]" />
-                <span>Software &amp; AI Lab (4)</span>
-              </button>
-
-              <button
-                onClick={() => setFilter("agritech")}
-                className={`px-5 py-2.5 rounded-full text-xs font-bold transition-all flex items-center gap-2 cursor-pointer ${
-                  filter === "agritech"
-                    ? "bg-[#059669] text-white shadow-md scale-105"
-                    : "glass-card text-slate-700 dark:text-emerald-200/70 hover:border-emerald-500/40"
-                }`}
-              >
-                <Leaf className="w-3.5 h-3.5 text-[#10E599]" />
-                <span>AgriTech &amp; Substrates (4)</span>
-              </button>
+            <div className="mt-10 flex flex-wrap items-center justify-center gap-2.5">
+              {categoryTabs.map((tab) => (
+                <button
+                  key={tab.id}
+                  onClick={() => setFilter(tab.id)}
+                  className={`px-4 py-2 rounded-full text-xs font-bold transition-all cursor-pointer ${
+                    filter === tab.id
+                      ? "bg-[#059669] text-white shadow-lg shadow-emerald-500/20 scale-105"
+                      : "glass-card text-slate-700 dark:text-zinc-300 hover:border-emerald-500/40"
+                  }`}
+                >
+                  {tab.label}
+                </button>
+              ))}
             </div>
-
           </div>
         </section>
 
         {/* Services List Grid */}
-        <section className="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="space-y-12">
+        <section className="py-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="space-y-10">
             {filteredServices.map((srv, index) => {
               const Icon = srv.icon;
-              const isSoftware = srv.category === "software";
 
               return (
                 <motion.div 
                   key={srv.id} 
                   id={srv.id}
-                  initial={{ opacity: 0, y: 36 }}
+                  initial={{ opacity: 0, y: 32 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, margin: "-40px" }}
-                  transition={{ duration: 0.55, delay: index * 0.08 }}
-                  whileHover={{ y: -6, scale: 1.01, transition: { duration: 0.25 } }}
-                  className="glass-card rounded-3xl p-8 md:p-12 shadow-xl hover:shadow-2xl hover:border-emerald-500/50 transition-all cursor-pointer"
+                  transition={{ duration: 0.5, delay: index * 0.06 }}
+                  whileHover={{ y: -4, transition: { duration: 0.25 } }}
+                  className="glass-card rounded-3xl p-8 md:p-12 shadow-xl hover:shadow-2xl transition-all relative overflow-hidden border border-white/10"
                 >
-                  <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                  <CardPattern pattern="circuit" glowColor={srv.accentGlow} />
+
+                  <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center relative z-10">
                     
                     {/* Left: Info */}
                     <div className="lg:col-span-7">
                       <div className="flex items-center gap-3 mb-4">
-                        <div className={`w-12 h-12 rounded-2xl flex items-center justify-center shadow-md ${
-                          isSoftware 
-                            ? "bg-gradient-to-tr from-[#0052FF] to-[#00D2FF] text-white" 
-                            : "bg-gradient-to-tr from-[#059669] to-[#10E599] text-slate-950"
-                        }`}>
+                        <div className="w-12 h-12 rounded-2xl bg-white/10 dark:bg-white/5 border border-white/10 flex items-center justify-center text-[#059669] dark:text-[#10E599] shadow-md">
                           <Icon className="w-6 h-6" />
                         </div>
-                        <span className={`px-3 py-1 rounded-full text-xs font-mono font-bold uppercase border ${
-                          isSoftware
-                            ? "bg-blue-500/10 text-[#0052FF] dark:text-[#00D2FF] border-blue-500/20"
-                            : "bg-emerald-500/10 text-[#059669] dark:text-[#10E599] border-emerald-500/20"
-                        }`}>
+                        <span className={`px-3 py-1 rounded-full text-xs font-mono font-bold uppercase border ${srv.badgeColor}`}>
                           {srv.badge}
                         </span>
                       </div>
 
-                      <h2 className="text-3xl font-black text-slate-900 dark:text-white">{srv.title}</h2>
-                      <p className="mt-4 text-base text-slate-600 dark:text-emerald-100/70 leading-relaxed font-normal">
+                      <h2 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white leading-tight">
+                        {srv.title}
+                      </h2>
+                      <p className="mt-4 text-sm sm:text-base text-slate-600 dark:text-zinc-300 leading-relaxed font-normal">
                         {srv.description}
                       </p>
 
                       {/* Tech Stack Pills */}
                       <div className="flex flex-wrap gap-2 my-6">
                         {srv.techPills.map((pill, pi) => (
-                          <span key={pi} className="px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-black/40 text-[11px] font-mono text-slate-700 dark:text-emerald-200/80 border border-slate-200/80 dark:border-emerald-900/30">
+                          <span key={pi} className="px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-white/5 text-xs font-mono text-slate-700 dark:text-zinc-300 border border-slate-200 dark:border-white/10">
                             {pill}
                           </span>
                         ))}
                       </div>
 
                       <div className="mt-6">
-                        <h4 className="text-xs font-black uppercase tracking-wider text-slate-400 dark:text-emerald-300/60 mb-3">
+                        <h4 className="text-xs font-black uppercase tracking-wider text-slate-400 dark:text-zinc-400 mb-3">
                           Key Technical Capabilities
                         </h4>
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
                           {srv.specs.map((sp, i) => (
-                            <div key={i} className="flex items-center gap-2 text-xs font-bold text-slate-800 dark:text-emerald-50 bg-slate-50 dark:bg-emerald-950/40 px-3 py-2 rounded-xl border border-slate-100 dark:border-emerald-900/30">
+                            <div key={i} className="flex items-center gap-2 text-xs font-bold text-slate-800 dark:text-white bg-slate-50 dark:bg-zinc-900/60 px-3 py-2 rounded-xl border border-slate-200 dark:border-white/5">
                               <CheckCircle2 className="w-4 h-4 text-emerald-500 dark:text-[#10e599] shrink-0" />
                               <span>{sp}</span>
                             </div>
@@ -305,14 +276,14 @@ export default function ServicesPage() {
                       </div>
 
                       <div className="mt-8 pt-6 border-t border-slate-800 dark:border-emerald-900/30 flex items-center justify-between">
-                        <span className="text-xs text-slate-400 dark:text-emerald-300/50">
-                          {isSoftware ? "Available for Custom Hire" : "Ready for Global Deployment"}
+                        <span className="text-xs text-slate-400 dark:text-zinc-400 font-mono">
+                          SOC 2 &bull; HIPAA &bull; GDPR
                         </span>
                         <Link
                           href="/contact"
-                          className="gradient-btn inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-bold text-slate-950 hover:scale-105 transition-transform"
+                          className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-bold bg-[#059669] hover:bg-[#047857] text-white hover:scale-105 transition-all shadow-md"
                         >
-                          <span>{isSoftware ? "Inquire Project" : "Request Spec Sheet"}</span>
+                          <span>Inquire Solution</span>
                           <ArrowUpRight className="w-3.5 h-3.5" />
                         </Link>
                       </div>

@@ -28,10 +28,10 @@ interface Message {
 }
 
 const PRESET_QUESTIONS = [
-  "How many LoRaWAN probes do I need for a 150-acre tea estate?",
-  "What Hosma substrate mix is recommended for European greenhouse berries?",
-  "How does FieldOS connect IoT telemetry to Next.js & Go cloud services?",
-  "Calculate water & fertilizer savings for 75 acres of coconut.",
+  "What is the diagnostic accuracy of NATLE Healthcare AI?",
+  "How does NATLE ensure zero data leakage for sovereign on-premise AI?",
+  "Can NATLE Retail POS operate offline with sub-15ms edge sync?",
+  "What are the integration timelines for our legacy enterprise ERP?",
 ];
 
 export default function NatleAIAssistant() {
@@ -45,9 +45,9 @@ export default function NatleAIAssistant() {
     {
       id: "welcome-1",
       sender: "ai",
-      text: "Hello! I am **NATLE Intelligence** — your agronomy & full-stack systems co-pilot.\n\nAsk me anything about **LoRaWAN probe density**, **Hosma Ceylon organic cocopeat formulas**, or **custom software & AI engineering** for your estate.",
+      text: "Hello! I am **NATLE Intelligence** — your enterprise AI & systems copilot.\n\nAsk me anything about **Healthcare Diagnostic AI**, **Autonomous Agriculture IoT**, **Retail POS**, **Adaptive EdTech**, or **Sovereign On-Premise architectures**.",
       timestamp: "Just now",
-      badge: "NATLE Engine v4.2",
+      badge: "NATLE Engine v5.0",
     },
   ]);
 
@@ -124,26 +124,29 @@ export default function NatleAIAssistant() {
 
     setTimeout(() => {
       let aiText = "";
-      let badge = "FieldOS Agronomy AI";
+      let badge = "NATLE Solutions AI";
       let actionCta: { label: string; href: string } | undefined;
 
       const lower = userPrompt.toLowerCase();
 
-      if (lower.includes("tea") || lower.includes("150") || lower.includes("how many")) {
-        aiText = `### Recommendation for 150-Acre Hillside Tea Estate\n\n- **Estimated Probe Density:** **22 - 25 Tri-Depth LoRaWAN Probes** (~1 probe per 6 - 7 acres based on terrace contour variance).\n- **Depth Configuration:** 10cm (Surface root mat), 30cm (Feeder roots), and 60cm (Subsoil drainage).\n- **Gateway Placement:** 1 Solar LoRaWAN Gateway installed at the estate ridge covers a **12km - 15km line-of-sight radius**.\n- **Projected Impact:** **24% reduction in fertilizer nitrogen leaching** and **32% water conservation** during dry seasons.`;
-        actionCta = { label: "Schedule 150-Acre Pilot Assessment", href: "/contact" };
-      } else if (lower.includes("substrate") || lower.includes("mix") || lower.includes("berr") || lower.includes("greenhouse")) {
-        aiText = `### Hosma Ceylon Substrate Specification for Hydroponics\n\n- **Recommended Matrix:** **Hosma 70/30 Cocopeat / Coir Chip Blend**.\n- **Electrical Conductivity (EC):** Ultra-low washed **< 0.4 mS/cm (1:1.5 Dutch extraction method)**.\n- **Air-Filled Porosity (AFP):** **22% - 25%** for rapid capillary drainage and oxygenation.\n- **Water Retention:** **850% by dry weight**, eliminating dry spots around dripper stakes.\n- **Packaging:** Pre-cut, UV-treated coir slabs (100cm × 15cm × 10cm) with pre-punched planting and drainage holes.`;
-        actionCta = { label: "Order 40ft Container Substrate Batch", href: "/contact" };
-      } else if (lower.includes("software") || lower.includes("next") || lower.includes("go") || lower.includes("cloud")) {
-        aiText = `### NATLE Dual-Stack Architecture\n\n- **Edge Gateway:** LoRaWAN 868/915 MHz Packet Forwarder running custom C++ telemetry firmware.\n- **Ingestion Pipeline:** **Go (Golang)** microservice handling **10,000+ packets/sec** with sub-50ms latency.\n- **Database Layer:** **TimescaleDB (PostgreSQL)** for hyper-efficient time-series telemetry querying.\n- **Frontend Command Center:** **Next.js 15 (React 19)** with server-side rendering, streaming WebSockets, and PWA offline caching for field agronomists.`;
-        actionCta = { label: "Inquire Custom Software Architecture", href: "/contact" };
-      } else if (lower.includes("saving") || lower.includes("coconut") || lower.includes("75")) {
-        aiText = `### Feasibility & ROI Calculation (75-Acre Commercial Coconut)\n\n- **Annual Water Conserved:** **~126 Million Liters** via VPD automated drip pulsing.\n- **Fertilizer Runoff Reduction:** **~$29,400 USD / year** saved in un-leached NPK nutrients.\n- **Yield Improvement:** **+28.0% nuts/tree/cycle** due to maintained root moisture curves.\n- **Total Projected ROI:** **+$148,000 USD net gain per harvest year**.`;
-        actionCta = { label: "Download Custom ROI Audit", href: "/contact" };
+      if (lower.includes("health") || lower.includes("medic") || lower.includes("pacs") || lower.includes("dicom") || lower.includes("doctor")) {
+        aiText = `### NATLE Healthcare Diagnostic AI\n\n- **Clinical Precision:** **98.2% diagnostic accuracy** on emergency CT, MRI, and X-ray triage.\n- **Workload Reduction:** **60% drop** in radiologist triage queues (proven at HealthFirst Hospital Group).\n- **Latency SLA:** **<15ms edge inference** via TensorRT FP8 quantization.\n- **Regulatory Compliance:** **100% HIPAA and SOC 2 Type II certified** with air-gapped VPC and on-premise deployment modes.`;
+        actionCta = { label: "Explore Healthcare Case Study", href: "/projects#healthcare" };
+      } else if (lower.includes("agri") || lower.includes("tea") || lower.includes("soil") || lower.includes("probe") || lower.includes("farm")) {
+        aiText = `### Domain 02: Agriculture AI & IoT Edge Telemetry\n\n- **Edge Hardware:** Tri-depth capacitive ceramic prongs reading root-zone moisture, electrical conductivity (EC), and soil temperature.\n- **Mesh Range:** **15km line-of-sight LoRaWAN** with 5+ year solar-assisted autonomy.\n- **Autonomous Yield AI:** Multispectral satellite integration commanding variable-rate irrigation valves with **38% water conservation**.`;
+        actionCta = { label: "Explore Agriculture Platform", href: "/services#agriculture" };
+      } else if (lower.includes("pos") || lower.includes("retail") || lower.includes("store") || lower.includes("checkout")) {
+        aiText = `### Omnichannel Point of Sales (POS) & Retail AI\n\n- **Sync Throughput:** **Sub-15ms transaction execution** across multi-site supermarket chains.\n- **Loss Prevention:** Real-time AI shrink detection cutting inventory loss by **35%**.\n- **Offline-First:** Localized edge failover keeps checkouts scanning even during complete internet blackout.`;
+        actionCta = { label: "Explore POS Solutions", href: "/services#pos" };
+      } else if (lower.includes("edtech") || lower.includes("school") || lower.includes("learn") || lower.includes("student")) {
+        aiText = `### Education Technology & Adaptive Learning AI\n\n- **Cognitive Knowledge Graphs:** Real-time learner pacing tailored to individual mastery curves.\n- **Global Scale:** Deployed across **140,000+ active students** at EduReach Global.\n- **Engagement Uplift:** **+45% student retention and completion** over traditional LMS platforms.`;
+        actionCta = { label: "Explore EdTech Platform", href: "/services#education" };
+      } else if (lower.includes("hr") || lower.includes("talent") || lower.includes("hire") || lower.includes("recruit")) {
+        aiText = `### Predictive Human Resources Intelligence\n\n- **Candidate Matching:** Skill graph ranking eliminating unconscious bias with **80% faster shortlisting**.\n- **Attrition Forecasting:** Behavioral retention modeling identifying flight risks 90 days in advance.\n- **Privacy:** Strict GDPR and enterprise employment law compliance with zero external data leakage.`;
+        actionCta = { label: "Explore HR Solutions", href: "/services#hr" };
       } else {
-        aiText = `Thank you for your inquiry regarding **"${userPrompt}"**!\n\nNATLE integrates **precision LoRaWAN edge hardware**, **Hosma Ceylon organic cocopeat exports**, and **Next.js/Go enterprise cloud software**.\n\nOur engineering agronomists can configure a custom technical specification and ROI feasibility model tailored to your exact estate acreage and crop requirements.`;
-        actionCta = { label: "Speak with Lead Agronomist", href: "/contact" };
+        aiText = `Thank you for your inquiry regarding **"${userPrompt}"**!\n\nNATLE engineers mission-critical artificial intelligence across 6 core domains with sub-15ms edge inference and 100% sovereign data privacy.\n\nOur solutions architects can configure a custom technical specification and ROI roadmap for your enterprise.`;
+        actionCta = { label: "Schedule Architecture Review", href: "/contact" };
       }
 
       const newAiMessage: Message = {

@@ -3,10 +3,7 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { 
-  Sprout, 
-  Droplets, 
-  Layers, 
-  Ship, 
+  Cpu, 
   ShieldCheck, 
   ArrowRight, 
   Download, 
@@ -15,128 +12,145 @@ import {
   Sliders,
   FileSpreadsheet,
   Building2,
-  Leaf
+  Lock,
+  Zap,
+  Activity
 } from "lucide-react";
 import Link from "next/link";
-import { CardPattern } from "@/components/ui/CardPattern";
+import { CardPattern } from "@/components/common/CardPattern";
 
-interface CropPreset {
+interface SolutionPreset {
   id: string;
   name: string;
   icon: string;
-  recommendedRatio: string;
-  recommendedEC: string;
-  recommendedFormat: string;
-  airPorosity: string;
-  waterCapacity: string;
+  recommendedArch: string;
+  recommendedLatency: string;
+  recommendedCompliance: string;
+  recommendedScale: string;
+  roiMetric: string;
+  accuracy: string;
 }
 
-const CROP_PRESETS: CropPreset[] = [
+const SOLUTION_PRESETS: SolutionPreset[] = [
   {
-    id: "tomato",
-    name: "Hydroponic Tomatoes",
-    icon: "🍅",
-    recommendedRatio: "70/30 Pith & Husk Chips",
-    recommendedEC: "< 0.5 mS/cm (Triple Washed)",
-    recommendedFormat: "Growbag Slab (100×15×10cm)",
-    airPorosity: "22% - 25%",
-    waterCapacity: "850%",
+    id: "healthcare",
+    name: "Healthcare Diagnostic AI",
+    icon: "🩺",
+    recommendedArch: "Air-Gapped On-Premises PACS Node",
+    recommendedLatency: "<15ms (TensorRT FP8 Real-Time)",
+    recommendedCompliance: "HIPAA & SOC 2 Type II Certified",
+    recommendedScale: "Regional Hospital Network (12+ Centers)",
+    roiMetric: "60% Workload Reduction",
+    accuracy: "98.2% Diagnostic Precision",
   },
   {
-    id: "berry",
-    name: "Strawberries & Berries",
-    icon: "🍓",
-    recommendedRatio: "100% Fine Washed Peat",
-    recommendedEC: "< 0.4 mS/cm (Buffered Ca+Mg)",
-    recommendedFormat: "Easy-Fill Open Top Growbag",
-    airPorosity: "18% - 20%",
-    waterCapacity: "900%",
-  },
-  {
-    id: "pepper",
-    name: "Bell Peppers & Cucumbers",
-    icon: "🫑",
-    recommendedRatio: "50/50 Coir & Coarse Crush",
-    recommendedEC: "< 0.5 mS/cm (Super Washed)",
-    recommendedFormat: "Standard Growbag (100×20×10cm)",
-    airPorosity: "24% - 28%",
-    waterCapacity: "780%",
-  },
-  {
-    id: "floriculture",
-    name: "Roses, Orchids & Cut Flowers",
-    icon: "🌸",
-    recommendedRatio: "60/40 Coir & Husk Cubes",
-    recommendedEC: "< 0.3 mS/cm (Ultra Pure)",
-    recommendedFormat: "5kg Compacted Hydroponic Block",
-    airPorosity: "25% - 30%",
-    waterCapacity: "750%",
-  },
-  {
-    id: "tea",
-    name: "Highland Tea & Tree Nurseries",
+    id: "agriculture",
+    name: "Agriculture AI & Edge IoT",
     icon: "🌱",
-    recommendedRatio: "100% Organic Ceylon Peat",
-    recommendedEC: "< 0.6 mS/cm (OMRI Listed)",
-    recommendedFormat: "Compressed Coir Disks & Pellets",
-    airPorosity: "20% - 22%",
-    waterCapacity: "880%",
+    recommendedArch: "Hybrid Edge-Cloud + LoRaWAN 15km Mesh",
+    recommendedLatency: "Sub-50ms Telemetry Sync",
+    recommendedCompliance: "FieldOS™ Zero-Data Leakage",
+    recommendedScale: "Commercial Plantation (15,000+ Ha)",
+    roiMetric: "38% Water Conserved",
+    accuracy: "±1.5% VWC Soil Precision",
+  },
+  {
+    id: "pos",
+    name: "Omnichannel POS & Retail AI",
+    icon: "⚡",
+    recommendedArch: "Offline-First Distributed Store Edge",
+    recommendedLatency: "<12ms Checkout Execution",
+    recommendedCompliance: "PCI-DSS Level 1 & SOC 2",
+    recommendedScale: "Supermarket Chain (120+ Locations)",
+    roiMetric: "-35% Inventory Shrink",
+    accuracy: "99.98% Fraud Detection",
+  },
+  {
+    id: "education",
+    name: "Education Technology (EdTech)",
+    icon: "🎓",
+    recommendedArch: "Cognitive Knowledge Graph Engine",
+    recommendedLatency: "<25ms Dynamic Pacing Inference",
+    recommendedCompliance: "FERPA & GDPR Compliant",
+    recommendedScale: "Global Online University (140k Learners)",
+    roiMetric: "+45% Completion Uplift",
+    accuracy: "94% Mastery Retention",
+  },
+  {
+    id: "hr",
+    name: "Human Resources Intelligence",
+    icon: "👥",
+    recommendedArch: "Isolated Enterprise HR VPC",
+    recommendedLatency: "Sub-Second Candidate Graph Search",
+    recommendedCompliance: "GDPR & EEOC Bias-Free Certified",
+    recommendedScale: "Global Multi-Enterprise Workforce",
+    roiMetric: "80% Faster Shortlisting",
+    accuracy: "91% 1-Year Retention Match",
+  },
+  {
+    id: "custom",
+    name: "Custom Sovereign Enterprise AI",
+    icon: "🛡️",
+    recommendedArch: "Sovereign Private LLM / Air-Gapped",
+    recommendedLatency: "<15ms Localized Token Generation",
+    recommendedCompliance: "Defense-Grade Zero Egress",
+    recommendedScale: "Global Sovereign Infrastructure",
+    roiMetric: "100% Data Sovereignty",
+    accuracy: "Deterministic Guardrails",
   },
 ];
 
-export default function SubstrateConfigurator() {
-  const [selectedCrop, setSelectedCrop] = useState<string>("tomato");
-  const [format, setFormat] = useState<string>("Growbag Slab (100×15×10cm)");
-  const [ratio, setRatio] = useState<string>("70/30 Coir Pith to Husk Chips");
-  const [ecGrade, setEcGrade] = useState<string>("Triple Washed (< 0.5 mS/cm)");
-  const [buffering, setBuffering] = useState<string>("Calcium Nitrate Buffered (Ca(NO3)2)");
-  const [containerSize, setContainerSize] = useState<string>("40ft High-Cube (24-26 MT Payload)");
-  const [quoteRequested, setQuoteRequested] = useState<boolean>(false);
+export default function AISolutionConfigurator() {
+  const [selectedDomain, setSelectedDomain] = useState<string>("healthcare");
+  const [architecture, setArchitecture] = useState<string>("Air-Gapped On-Premises PACS Node");
+  const [latency, setLatency] = useState<string>("<15ms (TensorRT FP8 Real-Time)");
+  const [compliance, setCompliance] = useState<string>("HIPAA & SOC 2 Type II Certified");
+  const [scale, setScale] = useState<string>("Regional Hospital Network (12+ Centers)");
+  const [proposalRequested, setProposalRequested] = useState<boolean>(false);
 
-  const activePreset = CROP_PRESETS.find((c) => c.id === selectedCrop) || CROP_PRESETS[0];
+  const activePreset = SOLUTION_PRESETS.find((p) => p.id === selectedDomain) || SOLUTION_PRESETS[0];
 
-  const handleApplyPreset = (preset: CropPreset) => {
-    setSelectedCrop(preset.id);
-    setFormat(preset.recommendedFormat);
-    setRatio(preset.recommendedRatio);
-    setEcGrade(preset.recommendedEC);
+  const handleApplyPreset = (preset: SolutionPreset) => {
+    setSelectedDomain(preset.id);
+    setArchitecture(preset.recommendedArch);
+    setLatency(preset.recommendedLatency);
+    setCompliance(preset.recommendedCompliance);
+    setScale(preset.recommendedScale);
   };
 
   const handleDownloadSpec = () => {
-    // Generate a simple client-side text spec file download
     const specContent = `=====================================================
-HOSMA CEYLON & NATLE TECH — SUBSTRATE SPECIFICATION SHEET
-Parent Entity: Hosma Ceylon (Pvt) Ltd (https://hosmaceylon.com)
-Export Hub: Port of Colombo (CMB), Sri Lanka
+NATLE ENTERPRISE AI — ARCHITECTURE & ROI SPECIFICATION SHEET
+Engineering Headquarters: Ruwan Mawatha, Colombo 05, Sri Lanka
+Regional Delivery Hubs: Singapore | Malaysia
 =====================================================
 
-TARGET CROP: ${activePreset.name}
-PRODUCT FORMAT: ${format}
-COIR MIXTURE RATIO: ${ratio}
-ELECTRICAL CONDUCTIVITY (EC): ${ecGrade}
-BUFFERING GRADE: ${buffering}
-CONTAINER LOGISTICS: ${containerSize}
+SOLUTION DOMAIN: ${activePreset.name}
+DEPLOYMENT ARCHITECTURE: ${architecture}
+INFERENCE LATENCY SLA: ${latency}
+SECURITY & COMPLIANCE: ${compliance}
+OPERATIONAL SCALE: ${scale}
 
-TECHNICAL PHYSICAL PARAMETERS:
-- Water Holding Capacity: ${activePreset.waterCapacity} (8-9x weight)
-- Air-Filled Porosity (AFP): ${activePreset.airPorosity}
-- pH Range: 5.8 - 6.5 (Optimal Root Zone Buffer)
-- Organic Matter: 98.5% (OMRI Listed & GlobalG.A.P Audit Ready)
-- Heavy Metals / Pathogen Free: Certified Lab Analysis Included
+QUANTIFIED PERFORMANCE BENCHMARKS:
+- Primary ROI Metric: ${activePreset.roiMetric}
+- Neural Accuracy Benchmark: ${activePreset.accuracy}
+- Data Sovereignty SLA: 100% (Zero External Egress / Air-Gapped)
+- Sub-Second Edge Failover: Hardware Fallback Enabled
+- Industry 4.0 Governance: Guided by Prof. Henrik von Scheel
 
-SHIPPING & INCOTERMS:
-- Port of Loading: Port of Colombo, Sri Lanka
-- Incoterms Supported: FOB Colombo, CIF Rotterdam, CIF Yokohama, CIF Long Beach
-- Factory Lead Time: 14-21 Days Dispatch
+INTEGRATION & DEPLOYMENT TIMELINE:
+- Pilot Deployment: 4 - 8 Weeks
+- Hardware Calibration: Sub-GHz / On-Prem Nodes Provisioned
+- Payback Window: Verifiable 3 - 6 Months ROI
 
-Direct Inquiries: contact@natle.tech | sales@hosmaceylon.com
+Direct Engineering Inquiries: contact@natle.tech | +94 70 465 9847
 =====================================================`;
 
     const blob = new Blob([specContent], { type: "text/plain" });
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
-    a.download = `Hosma_Substrate_Spec_${selectedCrop}.txt`;
+    a.download = `NATLE_AI_Architecture_Spec_${selectedDomain}.txt`;
     a.click();
     URL.revokeObjectURL(url);
   };
@@ -155,29 +169,29 @@ Direct Inquiries: contact@natle.tech | sales@hosmaceylon.com
         <div className="text-center max-w-3xl mx-auto mb-16">
           <div className="inline-flex items-center gap-2 rounded-full border border-emerald-500/30 bg-white/90 dark:bg-[#0a140a]/90 px-4 py-1.5 text-xs font-mono font-bold uppercase tracking-wider text-[#059669] dark:text-[#10E599] shadow-sm backdrop-blur-md mb-4">
             <Sliders className="h-3.5 w-3.5" />
-            <span>Interactive Substrate Lab &bull; Hosma Ceylon</span>
+            <span>Interactive Architecture Lab &bull; NATLE AI</span>
           </div>
 
           <h2 className="text-4xl sm:text-5xl md:text-6xl font-black tracking-tight leading-tight">
-            Custom Cocopeat <br />
+            Enterprise AI Solution <br />
             <span className="font-serif italic font-normal gradient-text">
-              Mixture Configurator.
+              Architecture Configurator.
             </span>
           </h2>
 
           <p className="mt-4 text-base sm:text-lg text-slate-600 dark:text-emerald-100/70 font-normal leading-relaxed">
-            Select your commercial crop, customize aeration ratios, EC buffering levels, and export container sizing to generate an instant technical spec sheet.
+            Select your enterprise domain, customize isolation tiers, inference latency SLAs, and infrastructure scale to generate an instant technical spec sheet and ROI estimate.
           </p>
         </div>
 
-        {/* 1. Crop Preset Bar */}
+        {/* 1. Solution Domain Preset Bar */}
         <div className="mb-10">
           <p className="text-xs font-mono font-bold uppercase tracking-wider text-slate-500 dark:text-emerald-300/60 mb-3 text-center">
-            Quick Crop Formulations:
+            Select Enterprise Domain:
           </p>
           <div className="flex flex-wrap items-center justify-center gap-2.5 sm:gap-3">
-            {CROP_PRESETS.map((preset) => {
-              const isActive = selectedCrop === preset.id;
+            {SOLUTION_PRESETS.map((preset) => {
+              const isActive = selectedDomain === preset.id;
               return (
                 <button
                   key={preset.id}
@@ -211,81 +225,86 @@ Direct Inquiries: contact@natle.tech | sales@hosmaceylon.com
               <div className="flex items-center justify-between pb-6 border-b border-slate-200/80 dark:border-emerald-900/30 mb-6">
                 <div className="flex items-center gap-2.5">
                   <div className="w-10 h-10 rounded-2xl bg-emerald-50 dark:bg-emerald-950/60 text-[#059669] dark:text-[#10E599] flex items-center justify-center font-bold">
-                    <Sprout className="w-5 h-5" />
+                    <Cpu className="w-5 h-5" />
                   </div>
                   <div>
-                    <h3 className="text-xl font-black text-[#071326] dark:text-white">Formulation Parameters</h3>
-                    <p className="text-xs text-slate-500 dark:text-emerald-300/60 font-mono">Calibrated to Hosma Ceylon processing mills</p>
+                    <h3 className="text-xl font-black text-[#071326] dark:text-white">Architecture Parameters</h3>
+                    <p className="text-xs text-slate-500 dark:text-emerald-300/60 font-mono">Calibrated to Industry 4.0 Sovereign Standards</p>
                   </div>
                 </div>
               </div>
 
-              {/* Control 1: Format */}
+              {/* Control 1: Architecture */}
               <div className="space-y-2 mb-5">
                 <label className="text-xs font-mono font-bold text-slate-700 dark:text-emerald-200 uppercase tracking-wider block">
-                  1. Substrate Format &amp; Dimensions
+                  1. Deployment Architecture &amp; Isolation
                 </label>
                 <select
-                  value={format}
-                  onChange={(e) => setFormat(e.target.value)}
+                  value={architecture}
+                  onChange={(e) => setArchitecture(e.target.value)}
                   className="w-full rounded-2xl border border-slate-200/90 dark:border-emerald-900/60 bg-white/90 dark:bg-[#080d08] py-3.5 px-4 text-sm text-slate-900 dark:text-white font-medium focus:border-[#059669] focus:outline-none"
                 >
-                  <option>Growbag Slab (100×15×10cm)</option>
-                  <option>Standard Growbag (100×20×10cm)</option>
-                  <option>Easy-Fill Open Top Growbag (5L / 10L)</option>
-                  <option>5kg Compacted Hydroponic Block (75L Expanded)</option>
-                  <option>Compressed Coir Disks &amp; Pellets (Nursery Grade)</option>
-                  <option>Bulk Loose Cocopeat (40ft Container Direct Load)</option>
+                  <option>Air-Gapped On-Premises PACS Node</option>
+                  <option>Hybrid Edge-Cloud + LoRaWAN 15km Mesh</option>
+                  <option>Offline-First Distributed Store Edge</option>
+                  <option>Cognitive Knowledge Graph Engine</option>
+                  <option>Isolated Enterprise HR VPC</option>
+                  <option>Sovereign Private LLM / Air-Gapped</option>
                 </select>
               </div>
 
-              {/* Control 2: Ratio */}
+              {/* Control 2: Latency & Acceleration */}
               <div className="space-y-2 mb-5">
                 <label className="text-xs font-mono font-bold text-slate-700 dark:text-emerald-200 uppercase tracking-wider block">
-                  2. Coir Pith to Husk Chips Ratio (Aeration Blend)
+                  2. Inference SLA &amp; Quantization
                 </label>
                 <select
-                  value={ratio}
-                  onChange={(e) => setRatio(e.target.value)}
+                  value={latency}
+                  onChange={(e) => setLatency(e.target.value)}
                   className="w-full rounded-2xl border border-slate-200/90 dark:border-emerald-900/60 bg-white/90 dark:bg-[#080d08] py-3.5 px-4 text-sm text-slate-900 dark:text-white font-medium focus:border-[#059669] focus:outline-none"
                 >
-                  <option>100% Fine Washed Peat (Max Water Retention)</option>
-                  <option>70/30 Coir Pith to Husk Chips (Balanced Vegetative)</option>
-                  <option>50/50 Coir &amp; Coarse Crush (High Porosity Hydroponic)</option>
-                  <option>60/40 Coir &amp; Husk Cubes (Long-Cycle Berry &amp; Orchids)</option>
+                  <option>&lt;15ms (TensorRT FP8 Real-Time)</option>
+                  <option>Sub-50ms Telemetry Sync</option>
+                  <option>&lt;12ms Checkout Execution</option>
+                  <option>&lt;25ms Dynamic Pacing Inference</option>
+                  <option>Sub-Second Candidate Graph Search</option>
                 </select>
               </div>
 
-              {/* Control 3: EC Grade */}
+              {/* Control 3: Compliance Tier */}
               <div className="space-y-2 mb-5">
                 <label className="text-xs font-mono font-bold text-slate-700 dark:text-emerald-200 uppercase tracking-wider block">
-                  3. Electrical Conductivity (EC Wash Grade)
+                  3. Security &amp; Regulatory Standard
                 </label>
                 <select
-                  value={ecGrade}
-                  onChange={(e) => setEcGrade(e.target.value)}
+                  value={compliance}
+                  onChange={(e) => setCompliance(e.target.value)}
                   className="w-full rounded-2xl border border-slate-200/90 dark:border-emerald-900/60 bg-white/90 dark:bg-[#080d08] py-3.5 px-4 text-sm text-slate-900 dark:text-white font-medium focus:border-[#059669] focus:outline-none"
                 >
-                  <option>Triple Washed (&lt; 0.5 mS/cm - Low EC Export Grade)</option>
-                  <option>Ultra Pure Washed (&lt; 0.3 mS/cm - Dutch Standard)</option>
-                  <option>Buffered with Calcium Nitrate (&lt; 0.4 mS/cm)</option>
-                  <option>Unwashed Natural Raw (&gt; 1.5 mS/cm - Soil Conditioning)</option>
+                  <option>HIPAA &amp; SOC 2 Type II Certified</option>
+                  <option>ISO 27001 &amp; GDPR Compliant</option>
+                  <option>PCI-DSS Level 1 &amp; SOC 2</option>
+                  <option>FERPA &amp; GDPR Compliant</option>
+                  <option>Defense-Grade Zero Egress</option>
                 </select>
               </div>
 
-              {/* Control 4: Container Size */}
+              {/* Control 4: Scale */}
               <div className="space-y-2">
                 <label className="text-xs font-mono font-bold text-slate-700 dark:text-emerald-200 uppercase tracking-wider block">
-                  4. Shipping Dispatch &amp; Incoterms
+                  4. Operational Scale &amp; Footprint
                 </label>
                 <select
-                  value={containerSize}
-                  onChange={(e) => setContainerSize(e.target.value)}
+                  value={scale}
+                  onChange={(e) => setScale(e.target.value)}
                   className="w-full rounded-2xl border border-slate-200/90 dark:border-emerald-900/60 bg-white/90 dark:bg-[#080d08] py-3.5 px-4 text-sm text-slate-900 dark:text-white font-medium focus:border-[#059669] focus:outline-none"
                 >
-                  <option>40ft High-Cube Container (24-26 MT &bull; 22 Pallets)</option>
-                  <option>20ft Standard Container (12-14 MT &bull; 10 Pallets)</option>
-                  <option>LCL Trial Sample Pallet (1 MT Air/Sea Freight)</option>
+                  <option>Regional Hospital Network (12+ Centers)</option>
+                  <option>Commercial Plantation (15,000+ Ha)</option>
+                  <option>Supermarket Chain (120+ Locations)</option>
+                  <option>Global Online University (140k Learners)</option>
+                  <option>Global Multi-Enterprise Workforce</option>
+                  <option>Global Sovereign Infrastructure</option>
                 </select>
               </div>
             </div>
@@ -293,7 +312,7 @@ Direct Inquiries: contact@natle.tech | sales@hosmaceylon.com
             <div className="pt-6 border-t border-slate-200/80 dark:border-emerald-900/30 flex flex-wrap items-center justify-between gap-4">
               <div className="flex items-center gap-2 text-xs font-mono text-slate-500 dark:text-emerald-300/60">
                 <ShieldCheck className="w-4 h-4 text-[#059669] dark:text-[#10E599]" />
-                <span>OMRI &bull; GlobalG.A.P &bull; ISO 9001 Certified</span>
+                <span>SOC 2 &bull; HIPAA &bull; ISO 27001 &bull; GDPR</span>
               </div>
 
               <button
@@ -309,7 +328,7 @@ Direct Inquiries: contact@natle.tech | sales@hosmaceylon.com
           {/* Right Column: Live Technical Spec Sheet Card */}
           <div className="lg:col-span-5 rounded-[2.5rem] bg-[#071326] dark:bg-[#080d08] border border-emerald-500/30 p-6 sm:p-8 text-white shadow-2xl flex flex-col justify-between relative overflow-hidden backdrop-blur-2xl group">
             
-            {/* Advanced Bio-Hex Honeycomb Telemetry Motif */}
+            {/* Bio-Hex Motif */}
             <CardPattern 
               variant="bio-hex" 
               position="top-right" 
@@ -325,72 +344,72 @@ Direct Inquiries: contact@natle.tech | sales@hosmaceylon.com
                 <div className="flex items-center gap-2">
                   <FileSpreadsheet className="w-4 h-4 text-[#10E599]" />
                   <span className="text-xs font-mono font-bold uppercase tracking-wider text-emerald-300">
-                    Live Formulation Matrix
+                    Live Architecture Matrix
                   </span>
                 </div>
                 <span className="px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-[#10E599] text-[10px] font-mono font-bold">
-                  Ready to Dispatch
+                  SLA Guaranteed
                 </span>
               </div>
 
               {/* Summary Parameters */}
               <div className="py-6 space-y-4">
                 <div>
-                  <span className="text-[11px] font-mono text-slate-400 uppercase">Target Formulation:</span>
+                  <span className="text-[11px] font-mono text-slate-400 uppercase">Configured Solution:</span>
                   <p className="text-lg font-black text-white">{activePreset.name}</p>
                 </div>
 
                 <div className="grid grid-cols-2 gap-3 pt-2">
                   <div className="p-3 rounded-2xl bg-white/5 border border-white/10">
-                    <span className="text-[10px] font-mono text-slate-400 block uppercase">Air Porosity (AFP)</span>
-                    <span className="text-sm font-bold text-[#10E599] font-mono">{activePreset.airPorosity}</span>
+                    <span className="text-[10px] font-mono text-slate-400 block uppercase">Projected ROI</span>
+                    <span className="text-sm font-bold text-[#10E599] font-mono">{activePreset.roiMetric}</span>
                   </div>
                   <div className="p-3 rounded-2xl bg-white/5 border border-white/10">
-                    <span className="text-[10px] font-mono text-slate-400 block uppercase">Water Holding (WHC)</span>
-                    <span className="text-sm font-bold text-[#00D2FF] font-mono">{activePreset.waterCapacity}</span>
+                    <span className="text-[10px] font-mono text-slate-400 block uppercase">Accuracy Metric</span>
+                    <span className="text-sm font-bold text-[#00D2FF] font-mono">{activePreset.accuracy}</span>
                   </div>
                 </div>
 
                 <div className="space-y-2 pt-2 text-xs font-mono">
                   <div className="flex justify-between py-1.5 border-b border-white/5">
-                    <span className="text-slate-400">Selected Slab:</span>
-                    <span className="text-white font-bold truncate max-w-[180px]">{format.split("(")[0]}</span>
+                    <span className="text-slate-400">Architecture:</span>
+                    <span className="text-white font-bold truncate max-w-[180px]">{architecture.split("(")[0]}</span>
                   </div>
                   <div className="flex justify-between py-1.5 border-b border-white/5">
-                    <span className="text-slate-400">EC Specification:</span>
-                    <span className="text-[#10E599] font-bold">{ecGrade.split("(")[0]}</span>
+                    <span className="text-slate-400">Latency SLA:</span>
+                    <span className="text-[#10E599] font-bold">{latency.split("(")[0]}</span>
                   </div>
                   <div className="flex justify-between py-1.5 border-b border-white/5">
-                    <span className="text-slate-400">Port of Loading:</span>
-                    <span className="text-white font-bold">Port of Colombo (CMB)</span>
+                    <span className="text-slate-400">Sovereign Privacy:</span>
+                    <span className="text-white font-bold">100% Zero-Leakage</span>
                   </div>
                   <div className="flex justify-between py-1.5">
-                    <span className="text-slate-400">Est. Dispatch:</span>
-                    <span className="text-[#F59E0B] font-bold">14 - 21 Days</span>
+                    <span className="text-slate-400">Est. Pilot Delivery:</span>
+                    <span className="text-[#F59E0B] font-bold">4 - 8 Weeks</span>
                   </div>
                 </div>
               </div>
             </div>
 
-            {/* Instant Quote Request CTA */}
+            {/* Instant Proposal Request CTA */}
             <div className="pt-6 border-t border-white/10 space-y-3">
-              {quoteRequested ? (
+              {proposalRequested ? (
                 <div className="p-4 rounded-2xl bg-emerald-950/80 border border-emerald-500/50 text-emerald-300 text-xs font-semibold flex items-center gap-2">
                   <CheckCircle2 className="w-4 h-4 text-[#10E599]" />
-                  <span>Spec dispatched to agronomy desk. We will email CIF rates shortly!</span>
+                  <span>Architecture spec dispatched to engineering team. We will reach out shortly!</span>
                 </div>
               ) : (
                 <Link
                   href="/contact"
                   className="w-full gradient-btn group inline-flex items-center justify-center gap-2 rounded-2xl py-4 text-xs font-black uppercase tracking-wider text-slate-950 shadow-xl transition-all hover:scale-105 active:scale-95 cursor-pointer text-center"
                 >
-                  <span>Request Instant Container Quote</span>
+                  <span>Request Architecture Review</span>
                   <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
                 </Link>
               )}
 
               <p className="text-[10px] font-mono text-center text-slate-400">
-                Direct export inquiry &bull; Colombo WTC Agronomy Desk
+                Direct enterprise inquiry &bull; Colombo 05 Solutions Desk
               </p>
             </div>
 
@@ -402,3 +421,7 @@ Direct Inquiries: contact@natle.tech | sales@hosmaceylon.com
     </section>
   );
 }
+
+// Named alias export for backwards compatibility
+export const SubstrateConfigurator = AISolutionConfigurator;
+

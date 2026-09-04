@@ -21,13 +21,14 @@ import {
   PhoneCall,
   MapPin,
   Sparkles,
+  Mail,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 export interface CommandItem {
   id: string;
   title: string;
-  section: "Platform & Substrates" | "Navigation" | "Quick Actions";
+  section: "Platforms & AI" | "Navigation" | "Quick Actions";
   icon: React.ReactNode;
   shortcut?: string;
   path?: string;
@@ -54,7 +55,7 @@ export const CommandSearch: FC = () => {
       },
       {
         id: "nav-about",
-        title: "About & Hosma Heritage",
+        title: "About & Leadership",
         section: "Navigation",
         icon: <Leaf className="h-4 w-4 text-[#059669] dark:text-[#10E599]" />,
         shortcut: "A",
@@ -62,7 +63,7 @@ export const CommandSearch: FC = () => {
       },
       {
         id: "nav-services",
-        title: "Services & Substrates",
+        title: "AI Services & Platforms",
         section: "Navigation",
         icon: <Cpu className="h-4 w-4 text-[#0052FF] dark:text-cyan-400" />,
         shortcut: "S",
@@ -99,39 +100,39 @@ export const CommandSearch: FC = () => {
       },
       {
         id: "nav-contact",
-        title: "Contact & Demo Booking",
+        title: "Contact Colombo Headquarters",
         section: "Navigation",
-        icon: <PhoneCall className="h-4 w-4 text-[#059669] dark:text-[#10E599]" />,
+        icon: <Mail className="h-4 w-4 text-[#059669] dark:text-[#10E599]" />,
         shortcut: "C",
         path: "/contact",
       },
 
-      // Platform & Substrates
+      // Platforms & AI
       {
-        id: "feat-fieldos",
-        title: "NATLE FieldOS™ Operating System",
-        section: "Platform & Substrates",
-        icon: <Cpu className="h-4 w-4 text-[#0052FF] dark:text-cyan-400" />,
+        id: "feat-telemetry",
+        title: "FieldOS™ Edge IoT Telemetry Node",
+        section: "Platforms & AI",
+        icon: <Radio className="h-4 w-4 text-[#0052FF] dark:text-cyan-400" />,
         path: "/solutions#field-os",
       },
       {
         id: "feat-yieldai",
-        title: "YieldAI™ Harvest Predictor",
-        section: "Platform & Substrates",
+        title: "YieldAI™ Neural Harvest Predictor",
+        section: "Platforms & AI",
         icon: <Sparkles className="h-4 w-4 text-[#F59E0B]" />,
         path: "/solutions#yield-ai",
       },
       {
-        id: "feat-substrates",
-        title: "Hosma Ceylon Organic Cocopeat Growbags",
-        section: "Platform & Substrates",
-        icon: <Leaf className="h-4 w-4 text-[#059669] dark:text-[#10E599]" />,
-        path: "/services#substrates",
+        id: "feat-healthcare",
+        title: "Healthcare Diagnostic AI & PACS Vision",
+        section: "Platforms & AI",
+        icon: <Sparkles className="h-4 w-4 text-[#059669] dark:text-[#10E599]" />,
+        path: "/services#healthcare",
       },
       {
         id: "feat-configurator",
-        title: "Custom Substrate Mixture Configurator",
-        section: "Platform & Substrates",
+        title: "AI Solution Architecture Configurator",
+        section: "Platforms & AI",
         icon: <Sparkles className="h-4 w-4 text-[#10E599]" />,
         path: "/#configurator",
       },
@@ -139,14 +140,14 @@ export const CommandSearch: FC = () => {
       // Quick Actions
       {
         id: "act-demo",
-        title: "Schedule Farm Assessment Demo",
+        title: "Schedule Enterprise AI Consultation",
         section: "Quick Actions",
         icon: <ArrowRight className="h-4 w-4 text-[#059669] dark:text-[#10E599]" />,
         path: "/contact",
       },
       {
         id: "act-wtc",
-        title: "Colombo World Trade Center HQ",
+        title: "Colombo 05 Headquarters",
         section: "Quick Actions",
         icon: <MapPin className="h-4 w-4 text-[#0052FF] dark:text-cyan-400" />,
         path: "/contact#headquarters",
@@ -294,7 +295,7 @@ export const CommandSearch: FC = () => {
                   <input
                     ref={inputRef}
                     type="text"
-                    placeholder="Search pages, IoT telemetry, substrates..."
+                    placeholder="Search enterprise AI, platforms, case studies..."
                     className="w-full bg-transparent text-sm font-semibold text-[#071326] dark:text-white placeholder:text-slate-400 dark:placeholder:text-emerald-300/40 outline-none"
                     value={query}
                     onChange={(e) => setQuery(e.target.value)}

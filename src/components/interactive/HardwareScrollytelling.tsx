@@ -35,7 +35,7 @@ const CAM_STOPS: CamStop[] = [
   { y: 2.0,  z: 2.0, fov: 24, lookY: 2.0,  rotY: 0.15 },  // Stage 2: Seal / shell
   { y: 1.1,  z: 1.8, fov: 22, lookY: 1.2,  rotY: -0.25 }, // Stage 3: Polycarbonate tube & PCB
   { y: -0.1, z: 1.9, fov: 22, lookY: -0.25,rotY: 0.3 },   // Stage 4: Stainless 316 collar
-  { y: -1.9, z: 2.4, fov: 26, lookY: -2.3, rotY: -0.15 }, // Stage 5: Ceramic prongs & cocopeat
+  { y: -1.9, z: 2.4, fov: 26, lookY: -2.3, rotY: -0.15 }, // Stage 5: Ceramic prongs & soil telemetry interface
 ];
 
 const STAGE_LABELS = [
@@ -628,7 +628,7 @@ export default function HardwareScrollytelling() {
           >
             <div className="inline-flex items-center gap-2 font-mono text-[10px] font-bold tracking-[0.2em] text-[#047857] dark:text-[#10E599] uppercase mb-2">
               <span className="w-1.5 h-1.5 rounded-full bg-[#059669] dark:bg-[#10E599] animate-pulse" />
-              <span>soil probe &bull; model 02</span>
+              <span>Domain 02: Agriculture AI &bull; Edge Telemetry</span>
             </div>
 
             <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-[1.05] text-slate-900 dark:text-white mb-2">
@@ -764,7 +764,7 @@ export default function HardwareScrollytelling() {
               <span>05 &mdash; tip</span>
             </div>
             <h3 className="text-xl sm:text-3xl font-black text-slate-900 dark:text-white tracking-tight mb-1.5">
-              hosma.ceramic prongs
+              capacitive.ceramic prongs
             </h3>
             <p className="text-xs sm:text-sm text-slate-600 dark:text-zinc-400 leading-relaxed font-normal ml-auto mb-4">
               Twin ceramic prongs read moisture and conductivity a few centimetres down, where the roots actually drink.

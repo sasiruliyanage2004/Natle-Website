@@ -6,31 +6,31 @@ import { Star, Quote, CheckCircle2 } from "lucide-react";
 
 const TESTIMONIALS = [
   {
-    quote: "NATLE FieldOS transformed our 1,200-acre tea & fruit estate. Water and fertilizer costs dropped by 28% in the very first quarter.",
-    author: "Anura Jayasundara",
-    role: "Managing Director",
-    company: "Lanka Bio-Agri Plantations",
-    avatar: "AJ",
+    quote: "NATLE's Clinical Diagnostic AI dropped our emergency radiologist scan backlog by 60% with 98.2% accuracy. It seamlessly integrated into our PACS/DICOM infrastructure without a single hour of downtime.",
+    author: "Dr. Marcus Vance",
+    role: "Chief Medical Officer",
+    company: "HealthFirst Hospital Group",
+    avatar: "MV",
     rating: 5,
-    metrics: "28% Cost Reduction"
+    metrics: "60% Workload Drop"
   },
   {
-    quote: "The satellite NDVI analysis in YieldAI caught a fungal infestation two weeks before it was visible to field inspectors. Saved an entire crop cycle.",
-    author: "Dr. Rohitha Perera",
-    role: "Chief Agronomist",
-    company: "Apex Agro Exports Ltd",
-    avatar: "RP",
+    quote: "Migrating 120+ retail supermarket stores to NATLE's real-time Point of Sales and predictive inventory AI slashed our stockouts by 35% and accelerated checkout throughput by 40%.",
+    author: "Elena Rostova",
+    role: "VP of Global Supply Chain",
+    company: "RetailMax Chain",
+    avatar: "ER",
     rating: 5,
-    metrics: "$120k Yield Saved"
+    metrics: "-35% Inventory Shrink"
   },
   {
-    quote: "TraceLink made international compliance effortless. European buyers can scan our QR code and see verified real-time sustainability metrics.",
-    author: "Menaka Wijesinghe",
-    role: "Head of Supply Chain",
-    company: "GreenHorizon Commodities",
-    avatar: "MW",
+    quote: "Deploying NATLE's LoRaWAN soil telemetry nodes and FieldOS predictive engine across 15,000 hectares cut our irrigation consumption by 38% while lifting seasonal harvest yield by 28%.",
+    author: "David K. Henderson",
+    role: "Chief Technology Officer",
+    company: "GreenField Agri Corp",
+    avatar: "DH",
     rating: 5,
-    metrics: "100% Export Pass Rate"
+    metrics: "38% Water Conserved"
   }
 ];
 
@@ -46,7 +46,7 @@ export default function Testimonials() {
             className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-500/10 text-[#059669] dark:text-[#10E599] border border-emerald-500/20 text-xs font-mono font-bold uppercase tracking-wider mb-4"
           >
             <CheckCircle2 className="w-3.5 h-3.5" />
-            <span>Verified Case Studies</span>
+            <span>Verified Enterprise Case Studies</span>
           </motion.div>
 
           <motion.h2
@@ -56,8 +56,8 @@ export default function Testimonials() {
             transition={{ delay: 0.1 }}
             className="text-4xl md:text-5xl font-extrabold text-slate-900 dark:text-white tracking-tight"
           >
-            Trusted by Commercial <br className="hidden sm:block" />
-            <span className="gradient-text">Growers &amp; Exporters</span>
+            Trusted by Enterprise Leaders <br className="hidden sm:block" />
+            <span className="gradient-text">&amp; Global Industry Pioneers</span>
           </motion.h2>
 
           <motion.p
@@ -67,7 +67,7 @@ export default function Testimonials() {
             transition={{ delay: 0.15 }}
             className="mt-4 text-lg text-slate-600 dark:text-emerald-100/70"
           >
-            See how enterprise agriculture operations leverage NATLE to boost yield, reduce input costs, and automate compliance.
+            See how healthcare groups, retail networks, and commercial agricultural operators leverage NATLE to scale operations, reduce costs, and guarantee compliance.
           </motion.p>
         </div>
 

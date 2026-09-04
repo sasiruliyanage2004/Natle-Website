@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import Navbar from "@/components/Navbar";
 import CTAFooter from "@/components/CTAFooter";
 import SmoothCursor from "@/components/magicui/smooth-cursor";
@@ -8,50 +8,93 @@ import BeamsBackground from "@/components/animations/BeamsBackground";
 import { motion } from "framer-motion";
 import { 
   Building2, 
-  ArrowUpRight
+  ArrowUpRight,
+  Activity,
+  Sprout,
+  ShoppingBag,
+  GraduationCap,
+  Sparkles,
+  CheckCircle2
 } from "lucide-react";
 import Link from "next/link";
+import CardPattern from "@/components/common/CardPattern";
 
 const caseStudies = [
   {
-    title: "1,200-Acre Ceylon Tea Estate",
-    location: "Nuwara Eliya, Sri Lanka",
-    client: "Highland Bio-Teas PLC",
-    summary: "Deployed 85 wireless soil moisture nodes and drone multispectral NDVI mapping across steep hillside tea terraces to eliminate under-fertilization.",
+    id: "healthfirst",
+    domain: "Healthcare",
+    title: "Diagnostic Vision AI for HealthFirst Hospital",
+    client: "HealthFirst Hospital Group",
+    summary: "Engineered and deployed a high-precision computer vision diagnostic system deeply integrated with the hospital's existing PACS and FHIR-compliant EHR infrastructure, dramatically augmenting radiological review throughput.",
     metrics: [
-      { label: "Yield Increase", value: "+24.5%" },
-      { label: "Water Savings", value: "32%" },
-      { label: "Fertilizer Waste", value: "-18%" },
+      { label: "Fewer Diagnostic Errors", value: "34%" },
+      { label: "Faster Image Review", value: "2x" },
+      { label: "Annual Clinical Savings", value: "$2.4M" },
     ],
-    solution: "FieldOS™ + YieldAI™",
+    techStack: ["TensorFlow", "Python", "FHIR / HL7", "React", "Node.js", "Docker"],
+    badgeColor: "border-sky-500/30 text-sky-400 bg-sky-500/10",
+    accentGlow: "rgba(14, 165, 233, 0.15)",
+    icon: Activity,
   },
   {
-    title: "European Glasshouse Hydroponics",
-    location: "Westland, Netherlands",
-    client: "EuroGrow Greenhouse B.V.",
-    summary: "Integrated Hosma Ceylon low-EC buffered cocopeat growbags with automated closed-loop drip pulse valves for high-wire commercial tomato cultivation.",
+    id: "greenfield",
+    domain: "Agriculture",
+    title: "Smart Crop Intelligence Platform (FieldOS™)",
+    client: "GreenField Agri Corp",
+    summary: "Architected a multi-sensor LoRaWAN IoT mesh and edge computer vision intelligence platform delivering real-time soil chemistry, canopy temperature, and predictive harvest modeling across 50,000 hectares.",
     metrics: [
-      { label: "Crop Cycle", value: "-12 Days" },
-      { label: "Root Mass", value: "+40%" },
-      { label: "Zero Runoff", value: "100%" },
+      { label: "Prediction Accuracy", value: "91%" },
+      { label: "Water Savings", value: "28%" },
+      { label: "Input Cost Reduction", value: "18%" },
     ],
-    solution: "Hosma Substrates + TraceLink™",
+    techStack: ["PyTorch", "AWS IoT Core", "PostgreSQL", "Next.js", "Python", "LoRaWAN"],
+    badgeColor: "border-emerald-500/30 text-emerald-400 bg-emerald-500/10",
+    accentGlow: "rgba(16, 229, 153, 0.15)",
+    icon: Sprout,
   },
   {
-    title: "Middle-East Desert Hydroponics",
-    location: "Al Ain, United Arab Emirates",
-    client: "Oasis AgTech Farms",
-    summary: "Overcame extreme 48°C ambient desert heat with real-time root zone temperature telemetry and optimized Hosma 70/30 cocopeat/chips water buffering.",
+    id: "retailmax",
+    domain: "Retail / POS",
+    title: "Multi-Branch POS Intelligence Suite",
+    client: "RetailMax Chain",
+    summary: "Engineered an end-to-end AI-powered smart Point of Sale and autonomous inventory replenishment engine deployed across 60 retail branches with sub-second barcode indexing and shrinkage detection.",
     metrics: [
-      { label: "Water Efficiency", value: "+44%" },
-      { label: "Mortality Rate", value: "<1.2%" },
-      { label: "Harvest Cycles", value: "4x/Yr" },
+      { label: "Waste Reduction", value: "41%" },
+      { label: "Faster Checkout Speed", value: "3x" },
+      { label: "Uptime SLA", value: "99.9%" },
     ],
-    solution: "FieldOS™ + Hosma Cocopeat",
+    techStack: ["React", "Node.js", "PostgreSQL", "TensorFlow Lite", "Electron", "Redis"],
+    badgeColor: "border-orange-500/30 text-orange-400 bg-orange-500/10",
+    accentGlow: "rgba(249, 115, 22, 0.15)",
+    icon: ShoppingBag,
+  },
+  {
+    id: "edureach",
+    domain: "Education",
+    title: "Adaptive Learning Platform for EduReach",
+    client: "EduReach Global",
+    summary: "Built an intelligent adaptive LMS featuring dynamic cognitive difficulty calibration and real-time student sentiment modeling serving over 200,000 active learners across 12 countries.",
+    metrics: [
+      { label: "Retention Increase", value: "+22%" },
+      { label: "Faster Skill Acquisition", value: "40%" },
+      { label: "Student NPS Rating", value: "4.8/5" },
+    ],
+    techStack: ["Next.js", "FastAPI", "MongoDB", "PyTorch", "WebRTC", "Tailwind CSS"],
+    badgeColor: "border-purple-500/30 text-purple-400 bg-purple-500/10",
+    accentGlow: "rgba(168, 85, 247, 0.15)",
+    icon: GraduationCap,
   },
 ];
 
+const categories = ["All", "Healthcare", "Agriculture", "Retail / POS", "Education"];
+
 export default function ProjectsPage() {
+  const [selectedCategory, setSelectedCategory] = useState("All");
+
+  const filteredProjects = selectedCategory === "All"
+    ? caseStudies
+    : caseStudies.filter(p => p.domain === selectedCategory);
+
   return (
     <main className="relative min-h-screen bg-[#F8FAFC] dark:bg-[#050505] text-slate-900 dark:text-emerald-50 antialiased selection:bg-[#059669] selection:text-white transition-colors duration-300 select-none">
       <BeamsBackground intensity="subtle" className="absolute inset-0 z-0 pointer-events-none" />
@@ -61,15 +104,15 @@ export default function ProjectsPage() {
         <Navbar />
 
         {/* Hero Header */}
-        <section className="pt-36 pb-20 md:pt-48 md:pb-28 bg-transparent">
+        <section className="pt-36 pb-16 md:pt-48 md:pb-20 bg-transparent">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center max-w-4xl relative z-10">
             <motion.div 
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
-              className="inline-flex items-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-4 py-1.5 text-xs font-black uppercase tracking-wider text-[#059669] dark:text-[#10E599] shadow-sm mb-6"
+              className="inline-flex items-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-4 py-1.5 text-xs font-mono font-bold uppercase tracking-wider text-[#059669] dark:text-[#10E599] shadow-sm mb-6"
             >
               <Building2 className="w-4 h-4 text-[#059669] dark:text-[#10E599]" />
-              <span>Commercial Field Case Studies</span>
+              <span>Real AI &bull; Measurable Production Results</span>
             </motion.div>
 
             <motion.h1 
@@ -78,9 +121,9 @@ export default function ProjectsPage() {
               transition={{ delay: 0.1 }}
               className="text-5xl sm:text-6xl md:text-7xl font-black text-slate-900 dark:text-white tracking-tight leading-[1.05]"
             >
-              Proven Deployments in the{" "}
+              Enterprise Case Studies That{" "}
               <span className="gradient-text">
-                Harshest Climates.
+                Deliver Quantified ROI.
               </span>
             </motion.h1>
 
@@ -90,54 +133,104 @@ export default function ProjectsPage() {
               transition={{ delay: 0.15 }}
               className="mt-6 text-xl text-slate-600 dark:text-emerald-100/70 font-normal leading-relaxed max-w-3xl mx-auto"
             >
-              From tropical tea hillsides in Sri Lanka to high-tech Dutch glasshouses and Middle-Eastern desert hydroponics, explore how NATLE and Hosma Ceylon deliver quantified agricultural ROI.
+              Explore how NATLE deploys bespoke deep learning pipelines, edge telemetry meshes, and high-concurrency cloud systems to solve industry bottlenecks with audited commercial returns.
             </motion.p>
+
+            {/* Filter Pills */}
+            <div className="flex flex-wrap items-center justify-center gap-2.5 mt-10">
+              {categories.map((cat) => (
+                <button
+                  key={cat}
+                  onClick={() => setSelectedCategory(cat)}
+                  className={`px-4 py-2 rounded-full text-xs font-bold transition-all ${
+                    selectedCategory === cat
+                      ? "bg-[#059669] text-white shadow-lg shadow-emerald-500/20 scale-105"
+                      : "bg-white/80 dark:bg-zinc-900/80 text-slate-600 dark:text-zinc-400 border border-slate-200 dark:border-white/10 hover:border-[#059669]"
+                  }`}
+                >
+                  {cat}
+                </button>
+              ))}
+            </div>
           </div>
         </section>
 
         {/* Case Studies Grid */}
-        <section className="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {caseStudies.map((study, i) => (
-              <motion.div 
-                key={study.title}
-                initial={{ opacity: 0, y: 32 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-40px" }}
-                transition={{ duration: 0.5, delay: i * 0.12 }}
-                whileHover={{ y: -8, scale: 1.02, transition: { duration: 0.25 } }}
-                whileTap={{ scale: 0.98 }}
-                className="glass-card rounded-3xl p-8 shadow-xl flex flex-col justify-between hover:shadow-2xl hover:border-emerald-500/50 transition-all relative z-10 cursor-pointer"
-              >
-                <div>
-                  <span className="text-[11px] font-mono font-bold text-[#059669] dark:text-[#10E599] uppercase tracking-wider">
-                    {study.location}
-                  </span>
-                  <h3 className="text-2xl font-black text-slate-900 dark:text-white mt-2">{study.title}</h3>
-                  <p className="text-xs font-bold text-slate-500 dark:text-emerald-300/60 mt-1">Client: {study.client}</p>
-                  <p className="text-xs text-slate-600 dark:text-emerald-100/70 mt-4 leading-relaxed font-normal">{study.summary}</p>
+        <section className="py-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {filteredProjects.map((study, i) => {
+              const Icon = study.icon;
+              return (
+                <motion.div 
+                  key={study.id}
+                  initial={{ opacity: 0, y: 28 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-40px" }}
+                  transition={{ duration: 0.5, delay: i * 0.1 }}
+                  whileHover={{ y: -6, transition: { duration: 0.25 } }}
+                  className="glass-card rounded-3xl p-8 md:p-10 shadow-xl flex flex-col justify-between hover:shadow-2xl transition-all relative overflow-hidden group border border-white/10"
+                >
+                  <CardPattern pattern="circuit" glowColor={study.accentGlow} />
 
-                  <div className="mt-6 pt-6 border-t border-slate-100 dark:border-emerald-900/30 space-y-3">
-                    <h4 className="text-[10px] font-mono font-bold text-slate-400 dark:text-emerald-300/60 uppercase">Verified Results</h4>
-                    <div className="grid grid-cols-3 gap-2">
+                  <div className="relative z-10">
+                    <div className="flex items-center justify-between mb-4">
+                      <span className={`px-3 py-1 rounded-full text-xs font-mono font-bold border ${study.badgeColor}`}>
+                        {study.domain}
+                      </span>
+                      <span className="text-xs text-slate-500 dark:text-zinc-400 font-medium">
+                        {study.client}
+                      </span>
+                    </div>
+
+                    <div className="flex items-start gap-4 mb-4">
+                      <div className="w-12 h-12 rounded-2xl bg-white/10 dark:bg-white/5 border border-white/10 flex items-center justify-center shrink-0 text-[#059669] dark:text-[#10E599]">
+                        <Icon className="w-6 h-6" />
+                      </div>
+                      <h3 className="text-2xl font-black text-slate-900 dark:text-white leading-snug">
+                        {study.title}
+                      </h3>
+                    </div>
+
+                    <p className="text-sm text-slate-600 dark:text-zinc-300 leading-relaxed font-normal mb-6">
+                      {study.summary}
+                    </p>
+
+                    {/* Metrics Grid */}
+                    <div className="grid grid-cols-3 gap-3 mb-6">
                       {study.metrics.map((m, mi) => (
-                        <div key={mi} className="bg-emerald-500/5 dark:bg-emerald-950/40 p-2.5 rounded-xl text-center border border-emerald-500/20">
-                          <p className="text-base font-black text-[#059669] dark:text-[#10E599] font-mono">{m.value}</p>
-                          <p className="text-[9px] font-bold text-slate-500 dark:text-emerald-300/60 uppercase mt-0.5">{m.label}</p>
+                        <div key={mi} className="bg-slate-100 dark:bg-zinc-900/60 p-3 rounded-2xl text-center border border-slate-200 dark:border-white/5">
+                          <p className="text-lg sm:text-xl font-black text-[#059669] dark:text-[#10E599] font-mono">{m.value}</p>
+                          <p className="text-[10px] font-bold text-slate-500 dark:text-zinc-400 uppercase mt-0.5">{m.label}</p>
                         </div>
                       ))}
                     </div>
-                  </div>
-                </div>
 
-                <div className="mt-8 pt-6 border-t border-slate-100 dark:border-emerald-900/30 flex items-center justify-between">
-                  <span className="text-xs font-mono font-bold text-slate-700 dark:text-emerald-50">{study.solution}</span>
-                  <Link href="/contact" className="w-8 h-8 rounded-full bg-emerald-500/10 flex items-center justify-center text-[#059669] dark:text-[#10E599] hover:bg-[#059669] hover:text-slate-950 transition-colors">
-                    <ArrowUpRight className="w-4 h-4" />
-                  </Link>
-                </div>
-              </motion.div>
-            ))}
+                    {/* Tech Stack Pills */}
+                    <div className="flex flex-wrap gap-1.5 pt-4 border-t border-slate-200 dark:border-white/10">
+                      {study.techStack.map((tech) => (
+                        <span key={tech} className="px-2.5 py-1 bg-white/60 dark:bg-white/5 border border-slate-200 dark:border-white/10 text-slate-600 dark:text-zinc-400 rounded-lg text-xs font-mono">
+                          {tech}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="relative z-10 mt-8 pt-6 border-t border-slate-200 dark:border-white/10 flex items-center justify-between">
+                    <span className="text-xs font-mono font-bold text-[#059669] dark:text-[#10E599] flex items-center gap-1.5">
+                      <CheckCircle2 className="w-4 h-4" />
+                      Audited Production Deployment
+                    </span>
+                    <Link 
+                      href="/contact" 
+                      className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-emerald-500/10 hover:bg-[#059669] text-[#059669] dark:text-[#10E599] hover:text-white transition-all text-xs font-bold"
+                    >
+                      <span>Inquire Blueprint</span>
+                      <ArrowUpRight className="w-3.5 h-3.5" />
+                    </Link>
+                  </div>
+                </motion.div>
+              );
+            })}
           </div>
         </section>
 

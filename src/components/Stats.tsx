@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { motion, useInView, animate } from "framer-motion";
-import { Tractor, Gauge, TrendingUp, Globe2, type LucideIcon } from "lucide-react";
+import { Award, Gauge, TrendingUp, Cpu, type LucideIcon } from "lucide-react";
 import { CardPattern } from "@/components/ui/CardPattern";
 
 type Stat = {
@@ -14,10 +14,10 @@ type Stat = {
 };
 
 const STATS: Stat[] = [
-  { icon: Tractor, value: 500, suffix: "+", label: "Farms Empowered" },
-  { icon: Gauge, value: 99.9, suffix: "%", decimals: 1, label: "Platform Reliability" },
-  { icon: TrendingUp, value: 20, suffix: "%", label: "Avg. Yield Increase" },
-  { icon: Globe2, value: 12, suffix: "", label: "Regions Served" },
+  { icon: Award, value: 9, suffix: "+", label: "Enterprise Projects" },
+  { icon: Gauge, value: 98.2, suffix: "%", decimals: 1, label: "Diagnostic Accuracy" },
+  { icon: TrendingUp, value: 60, suffix: "%", label: "Workload Reduction" },
+  { icon: Cpu, value: 6, suffix: "", label: "Core AI Domains" },
 ];
 
 function Counter({ value, suffix, decimals = 0 }: Omit<Stat, "icon" | "label">) {
@@ -62,10 +62,10 @@ export default function Stats() {
           />
           <div className="relative z-10 mx-auto max-w-xl text-center mb-12">
             <p className="text-xs font-mono font-bold uppercase tracking-wider text-[#059669] dark:text-[#10E599]">
-              Impact, Measured &bull; Real Estate Telemetry
+              Impact, Measured &bull; Enterprise AI Telemetry
             </p>
             <h2 className="mt-2 text-3xl sm:text-4xl font-black tracking-tight text-[#071326] dark:text-white">
-              Numbers our partners grow by.
+              Numbers our enterprise partners scale by.
             </h2>
           </div>
 

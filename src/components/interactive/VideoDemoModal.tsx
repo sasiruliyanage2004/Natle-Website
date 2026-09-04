@@ -78,8 +78,8 @@ export default function VideoDemoModal({ isOpen, onClose }: VideoDemoModalProps)
                   <Sparkles className="w-4 h-4" />
                 </div>
                 <div>
-                  <h3 className="text-sm font-black text-white">NATLE FieldOS™ &times; Hosma Ceylon</h3>
-                  <p className="text-[11px] text-slate-400 font-mono">Commercial Agronomy &amp; Telemetry Showcase</p>
+                  <h3 className="text-sm font-black text-white">NATLE FieldOS™ &bull; Enterprise Agriculture AI</h3>
+                  <p className="text-[11px] text-slate-400 font-mono">Autonomous Edge Telemetry &amp; Yield Optimization</p>
                 </div>
               </div>
 
@@ -154,7 +154,7 @@ export default function VideoDemoModal({ isOpen, onClose }: VideoDemoModalProps)
               <div className="flex items-center gap-6 text-slate-400 font-mono">
                 <span className="flex items-center gap-1.5 text-emerald-400">
                   <CheckCircle2 className="w-3.5 h-3.5" />
-                  <span>Hosma Ceylon Low-EC Certified</span>
+                  <span>FieldOS™ Autonomous Telemetry Certified</span>
                 </span>
                 <span className="hidden sm:inline">&bull;</span>
                 <span className="hidden sm:inline">LoRaWAN Sub-GHz Mesh</span>

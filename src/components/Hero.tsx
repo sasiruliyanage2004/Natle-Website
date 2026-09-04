@@ -5,11 +5,16 @@ import { motion, type Variants } from "framer-motion";
 import { 
   ArrowRight, 
   PlayCircle, 
-  Leaf, 
+  Activity, 
+  Sprout, 
+  ShoppingBag, 
+  GraduationCap, 
+  Users, 
   Cpu, 
   ShieldCheck, 
   Sparkles,
-  Radio 
+  Lock,
+  CheckCircle2
 } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
@@ -36,12 +41,21 @@ const riseVariants: Variants = {
   },
 };
 
-const partnerLogos = [
-  { name: "Hosma Ceylon", icon: Leaf, desc: "100% Organic Substrates" },
-  { name: "LoRaWAN Alliance", icon: Radio, desc: "15km Wireless Mesh" },
-  { name: "GlobalG.A.P", icon: ShieldCheck, desc: "Export Certified" },
-  { name: "OMRI Listed", icon: Sparkles, desc: "Organic Materials" },
-  { name: "Next.js Cloud", icon: Cpu, desc: "Sub-50ms Telemetry" },
+const complianceBadges = [
+  { name: "SOC 2 Type II", icon: ShieldCheck, desc: "Audited Security" },
+  { name: "HIPAA Compliant", icon: Lock, desc: "Clinical Grade" },
+  { name: "GDPR Ready", icon: ShieldCheck, desc: "Privacy First" },
+  { name: "ISO 27001", icon: CheckCircle2, desc: "Information Security" },
+  { name: "Avg. ROI < 90 Days", icon: Sparkles, desc: "Rapid Time to Value" },
+];
+
+const domainPills = [
+  { name: "Healthcare AI", href: "/services#healthcare-ai", icon: Activity },
+  { name: "Agriculture AI", href: "/services#agriculture-ai", icon: Sprout },
+  { name: "Point of Sales", href: "/services#pos-systems", icon: ShoppingBag },
+  { name: "EdTech Platform", href: "/services#edtech-ai", icon: GraduationCap },
+  { name: "Human Resources", href: "/services#human-resources-ai", icon: Users },
+  { name: "Custom AI", href: "/services#custom-ai-solutions", icon: Cpu },
 ];
 
 export default function Hero() {
@@ -72,32 +86,58 @@ export default function Hero() {
           >
             <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
             <span className="text-xs font-bold text-emerald-700 dark:text-emerald-400 tracking-wider uppercase font-mono">
-              HOSMA CEYLON HERITAGE &times; NEXT-GEN TELEMETRY
+              ENTERPRISE ARTIFICIAL INTELLIGENCE &times; PRODUCTION-GRADE SYSTEMS
             </span>
           </motion.div>
 
-          {/* Magic UI 2-Line VideoText Headline (No Clipping, Perfectly Centered) */}
+          {/* Magic UI 2-Line VideoText Headline */}
           <motion.div variants={riseVariants} className="w-full flex flex-col items-center justify-center text-center mb-2">
             <VideoText
               src="/videos/agriculture-crop-field.webm"
-              line1="Empowering"
-              line2="Agriculture"
+              line1="Transforming"
+              line2="Industries"
               align="center"
               className="w-full max-w-4xl mx-auto justify-center text-center"
             />
 
             <span className="font-serif italic font-normal gradient-text text-4xl sm:text-5xl md:text-6xl lg:text-7xl block mt-2 pb-1 text-center">
-              with Next-Gen Code.
+              with Artificial Intelligence.
             </span>
           </motion.div>
 
           {/* Subtitle */}
           <motion.p
             variants={riseVariants}
-            className="mt-6 text-base sm:text-lg md:text-xl text-slate-700 dark:text-zinc-400 max-w-3xl leading-relaxed font-normal"
+            className="mt-6 text-base sm:text-lg md:text-xl text-slate-700 dark:text-zinc-300 max-w-3xl leading-relaxed font-normal"
           >
-            Atmospheric intelligence meets precision Ceylon coconut substrates. We fuse wireless LoRaWAN soil telemetry with distributed cloud software to maximize harvest yields autonomously.
+            NATLE delivers production-grade, scalable AI platforms that transform how enterprises operate, compete, and grow — with deep specialized solutions across Healthcare, Agriculture, Retail POS, Education, and HR.
           </motion.p>
+
+          {/* Key Metrics Strip */}
+          <motion.div
+            variants={riseVariants}
+            className="mt-8 flex flex-wrap items-center justify-center gap-6 sm:gap-10 py-3 px-6 rounded-2xl bg-white/70 dark:bg-white/5 border border-slate-200 dark:border-white/10 backdrop-blur-md shadow-sm"
+          >
+            <div className="text-center">
+              <span className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white font-mono">9+</span>
+              <p className="text-[10px] font-mono uppercase tracking-wider text-slate-500 dark:text-zinc-400">Delivered Projects</p>
+            </div>
+            <div className="w-px h-8 bg-slate-200 dark:bg-white/10 hidden sm:block" />
+            <div className="text-center">
+              <span className="text-2xl sm:text-3xl font-black text-[#059669] dark:text-[#10E599] font-mono">26+</span>
+              <p className="text-[10px] font-mono uppercase tracking-wider text-slate-500 dark:text-zinc-400">In Pipeline</p>
+            </div>
+            <div className="w-px h-8 bg-slate-200 dark:bg-white/10 hidden sm:block" />
+            <div className="text-center">
+              <span className="text-2xl sm:text-3xl font-black text-indigo-600 dark:text-indigo-400 font-mono">6</span>
+              <p className="text-[10px] font-mono uppercase tracking-wider text-slate-500 dark:text-zinc-400">Industry Domains</p>
+            </div>
+            <div className="w-px h-8 bg-slate-200 dark:bg-white/10 hidden sm:block" />
+            <div className="text-center">
+              <span className="text-2xl sm:text-3xl font-black text-cyan-600 dark:text-cyan-400 font-mono">100%</span>
+              <p className="text-[10px] font-mono uppercase tracking-wider text-slate-500 dark:text-zinc-400">Data Security</p>
+            </div>
+          </motion.div>
 
           {/* Action CTA Buttons */}
           <motion.div
@@ -105,68 +145,46 @@ export default function Hero() {
             className="mt-8 flex flex-wrap items-center justify-center gap-4"
           >
             <Link
-              href="/contact"
+              href="/services"
               className="gradient-btn group inline-flex items-center gap-2.5 rounded-full px-8 py-4 text-sm font-bold shadow-xl transition-all hover:scale-105 active:scale-95"
             >
-              <span>SCHEDULE FARM ASSESSMENT</span>
+              <span>EXPLORE AI PLATFORMS</span>
               <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
             </Link>
-            <button
-              onClick={() => setIsVideoOpen(true)}
+            <Link
+              href="/contact"
               className="tech-btn inline-flex items-center gap-2 rounded-full px-8 py-4 text-sm font-bold shadow-sm transition-all hover:scale-105 cursor-pointer"
             >
-              <PlayCircle className="h-4 w-4 text-[#059669] dark:text-[#10E599]" />
-              <span>Watch 60s FieldOS Demo</span>
-            </button>
+              <ShieldCheck className="h-4 w-4 text-[#059669] dark:text-[#10E599]" />
+              <span>Talk to a Specialist</span>
+            </Link>
           </motion.div>
 
           <VideoDemoModal isOpen={isVideoOpen} onClose={() => setIsVideoOpen(false)} />
 
-          {/* Dual-Buyer Intent Visual Fork */}
+          {/* 6 AI Domains Quick Pills */}
           <motion.div
             variants={riseVariants}
-            className="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-3.5 max-w-xl w-full"
+            className="mt-8 flex flex-wrap items-center justify-center gap-2 max-w-2xl"
           >
-            {/* Substrate Procurement Pathway */}
-            <a
-              href="#configurator"
-              className="bg-white/95 dark:bg-[#0c140d]/90 rounded-2xl p-4 flex items-center gap-3.5 text-left border border-slate-200/90 dark:border-emerald-500/20 shadow-[0_4px_20px_rgba(0,0,0,0.04)] dark:shadow-none hover:border-emerald-500 hover:shadow-lg hover:scale-[1.02] transition-all group cursor-pointer"
-            >
-              <div className="w-10 h-10 rounded-xl bg-emerald-500/15 text-[#059669] dark:text-[#10E599] flex items-center justify-center shrink-0 shadow-xs">
-                <Leaf className="w-5 h-5" />
-              </div>
-              <div>
-                <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-emerald-700 dark:text-[#10E599]">
-                  Procurement &bull; Substrates
-                </span>
-                <p className="text-xs font-bold text-slate-900 dark:text-white group-hover:text-[#059669] dark:group-hover:text-[#10E599] transition-colors">
-                  Order 40ft Cocopeat Containers &rarr;
-                </p>
-              </div>
-            </a>
-
-            {/* FieldOS Technology Pathway */}
-            <Link
-              href="/solutions#field-os"
-              className="bg-white/95 dark:bg-[#0c140d]/90 rounded-2xl p-4 flex items-center gap-3.5 text-left border border-slate-200/90 dark:border-cyan-500/20 shadow-[0_4px_20px_rgba(0,0,0,0.04)] dark:shadow-none hover:border-[#0052FF] hover:shadow-lg hover:scale-[1.02] transition-all group cursor-pointer"
-            >
-              <div className="w-10 h-10 rounded-xl bg-blue-500/15 text-[#0052FF] dark:text-cyan-400 flex items-center justify-center shrink-0 shadow-xs">
-                <Cpu className="w-5 h-5" />
-              </div>
-              <div>
-                <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-[#0052FF] dark:text-cyan-400">
-                  AgriTech &bull; IoT Software
-                </span>
-                <p className="text-xs font-bold text-slate-900 dark:text-white group-hover:text-[#0052FF] dark:group-hover:text-cyan-400 transition-colors">
-                  Explore FieldOS™ Platform &rarr;
-                </p>
-              </div>
-            </Link>
+            {domainPills.map((d) => {
+              const Icon = d.icon;
+              return (
+                <Link
+                  key={d.name}
+                  href={d.href}
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/90 dark:bg-zinc-900/80 border border-slate-200 dark:border-white/10 text-xs font-semibold text-slate-700 dark:text-zinc-300 hover:border-[#059669] dark:hover:border-[#10E599] hover:text-[#059669] transition-all shadow-xs"
+                >
+                  <Icon className="w-3.5 h-3.5 text-[#059669] dark:text-[#10E599]" />
+                  <span>{d.name}</span>
+                </Link>
+              );
+            })}
           </motion.div>
         </motion.div>
 
 
-        {/* ================= UNIFIED ISOMETRIC SHOWCASE: THE CLOUD & THE FIELD ================= */}
+        {/* ================= UNIFIED SHOWCASE: INTELLIGENT ENTERPRISE PLATFORM ================= */}
         <motion.div
           initial={{ opacity: 0, y: 30, scale: 0.98 }}
           whileInView={{ opacity: 1, y: 0, scale: 1 }}
@@ -177,76 +195,76 @@ export default function Hero() {
           <div className="relative aspect-[16/9] w-full overflow-hidden bg-slate-950">
             <Image
               src="/images/chatgpt-fusion.png"
-              alt="NATLE FieldOS Next.js Cloud Dashboard & Precision Ceylon Smart Greenhouse Telemetry"
+              alt="NATLE AI Enterprise Cloud Architecture & Multi-Domain Model Telemetry"
               fill
               priority
               className="object-cover object-center transition-transform duration-700 ease-out group-hover:scale-[1.02]"
             />
 
-            {/* Subtle High-Contrast Gradient Overlays for Razor-Sharp Text Readability */}
+            {/* Subtle High-Contrast Gradient Overlays */}
             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/30 pointer-events-none" />
 
-            {/* Top Left Floating Ecosystem Badge */}
+            {/* Top Left Floating Platform Badge */}
             <div className="absolute top-4 left-4 sm:top-5 sm:left-5 z-20 inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-950/85 border border-white/15 backdrop-blur-md shadow-lg">
               <span className="w-2 h-2 rounded-full bg-[#10E599] animate-pulse" />
               <span className="font-mono text-[10px] sm:text-xs font-bold uppercase tracking-widest text-[#10E599]">
-                NATLE FIELDOS™ &bull; THE STACK &times; THE FIELD
+                NATLE AI PLATFORM &bull; v4.2 PRODUCTION READY
               </span>
             </div>
 
-            {/* Bottom Left: The Stack Telemetry Chip */}
+            {/* Bottom Left: Clinical & Vision AI Chip */}
             <div className="absolute bottom-4 left-4 sm:bottom-5 sm:left-5 z-20 flex items-center gap-3 rounded-2xl bg-slate-950/90 border border-white/15 p-3 sm:p-3.5 shadow-2xl backdrop-blur-md">
               <div className="flex h-9 w-9 sm:h-10 sm:w-10 items-center justify-center rounded-xl bg-gradient-to-tr from-[#0052FF] to-[#00D2FF] text-white shadow-md shrink-0">
                 <Cpu className="h-5 w-5" />
               </div>
               <div className="text-left">
-                <p className="text-xs sm:text-sm font-black text-white">Next.js Cloud &times; Go Engine</p>
-                <p className="text-[10px] font-mono font-medium text-slate-300">Sub-50ms LoRa Telemetry Pipeline</p>
+                <p className="text-xs sm:text-sm font-black text-white">Diagnostic Neural Vision</p>
+                <p className="text-[10px] font-mono font-medium text-slate-300">&lt;15ms Latency &bull; 98.2% Accuracy</p>
               </div>
             </div>
 
-            {/* Bottom Right: The Field Agronomy Chip */}
+            {/* Bottom Right: Edge Telemetry Chip */}
             <div className="absolute bottom-4 right-4 sm:bottom-5 sm:right-5 z-20 hidden sm:flex items-center gap-3 rounded-2xl bg-slate-950/90 border border-white/15 p-3 sm:p-3.5 shadow-2xl backdrop-blur-md">
               <div className="flex h-9 w-9 sm:h-10 sm:w-10 items-center justify-center rounded-xl bg-gradient-to-tr from-[#059669] to-[#10E599] text-slate-950 shadow-md shrink-0">
-                <Leaf className="h-5 w-5" />
+                <Sprout className="h-5 w-5" />
               </div>
               <div className="text-left">
-                <p className="text-xs sm:text-sm font-black text-white">Smart Canopy &times; Hosma Organic</p>
-                <p className="text-[10px] font-mono font-bold text-[#10E599]">YieldAI™ Harvest Prediction: +28.4%</p>
+                <p className="text-xs sm:text-sm font-black text-white">FieldOS™ Edge Telemetry</p>
+                <p className="text-[10px] font-mono font-bold text-[#10E599]">50,000 Hectares Live Ingestion</p>
               </div>
             </div>
           </div>
         </motion.div>
 
 
-        {/* ================= PARTNER LOGOS STRIP ================= */}
+        {/* ================= COMPLIANCE & ACCELERATION STRIP ================= */}
         <motion.div
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
-          className="mt-16 text-center border-t border-slate-200/80 dark:border-emerald-900/30 pt-10 w-full"
+          className="mt-16 text-center border-t border-slate-200/80 dark:border-white/10 pt-10 w-full"
         >
           <motion.p
             variants={riseVariants}
-            className="text-xs font-mono font-bold uppercase tracking-widest text-slate-400 dark:text-zinc-500 mb-6"
+            className="text-xs font-mono font-bold uppercase tracking-widest text-slate-500 dark:text-zinc-400 mb-6"
           >
-            Powering Sustainable Commercial Plantations &amp; Global Exports
+            Enterprise Security Standards &bull; Zero-Trust AI Architecture
           </motion.p>
 
-          <div className="flex flex-wrap items-center justify-center gap-6 sm:gap-10">
-            {partnerLogos.map((partner) => {
-              const Icon = partner.icon;
+          <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-8">
+            {complianceBadges.map((badge) => {
+              const Icon = badge.icon;
 
               return (
                 <motion.div
-                  key={partner.name}
+                  key={badge.name}
                   variants={riseVariants}
-                  className="flex items-center gap-2.5 rounded-full border border-white/80 dark:border-emerald-900/40 bg-white/70 dark:bg-[#0a140a]/80 px-4 py-2 shadow-xs backdrop-blur-md hover:border-[#007bff]/40 dark:hover:border-emerald-600/50 hover:bg-white dark:hover:bg-emerald-950/50 transition-all group"
+                  className="flex items-center gap-2.5 rounded-full border border-slate-200 dark:border-white/10 bg-white/80 dark:bg-white/5 px-4 py-2 shadow-xs backdrop-blur-md hover:border-[#059669] transition-all group"
                 >
-                  <Icon className="h-4 w-4 text-[#007bff] dark:text-[#10e599] group-hover:text-[#059669] transition-colors" />
-                  <span className="text-xs font-bold text-slate-800 dark:text-emerald-100/80">
-                    {partner.name}
+                  <Icon className="h-4 w-4 text-[#059669] dark:text-[#10e599]" />
+                  <span className="text-xs font-bold text-slate-800 dark:text-zinc-200">
+                    {badge.name}
                   </span>
                 </motion.div>
               );

@@ -7,8 +7,8 @@ import { defaultBlogPosts } from "@/data/blogPosts";
 import { BookOpen } from "lucide-react";
 
 export const metadata = {
-  title: "Blog & Research | NATLE AgriTech Insights",
-  description: "Read the latest research papers, agronomy field findings, and smart farming engineering guides from the NATLE and Hosma Ceylon team.",
+  title: "Blog & Research | NATLE Enterprise AI Insights",
+  description: "Read the latest engineering whitepapers, clinical diagnostic AI breakthroughs, edge IoT telemetry architectures, and enterprise AI ROI analyses from the NATLE engineering team.",
 };
 
 export default function BlogPage() {
@@ -25,18 +25,18 @@ export default function BlogPage() {
         <section className="pt-36 pb-16 md:pt-48 md:pb-20 text-center max-w-4xl mx-auto px-4">
           <div className="inline-flex items-center gap-2 rounded-full border border-emerald-300/80 bg-white/80 dark:bg-zinc-900/80 px-4 py-1.5 text-xs font-mono font-bold uppercase tracking-wider text-[#059669] dark:text-emerald-400 shadow-sm backdrop-blur-md mb-6">
             <BookOpen className="w-4 h-4 text-[#059669] dark:text-emerald-400" />
-            <span>Agri-Tech Field Notes &bull; Research Lab</span>
+            <span>Enterprise AI &bull; Research &amp; Whitepapers</span>
           </div>
 
           <h1 className="text-5xl sm:text-6xl md:text-7xl font-extrabold text-[#071326] dark:text-white tracking-tight leading-[1.05]">
             Insights on the Future of{" "}
             <span className="font-serif italic font-normal gradient-text">
-              Cultivation.
+              Intelligent Systems.
             </span>
           </h1>
 
           <p className="mt-6 text-lg md:text-xl text-slate-600 dark:text-zinc-400 font-normal leading-relaxed max-w-2xl mx-auto">
-            Explore whitepapers, firmware blueprints, and agronomy research published by our hardware engineers, soil physicists, and AI researchers.
+            Explore whitepapers, machine learning architectures, edge IoT telemetry blueprints, and enterprise case studies published by our AI researchers and architects.
           </p>
         </section>
 

@@ -7,24 +7,24 @@ import Link from "next/link";
 
 const faqs = [
   {
-    q: "How does NATLE IoT telemetry integrate with Hosma Ceylon substrates?",
-    a: "Our wireless LoRaWAN sensors feature specialized stainless-steel multi-depth capacitance prongs calibrated specifically to the water-holding capacity and air porosity of Hosma 100% organic cocopeat. They provide real-time root moisture, EC, and temperature readings with zero substrate disruption.",
+    q: "How does NATLE ensure 100% sovereign data privacy for healthcare & enterprise clients?",
+    a: "We deploy zero-data-retention, air-gapped VPC or on-premise neural inference architectures. Training weights and clinical patient records (DICOM/PACS) never leave your private network, fully compliant with HIPAA, SOC 2 Type II, and GDPR standards.",
   },
   {
-    q: "Do I need technical or coding knowledge to operate FieldOS™?",
-    a: "No. NATLE FieldOS™ is designed with an intuitive, zero-code visual dashboard. You can set irrigation triggers, view satellite NDVI crop maps, and receive automated harvest notifications on any mobile device, tablet, or desktop with 1-click controls.",
+    q: "What inference latency can we expect for real-time edge workloads?",
+    a: "Using TensorRT FP8 quantization and custom C++ edge pipelines, our models deliver sub-15ms inference latency on localized edge hardware for surgical vision, real-time POS fraud prevention, and autonomous agricultural telemetry.",
   },
   {
-    q: "Can we order Hosma Ceylon cocopeat substrates internationally?",
-    a: "Yes. In partnership with Hosma Ceylon (https://hosmaceylon.com), we export 40ft container loads of certified low-EC 5kg blocks, easy-fill disks, and custom-ratio growbags directly from Sri Lanka to over 24 countries worldwide.",
+    q: "Can NATLE AI platforms integrate with legacy hospital PACS and retail ERP systems?",
+    a: "Yes. Our systems feature native connectors for HL7/FHIR, DICOM, SAP, Oracle NetSuite, and major POS protocols. We enable seamless bi-directional synchronization with zero disruption to active workflows.",
   },
   {
-    q: "How long do the wireless field sensor batteries last?",
-    a: "Every NATLE telemetry probe is equipped with ultra-low-power industrial silicon and a built-in micro-solar recharging panel, delivering continuous 5+ year maintenance-free operation under all weather conditions (IP68 certified).",
+    q: "How does Industry 4.0 advisory by Prof. Henrik von Scheel shape your deployments?",
+    a: "Prof. Henrik von Scheel (originator of Industry 4.0) guides our architectural steering committee, ensuring our solutions bridge macroeconomic manufacturing strategy, autonomous digital twins, and bottom-line enterprise ROI.",
   },
   {
-    q: "Are the data and telemetry feeds compliant with GlobalG.A.P and OMRI?",
-    a: "Yes. Our TraceLink™ engine automatically logs every irrigation event, fertilizer EC cycle, and harvest lot onto an immutable, audit-ready compliance ledger that exports GlobalG.A.P and OMRI verification reports in seconds.",
+    q: "What is the typical deployment timeline and ROI payback window?",
+    a: "Production pilot architectures are deployed within 4 to 8 weeks. Across healthcare diagnostic and retail POS deployments, our enterprise partners consistently achieve a verifiable ROI payback within 3 to 6 months.",
   },
 ];
 
@@ -69,7 +69,7 @@ export default function AgentaFAQ() {
             transition={{ delay: 0.15 }}
             className="mt-4 text-base text-slate-600 dark:text-emerald-100/70 leading-relaxed font-normal"
           >
-            Everything you need to know about deploying NATLE smart telemetry and Hosma Ceylon organic substrates.
+            Everything you need to know about deploying NATLE enterprise AI solutions, sovereign architectures, and SLAs.
           </motion.p>
         </div>
 
@@ -132,7 +132,7 @@ export default function AgentaFAQ() {
             href="/contact"
             className="gradient-btn inline-flex items-center gap-2 rounded-full px-8 py-3.5 text-xs font-black uppercase tracking-wider text-slate-950 shadow-md hover:scale-105 transition-all"
           >
-            <span>Have More Questions? Speak to an Agronomist</span>
+            <span>Have More Questions? Consult an AI Architect</span>
             <ArrowRight className="w-4 h-4" />
           </Link>
         </motion.div>

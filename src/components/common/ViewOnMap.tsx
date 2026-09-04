@@ -13,8 +13,8 @@ interface ViewOnMapProps {
 }
 
 export const ViewOnMap: React.FC<ViewOnMapProps> = ({
-  locationName = "NATLE & Hosma Headquarters",
-  address = "World Trade Center, Colombo 01, Sri Lanka",
+  locationName = "NATLE Headquarters",
+  address = "No. 283 1/1, Ruwan Mawatha, Thimbirigasyaya Road, Colombo 05, Sri Lanka",
   mapImageUrl = "https://images.unsplash.com/photo-1526778548025-fa2f459cd5ce?q=80&w=2000&auto=format&fit=crop",
   className = "",
 }) => {
@@ -70,7 +70,7 @@ export const ViewOnMap: React.FC<ViewOnMapProps> = ({
             </div>
 
             <span className="relative z-10 ml-2 rounded-full border border-[#10E599]/30 bg-[#059669]/25 px-2.5 py-0.5 text-[10px] font-mono font-bold text-[#10E599]">
-              Colombo WTC
+              Colombo 05
             </span>
           </motion.div>
         ) : (

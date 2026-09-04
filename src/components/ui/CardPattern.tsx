@@ -5,6 +5,8 @@ import { cn } from "@/lib/utils";
 
 export interface CardPatternProps {
   variant?: "bio-hex" | "circuit" | "topographic" | "telemetry";
+  pattern?: "dots" | "circuit" | "grid" | string;
+  glowColor?: string;
   position?: "top-right" | "bottom-right" | "top-left" | "bottom-left";
   theme?: "colored" | "neutral" | "emerald" | "cyan" | "amber" | "auto";
   className?: string;
@@ -12,10 +14,13 @@ export interface CardPatternProps {
 
 export function CardPattern({
   variant = "bio-hex",
+  pattern,
+  glowColor,
   position = "top-right",
   theme = "auto",
   className,
 }: CardPatternProps) {
+  const activeVariant = pattern === "circuit" ? "circuit" : (pattern === "dots" ? "bio-hex" : variant);
   // Position coordinate classes & gradient mask centers
   const positionConfig = {
     "top-right": {
@@ -70,10 +75,11 @@ export function CardPattern({
         WebkitMaskImage: pos.mask,
         maskImage: pos.mask,
         transform: pos.transform,
+        ...(glowColor ? { color: glowColor } : {}),
       }}
     >
       {/* 1. VARIANT: BIO-HEX (Organic Agronomy Cell Lattice & Telemetry Hexagons) */}
-      {variant === "bio-hex" && (
+      {activeVariant === "bio-hex" && (
         <svg
           viewBox="0 0 320 320"
           fill="none"
@@ -126,7 +132,7 @@ export function CardPattern({
       )}
 
       {/* 2. VARIANT: CIRCUIT (IoT LoRaWAN Sensor Traces & Printed Micro-Lattice) */}
-      {variant === "circuit" && (
+      {activeVariant === "circuit" && (
         <svg
           viewBox="0 0 320 320"
           fill="none"
@@ -176,7 +182,7 @@ export function CardPattern({
       )}
 
       {/* 3. VARIANT: TOPOGRAPHIC (Ceylon Soil Elevation & Hydro Contours) */}
-      {variant === "topographic" && (
+      {activeVariant === "topographic" && (
         <svg
           viewBox="0 0 320 320"
           fill="none"
@@ -206,7 +212,7 @@ export function CardPattern({
       )}
 
       {/* 4. VARIANT: TELEMETRY (Precision Crosshairs & Coordinates) */}
-      {variant === "telemetry" && (
+      {activeVariant === "telemetry" && (
         <svg
           viewBox="0 0 320 320"
           fill="none"
