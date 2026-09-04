@@ -1,278 +1,223 @@
 "use client";
 
-import React, { useState } from "react";
-import { motion, type Variants } from "framer-motion";
-import { 
-  ArrowRight, 
-  PlayCircle, 
-  Activity, 
-  Sprout, 
-  ShoppingBag, 
-  GraduationCap, 
-  Users, 
-  Cpu, 
-  ShieldCheck, 
-  Sparkles,
-  Lock,
-  CheckCircle2
-} from "lucide-react";
+import React, { useEffect, useRef } from "react";
+import { motion } from "framer-motion";
+import { ArrowRight, ShieldCheck } from "lucide-react";
 import Link from "next/link";
-import Image from "next/image";
-import { VideoText } from "@/components/magicui/video-text";
-import VideoDemoModal from "@/components/interactive/VideoDemoModal";
-
-const containerVariants: Variants = {
-  hidden: {},
-  visible: {
-    transition: {
-      staggerChildren: 0.12,
-      delayChildren: 0.1,
-    },
-  },
-};
-
-const riseVariants: Variants = {
-  hidden: { opacity: 0, y: 24, filter: "blur(8px)" },
-  visible: {
-    opacity: 1,
-    y: 0,
-    filter: "blur(0px)",
-    transition: { type: "spring", bounce: 0.2, duration: 1.0 },
-  },
-};
-
-const complianceBadges = [
-  { name: "SOC 2 Type II", icon: ShieldCheck, desc: "Audited Security" },
-  { name: "HIPAA Compliant", icon: Lock, desc: "Clinical Grade" },
-  { name: "GDPR Ready", icon: ShieldCheck, desc: "Privacy First" },
-  { name: "ISO 27001", icon: CheckCircle2, desc: "Information Security" },
-  { name: "Avg. ROI < 90 Days", icon: Sparkles, desc: "Rapid Time to Value" },
-];
-
-const domainPills = [
-  { name: "Healthcare AI", href: "/services#healthcare-ai", icon: Activity },
-  { name: "Agriculture AI", href: "/services#agriculture-ai", icon: Sprout },
-  { name: "Point of Sales", href: "/services#pos-systems", icon: ShoppingBag },
-  { name: "EdTech Platform", href: "/services#edtech-ai", icon: GraduationCap },
-  { name: "Human Resources", href: "/services#human-resources-ai", icon: Users },
-  { name: "Custom AI", href: "/services#custom-ai-solutions", icon: Cpu },
-];
+import * as THREE from "three";
 
 export default function Hero() {
-  const [isVideoOpen, setIsVideoOpen] = useState(false);
+  const mountRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!mountRef.current) return;
+
+    // Three.js Setup
+    const scene = new THREE.Scene();
+    
+    // Camera
+    const camera = new THREE.PerspectiveCamera(45, 1, 0.1, 1000);
+    camera.position.z = 2.5;
+
+    // Renderer
+    const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+    renderer.setSize(500, 500);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    mountRef.current.appendChild(renderer.domElement);
+
+    // Neural Network Sphere Geometry
+    const nodes: THREE.Vector3[] = [];
+    const numNodes = 80;
+    const phi = Math.PI * (3 - Math.sqrt(5)); // golden angle
+
+    for (let i = 0; i < numNodes; i++) {
+      const y = 1 - (i / (numNodes - 1)) * 2;
+      const radius = Math.sqrt(1 - y * y);
+      const theta = phi * i;
+
+      const x = Math.cos(theta) * radius;
+      const z = Math.sin(theta) * radius;
+      nodes.push(new THREE.Vector3(x, y, z));
+    }
+
+    // Node Material
+    const nodeGeometry = new THREE.SphereGeometry(0.06, 16, 16);
+    const nodeMaterial = new THREE.MeshBasicMaterial({ color: 0x0ea5e9, transparent: true, opacity: 0.9 });
+    
+    const nodeGroup = new THREE.Group();
+    scene.add(nodeGroup);
+
+    nodes.forEach(pos => {
+      const mesh = new THREE.Mesh(nodeGeometry, nodeMaterial);
+      mesh.position.copy(pos);
+      nodeGroup.add(mesh);
+    });
+
+    // Edges
+    const edgesMaterial = new THREE.LineBasicMaterial({ color: 0x1a3a8f, transparent: true, opacity: 0.4 });
+    const lineGeometry = new THREE.BufferGeometry();
+    const positions: number[] = [];
+
+    for (let i = 0; i < nodes.length; i++) {
+      for (let j = i + 1; j < nodes.length; j++) {
+        const dist = nodes[i].distanceTo(nodes[j]);
+        if (dist < 0.8) {
+          positions.push(nodes[i].x, nodes[i].y, nodes[i].z);
+          positions.push(nodes[j].x, nodes[j].y, nodes[j].z);
+        }
+      }
+    }
+
+    lineGeometry.setAttribute("position", new THREE.Float32BufferAttribute(positions, 3));
+    const lines = new THREE.LineSegments(lineGeometry, edgesMaterial);
+    nodeGroup.add(lines);
+
+    // Outer Glow Nodes
+    const glowGeometry = new THREE.SphereGeometry(0.1, 16, 16);
+    const glowMaterial = new THREE.MeshBasicMaterial({ color: 0x5aec8f, transparent: true, opacity: 0.8 });
+    for(let i = 0; i < 12; i++) {
+      const mesh = new THREE.Mesh(glowGeometry, glowMaterial);
+      mesh.position.copy(nodes[Math.floor(Math.random() * nodes.length)]);
+      nodeGroup.add(mesh);
+    }
+
+    // Lights
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+    scene.add(ambientLight);
+    const pointLight = new THREE.PointLight(0x0ea5e9, 2);
+    pointLight.position.set(2, 2, 2);
+    scene.add(pointLight);
+
+    // Mouse Interaction
+    let targetRotationX = 0;
+    let targetRotationY = 0;
+
+    const onMouseMove = (event: MouseEvent) => {
+      const rect = renderer.domElement.getBoundingClientRect();
+      const x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
+      const y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
+      targetRotationX = y * 0.3;
+      targetRotationY = x * 0.3;
+    };
+    window.addEventListener("mousemove", onMouseMove);
+
+    // Animation Loop
+    let animationFrameId: number;
+    const render = () => {
+      nodeGroup.rotation.y += 0.003;
+      nodeGroup.rotation.x += (targetRotationX - nodeGroup.rotation.x) * 0.05;
+      nodeGroup.rotation.y += (targetRotationY - nodeGroup.rotation.y) * 0.05;
+      renderer.render(scene, camera);
+      animationFrameId = requestAnimationFrame(render);
+    };
+    render();
+
+    return () => {
+      window.removeEventListener("mousemove", onMouseMove);
+      cancelAnimationFrame(animationFrameId);
+      if (mountRef.current) mountRef.current.removeChild(renderer.domElement);
+      renderer.dispose();
+      nodeGeometry.dispose();
+      nodeMaterial.dispose();
+      edgesMaterial.dispose();
+      glowGeometry.dispose();
+      glowMaterial.dispose();
+    };
+  }, []);
 
   return (
-    <section className="relative isolate w-full overflow-hidden bg-transparent font-sans antialiased pt-36 pb-16 md:pt-44 md:pb-20 select-none transition-colors duration-300">
-      
-      {/* Light Mode Radial Glow with soft radial fade mask */}
-      <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden [mask-image:radial-gradient(ellipse_at_center,black_40%,transparent_75%)]">
-        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[950px] h-[600px] rounded-full bg-gradient-to-tr from-[#007bff]/10 via-[#00d2ff]/10 to-[#00c9a7]/15 blur-[120px] dark:from-[#059669]/15 dark:via-[#10e599]/8 dark:to-transparent" />
-      </div>
+    <section className="relative w-full min-h-screen overflow-hidden bg-[#070d24] flex items-center pt-24 pb-16 dot-grid-bg">
+      {/* Aurora FX */}
+      <div className="aurora-blob-blue w-[600px] h-[600px] -top-32 -left-32"></div>
+      <div className="aurora-blob-cyan w-[500px] h-[500px] top-10 right-0 opacity-50"></div>
+      <div className="aurora-blob-lime w-[400px] h-[400px] bottom-0 left-1/2 -translate-x-1/2 opacity-30"></div>
 
-      <div className="mx-auto max-w-5xl px-4 md:px-8 text-center flex flex-col items-center justify-center">
-        
-        {/* ================= HERO CONTENT ================= */}
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.3 }}
-          className="flex flex-col items-center text-center max-w-4xl mx-auto w-full"
-        >
-          {/* Top Badge */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full relative z-10">
+        <div className="grid lg:grid-cols-2 gap-12 lg:gap-8 items-center">
+          
+          {/* Left Column: Content */}
           <motion.div
-            variants={riseVariants}
-            className="inline-flex items-center gap-2 bg-white/80 dark:bg-[#0a140a]/90 backdrop-blur-md border border-emerald-200/90 dark:border-emerald-800/50 rounded-full px-4 py-1.5 mb-6 shadow-sm"
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            className="flex flex-col items-center lg:items-start text-center lg:text-left"
           >
-            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-            <span className="text-xs font-bold text-emerald-700 dark:text-emerald-400 tracking-wider uppercase font-mono">
-              ENTERPRISE ARTIFICIAL INTELLIGENCE &times; PRODUCTION-GRADE SYSTEMS
-            </span>
-          </motion.div>
-
-          {/* Magic UI 2-Line VideoText Headline */}
-          <motion.div variants={riseVariants} className="w-full flex flex-col items-center justify-center text-center mb-2">
-            <VideoText
-              src="/videos/agriculture-crop-field.webm"
-              line1="Transforming"
-              line2="Industries"
-              align="center"
-              className="w-full max-w-4xl mx-auto justify-center text-center"
-            />
-
-            <span className="font-serif italic font-normal gradient-text text-4xl sm:text-5xl md:text-6xl lg:text-7xl block mt-2 pb-1 text-center">
-              with Artificial Intelligence.
-            </span>
-          </motion.div>
-
-          {/* Subtitle */}
-          <motion.p
-            variants={riseVariants}
-            className="mt-6 text-base sm:text-lg md:text-xl text-slate-700 dark:text-zinc-300 max-w-3xl leading-relaxed font-normal"
-          >
-            NATLE delivers production-grade, scalable AI platforms that transform how enterprises operate, compete, and grow — with deep specialized solutions across Healthcare, Agriculture, Retail POS, Education, and HR.
-          </motion.p>
-
-          {/* Key Metrics Strip */}
-          <motion.div
-            variants={riseVariants}
-            className="mt-8 flex flex-wrap items-center justify-center gap-6 sm:gap-10 py-3 px-6 rounded-2xl bg-white/70 dark:bg-white/5 border border-slate-200 dark:border-white/10 backdrop-blur-md shadow-sm"
-          >
-            <div className="text-center">
-              <span className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white font-mono">9+</span>
-              <p className="text-[10px] font-mono uppercase tracking-wider text-slate-500 dark:text-zinc-400">Delivered Projects</p>
+            <div className="inline-flex items-center gap-2 rounded-full border border-[#0ea5e9]/30 bg-[#0ea5e9]/10 px-4 py-1.5 text-xs font-mono font-bold uppercase tracking-wider text-[#0ea5e9] mb-6">
+              ?? Enterprise AI Platform
             </div>
-            <div className="w-px h-8 bg-slate-200 dark:bg-white/10 hidden sm:block" />
-            <div className="text-center">
-              <span className="text-2xl sm:text-3xl font-black text-[#059669] dark:text-[#10E599] font-mono">26+</span>
-              <p className="text-[10px] font-mono uppercase tracking-wider text-slate-500 dark:text-zinc-400">In Pipeline</p>
-            </div>
-            <div className="w-px h-8 bg-slate-200 dark:bg-white/10 hidden sm:block" />
-            <div className="text-center">
-              <span className="text-2xl sm:text-3xl font-black text-indigo-600 dark:text-indigo-400 font-mono">6</span>
-              <p className="text-[10px] font-mono uppercase tracking-wider text-slate-500 dark:text-zinc-400">Industry Domains</p>
-            </div>
-            <div className="w-px h-8 bg-slate-200 dark:bg-white/10 hidden sm:block" />
-            <div className="text-center">
-              <span className="text-2xl sm:text-3xl font-black text-cyan-600 dark:text-cyan-400 font-mono">100%</span>
-              <p className="text-[10px] font-mono uppercase tracking-wider text-slate-500 dark:text-zinc-400">Data Security</p>
-            </div>
-          </motion.div>
-
-          {/* Action CTA Buttons */}
-          <motion.div
-            variants={riseVariants}
-            className="mt-8 flex flex-wrap items-center justify-center gap-4"
-          >
-            <Link
-              href="/services"
-              className="gradient-btn group inline-flex items-center gap-2.5 rounded-full px-8 py-4 text-sm font-bold shadow-xl transition-all hover:scale-105 active:scale-95"
-            >
-              <span>EXPLORE AI PLATFORMS</span>
-              <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-            </Link>
-            <Link
-              href="/contact"
-              className="tech-btn inline-flex items-center gap-2 rounded-full px-8 py-4 text-sm font-bold shadow-sm transition-all hover:scale-105 cursor-pointer"
-            >
-              <ShieldCheck className="h-4 w-4 text-[#059669] dark:text-[#10E599]" />
-              <span>Talk to a Specialist</span>
-            </Link>
-          </motion.div>
-
-          <VideoDemoModal isOpen={isVideoOpen} onClose={() => setIsVideoOpen(false)} />
-
-          {/* 6 AI Domains Quick Pills */}
-          <motion.div
-            variants={riseVariants}
-            className="mt-8 flex flex-wrap items-center justify-center gap-2 max-w-2xl"
-          >
-            {domainPills.map((d) => {
-              const Icon = d.icon;
-              return (
-                <Link
-                  key={d.name}
-                  href={d.href}
-                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/90 dark:bg-zinc-900/80 border border-slate-200 dark:border-white/10 text-xs font-semibold text-slate-700 dark:text-zinc-300 hover:border-[#059669] dark:hover:border-[#10E599] hover:text-[#059669] transition-all shadow-xs"
-                >
-                  <Icon className="w-3.5 h-3.5 text-[#059669] dark:text-[#10E599]" />
-                  <span>{d.name}</span>
-                </Link>
-              );
-            })}
-          </motion.div>
-        </motion.div>
-
-
-        {/* ================= UNIFIED SHOWCASE: INTELLIGENT ENTERPRISE PLATFORM ================= */}
-        <motion.div
-          initial={{ opacity: 0, y: 30, scale: 0.98 }}
-          whileInView={{ opacity: 1, y: 0, scale: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8, ease: "easeOut", delay: 0.15 }}
-          className="mt-14 relative w-full max-w-5xl rounded-[2rem] sm:rounded-[2.5rem] border border-emerald-500/25 dark:border-emerald-500/30 shadow-[0_20px_50px_rgba(0,0,0,0.12)] dark:shadow-[0_20px_60px_-15px_rgba(0,0,0,0.8),0_0_40px_-10px_rgba(16,229,153,0.15)] overflow-hidden group p-0 bg-transparent"
-        >
-          <div className="relative aspect-[16/9] w-full overflow-hidden bg-slate-950">
-            <Image
-              src="/images/chatgpt-fusion.png"
-              alt="NATLE AI Enterprise Cloud Architecture & Multi-Domain Model Telemetry"
-              fill
-              priority
-              className="object-cover object-center transition-transform duration-700 ease-out group-hover:scale-[1.02]"
-            />
-
-            {/* Subtle High-Contrast Gradient Overlays */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/30 pointer-events-none" />
-
-            {/* Top Left Floating Platform Badge */}
-            <div className="absolute top-4 left-4 sm:top-5 sm:left-5 z-20 inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-950/85 border border-white/15 backdrop-blur-md shadow-lg">
-              <span className="w-2 h-2 rounded-full bg-[#10E599] animate-pulse" />
-              <span className="font-mono text-[10px] sm:text-xs font-bold uppercase tracking-widest text-[#10E599]">
-                NATLE AI PLATFORM &bull; v4.2 PRODUCTION READY
-              </span>
+            
+            <h1 className="font-display text-5xl sm:text-6xl lg:text-7xl font-bold text-[#e8f0fe] leading-tight mb-6">
+              Transforming <span className="gradient-text">Industries</span><br className="hidden sm:block"/>
+              with Artificial <span className="gradient-text">Intelligence</span>
+            </h1>
+            
+            <p className="text-[#94a3b8] text-lg max-w-2xl leading-relaxed mb-8">
+              NATLE delivers intelligent, scalable AI solutions that transform how enterprises operate, compete, and grow across Healthcare, Agriculture, Retail, EdTech, and HR.
+            </p>
+            
+            <div className="flex flex-col sm:flex-row items-center gap-4 mb-12">
+              <Link href="/services" className="gradient-btn px-8 py-4 rounded-full w-full sm:w-auto text-sm">
+                Explore Our Services
+              </Link>
+              <Link href="/contact" className="outline-btn px-8 py-4 rounded-full w-full sm:w-auto flex items-center justify-center gap-2 text-sm">
+                <ShieldCheck className="w-4 h-4" />
+                Talk to a Specialist
+              </Link>
             </div>
 
-            {/* Bottom Left: Clinical & Vision AI Chip */}
-            <div className="absolute bottom-4 left-4 sm:bottom-5 sm:left-5 z-20 flex items-center gap-3 rounded-2xl bg-slate-950/90 border border-white/15 p-3 sm:p-3.5 shadow-2xl backdrop-blur-md">
-              <div className="flex h-9 w-9 sm:h-10 sm:w-10 items-center justify-center rounded-xl bg-gradient-to-tr from-[#0052FF] to-[#00D2FF] text-white shadow-md shrink-0">
-                <Cpu className="h-5 w-5" />
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 w-full max-w-2xl">
+              <div>
+                <div className="text-2xl font-bold font-mono text-[#e8f0fe]">9+</div>
+                <div className="text-xs text-[#64748b] uppercase tracking-wider mt-1">Projects</div>
               </div>
-              <div className="text-left">
-                <p className="text-xs sm:text-sm font-black text-white">Diagnostic Neural Vision</p>
-                <p className="text-[10px] font-mono font-medium text-slate-300">&lt;15ms Latency &bull; 98.2% Accuracy</p>
+              <div>
+                <div className="text-2xl font-bold font-mono text-[#0ea5e9]">98.2%</div>
+                <div className="text-xs text-[#64748b] uppercase tracking-wider mt-1">Accuracy</div>
+              </div>
+              <div>
+                <div className="text-2xl font-bold font-mono text-[#5aec8f]">5</div>
+                <div className="text-xs text-[#64748b] uppercase tracking-wider mt-1">Continents</div>
+              </div>
+              <div>
+                <div className="text-2xl font-bold font-mono text-[#00c9a7]">6</div>
+                <div className="text-xs text-[#64748b] uppercase tracking-wider mt-1">Domains</div>
               </div>
             </div>
+          </motion.div>
 
-            {/* Bottom Right: Edge Telemetry Chip */}
-            <div className="absolute bottom-4 right-4 sm:bottom-5 sm:right-5 z-20 hidden sm:flex items-center gap-3 rounded-2xl bg-slate-950/90 border border-white/15 p-3 sm:p-3.5 shadow-2xl backdrop-blur-md">
-              <div className="flex h-9 w-9 sm:h-10 sm:w-10 items-center justify-center rounded-xl bg-gradient-to-tr from-[#059669] to-[#10E599] text-slate-950 shadow-md shrink-0">
-                <Sprout className="h-5 w-5" />
-              </div>
-              <div className="text-left">
-                <p className="text-xs sm:text-sm font-black text-white">FieldOS™ Edge Telemetry</p>
-                <p className="text-[10px] font-mono font-bold text-[#10E599]">50,000 Hectares Live Ingestion</p>
-              </div>
-            </div>
-          </div>
-        </motion.div>
-
-
-        {/* ================= COMPLIANCE & ACCELERATION STRIP ================= */}
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          className="mt-16 text-center border-t border-slate-200/80 dark:border-white/10 pt-10 w-full"
-        >
-          <motion.p
-            variants={riseVariants}
-            className="text-xs font-mono font-bold uppercase tracking-widest text-slate-500 dark:text-zinc-400 mb-6"
+          {/* Right Column: 3D Neural Sphere */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 1, delay: 0.2 }}
+            className="relative hidden lg:flex items-center justify-center h-[500px]"
           >
-            Enterprise Security Standards &bull; Zero-Trust AI Architecture
-          </motion.p>
-
-          <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-8">
-            {complianceBadges.map((badge) => {
-              const Icon = badge.icon;
-
-              return (
-                <motion.div
-                  key={badge.name}
-                  variants={riseVariants}
-                  className="flex items-center gap-2.5 rounded-full border border-slate-200 dark:border-white/10 bg-white/80 dark:bg-white/5 px-4 py-2 shadow-xs backdrop-blur-md hover:border-[#059669] transition-all group"
-                >
-                  <Icon className="h-4 w-4 text-[#059669] dark:text-[#10e599]" />
-                  <span className="text-xs font-bold text-slate-800 dark:text-zinc-200">
-                    {badge.name}
-                  </span>
-                </motion.div>
-              );
-            })}
-          </div>
-        </motion.div>
-
+            <div ref={mountRef} className="absolute inset-0 flex items-center justify-center" />
+            
+            {/* Floating Domain Badges */}
+            <motion.div className="absolute top-10 left-0 badge-healthcare px-3 py-1.5 rounded-full text-xs font-bold animate-float" style={{ animationDelay: "0s" }}>
+              Healthcare AI
+            </motion.div>
+            <motion.div className="absolute top-20 right-10 badge-agriculture px-3 py-1.5 rounded-full text-xs font-bold animate-float" style={{ animationDelay: "0.5s" }}>
+              AgriTech
+            </motion.div>
+            <motion.div className="absolute bottom-32 left-10 badge-pos px-3 py-1.5 rounded-full text-xs font-bold animate-float" style={{ animationDelay: "1s" }}>
+              POS Systems
+            </motion.div>
+            <motion.div className="absolute top-1/2 -right-4 badge-education px-3 py-1.5 rounded-full text-xs font-bold animate-float" style={{ animationDelay: "1.5s" }}>
+              EdTech
+            </motion.div>
+            <motion.div className="absolute bottom-10 right-20 badge-hr px-3 py-1.5 rounded-full text-xs font-bold animate-float" style={{ animationDelay: "2s" }}>
+              HR Analytics
+            </motion.div>
+            <motion.div className="absolute bottom-20 left-1/4 badge-custom px-3 py-1.5 rounded-full text-xs font-bold animate-float" style={{ animationDelay: "2.5s" }}>
+              Custom AI
+            </motion.div>
+          </motion.div>
+          
+        </div>
       </div>
     </section>
   );
 }
+

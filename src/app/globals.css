@@ -1,5 +1,241 @@
 @import "tailwindcss";
 
+/* ═══════════════════════════════════════════════════════════════════
+   NATLE TECHNOLOGIES — Design System v2.0
+   Theme: Dark Only · Palette: Logo-Extracted Navy-Cyan-Lime
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* ─────────────────────────────────────────
+   Color Tokens (extracted from NATLE logo)
+   ───────────────────────────────────────── */
+:root {
+  /* Backgrounds — Deep Navy Space */
+  --bg-base:        #070d24;
+  --bg-card:        #0d1535;
+  --bg-elevated:    #111c45;
+  --bg-glass:       rgba(13, 21, 53, 0.7);
+
+  /* Logo Brand Colors */
+  --blue-primary:   #1a3a8f;
+  --cyan-secondary: #0ea5e9;
+  --teal-accent:    #00c9a7;
+  --lime-energy:    #5aec8f;
+
+  /* Domain Accents */
+  --healthcare:     #0ea5e9;
+  --agriculture:    #5aec8f;
+  --pos:            #f97316;
+  --education:      #a855f7;
+  --hr:             #14b8a6;
+  --custom-ai:      #f59e0b;
+
+  /* Text */
+  --text-primary:   #e8f0fe;
+  --text-secondary: #94a3b8;
+  --text-muted:     #64748b;
+
+  /* Borders */
+  --border-subtle:  rgba(14, 165, 233, 0.12);
+  --border-active:  rgba(14, 165, 233, 0.4);
+}
+
+/* ─────────────────────────────────────────
+   Base — Permanently Dark
+   ───────────────────────────────────────── */
+html {
+  color-scheme: dark;
+  background-color: #070d24;
+  color: #e8f0fe;
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: #070d24;
+  color: #e8f0fe;
+  font-family: var(--font-sans), system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+::selection {
+  background-color: #0ea5e9;
+  color: #ffffff;
+}
+
+/* ─────────────────────────────────────────
+   Typography
+   ───────────────────────────────────────── */
+.font-display {
+  font-family: var(--font-display), 'Space Grotesk', system-ui, sans-serif;
+}
+
+.font-serif {
+  font-family: var(--font-serif), 'Playfair Display', Georgia, serif;
+}
+
+/* ─────────────────────────────────────────
+   Gradient Text — Logo Colors
+   ───────────────────────────────────────── */
+.gradient-text {
+  background: linear-gradient(90deg, #1a6fd4 0%, #0ea5e9 45%, #5aec8f 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  display: inline-block;
+}
+
+.gradient-text-reverse {
+  background: linear-gradient(90deg, #5aec8f 0%, #0ea5e9 50%, #1a6fd4 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  display: inline-block;
+}
+
+/* ─────────────────────────────────────────
+   Primary CTA Button — Logo Gradient
+   ───────────────────────────────────────── */
+.gradient-btn {
+  background: linear-gradient(135deg, #1a3a8f 0%, #0ea5e9 55%, #5aec8f 100%);
+  color: #ffffff;
+  font-weight: 800;
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow:
+    0 4px 20px -4px rgba(14, 165, 233, 0.45),
+    0 0 0 0 rgba(14, 165, 233, 0);
+}
+
+.gradient-btn:hover {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow:
+    0 12px 36px -6px rgba(14, 165, 233, 0.55),
+    0 4px 16px -4px rgba(90, 236, 143, 0.35);
+}
+
+.gradient-btn:active {
+  transform: translateY(0) scale(0.98);
+}
+
+/* ─────────────────────────────────────────
+   Secondary / Outline Button
+   ───────────────────────────────────────── */
+.outline-btn {
+  background: rgba(14, 165, 233, 0.06);
+  border: 1px solid rgba(14, 165, 233, 0.3);
+  color: #0ea5e9;
+  font-weight: 700;
+  transition: all 0.3s ease;
+}
+
+.outline-btn:hover {
+  background: rgba(14, 165, 233, 0.12);
+  border-color: #0ea5e9;
+  box-shadow: 0 0 20px -4px rgba(14, 165, 233, 0.3);
+  color: #5aec8f;
+}
+
+/* ─────────────────────────────────────────
+   Glass Card — Dark Navy Frost
+   ───────────────────────────────────────── */
+.glass-card {
+  background: rgba(13, 21, 53, 0.65);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(14, 165, 233, 0.12);
+  box-shadow:
+    0 4px 24px -6px rgba(0, 0, 0, 0.6),
+    0 0 0 1px rgba(14, 165, 233, 0.05),
+    inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.glass-card:hover {
+  border-color: rgba(14, 165, 233, 0.3);
+  box-shadow:
+    0 8px 40px -8px rgba(0, 0, 0, 0.7),
+    0 0 30px -8px rgba(14, 165, 233, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+/* ─────────────────────────────────────────
+   Aurora Glow Blobs (background FX)
+   ───────────────────────────────────────── */
+.aurora-blob-blue {
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(26, 58, 143, 0.35) 0%, transparent 70%);
+  filter: blur(80px);
+  pointer-events: none;
+}
+
+.aurora-blob-cyan {
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(14, 165, 233, 0.2) 0%, transparent 70%);
+  filter: blur(100px);
+  pointer-events: none;
+}
+
+.aurora-blob-lime {
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(90, 236, 143, 0.12) 0%, transparent 70%);
+  filter: blur(120px);
+  pointer-events: none;
+}
+
+/* ─────────────────────────────────────────
+   Dot Grid Background Pattern
+   ───────────────────────────────────────── */
+.dot-grid-bg {
+  background-image: radial-gradient(rgba(14, 165, 233, 0.08) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+
+/* ─────────────────────────────────────────
+   Glow Line Divider
+   ───────────────────────────────────────── */
+.glow-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, rgba(14, 165, 233, 0.4) 30%, rgba(90, 236, 143, 0.4) 70%, transparent 100%);
+}
+
+/* ─────────────────────────────────────────
+   Domain Badge Utilities
+   ───────────────────────────────────────── */
+.badge-healthcare { background: rgba(14,165,233,0.12); border: 1px solid rgba(14,165,233,0.3); color: #38bdf8; }
+.badge-agriculture { background: rgba(90,236,143,0.12); border: 1px solid rgba(90,236,143,0.3); color: #5aec8f; }
+.badge-pos { background: rgba(249,115,22,0.12); border: 1px solid rgba(249,115,22,0.3); color: #fb923c; }
+.badge-education { background: rgba(168,85,247,0.12); border: 1px solid rgba(168,85,247,0.3); color: #c084fc; }
+.badge-hr { background: rgba(20,184,166,0.12); border: 1px solid rgba(20,184,166,0.3); color: #2dd4bf; }
+.badge-custom { background: rgba(245,158,11,0.12); border: 1px solid rgba(245,158,11,0.3); color: #fbbf24; }
+
+/* ─────────────────────────────────────────
+   Animations
+   ───────────────────────────────────────── */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-12px); }
+}
+.animate-float { animation: float 4s ease-in-out infinite; }
+
+@keyframes pulse-ring {
+  0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(14,165,233,0.4); }
+  70% { transform: scale(1); box-shadow: 0 0 0 12px rgba(14,165,233,0); }
+  100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(14,165,233,0); }
+}
+.pulse-ring { animation: pulse-ring 2.5s ease infinite; }
+
+/* ─────────────────────────────────────────
+   Scrollbar
+   ───────────────────────────────────────── */
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: #070d24; }
+::-webkit-scrollbar-thumb { background: rgba(14,165,233,0.3); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(14,165,233,0.6); }
+
+
 @custom-variant dark (&:where(.dark, .dark *, [data-theme="dark"], [data-theme="dark"] *));
 
 :root {

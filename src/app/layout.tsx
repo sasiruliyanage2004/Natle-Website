@@ -1,5 +1,5 @@
-import type { Metadata } from "next";
-import { Inter, Playfair_Display } from "next/font/google";
+﻿import type { Metadata } from "next";
+import { Inter, Space_Grotesk, Playfair_Display } from "next/font/google";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import SecurityShield from "@/components/common/SecurityShield";
 import NatleAIAssistant from "@/components/interactive/NatleAIAssistant";
@@ -10,6 +10,12 @@ const inter = Inter({
   variable: "--font-sans"
 });
 
+const spaceGrotesk = Space_Grotesk({ 
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-display"
+});
+
 const playfair = Playfair_Display({ 
   subsets: ["latin"],
   style: ["normal", "italic"],
@@ -18,8 +24,9 @@ const playfair = Playfair_Display({
 });
 
 export const metadata: Metadata = {
-  title: "NATLE | Innovate • Build • Grow",
-  description: "Empowering Agriculture with Next-Gen Intelligence & Software Solutions.",
+  title: "NATLE Technologies | Enterprise AI — Innovate • Build • Grow",
+  description: "NATLE delivers sovereign, HIPAA-compliant enterprise AI across Healthcare, Agriculture, Retail POS, EdTech, and HR. Deployed from Colombo, Sri Lanka to 5 continents.",
+  keywords: "enterprise AI, healthcare AI, agriculture AI, POS intelligence, EdTech AI, HR analytics, NATLE Technologies, Sri Lanka AI company",
   icons: {
     icon: [
       { url: "/icon.svg", type: "image/svg+xml" },
@@ -33,8 +40,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="light scroll-smooth" style={{ colorScheme: "light" }}>
-      <body className={`${inter.variable} ${playfair.variable} font-sans bg-[#F8FAFC] dark:bg-[#050505] text-[#071326] dark:text-white antialiased`}>
+    <html lang="en" className="dark" style={{ colorScheme: "dark" }}>
+      <body className={`${inter.variable} ${spaceGrotesk.variable} ${playfair.variable} font-sans bg-[#070d24] text-[#e8f0fe] antialiased`}>
         <ThemeProvider>
           {children}
           <NatleAIAssistant />

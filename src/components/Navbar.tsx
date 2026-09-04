@@ -3,12 +3,11 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { ArrowRight, Menu, X, Sparkles } from "lucide-react";
+import { ArrowRight, Menu, X } from "lucide-react";
 import clsx from "clsx";
 import { motion, AnimatePresence } from "framer-motion";
 import NatleLogo from "@/components/common/NatleLogo";
 import CommandSearch from "@/components/common/CommandSearch";
-import AnimatedThemeToggler from "@/components/magicui/animated-theme-toggler";
 
 const navRoutes = [
   { name: "Home", path: "/" },
@@ -34,7 +33,7 @@ export default function Navbar() {
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 pt-4 px-4 md:px-8 flex justify-center select-none">
-      <div className="rounded-full px-4 sm:px-6 py-2.5 flex items-center justify-between w-full max-w-7xl bg-white/85 dark:bg-[#070d07]/90 backdrop-blur-xl border border-slate-200/80 dark:border-emerald-500/20 shadow-[0_8px_32px_0_rgba(7,19,38,0.06)] dark:shadow-[0_8px_32px_0_rgba(0,0,0,0.8),0_0_50px_-15px_rgba(16,229,153,0.08)] transition-all">
+      <div className="rounded-full px-4 sm:px-6 py-2.5 flex items-center justify-between w-full max-w-7xl bg-[#0d1535]/80 backdrop-blur-2xl border border-[#0ea5e9]/15 shadow-[0_8px_40px_-10px_rgba(0,0,0,0.8)] transition-all">
         
         {/* ================= ZONE 1: LOGO ================= */}
         <Link href="/" className="flex items-center shrink-0">
@@ -42,7 +41,7 @@ export default function Navbar() {
         </Link>
 
         {/* ================= ZONE 2: CENTER NAV CAPSULE (DESKTOP) ================= */}
-        <nav className="hidden lg:flex items-center bg-slate-100/70 dark:bg-white/[0.05] rounded-full p-1 gap-1 border border-slate-200/70 dark:border-emerald-500/15">
+        <nav className="hidden lg:flex items-center bg-[#111c45]/50 rounded-full p-1 gap-1 border border-[#0ea5e9]/10">
           {navRoutes.map((route) => {
             const isActive = isActiveLink(route.path);
 
@@ -53,8 +52,8 @@ export default function Navbar() {
                 className={clsx(
                   "px-3.5 py-1.5 rounded-full text-xs font-semibold transition-all duration-200",
                   isActive
-                    ? "bg-[#059669] text-white shadow-sm shadow-emerald-600/30 dark:bg-[#059669] dark:text-white"
-                    : "text-slate-600 dark:text-emerald-100/70 hover:text-[#059669] dark:hover:text-[#10e599] hover:bg-white/80 dark:hover:bg-white/10"
+                    ? "bg-gradient-to-r from-[#1a3a8f] to-[#0ea5e9] text-white shadow-sm shadow-[#0ea5e9]/20"
+                    : "text-[#94a3b8] hover:text-[#0ea5e9] hover:bg-white/5"
                 )}
               >
                 <span>{route.name}</span>
@@ -63,28 +62,22 @@ export default function Navbar() {
           })}
         </nav>
 
-        {/* ================= ZONE 3: RIGHT ACTIONS (ALIGNED & CLUTTER-FREE) ================= */}
+        {/* ================= ZONE 3: RIGHT ACTIONS ================= */}
         <div className="flex items-center gap-2 sm:gap-2.5">
           
-          {/* 1. Harmonized Spotlight Command Search */}
           <CommandSearch />
 
-          {/* 2. Magic UI Animated Theme Toggler */}
-          <AnimatedThemeToggler />
-
-          {/* 3. Primary Emerald Action CTA Button */}
           <Link
             href="/contact"
-            className="gradient-btn hidden md:inline-flex items-center gap-2 rounded-full px-5 py-2 text-xs font-black uppercase tracking-wider text-slate-950 shadow-md transition-all duration-300 hover:scale-105 active:scale-95 shrink-0"
+            className="gradient-btn hidden md:inline-flex items-center gap-2 rounded-full px-5 py-2 text-xs font-black uppercase tracking-wider shadow-md transition-all duration-300 shrink-0"
           >
             <span>Request Demo</span>
             <ArrowRight className="h-3.5 w-3.5" />
           </Link>
 
-          {/* Mobile Hamburger Toggle */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="lg:hidden p-2 rounded-full text-slate-800 dark:text-white hover:bg-slate-100 dark:hover:bg-zinc-800 transition-colors"
+            className="lg:hidden p-2 rounded-full text-white hover:bg-white/10 transition-colors"
             aria-label="Toggle navigation"
           >
             {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
@@ -101,7 +94,7 @@ export default function Navbar() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -16 }}
             transition={{ duration: 0.2 }}
-            className="absolute top-20 left-4 right-4 rounded-3xl bg-white/95 dark:bg-[#080d08]/95 backdrop-blur-2xl border border-slate-200 dark:border-emerald-900/50 p-6 shadow-2xl lg:hidden z-50 text-slate-900 dark:text-white"
+            className="absolute top-20 left-4 right-4 rounded-3xl bg-[#0d1535]/95 backdrop-blur-2xl border border-[#0ea5e9]/20 p-6 shadow-2xl lg:hidden z-50 text-white"
           >
             <nav className="flex flex-col gap-2">
               {navRoutes.map((route) => {
@@ -114,8 +107,8 @@ export default function Navbar() {
                     className={clsx(
                       "flex items-center justify-between rounded-xl px-4 py-3 text-sm font-bold transition-all",
                       isActive
-                        ? "bg-[#059669]/10 text-[#059669] dark:text-[#10e599]"
-                        : "text-slate-700 dark:text-emerald-100/80 hover:bg-slate-50 dark:hover:bg-emerald-950/40"
+                        ? "bg-[#0ea5e9]/10 text-[#0ea5e9]"
+                        : "text-[#94a3b8] hover:bg-[#111c45]/50"
                     )}
                   >
                     <span>{route.name}</span>
@@ -127,7 +120,7 @@ export default function Navbar() {
               <Link
                 href="/contact"
                 onClick={() => setMobileMenuOpen(false)}
-                className="gradient-btn mt-3 flex items-center justify-center gap-2 rounded-xl py-3 text-xs font-black uppercase tracking-wider text-slate-950 shadow-md"
+                className="gradient-btn mt-3 flex items-center justify-center gap-2 rounded-xl py-3 text-xs font-black uppercase tracking-wider shadow-md"
               >
                 <span>Request Assessment Demo</span>
                 <ArrowRight className="h-4 w-4" />
@@ -139,3 +132,4 @@ export default function Navbar() {
     </header>
   );
 }
+

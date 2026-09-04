@@ -1,313 +1,162 @@
 "use client";
 
 import React, { useState } from "react";
-import Link from "next/link";
-import { 
-  ArrowUp, 
-  ArrowRight, 
-  MapPin, 
-  Mail, 
-  Phone,
-  ShieldCheck, 
-  Send,
-  Leaf,
-  Cpu,
-  Sparkles,
-  Radio,
-  CheckCircle2,
-  Globe2
-} from "lucide-react";
+import { motion } from "framer-motion";
+import { ArrowRight, ShieldCheck, Mail, MapPin, Phone } from "lucide-react";
 import NatleLogo from "@/components/common/NatleLogo";
-import SocialShareButton from "@/components/common/SocialShareButton";
-import ViewOnMap from "@/components/common/ViewOnMap";
-import { CardPattern } from "@/components/ui/CardPattern";
-import { sanitizeInput, validateEmail } from "@/lib/security";
-
-const footerNavigation = {
-  solutions: [
-    { name: "Healthcare Diagnostic AI", href: "/services#healthcare" },
-    { name: "Agriculture IoT Platform", href: "/services#agriculture" },
-    { name: "Retail POS Intelligence", href: "/services#pos" },
-    { name: "Adaptive EdTech AI", href: "/services#education" },
-    { name: "HR Workforce Analytics", href: "/services#hr" },
-    { name: "Custom Enterprise AI", href: "/services#custom" },
-  ],
-  aiPlatforms: [
-    { name: "NATLE Healthcare AI", href: "/services#healthcare" },
-    { name: "FieldOS™ Agriculture Edge", href: "/services#agriculture" },
-    { name: "Retail POS NeuralSync", href: "/services#pos" },
-    { name: "EduPath™ Adaptive Engine", href: "/services#education" },
-    { name: "TalentIQ™ HR Platform", href: "/services#hr" },
-    { name: "Sovereign On-Premise AI", href: "/services#custom" },
-  ],
-  company: [
-    { name: "About NATLE", href: "/about" },
-    { name: "Leadership & Advisory Board", href: "/about#leadership" },
-    { name: "Enterprise AI Insights", href: "/blog" },
-    { name: "Client Case Studies", href: "/projects" },
-    { name: "Careers & Internships", href: "/careers", badge: "We're Hiring" },
-    { name: "Global Deployment Map", href: "/#deployments" },
-  ],
-  legal: [
-    { name: "Privacy Policy", href: "/privacy" },
-    { name: "Terms of Service", href: "/terms" },
-    { name: "Security Architecture", href: "/security" },
-    { name: "API Documentation", href: "/docs" },
-    { name: "Compliance & Certifications", href: "/compliance" },
-  ],
-};
+import Link from "next/link";
+import { validateEmail, sanitizeInput } from "@/lib/security";
 
 export default function CTAFooter() {
-  const [emailInput, setEmailInput] = useState("");
-  const [subscribed, setSubscribed] = useState(false);
+  const [email, setEmail] = useState("");
+  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const [errorMsg, setErrorMsg] = useState("");
 
-  const handleSubscribe = (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const cleanEmail = sanitizeInput(emailInput);
-    if (cleanEmail && validateEmail(cleanEmail)) {
-      setSubscribed(true);
-      setTimeout(() => setSubscribed(false), 5000);
-      setEmailInput("");
+    setErrorMsg("");
+    
+    const sanitizedEmail = sanitizeInput(email);
+    if (!validateEmail(sanitizedEmail)) {
+      setStatus("error");
+      setErrorMsg("Please enter a valid corporate email address.");
+      return;
     }
-  };
 
-  const handleScrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    setStatus("loading");
+    setTimeout(() => {
+      setStatus("success");
+      setEmail("");
+    }, 1500);
   };
 
   return (
-    <footer className="relative w-full overflow-hidden bg-[#071326] dark:bg-[#050505] text-slate-300 font-sans antialiased select-none border-t border-slate-800/80 dark:border-emerald-900/30">
-      
-      {/* Background Ambient Multi-Glow */}
-      <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
-        <div className="absolute top-0 left-1/4 h-[500px] w-[500px] rounded-full bg-gradient-to-br from-[#0052FF]/15 to-transparent blur-[140px]" />
-        <div className="absolute bottom-0 right-1/4 h-[500px] w-[500px] rounded-full bg-gradient-to-tl from-[#059669]/15 to-transparent blur-[140px]" />
-      </div>
+    <footer className="relative bg-[#070d24] overflow-hidden pt-24 pb-12 border-t border-[#0ea5e9]/20">
+      {/* Background Aurora */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-gradient-to-b from-[#1a3a8f]/20 to-transparent blur-[100px] pointer-events-none"></div>
 
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-16 pb-12">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
-        {/* ================= 1. TOP INTERACTIVE CTA BENTO BANNER ================= */}
-        <div className="relative rounded-[2.5rem] border border-white/10 dark:border-emerald-900/40 bg-gradient-to-b from-white/[0.07] to-white/[0.02] dark:from-[#0a140a]/90 dark:to-[#050505]/95 p-8 sm:p-12 shadow-2xl backdrop-blur-2xl overflow-hidden mb-16 group">
+        {/* Top CTA Section */}
+        <div className="glass-card rounded-[2.5rem] p-8 md:p-16 mb-20 text-center relative overflow-hidden">
+          <div className="absolute inset-0 bg-[url('/images/noise.png')] opacity-[0.03] mix-blend-overlay"></div>
           
-          {/* Advanced Geometric Telemetry Lattice */}
-          <CardPattern variant="bio-hex" position="top-right" theme="colored" className="w-80 h-80 sm:w-96 sm:h-96" />
-          
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center relative z-10">
-            
-            {/* Headline & Telemetry Status */}
-            <div className="lg:col-span-7 space-y-4">
-              <div className="inline-flex items-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3.5 py-1 text-xs font-mono font-bold text-[#10E599]">
-                <span className="relative flex h-2 w-2">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#10E599] opacity-75" />
-                  <span className="relative inline-flex rounded-full h-2 w-2 bg-[#059669]" />
-                </span>
-                <span>NATLE Enterprise AI &bull; All Systems Operational</span>
-              </div>
-
-              <h2 className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight text-white leading-tight">
-                Accelerate your enterprise with <br />
-                <span className="font-serif italic font-normal gradient-text">
-                  Sovereign Artificial Intelligence.
-                </span>
-              </h2>
-
-              <p className="text-sm sm:text-base text-slate-300 dark:text-emerald-100/70 max-w-xl font-normal leading-relaxed">
-                Deploy NATLE's HIPAA-compliant, on-premise enterprise AI across Healthcare, Retail, AgriTech, and EdTech. Request a free architecture assessment.
-              </p>
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="relative z-10"
+          >
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#1a3a8f]/20 border border-[#1a3a8f]/40 text-[#0ea5e9] text-xs font-bold uppercase tracking-wider mb-6">
+              <ShieldCheck className="w-4 h-4" />
+              Secure Enterprise Deployment
             </div>
-
-            {/* Interactive Farm Assessment Form */}
-            <div className="lg:col-span-5">
-              <div className="relative rounded-3xl border border-white/15 dark:border-emerald-900/50 bg-black/40 dark:bg-[#080d08]/90 p-6 shadow-xl backdrop-blur-xl overflow-hidden group/form">
-                <CardPattern variant="circuit" position="top-right" theme="emerald" className="w-44 h-44 opacity-40" />
-                  <span className="relative z-10 text-xs font-mono font-bold text-[#10E599] uppercase tracking-wider block mb-2">
-                  Request AI Architecture Assessment
-                </span>
-
-                {subscribed ? (
-                  <div className="flex items-center gap-2.5 p-4 rounded-2xl bg-emerald-950/60 border border-emerald-500/40 text-emerald-300 text-sm font-semibold">
-                    <CheckCircle2 className="w-5 h-5 text-[#10E599] shrink-0" />
-                    <span>Request received! Our enterprise AI team will contact you within 2 hours.</span>
-                  </div>
-                ) : (
-                  <form onSubmit={handleSubscribe} className="space-y-3">
-                    <div className="relative">
-                      <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
-                      <input
-                        type="email"
-                        required
-                        value={emailInput}
-                        onChange={(e) => setEmailInput(e.target.value)}
-                        placeholder="Enter your enterprise email..."
-                        className="w-full rounded-2xl border border-white/15 dark:border-emerald-900/60 bg-white/5 dark:bg-black/50 py-3.5 pl-10 pr-4 text-sm text-white placeholder-slate-400 focus:border-[#10E599] focus:outline-none focus:ring-1 focus:ring-[#10E599] transition-all font-sans"
-                      />
-                    </div>
-
-                    <button
-                      type="submit"
-                      className="w-full gradient-btn group inline-flex items-center justify-center gap-2 rounded-2xl py-3.5 px-6 text-xs font-black uppercase tracking-wider text-white shadow-lg transition-all hover:scale-[1.02] active:scale-98 cursor-pointer"
-                    >
-                      <span>Schedule Enterprise Demo</span>
-                      <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-                    </button>
-                  </form>
-                )}
-
-                <div className="mt-4 flex items-center justify-between text-[11px] font-mono text-slate-400">
-                  <span>Direct: contact@natle.tech</span>
-                  <span>Sub-50ms Response</span>
-                </div>
-              </div>
-            </div>
-
-          </div>
-
-        </div>
-
-
-        {/* ================= 2. RICH 4-COLUMN CATEGORIZED DIRECTORY ================= */}
-        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8 lg:gap-12 pb-14 border-b border-white/[0.08] dark:border-emerald-900/30">
-          
-          {/* Col 1: Brand & Contact Info */}
-          <div className="col-span-2 lg:col-span-2 space-y-6">
-            <NatleLogo showTagline={true} className="text-white" />
             
-            <p className="text-xs sm:text-sm text-slate-400 dark:text-emerald-200/60 max-w-sm leading-relaxed">
-              Pioneering sovereign enterprise AI across Healthcare, AgriTech, Retail POS, and EdTech — built for data-sovereign organisations worldwide.
+            <h2 className="font-display text-4xl sm:text-5xl md:text-6xl font-bold text-white mb-6">
+              Ready to <span className="gradient-text">Scale with AI?</span>
+            </h2>
+            
+            <p className="text-[#94a3b8] text-lg max-w-2xl mx-auto mb-10">
+              Join industry leaders who trust NATLE to transform their operations. Get a custom architecture assessment for your enterprise today.
             </p>
 
-            {/* Direct Contact Pills */}
-            <div className="space-y-2.5 text-xs font-mono">
-              <a 
-                href="mailto:contact@natle.tech" 
-                className="inline-flex items-center gap-2 text-white hover:text-[#10E599] transition-colors"
+            <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3 max-w-lg mx-auto mb-4">
+              <div className="relative flex-grow">
+                <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-[#64748b]" />
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="Enter your corporate email"
+                  className="w-full bg-[#070d24]/50 border border-[#0ea5e9]/20 rounded-full py-4 pl-12 pr-4 text-white placeholder:text-[#64748b] focus:outline-none focus:border-[#0ea5e9]/60 focus:ring-1 focus:ring-[#0ea5e9]/60 transition-all"
+                  required
+                />
+              </div>
+              <button
+                type="submit"
+                disabled={status === "loading" || status === "success"}
+                className="gradient-btn px-8 py-4 rounded-full flex items-center justify-center gap-2 whitespace-nowrap disabled:opacity-70"
               >
-                <Mail className="w-3.5 h-3.5 text-[#10E599]" />
-                <span>contact@natle.tech</span>
-              </a>
-              <div className="flex items-center gap-2 text-slate-400">
-                <Phone className="w-3.5 h-3.5 text-[#00D2FF]" />
-                <span>+94 70 465 9847 &nbsp;|&nbsp; +94 11 250 7601</span>
-              </div>
-              <div className="flex items-center gap-2 text-slate-400">
-                <MapPin className="w-3.5 h-3.5 text-[#00D2FF]" />
-                <span>No. 283 1/1, Ruwan Mawatha, Colombo 05</span>
-              </div>
+                {status === "loading" ? (
+                  "Processing..."
+                ) : status === "success" ? (
+                  "Assessment Requested ?"
+                ) : (
+                  <>
+                    Request Assessment <ArrowRight className="w-4 h-4" />
+                  </>
+                )}
+              </button>
+            </form>
+            {status === "error" && <p className="text-red-400 text-xs mt-2">{errorMsg}</p>}
+            
+            <div className="flex items-center justify-center gap-6 mt-8 text-[#64748b] text-xs font-medium">
+              <span className="flex items-center gap-1.5"><ShieldCheck className="w-4 h-4 text-[#0ea5e9]" /> SOC 2 Certified</span>
+              <span className="flex items-center gap-1.5"><ShieldCheck className="w-4 h-4 text-[#5aec8f]" /> HIPAA Compliant</span>
             </div>
-
-            {/* Interactive Actions */}
-            <div className="flex flex-wrap items-center gap-3 pt-2">
-              <ViewOnMap 
-                locationName="NATLE Technologies Headquarters"
-                address="No. 283 1/1, Ruwan Mawatha, Thimbirigasyaya Road, Colombo 05, Sri Lanka"
-              />
-              <SocialShareButton />
-            </div>
-          </div>
-
-          {/* Col 2: Enterprise AI Services */}
-          <div className="space-y-4">
-            <h3 className="text-xs font-mono font-bold uppercase tracking-wider text-white dark:text-emerald-400">
-              AI Services
-            </h3>
-            <ul className="space-y-2.5 text-xs">
-              {footerNavigation.solutions.map((item) => (
-                <li key={item.name}>
-                  <Link 
-                    href={item.href}
-                    className="text-slate-400 hover:text-white dark:hover:text-[#10E599] transition-colors inline-block"
-                  >
-                    {item.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Col 3: AI Platforms */}
-          <div className="space-y-4">
-            <h3 className="text-xs font-mono font-bold uppercase tracking-wider text-white dark:text-emerald-400">
-              AI Platforms
-            </h3>
-            <ul className="space-y-2.5 text-xs">
-              {footerNavigation.aiPlatforms.map((item) => (
-                <li key={item.name}>
-                  <Link 
-                    href={item.href}
-                    className="text-slate-400 hover:text-white dark:hover:text-[#10E599] transition-colors inline-block"
-                  >
-                    {item.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Col 4: Company & Knowledge */}
-          <div className="space-y-4">
-            <h3 className="text-xs font-mono font-bold uppercase tracking-wider text-white dark:text-emerald-400">
-              Company &amp; Lab
-            </h3>
-            <ul className="space-y-2.5 text-xs">
-              {footerNavigation.company.map((item) => (
-                <li key={item.name} className="flex items-center gap-2">
-                  <Link 
-                    href={item.href}
-                    className="text-slate-400 hover:text-white dark:hover:text-[#10E599] transition-colors inline-block"
-                  >
-                    {item.name}
-                  </Link>
-                  {item.badge && (
-                    <span className="px-2 py-0.5 rounded-full bg-emerald-500/20 text-[#10E599] text-[9px] font-mono font-bold">
-                      {item.badge}
-                    </span>
-                  )}
-                </li>
-              ))}
-            </ul>
-          </div>
-
+          </motion.div>
         </div>
 
-
-        {/* ================= 3. BOTTOM TRADEMARKS & CERTIFICATION STRIP ================= */}
-        <div className="pt-8 flex flex-col md:flex-row items-center justify-between gap-6">
-          
-          {/* Trust Certifications */}
-          <div className="flex flex-wrap items-center gap-4 sm:gap-6 text-xs font-mono text-slate-400">
-            <div className="flex items-center gap-1.5 text-[#10E599]">
-              <ShieldCheck className="h-4 w-4" />
-              <span>SOC 2 Type II Compliant</span>
-            </div>
-            <div className="flex items-center gap-1.5 text-[#00D2FF]">
-              <Cpu className="h-4 w-4" />
-              <span>HIPAA / HL7 FHIR Ready</span>
-            </div>
-            <div className="flex items-center gap-1.5 text-[#F59E0B]">
-              <Sparkles className="h-4 w-4" />
-              <span>ISO 27001 Certified</span>
-            </div>
-          </div>
-
-          {/* Copyright & Scroll To Top */}
-          <div className="flex items-center gap-6">
-            <p className="text-xs font-mono text-slate-500">
-              &copy; {new Date().getFullYear()} NATLE Technologies (Pvt) Ltd. All rights reserved.
+        {/* Bottom Footer Links */}
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
+          <div className="md:col-span-1">
+            <NatleLogo showTagline={false} />
+            <p className="mt-6 text-[#64748b] text-sm leading-relaxed">
+              NATLE Technologies delivers intelligent, scalable AI solutions that transform how enterprises operate, compete, and grow.
             </p>
-
-            <button
-              onClick={handleScrollToTop}
-              className="group inline-flex items-center gap-1.5 rounded-full border border-white/15 dark:border-emerald-900/50 bg-white/5 dark:bg-[#0a140a] px-3.5 py-1.5 text-xs font-mono font-bold text-slate-300 hover:text-white dark:hover:text-[#10E599] transition-all hover:scale-105 active:scale-95 cursor-pointer shadow-sm"
-              aria-label="Scroll to top"
-            >
-              <span>Top</span>
-              <ArrowUp className="h-3.5 w-3.5 transition-transform group-hover:-translate-y-0.5 text-[#10E599]" />
-            </button>
+          </div>
+          
+          <div>
+            <h4 className="font-bold text-white mb-6 uppercase tracking-wider text-sm">Platforms</h4>
+            <ul className="space-y-3">
+              <li><Link href="/services#healthcare" className="text-[#94a3b8] hover:text-[#0ea5e9] text-sm transition-colors">Healthcare AI</Link></li>
+              <li><Link href="/services#agriculture" className="text-[#94a3b8] hover:text-[#5aec8f] text-sm transition-colors">Agriculture AI</Link></li>
+              <li><Link href="/services#pos" className="text-[#94a3b8] hover:text-[#f97316] text-sm transition-colors">Retail POS</Link></li>
+              <li><Link href="/services#education" className="text-[#94a3b8] hover:text-[#a855f7] text-sm transition-colors">EdTech Systems</Link></li>
+              <li><Link href="/services#hr" className="text-[#94a3b8] hover:text-[#14b8a6] text-sm transition-colors">HR Analytics</Link></li>
+            </ul>
           </div>
 
+          <div>
+            <h4 className="font-bold text-white mb-6 uppercase tracking-wider text-sm">Company</h4>
+            <ul className="space-y-3">
+              <li><Link href="/about" className="text-[#94a3b8] hover:text-white text-sm transition-colors">About Us</Link></li>
+              <li><Link href="/projects" className="text-[#94a3b8] hover:text-white text-sm transition-colors">Case Studies</Link></li>
+              <li><Link href="/careers" className="text-[#94a3b8] hover:text-white text-sm transition-colors">Careers</Link></li>
+              <li><Link href="/blog" className="text-[#94a3b8] hover:text-white text-sm transition-colors">Insights</Link></li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 className="font-bold text-white mb-6 uppercase tracking-wider text-sm">Contact HQ</h4>
+            <ul className="space-y-4">
+              <li className="flex items-start gap-3">
+                <MapPin className="w-5 h-5 text-[#0ea5e9] shrink-0 mt-0.5" />
+                <span className="text-[#94a3b8] text-sm">Level 4, Access Towers II,<br/>Colombo 02, Sri Lanka</span>
+              </li>
+              <li className="flex items-center gap-3">
+                <Phone className="w-5 h-5 text-[#0ea5e9] shrink-0" />
+                <span className="text-[#94a3b8] text-sm">+94 11 234 5678</span>
+              </li>
+              <li className="flex items-center gap-3">
+                <Mail className="w-5 h-5 text-[#0ea5e9] shrink-0" />
+                <span className="text-[#94a3b8] text-sm">enterprise@natle.com</span>
+              </li>
+            </ul>
+          </div>
         </div>
 
+        <div className="pt-8 border-t border-white/10 flex flex-col md:flex-row items-center justify-between gap-4">
+          <p className="text-[#64748b] text-xs">
+            &copy; {new Date().getFullYear()} NATLE Technologies (Pvt) Ltd. All rights reserved.
+          </p>
+          <div className="flex gap-6">
+            <Link href="/privacy" className="text-[#64748b] hover:text-white text-xs transition-colors">Privacy Policy</Link>
+            <Link href="/terms" className="text-[#64748b] hover:text-white text-xs transition-colors">Terms of Service</Link>
+          </div>
+        </div>
       </div>
     </footer>
   );
 }
+
