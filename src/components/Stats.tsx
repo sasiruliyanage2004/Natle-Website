@@ -45,7 +45,7 @@ export default function Stats() {
             transition={{ delay: 0.3 }}
             className="glass-card rounded-2xl p-6 text-center flex flex-col items-center justify-center"
           >
-            <div className="font-display text-4xl sm:text-5xl font-bold text-[#818cf8] mb-2">5</div>
+            <div className="font-display text-4xl sm:text-5xl font-bold text-[#00c9a7] mb-2">5</div>
             <div className="text-[#94a3b8] text-xs uppercase tracking-wider font-semibold">Continents</div>
           </motion.div>
 
@@ -56,7 +56,7 @@ export default function Stats() {
             transition={{ delay: 0.4 }}
             className="glass-card rounded-2xl p-6 text-center flex flex-col items-center justify-center"
           >
-            <div className="font-display text-4xl sm:text-5xl font-bold text-[#00c9a7] mb-2">6</div>
+            <div className="font-display text-4xl sm:text-5xl font-bold text-[#1a6fd4] mb-2">6</div>
             <div className="text-[#94a3b8] text-xs uppercase tracking-wider font-semibold">AI Domains</div>
           </motion.div>
         </div>

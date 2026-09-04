@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import React, { useEffect, useRef } from "react";
 import { motion } from "framer-motion";
@@ -53,24 +53,24 @@ export default function Hero() {
 
         // Small nodes
         const nodeGeo = new THREE.SphereGeometry(0.025, 8, 8);
-        const nodeMat = new THREE.MeshBasicMaterial({ color: 0x818cf8 });
+        const nodeMat = new THREE.MeshBasicMaterial({ color: 0x0ea5e9 });
         nodePositions.forEach(pos => {
           const mesh = new THREE.Mesh(nodeGeo, nodeMat);
-          mesh.position.copy(pos);
+          mesh.position.copy(pos as any);
           group.add(mesh);
         });
 
-        // A few brighter accent nodes
+        // A few brighter accent nodes (lime)
         const accentGeo = new THREE.SphereGeometry(0.045, 8, 8);
-        const accentMat = new THREE.MeshBasicMaterial({ color: 0x0ea5e9 });
+        const accentMat = new THREE.MeshBasicMaterial({ color: 0x5aec8f });
         [0, 10, 20, 30, 40, 50].forEach(i => {
           const mesh = new THREE.Mesh(accentGeo, accentMat);
-          mesh.position.copy(nodePositions[i]);
+          mesh.position.copy(nodePositions[i] as any);
           group.add(mesh);
         });
 
-        // Thin edges between nearby nodes
-        const edgeMat = new THREE.LineBasicMaterial({ color: 0x4f46e5, transparent: true, opacity: 0.35 });
+        // Thin edges between nearby nodes (navy/cyan)
+        const edgeMat = new THREE.LineBasicMaterial({ color: 0x1a3a8f, transparent: true, opacity: 0.45 });
         const edgePositions: number[] = [];
         for (let i = 0; i < nodePositions.length; i++) {
           for (let j = i + 1; j < nodePositions.length; j++) {
@@ -139,9 +139,9 @@ export default function Hero() {
 
   return (
     <section className="relative w-full min-h-screen overflow-hidden flex items-center pt-28 pb-16"
-      style={{ background: "linear-gradient(135deg, #070d24 0%, #0d0b2e 40%, #0a0a1a 100%)" }}>
+      style={{ background: "#070d24" }}>
       
-      {/* Aurora blobs — NATLE logo colors */}
+      {/* Aurora blobs - NATLE Logo Colors */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
         <div className="absolute top-0 left-0 w-[700px] h-[500px] rounded-full opacity-30"
           style={{ background: "radial-gradient(circle, #1a3a8f 0%, #0ea5e9 40%, transparent 70%)", filter: "blur(100px)" }}></div>
@@ -152,8 +152,7 @@ export default function Hero() {
       </div>
 
       {/* Subtle dot grid */}
-      <div className="absolute inset-0 pointer-events-none"
-        style={{ backgroundImage: "radial-gradient(rgba(99,102,241,0.1) 1px, transparent 1px)", backgroundSize: "32px 32px" }}></div>
+      <div className="absolute inset-0 pointer-events-none dot-grid-bg"></div>
 
       <div className="max-w-7xl mx-auto px-6 lg:px-8 w-full relative z-10">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
@@ -186,10 +185,7 @@ export default function Hero() {
               style={{ fontSize: "clamp(2.5rem, 5vw, 4rem)" }}
             >
               Transforming<br />
-              <span style={{
-                background: "linear-gradient(90deg, #1a6fd4 0%, #0ea5e9 45%, #5aec8f 100%)",
-                WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text"
-              }}>
+              <span className="gradient-text">
                 Industries
               </span>{" "}with<br />
               Artificial<br />
@@ -215,11 +211,7 @@ export default function Hero() {
             >
               <Link
                 href="/services"
-                className="flex items-center justify-center gap-2 px-8 py-4 rounded-full font-bold text-white text-sm transition-all duration-300 hover:scale-105"
-                style={{
-                  background: "linear-gradient(135deg, #1a3a8f 0%, #0ea5e9 55%, #5aec8f 100%)",
-                  boxShadow: "0 8px 32px -8px rgba(14,165,233,0.6)"
-                }}
+                className="gradient-btn flex items-center justify-center gap-2 px-8 py-4 rounded-full font-bold text-white text-sm"
               >
                 Explore Our Services <ArrowRight className="w-4 h-4" />
               </Link>
@@ -278,7 +270,7 @@ export default function Hero() {
             {/* Outer glow ring behind sphere */}
             <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
               <div className="w-72 h-72 rounded-full"
-                style={{ background: "radial-gradient(circle, rgba(99,102,241,0.2) 0%, rgba(99,102,241,0.05) 50%, transparent 70%)", filter: "blur(20px)" }}></div>
+                style={{ background: "radial-gradient(circle, rgba(14,165,233,0.2) 0%, rgba(14,165,233,0.05) 50%, transparent 70%)", filter: "blur(20px)" }}></div>
             </div>
 
             {/* Floating domain badges — positioned around sphere */}
