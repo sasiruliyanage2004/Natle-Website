@@ -33,8 +33,7 @@ export default function Stats() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.1, duration: 0.6 }}
-              className="rounded-2xl p-6 text-center border"
-              style={{ background: "#ffffff", borderColor: "rgba(14,165,233,0.12)", boxShadow: "0 4px 20px -4px rgba(10,22,60,0.07)" }}
+              className="clay-card rounded-2xl p-6 text-center"
             >
               <div
                 className="font-display text-4xl sm:text-5xl font-black mb-2"

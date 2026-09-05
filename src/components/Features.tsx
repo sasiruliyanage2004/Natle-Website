@@ -102,8 +102,7 @@ export default function Features() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.7, delay: 0.2 }}
-            className="rounded-3xl p-8 border"
-            style={{ background: "#ffffff", borderColor: "rgba(14,165,233,0.18)", boxShadow: "0 8px 40px -8px rgba(14,165,233,0.15), 0 1px 3px rgba(10,22,60,0.06)" }}
+            className="clay-card rounded-3xl p-8"
           >
             <div className="flex items-center justify-between mb-8">
               <div>

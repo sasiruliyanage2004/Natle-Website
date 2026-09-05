@@ -69,8 +69,7 @@ export default function Navbar() {
         <div className="hidden md:block">
           <Link
             href="/contact"
-            className="flex items-center justify-center px-5 py-2.5 rounded-full text-sm font-bold transition-all duration-300 hover:scale-105 border"
-            style={{ background: "#ffffff", color: "#0a1628", borderColor: "rgba(14,165,233,0.2)", boxShadow: "0 2px 12px -4px rgba(14,165,233,0.15)" }}
+            className="clay-btn flex items-center justify-center px-6 py-2.5 rounded-full text-sm font-bold"
           >
             Talk to sales
           </Link>

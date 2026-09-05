@@ -98,12 +98,7 @@ export default function Solutions() {
               return (
                 <div
                   key={d.label}
-                  className="shrink-0 w-[310px] lg:w-[360px] rounded-3xl p-7 flex flex-col gap-5 cursor-pointer border transition-all duration-300 group"
-                  style={{
-                    background: "#ffffff",
-                    borderColor: `${d.color}20`,
-                    boxShadow: `0 4px 20px -6px ${d.color}18, 0 1px 3px rgba(10,22,60,0.06)`,
-                  }}
+                  className="clay-card shrink-0 w-[310px] lg:w-[360px] p-7 flex flex-col gap-5 cursor-pointer group"
                 >
                   <div className="w-12 h-12 rounded-2xl flex items-center justify-center shrink-0 border"
                     style={{ background: `${d.color}12`, borderColor: `${d.color}30` }}>

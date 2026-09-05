@@ -50,19 +50,49 @@ body {
   box-shadow: 0 10px 32px -6px rgba(14, 165, 233, 0.55);
 }
 
-/* ── Glass card (light version) ── */
-.glass-card {
-  background: rgba(255, 255, 255, 0.8);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(14, 165, 233, 0.14);
-  box-shadow: 0 4px 24px -4px rgba(10, 22, 60, 0.08), 0 1px 3px rgba(10, 22, 60, 0.05);
-  transition: all 0.3s ease;
+/* ── Claymorphism Card (Soft 3D) ── */
+.clay-card {
+  background: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  /* Outer soft shadow + inner highlight top-left + inner shadow bottom-right */
+  box-shadow: 
+    12px 12px 32px rgba(10, 22, 60, 0.04),
+    -10px -10px 24px rgba(255, 255, 255, 1),
+    inset 2px 2px 6px rgba(255, 255, 255, 1),
+    inset -2px -2px 6px rgba(10, 22, 60, 0.03);
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
-.glass-card:hover {
-  border-color: rgba(14, 165, 233, 0.35);
-  box-shadow: 0 12px 40px -8px rgba(10, 22, 60, 0.12), 0 0 0 1px rgba(14, 165, 233, 0.15);
+.clay-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 
+    16px 16px 40px rgba(10, 22, 60, 0.06),
+    -12px -12px 32px rgba(255, 255, 255, 1),
+    inset 2px 2px 6px rgba(255, 255, 255, 1),
+    inset -2px -2px 6px rgba(10, 22, 60, 0.03);
+}
+
+/* ── Claymorphism Button ── */
+.clay-btn {
+  background: #ffffff;
+  color: #0a1628;
+  font-weight: 700;
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  box-shadow: 
+    6px 6px 16px rgba(10, 22, 60, 0.05),
+    -6px -6px 16px rgba(255, 255, 255, 1),
+    inset 2px 2px 4px rgba(255, 255, 255, 1),
+    inset -2px -2px 4px rgba(10, 22, 60, 0.03);
+  transition: all 0.2s ease;
+}
+.clay-btn:hover {
   transform: translateY(-2px);
+  color: #0ea5e9;
+}
+.clay-btn:active {
+  box-shadow: 
+    inset 4px 4px 8px rgba(10, 22, 60, 0.05),
+    inset -4px -4px 8px rgba(255, 255, 255, 0.5);
+  transform: translateY(0) scale(0.98);
 }
 
 /* ── Dot grid (light) ── */
