@@ -1,160 +1,165 @@
 "use client";
 
-import React from "react";
-import { motion } from "framer-motion";
-import Link from "next/link";
-import Image from "next/image";
-import { ArrowRight, Activity, Sprout, ShoppingBag, GraduationCap, Users, Cpu } from "lucide-react";
+import { useRef } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { Brain, Leaf, ShoppingCart, GraduationCap, Users, Cpu, ArrowRight } from "lucide-react";
 
-const domains = [
+const DOMAINS = [
   {
-    id: "healthcare",
-    title: "Healthcare",
-    desc: "Intelligent diagnostics, patient management, and EHR integration that reduces errors and improves outcomes.",
-    icon: Activity,
+    icon: Brain,
+    label: "Healthcare AI",
     color: "#0ea5e9",
-    bgClass: "badge-healthcare",
-    borderClass: "hover:border-[#0ea5e9]/40",
-    image: "/images/blog/healthcare-ai.jpg"
+    title: "Clinical Intelligence",
+    desc: "Predictive diagnostics, patient flow optimization, and automated clinical documentation that saves lives and hours.",
+    tags: ["Diagnostics", "Patient Flow", "NLP"],
   },
   {
-    id: "agriculture",
-    title: "Agriculture AI",
-    desc: "Crop analytics, precision weather modeling, and AI powered irrigation for maximum yield and sustainability.",
-    icon: Sprout,
+    icon: Leaf,
+    label: "AgriTech",
     color: "#5aec8f",
-    bgClass: "badge-agriculture",
-    borderClass: "hover:border-[#5aec8f]/40",
-    image: "/images/blog/precision-agriculture.jpg"
+    title: "Precision Agriculture",
+    desc: "Soil telemetry, crop yield prediction, and IoT-driven irrigation that maximizes harvest and minimizes waste.",
+    tags: ["IoT Sensors", "Yield Prediction", "Irrigation"],
   },
   {
-    id: "pos",
-    title: "Point of Sales",
-    desc: "AI driven inventory, smart billing, multi-branch management, and analytics dashboards for retail excellence.",
-    icon: ShoppingBag,
+    icon: ShoppingCart,
+    label: "POS & Retail",
     color: "#f97316",
-    bgClass: "badge-pos",
-    borderClass: "hover:border-[#f97316]/40",
-    image: "/images/portfolio/retailmax.jpg"
+    title: "Intelligent Retail",
+    desc: "Real-time inventory, personalized recommendations, and autonomous checkout that converts browsers to buyers.",
+    tags: ["Inventory AI", "Recommender", "Checkout"],
   },
   {
-    id: "education",
-    title: "Education Technology",
-    desc: "Adaptive learning platforms, intelligent tutoring, and student analytics powering the future of education.",
     icon: GraduationCap,
-    color: "#a855f7",
-    bgClass: "badge-education",
-    borderClass: "hover:border-[#a855f7]/40",
-    image: "/images/portfolio/edureachlms.jpg"
+    label: "EdTech",
+    color: "#c084fc",
+    title: "Adaptive Learning",
+    desc: "Personalized curricula, AI tutors, and outcome analytics that transform student performance at scale.",
+    tags: ["Adaptive LMS", "AI Tutor", "Analytics"],
   },
   {
-    id: "hr",
-    title: "Human Resources",
-    desc: "Talent acquisition AI, automated payroll, intelligent attendance tracking, and performance analytics.",
     icon: Users,
-    color: "#14b8a6",
-    bgClass: "badge-hr",
-    borderClass: "hover:border-[#14b8a6]/40",
-    image: "/images/services/human-resources-hero.jpg"
+    label: "HR Analytics",
+    color: "#2dd4bf",
+    title: "People Intelligence",
+    desc: "Resume screening, attrition prediction, and performance coaching that turns HR into a strategic advantage.",
+    tags: ["Talent AI", "Attrition", "Coaching"],
   },
   {
-    id: "custom",
-    title: "Custom AI Solutions",
-    desc: "Bespoke ML models, NLP pipelines, computer vision systems, and end-to-end AI consulting for any domain.",
     icon: Cpu,
-    color: "#f59e0b",
-    bgClass: "badge-custom",
-    borderClass: "hover:border-[#f59e0b]/40",
-    image: "/images/blog/enterprise-ai-roi.jpg"
-  }
+    label: "Custom AI",
+    color: "#fbbf24",
+    title: "Bespoke Solutions",
+    desc: "End-to-end AI development tailored to your unique domain, data, and growth trajectory.",
+    tags: ["Custom Models", "MLOps", "Consulting"],
+  },
 ];
 
 export default function Solutions() {
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start start", "end start"],
+  });
+
+  // Translate cards horizontally as user scrolls
+  const x = useTransform(scrollYProgress, [0, 1], ["0%", "-66.67%"]);
+
   return (
-    <section className="bg-transparent py-24 relative overflow-hidden" id="solutions">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        
-        <div className="text-center mb-16">
-          <motion.h2 
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="font-display text-4xl sm:text-5xl font-bold text-[#e8f0fe] mb-4"
+    <section ref={containerRef} className="relative" style={{ height: `${DOMAINS.length * 80}vh` }}>
+      {/* Sticky viewport */}
+      <div className="sticky top-0 h-screen overflow-hidden flex flex-col justify-center">
+        {/* Header */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.7 }}
+          className="px-6 lg:px-12 mb-10 shrink-0"
+        >
+          <div className="inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-mono font-bold uppercase tracking-wider mb-4 border"
+            style={{ background: "rgba(14,165,233,0.1)", borderColor: "rgba(14,165,233,0.3)", color: "#0ea5e9" }}>
+            AI Domains
+          </div>
+          <h2 className="font-display text-4xl lg:text-5xl font-black text-white leading-tight">
+            Six Industries.{" "}
+            <span style={{ background: "linear-gradient(90deg,#0ea5e9,#5aec8f)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>
+              One Platform.
+            </span>
+          </h2>
+        </motion.div>
+
+        {/* Scrolling cards track */}
+        <div className="overflow-hidden px-6 lg:px-12">
+          <motion.div
+            style={{ x }}
+            className="flex gap-6"
           >
-            AI Solutions for <span className="gradient-text">Every Industry</span>
-          </motion.h2>
-          <motion.p 
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.1 }}
-            className="text-[#94a3b8] text-lg max-w-2xl mx-auto"
-          >
-            Six specialized AI domains, each purpose-built to solve your industry's most pressing challenges with measurable results.
-          </motion.p>
-        </div>
-
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {domains.map((domain, i) => {
-            const Icon = domain.icon;
-            return (
-              <motion.div
-                key={domain.id}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.1 }}
-              >
-                <Link href={`/services/${domain.id}`} className="group block h-full">
-                  <div className={`glass-card h-full rounded-2xl overflow-hidden flex flex-col transition-all duration-300 ${domain.borderClass} hover:-translate-y-2`}>
-                    
-                    {/* Image Area */}
-                    <div className="relative h-48 w-full overflow-hidden">
-                      <Image 
-                        src={domain.image} 
-                        alt={domain.title}
-                        fill
-                        className="object-cover transition-transform duration-700 group-hover:scale-110"
-                      />
-                      <div className="absolute inset-0 bg-[#070d24]/60 mix-blend-multiply group-hover:bg-transparent transition-colors duration-500"></div>
-                      <div className="absolute inset-0 bg-gradient-to-t from-[#0d1535] via-transparent to-transparent"></div>
-                      <div className="absolute top-4 left-4 w-10 h-10 rounded-xl bg-[#070d24]/80 backdrop-blur-md flex items-center justify-center border border-white/10 group-hover:border-white/30 transition-colors">
-                        <Icon size={20} color={domain.color} />
-                      </div>
-                    </div>
-
-                    {/* Content */}
-                    <div className="p-6 flex flex-col flex-grow relative">
-                      {/* Glow effect on hover */}
-                      <div className="absolute inset-0 opacity-0 group-hover:opacity-10 transition-opacity duration-500 pointer-events-none"
-                           style={{ background: `radial-gradient(circle at center, ${domain.color} 0%, transparent 70%)` }}>
-                      </div>
-                      
-                      <h3 className="font-display font-bold text-xl text-[#e8f0fe] mb-3 group-hover:text-white transition-colors">
-                        {domain.title}
-                      </h3>
-                      <p className="text-[#94a3b8] text-sm leading-relaxed mb-6 flex-grow">
-                        {domain.desc}
-                      </p>
-                      
-                      <div className="flex items-center gap-2 mt-auto" style={{ color: domain.color }}>
-                        <span className="text-sm font-bold uppercase tracking-wider">Learn More</span>
-                        <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-                      </div>
-                    </div>
-
-                    {/* Bottom Border Accent */}
-                    <div className="h-1 w-full scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left" style={{ backgroundColor: domain.color }}></div>
-
+            {DOMAINS.map((d, i) => {
+              const Icon = d.icon;
+              return (
+                <div
+                  key={d.label}
+                  className="shrink-0 w-[320px] lg:w-[380px] rounded-3xl p-8 flex flex-col gap-6 transition-all duration-300 group cursor-pointer"
+                  style={{
+                    background: "rgba(13,21,53,0.7)",
+                    backdropFilter: "blur(24px)",
+                    border: `1px solid ${d.color}28`,
+                    boxShadow: `0 8px 40px -12px ${d.color}22`,
+                  }}
+                >
+                  {/* Icon */}
+                  <div className="w-14 h-14 rounded-2xl flex items-center justify-center shrink-0"
+                    style={{ background: `${d.color}18`, border: `1px solid ${d.color}35` }}>
+                    <Icon className="w-6 h-6" style={{ color: d.color }} />
                   </div>
-                </Link>
-              </motion.div>
-            );
-          })}
+
+                  {/* Label badge */}
+                  <div>
+                    <span className="text-xs font-bold uppercase tracking-wider px-2 py-0.5 rounded-full"
+                      style={{ background: `${d.color}15`, color: d.color }}>
+                      {d.label}
+                    </span>
+                    <h3 className="font-display text-xl font-bold text-white mt-3">{d.title}</h3>
+                  </div>
+
+                  <p className="text-[#94a3b8] text-sm leading-relaxed flex-1">{d.desc}</p>
+
+                  {/* Tags */}
+                  <div className="flex gap-2 flex-wrap">
+                    {d.tags.map(tag => (
+                      <span key={tag} className="text-xs px-2.5 py-1 rounded-lg"
+                        style={{ background: "rgba(255,255,255,0.04)", color: "#64748b", border: "1px solid rgba(255,255,255,0.07)" }}>
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+
+                  {/* CTA link */}
+                  <div className="flex items-center gap-2 text-sm font-semibold group-hover:gap-3 transition-all duration-300"
+                    style={{ color: d.color }}>
+                    Learn more <ArrowRight className="w-4 h-4" />
+                  </div>
+                </div>
+              );
+            })}
+          </motion.div>
         </div>
-        
+
+        {/* Scroll hint */}
+        <div className="px-6 lg:px-12 mt-8 shrink-0">
+          <div className="flex items-center gap-3">
+            <div className="flex gap-1.5">
+              {DOMAINS.map((_, i) => (
+                <div key={i} className="w-6 h-1 rounded-full transition-all"
+                  style={{ background: i === 0 ? "linear-gradient(90deg,#0ea5e9,#5aec8f)" : "rgba(255,255,255,0.1)" }} />
+              ))}
+            </div>
+            <span className="text-xs text-[#64748b] font-mono">scroll to explore</span>
+          </div>
+        </div>
       </div>
     </section>
   );
 }
-

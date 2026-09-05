@@ -1,148 +1,159 @@
-﻿"use client";
+"use client";
 
-import React from "react";
-import { motion } from "framer-motion";
-import { Brain, Target, Layers, Shield, Zap, Lock, CheckCircle } from "lucide-react";
+import { useRef } from "react";
+import { motion, useInView } from "framer-motion";
+import { Brain, Target, Layers, Shield, Zap, Lock } from "lucide-react";
 
-const features = [
-  { icon: Brain, title: "AI-First Architecture", desc: "Every solution starts with AI at its core, not as an afterthought. We design intelligent systems from the ground up." },
-  { icon: Target, title: "Deep Domain Expertise", desc: "Vertical knowledge across 6 industries means we understand your challenges before you explain them." },
-  { icon: Layers, title: "Scalable by Design", desc: "Our architectures grow with your business from pilot deployments to enterprise scale systems handling millions of transactions." },
-  { icon: Shield, title: "SOC 2 & HIPAA Compliant", desc: "End-to-end encrypted, GDPR ready. Your data and your clients data is always protected and sovereign." },
-  { icon: Zap, title: "Rapid Deployment", desc: "Our pre-built AI modules slash time to market. Go from concept to production in weeks, not months." },
-  { icon: Lock, title: "24/7 Enterprise Support", desc: "Dedicated support teams, SLA guarantees, and proactive monitoring ensure your AI systems never sleep." }
+const FEATURES = [
+  { icon: Brain, color: "#0ea5e9", title: "AI-First Architecture", desc: "Every solution starts with AI at its core, not as an afterthought." },
+  { icon: Target, color: "#5aec8f", title: "Deep Domain Expertise", desc: "Vertical knowledge across 6 industries before you explain the challenge." },
+  { icon: Layers, color: "#0ea5e9", title: "Scalable by Design", desc: "From pilot to enterprise-scale, handling millions of transactions daily." },
+  { icon: Shield, color: "#5aec8f", title: "SOC 2 & HIPAA Compliant", desc: "End-to-end encrypted, GDPR ready. Your data is always sovereign." },
+  { icon: Zap, color: "#0ea5e9", title: "Rapid Deployment", desc: "Pre-built AI modules slash time to market — weeks, not months." },
+  { icon: Lock, color: "#5aec8f", title: "24/7 Enterprise Support", desc: "SLA-backed monitoring. Your AI systems never sleep." },
 ];
 
-export default function Features() {
+const BARS = [
+  { label: "Model Accuracy", value: 98.2, color: "#0ea5e9" },
+  { label: "Inference Speed", value: 96.8, color: "#5aec8f" },
+  { label: "Data Security", value: 100, color: "#2dd4bf" },
+  { label: "Client Satisfaction", value: 100, color: "#1a6fd4" },
+];
+
+function CounterBar({ bar, inView }: { bar: typeof BARS[0]; inView: boolean }) {
   return (
-    <section className="bg-[#0d1535]/40 py-24 relative overflow-hidden">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="grid lg:grid-cols-2 gap-16 items-center">
-          
-          {/* Left: Features List */}
-          <div>
-            <motion.div 
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="mb-12"
-            >
-              <h2 className="font-display text-4xl sm:text-5xl font-bold text-[#e8f0fe] leading-tight mb-4">
-                Why Enterprises <span className="gradient-text">Choose NATLE</span>
-              </h2>
-              <p className="text-[#94a3b8] text-lg">
-                We do not just build AI — we become your long term technology partner. Here is what sets us apart from off the shelf vendors.
-              </p>
-            </motion.div>
+    <div className="mb-5 last:mb-0">
+      <div className="flex justify-between mb-2">
+        <span className="text-[#94a3b8] text-xs font-semibold">{bar.label}</span>
+        <span className="text-xs font-bold font-mono" style={{ color: bar.color }}>{bar.value}%</span>
+      </div>
+      <div className="h-1.5 rounded-full" style={{ background: "rgba(255,255,255,0.06)" }}>
+        <motion.div
+          className="h-full rounded-full"
+          initial={{ width: 0 }}
+          animate={inView ? { width: `${bar.value}%` } : { width: 0 }}
+          transition={{ duration: 1.4, ease: [0.16, 1, 0.3, 1], delay: 0.3 }}
+          style={{ background: `linear-gradient(90deg, ${bar.color}99, ${bar.color})` }}
+        />
+      </div>
+    </div>
+  );
+}
 
-            <div className="space-y-4">
-              {features.map((f, i) => {
-                const Icon = f.icon;
-                return (
-                  <motion.div
-                    key={i}
-                    initial={{ opacity: 0, x: -20 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: i * 0.1 }}
-                    className="flex gap-4 p-4 rounded-xl border border-[#0ea5e9]/10 hover:border-[#0ea5e9]/30 hover:bg-[#0ea5e9]/5 transition-all duration-300"
-                  >
-                    <div className="shrink-0 w-12 h-12 rounded-xl bg-[#0ea5e9]/10 flex items-center justify-center text-[#0ea5e9]">
-                      <Icon className="w-6 h-6" />
-                    </div>
-                    <div>
-                      <h3 className="font-display font-bold text-[#e8f0fe] text-lg mb-1">{f.title}</h3>
-                      <p className="text-[#94a3b8] text-sm leading-relaxed">{f.desc}</p>
-                    </div>
-                  </motion.div>
-                );
-              })}
-            </div>
+export default function Features() {
+  const ref = useRef<HTMLDivElement>(null);
+  const inView = useInView(ref, { once: true, margin: "-100px" });
+
+  return (
+    <section className="py-28 relative overflow-hidden" style={{ background: "rgba(13,21,53,0.35)" }}>
+      {/* subtle glow */}
+      <div className="absolute top-0 left-0 w-[500px] h-[400px] rounded-full pointer-events-none"
+        style={{ background: "radial-gradient(circle, rgba(14,165,233,0.08) 0%, transparent 70%)", filter: "blur(80px)" }} />
+
+      <div className="max-w-7xl mx-auto px-6 lg:px-8">
+        {/* Header */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.7 }}
+          className="text-center mb-16"
+        >
+          <div className="inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-mono font-bold uppercase tracking-wider mb-4 border"
+            style={{ background: "rgba(90,236,143,0.1)", borderColor: "rgba(90,236,143,0.3)", color: "#5aec8f" }}>
+            Why NATLE
           </div>
+          <h2 className="font-display text-4xl lg:text-5xl font-black text-white">
+            Why Enterprises{" "}
+            <span style={{ background: "linear-gradient(90deg,#0ea5e9,#5aec8f)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>
+              Choose NATLE
+            </span>
+          </h2>
+        </motion.div>
 
-          {/* Right: Platform Metrics Card */}
-          <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            className="glass-card rounded-[2rem] p-8 relative overflow-hidden"
-          >
-            <div className="absolute inset-0 bg-gradient-to-br from-[#1a3a8f]/20 to-transparent"></div>
-            
-            <div className="relative z-10">
-              <div className="flex items-center justify-between mb-8 pb-6 border-b border-[#0ea5e9]/15">
-                <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-xl bg-gradient-to-tr from-[#1a3a8f] to-[#0ea5e9] flex items-center justify-center shadow-lg shadow-[#0ea5e9]/20">
-                    <Brain className="w-6 h-6 text-white" />
+        <div className="grid lg:grid-cols-2 gap-12 items-start">
+          {/* Feature list */}
+          <div className="space-y-4">
+            {FEATURES.map((f, i) => {
+              const Icon = f.icon;
+              return (
+                <motion.div
+                  key={f.title}
+                  initial={{ opacity: 0, x: -30 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true, margin: "-50px" }}
+                  transition={{ delay: i * 0.08, duration: 0.6 }}
+                  className="flex gap-4 p-5 rounded-2xl border transition-all duration-300 group cursor-default"
+                  style={{
+                    background: "rgba(13,21,53,0.5)",
+                    borderColor: "rgba(14,165,233,0.08)",
+                  }}
+                  whileHover={{ borderColor: `${f.color}45`, scale: 1.01 }}
+                >
+                  <div className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0"
+                    style={{ background: `${f.color}15` }}>
+                    <Icon className="w-5 h-5" style={{ color: f.color }} />
                   </div>
                   <div>
-                    <h3 className="font-bold text-white text-lg">NATLE AI Platform</h3>
-                    <div className="text-[#94a3b8] text-xs">v4.2 Production Ready</div>
+                    <h3 className="font-display font-bold text-white text-sm mb-1">{f.title}</h3>
+                    <p className="text-[#64748b] text-sm leading-relaxed">{f.desc}</p>
                   </div>
+                </motion.div>
+              );
+            })}
+          </div>
+
+          {/* Metrics card */}
+          <motion.div
+            ref={ref}
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="rounded-3xl p-8"
+            style={{
+              background: "rgba(13,21,53,0.7)",
+              backdropFilter: "blur(24px)",
+              border: "1px solid rgba(14,165,233,0.15)",
+              boxShadow: "0 0 60px -20px rgba(14,165,233,0.2)",
+            }}
+          >
+            {/* Card header */}
+            <div className="flex items-center justify-between mb-8">
+              <div>
+                <div className="flex items-center gap-2 mb-1">
+                  <div className="w-2 h-2 rounded-full bg-[#5aec8f] animate-pulse" />
+                  <span className="text-xs text-[#5aec8f] font-mono font-bold uppercase tracking-wider">Live Platform</span>
                 </div>
-                <div className="flex items-center gap-2 bg-[#5aec8f]/10 border border-[#5aec8f]/20 px-3 py-1 rounded-full">
-                  <span className="w-2 h-2 rounded-full bg-[#5aec8f] animate-pulse"></span>
-                  <span className="text-[#5aec8f] text-xs font-bold uppercase">Live</span>
+                <h3 className="font-display text-lg font-bold text-white">NATLE AI Platform</h3>
+                <p className="text-[#64748b] text-xs mt-0.5">v4.2 · Production</p>
+              </div>
+              <div className="text-right">
+                <div className="text-xs font-mono text-[#64748b]">Avg. Time to ROI</div>
+                <div className="font-display text-2xl font-black"
+                  style={{ background: "linear-gradient(90deg,#0ea5e9,#5aec8f)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>
+                  6 weeks
                 </div>
               </div>
+            </div>
 
-              <div className="space-y-6">
-                <div>
-                  <div className="flex justify-between text-sm mb-2">
-                    <span className="text-[#0ea5e9] font-medium">Model Accuracy</span>
-                    <span className="text-white font-bold">98.2%</span>
-                  </div>
-                  <div className="h-2 bg-[#070d24] rounded-full overflow-hidden border border-white/5">
-                    <div className="h-full bg-[#0ea5e9] rounded-full" style={{ width: "98.2%" }}></div>
-                  </div>
-                </div>
+            {/* Progress bars */}
+            {BARS.map(bar => (
+              <CounterBar key={bar.label} bar={bar} inView={inView} />
+            ))}
 
-                <div>
-                  <div className="flex justify-between text-sm mb-2">
-                    <span className="text-[#5aec8f] font-medium">Inference Speed</span>
-                    <span className="text-white font-bold">&lt; 15ms</span>
-                  </div>
-                  <div className="h-2 bg-[#070d24] rounded-full overflow-hidden border border-white/5">
-                    <div className="h-full bg-[#5aec8f] rounded-full" style={{ width: "96.8%" }}></div>
-                  </div>
-                </div>
-
-                <div>
-                  <div className="flex justify-between text-sm mb-2">
-                    <span className="text-[#00c9a7] font-medium">Data Security</span>
-                    <span className="text-white font-bold">100%</span>
-                  </div>
-                  <div className="h-2 bg-[#070d24] rounded-full overflow-hidden border border-white/5">
-                    <div className="h-full bg-[#00c9a7] rounded-full" style={{ width: "100%" }}></div>
-                  </div>
-                </div>
-                
-                <div>
-                  <div className="flex justify-between text-sm mb-2">
-                    <span className="text-[#1a3a8f] font-medium">Client Satisfaction</span>
-                    <span className="text-white font-bold">100%</span>
-                  </div>
-                  <div className="h-2 bg-[#070d24] rounded-full overflow-hidden border border-white/5">
-                    <div className="h-full bg-[#1a3a8f] rounded-full" style={{ width: "100%" }}></div>
-                  </div>
-                </div>
-              </div>
-
-              <div className="flex flex-wrap gap-2 mt-8">
-                {["SOC 2", "GDPR", "ISO 27001", "HIPAA"].map(cert => (
-                  <div key={cert} className="badge-healthcare px-3 py-1.5 rounded-full text-xs font-bold flex items-center gap-1.5">
-                    <CheckCircle className="w-3.5 h-3.5" />
-                    {cert}
-                  </div>
-                ))}
-              </div>
-
+            {/* Compliance badges */}
+            <div className="flex flex-wrap gap-2 mt-8 pt-6" style={{ borderTop: "1px solid rgba(255,255,255,0.06)" }}>
+              {["SOC 2", "GDPR", "ISO 27001", "HIPAA"].map(b => (
+                <span key={b} className="text-xs px-3 py-1 rounded-full font-bold"
+                  style={{ background: "rgba(14,165,233,0.1)", border: "1px solid rgba(14,165,233,0.25)", color: "#38bdf8" }}>
+                  {b}
+                </span>
+              ))}
             </div>
           </motion.div>
-
         </div>
       </div>
     </section>
   );
 }
-

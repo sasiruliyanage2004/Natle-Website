@@ -4,10 +4,11 @@ import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import AuroraBackdrop from "@/components/AuroraBackdrop";
+import SmoothScroll from "@/components/SmoothScroll";
 
 const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
-  weight: ["500", "600", "700"],
+  weight: ["400", "500", "600", "700"],
   variable: "--font-space-grotesk",
 });
 
@@ -30,11 +31,13 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={`${spaceGrotesk.variable} ${inter.variable} dark`}>
-      <body className="relative min-h-screen overflow-x-hidden bg-base font-body text-ink">
-        <AuroraBackdrop />
-        <Navbar />
-        <main className="relative z-10">{children}</main>
-        <Footer />
+      <body className="relative min-h-screen overflow-x-hidden font-body text-ink" style={{ background: "#070d24", color: "#e8f0fe" }}>
+        <SmoothScroll>
+          <AuroraBackdrop />
+          <Navbar />
+          <main className="relative z-10">{children}</main>
+          <Footer />
+        </SmoothScroll>
       </body>
     </html>
   );
