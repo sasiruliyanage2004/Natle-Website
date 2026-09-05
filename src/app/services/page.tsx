@@ -42,7 +42,7 @@ export default function ServicesPage() {
       <section className="pb-16 pt-20 md:pt-28">
         <Reveal>
           <h1 className="max-w-2xl font-display text-4xl font-bold leading-[1.1] text-[#0a1628] md:text-5xl">
-            Three services. <span className="text-gradient-brand">One team that owns the outcome.</span>
+            Three services. <span className="gradient-text">One team that owns the outcome.</span>
           </h1>
           <p className="mt-6 max-w-xl text-lg leading-relaxed text-[#475569]">
             Most AI vendors hand you a model and a Slack channel. We stay
@@ -61,7 +61,7 @@ export default function ServicesPage() {
             <Reveal key={service.title} delay={i * 0.05}>
               <div className="clay-card border-none grid gap-8 p-8 md:grid-cols-[280px_1fr] md:p-10">
                 <div className={`flex flex-col justify-center ${reversed ? "md:order-2" : ""}`}>
-                  <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-brand-gradient-soft">
+                  <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-[#0ea5e9]/10">
                     <Icon size={26} className="text-[#0ea5e9]" />
                   </div>
                   <h2 className="mt-5 font-display text-2xl font-semibold text-[#0a1628]">
@@ -125,7 +125,7 @@ export default function ServicesPage() {
                 Tell us what's breaking and we'll tell you where to start.
               </p>
             </div>
-            <Link href="/contact" className="btn-ghost shrink-0">
+            <Link href="/contact" className="clay-btn px-6 py-2.5 rounded-full shrink-0">
               Get a recommendation
             </Link>
           </div>

@@ -9,7 +9,7 @@ export default function SolutionsPage() {
         <Reveal>
           <h1 className="max-w-2xl font-display text-4xl font-bold leading-[1.1] text-[#0a1628] md:text-5xl">
             Solutions built for the industries{" "}
-            <span className="text-gradient-brand">where mistakes are expensive.</span>
+            <span className="gradient-text">where mistakes are expensive.</span>
           </h1>
           <p className="mt-6 max-w-xl text-lg leading-relaxed text-[#475569]">
             The same AI system looks different in a hospital, a bank, and a

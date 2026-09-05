@@ -80,9 +80,9 @@ export default function CareersPage() {
             <motion.div 
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
-              className="inline-flex items-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-4 py-1.5 text-xs font-black uppercase tracking-wider text-[#059669] dark:text-[#10E599] shadow-sm mb-6"
+              className="inline-flex items-center gap-2 rounded-full border border-[#0ea5e9]/30 bg-[#0ea5e9]/10 px-4 py-1.5 text-xs font-black uppercase tracking-wider text-[#059669] [#10E599] shadow-sm mb-6"
             >
-              <Briefcase className="w-4 h-4 text-[#059669] dark:text-[#10E599]" />
+              <Briefcase className="w-4 h-4 text-[#059669] [#10E599]" />
               <span>Join the Engineering Movement</span>
             </motion.div>
 
@@ -124,7 +124,7 @@ export default function CareersPage() {
                   whileHover={{ y: -8, scale: 1.02, transition: { duration: 0.25 } }}
                   className="clay-card border-none rounded-3xl p-8 shadow-xl hover:shadow-2xl hover:border-emerald-500/50 transition-all cursor-pointer"
                 >
-                  <div className="w-12 h-12 rounded-2xl bg-emerald-500/10 text-[#059669] dark:text-[#10E599] border border-emerald-500/20 flex items-center justify-center mb-6">
+                  <div className="w-12 h-12 rounded-2xl bg-[#0ea5e9]/10 text-[#059669] [#10E599] border border-emerald-500/20 flex items-center justify-center mb-6">
                     <Icon className="w-6 h-6" />
                   </div>
                   <h3 className="text-xl font-black text-[#0a1628] ">{p.title}</h3>
@@ -142,7 +142,7 @@ export default function CareersPage() {
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
-              className="text-xs font-mono font-bold text-[#059669] dark:text-[#10E599] uppercase tracking-widest"
+              className="text-xs font-mono font-bold text-[#059669] [#10E599] uppercase tracking-widest"
             >
               Opportunities
             </motion.span>
@@ -169,16 +169,16 @@ export default function CareersPage() {
               >
                 <div>
                   <div className="flex items-center gap-3 mb-2">
-                    <span className="px-3 py-1 rounded-full bg-emerald-500/10 text-[#059669] dark:text-[#10E599] text-xs font-mono font-bold border border-emerald-500/20">
+                    <span className="px-3 py-1 rounded-full bg-[#0ea5e9]/10 text-[#059669] [#10E599] text-xs font-mono font-bold border border-emerald-500/20">
                       {job.department}
                     </span>
-                    <span className="px-3 py-1 rounded-full bg-[#ffffff]  text-[#475569] dark:text-emerald-200/70 text-xs font-mono">
+                    <span className="px-3 py-1 rounded-full bg-[#ffffff]  text-[#475569]  text-xs font-mono">
                       {job.type}
                     </span>
                   </div>
                   <h3 className="text-2xl font-black text-[#0a1628] ">{job.title}</h3>
-                  <p className="text-xs text-[#475569] dark:text-emerald-300/60 mt-1 flex items-center gap-1.5 font-medium">
-                    <MapPin className="w-3.5 h-3.5 text-slate-400 dark:text-emerald-400/60" />
+                  <p className="text-xs text-[#475569]  mt-1 flex items-center gap-1.5 font-medium">
+                    <MapPin className="w-3.5 h-3.5 text-[#475569] " />
                     {job.location}
                   </p>
                   <p className="text-xs text-[#475569]  mt-3 max-w-2xl font-normal leading-relaxed">{job.snippet}</p>

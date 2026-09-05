@@ -23,8 +23,8 @@ export default function BlogPage() {
 
         {/* Hero Header */}
         <section className="pt-36 pb-16 md:pt-48 md:pb-20 text-center max-w-4xl mx-auto px-4">
-          <div className="inline-flex items-center gap-2 rounded-full border border-emerald-300/80 bg-white/80  px-4 py-1.5 text-xs font-mono font-bold uppercase tracking-wider text-[#059669] dark:text-emerald-400 shadow-sm backdrop-blur-md mb-6">
-            <BookOpen className="w-4 h-4 text-[#059669] dark:text-emerald-400" />
+          <div className="inline-flex items-center gap-2 rounded-full border border-emerald-300/80 bg-white/80  px-4 py-1.5 text-xs font-mono font-bold uppercase tracking-wider text-[#059669]  shadow-sm backdrop-blur-md mb-6">
+            <BookOpen className="w-4 h-4 text-[#059669] " />
             <span>Enterprise AI &bull; Research &amp; Whitepapers</span>
           </div>
 

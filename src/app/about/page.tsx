@@ -45,7 +45,7 @@ export default function AboutPage() {
         <Reveal>
           <h1 className="font-display text-4xl font-bold leading-[1.1] text-[#0a1628] md:text-5xl">
             We build the AI systems that sit behind the decisions{" "}
-            <span className="text-gradient-brand">you can't afford to get wrong.</span>
+            <span className="gradient-text">you can't afford to get wrong.</span>
           </h1>
           <p className="mt-6 max-w-xl text-lg leading-relaxed text-[#475569]">
             NATLE Technologies designs, deploys, and operates AI infrastructure for
@@ -58,7 +58,7 @@ export default function AboutPage() {
           <div className="clay-card border-none flex h-full flex-col justify-center gap-6 p-8">
             {STATS.map((stat) => (
               <div key={stat.label}>
-                <p className="font-display text-3xl font-bold text-gradient-brand">
+                <p className="font-display text-3xl font-bold gradient-text">
                   {stat.value}
                 </p>
                 <p className="mt-1 text-sm text-[#475569]">{stat.label}</p>
@@ -73,7 +73,7 @@ export default function AboutPage() {
         <Reveal>
           <div className="grid gap-10 md:grid-cols-[240px_1fr]">
             <h2 className="font-display text-2xl font-bold text-[#0a1628] md:sticky md:top-28 md:self-start">
-              How we <span className="text-gradient-brand">got here</span>
+              How we <span className="gradient-text">got here</span>
             </h2>
             <div className="max-w-2xl space-y-5 text-base leading-relaxed text-[#475569]">
               <p>
@@ -98,7 +98,7 @@ export default function AboutPage() {
       <section className="border-t border-[#e2e8f0] py-20">
         <Reveal>
           <h2 className="font-display text-2xl font-bold text-[#0a1628] md:text-3xl">
-            What we <span className="text-gradient-brand">optimize for</span>
+            What we <span className="gradient-text">optimize for</span>
           </h2>
         </Reveal>
         <div className="mt-10 grid gap-5 md:grid-cols-3">
@@ -121,7 +121,7 @@ export default function AboutPage() {
       <section className="border-t border-[#e2e8f0] py-20">
         <Reveal>
           <h2 className="font-display text-2xl font-bold text-[#0a1628] md:text-3xl">
-            Four years, <span className="text-gradient-brand">in short</span>
+            Four years, <span className="gradient-text">in short</span>
           </h2>
         </Reveal>
         <div className="mt-10 space-y-0">
