@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { motion } from "framer-motion";
 import {
   ArrowRight,
@@ -168,8 +169,14 @@ export default function CTAFooter() {
           {/* Col 1: Brand & Office (4 cols) */}
           <div className="lg:col-span-4 space-y-4">
             <div>
-              <Link href="/" className="inline-block font-display text-xl font-black tracking-tight text-[#0a1628]">
-                NATLE<span className="text-[#0ea5e9]">.</span>
+              <Link href="/" className="inline-block group">
+                <Image
+                  src="/natle-logo.jpeg"
+                  alt="NATLE Technologies"
+                  width={130}
+                  height={38}
+                  className="h-8 w-auto object-contain mix-blend-multiply transition-transform duration-200 group-hover:scale-105"
+                />
               </Link>
               <p className="mt-2 text-xs text-[#64748b] leading-relaxed max-w-xs">
                 Architecting high-reliability, sovereign enterprise AI platforms across healthcare diagnostics, agricultural telemetry, and enterprise automation.

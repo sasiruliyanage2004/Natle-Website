@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
@@ -31,14 +32,21 @@ export default function Navbar() {
  return (
  <header className="fixed top-0 inset-x-0 z-50 flex justify-center pt-6 px-6 pointer-events-none">
  <nav
- className={`pointer-events-auto flex items-center justify-between w-full max-w-6xl rounded-full transition-all duration-300 px-6 py-3 ${scrolled ? 'clay-card' : ''}`}
+ className={`pointer-events-auto flex items-center justify-between w-full max-w-6xl rounded-full transition-all duration-300 px-6 py-2.5 ${scrolled ? 'clay-card' : ''}`}
  style={{
- background: scrolled ? "#ffffff" : "rgba(255,255,255,0.4)",
+ background: scrolled ? "#ffffff" : "rgba(255,255,255,0.75)",
  backdropFilter: scrolled ? "none" : "blur(24px)",
  }}
  >
- <Link href="/" className="font-display text-xl font-black tracking-tight" style={{ color: "#0a1628" }}>
- NATLE<span style={{ color: "#0ea5e9" }}>.</span>
+ <Link href="/" className="flex items-center gap-2 group shrink-0">
+ <Image
+ src="/natle-logo.jpeg"
+ alt="NATLE Technologies"
+ width={130}
+ height={38}
+ priority
+ className="h-8 sm:h-9 w-auto object-contain mix-blend-multiply transition-transform duration-200 group-hover:scale-105"
+ />
  </Link>
 
  <ul className="hidden lg:flex items-center gap-7">
