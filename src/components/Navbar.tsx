@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import Image from "next/image";
+import NatleLogo from "@/components/common/NatleLogo";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
@@ -38,15 +38,8 @@ export default function Navbar() {
  backdropFilter: scrolled ? "none" : "blur(24px)",
  }}
  >
- <Link href="/" className="flex items-center gap-2 group shrink-0">
- <Image
- src="/natle-logo.jpeg"
- alt="NATLE Technologies"
- width={130}
- height={38}
- priority
- className="h-8 sm:h-9 w-auto object-contain mix-blend-multiply transition-transform duration-200 group-hover:scale-105"
- />
+ <Link href="/" className="flex items-center group shrink-0 py-0.5" aria-label="NATLE Home">
+ <NatleLogo className="h-9 sm:h-10 md:h-11 w-auto" showTagline={true} />
  </Link>
 
  <ul className="hidden lg:flex items-center gap-7">

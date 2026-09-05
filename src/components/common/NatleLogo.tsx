@@ -14,32 +14,32 @@ export default function NatleLogo({
  const [isHovered, setIsHovered] = useState(false);
 
  return (
- <div 
- className={cn("group relative flex flex-col justify-center select-none cursor-pointer text-slate-900 ", className)}
- onMouseEnter={() => setIsHovered(true)}
- onMouseLeave={() => setIsHovered(false)}
- >
- {/* 1. Ambient Bioluminescent Glow Aura */}
- <motion.div 
- className="pointer-events-none absolute -inset-2.5 rounded-2xl bg-gradient-to-r from-[#0052FF]/15 via-[#00D2FF]/20 to-[#10E599]/25 blur-xl"
- animate={{
- opacity: isHovered ? 0.95 : 0.2,
- scale: isHovered ? 1.08 : 0.95,
- }}
- transition={{ duration: 0.5, ease: "easeOut" }}
- />
+    <div 
+      className={cn("group relative inline-flex items-center justify-center select-none cursor-pointer text-[#0a1628]", className)}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
+      {/* 1. Ambient Bioluminescent Glow Aura */}
+      <motion.div 
+        className="pointer-events-none absolute -inset-3 rounded-2xl bg-gradient-to-r from-[#0052FF]/15 via-[#00D2FF]/20 to-[#10E599]/25 blur-xl"
+        animate={{
+          opacity: isHovered ? 0.95 : 0.2,
+          scale: isHovered ? 1.08 : 0.95,
+        }}
+        transition={{ duration: 0.5, ease: "easeOut" }}
+      />
 
- {/* 2. Pristine Vector SVG Logo: [ N ] [ A ] [ T ] [ L ] [ E ] */}
- <motion.svg
- viewBox="0 0 460 160"
- className="h-8 sm:h-10 md:h-12 w-auto overflow-visible"
- fill="none"
- xmlns="http://www.w3.org/2000/svg"
- animate={{
- y: isHovered ? -2 : 0,
- }}
- transition={{ type: "spring", stiffness: 300, damping: 20 }}
- >
+      {/* 2. Pristine Vector SVG Logo: [ N ] [ A ] [ T ] [ L ] [ E ] */}
+      <motion.svg
+        viewBox="0 0 460 160"
+        className="h-9 sm:h-10 md:h-11 lg:h-12 w-auto overflow-visible"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        animate={{
+          y: isHovered ? -2 : 0,
+        }}
+        transition={{ type: "spring", stiffness: 300, damping: 20 }}
+      >
  <defs>
  {/* Quantum Bio-Sapphire Gradient */}
  <linearGradient id="nLeftPillar" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -135,16 +135,12 @@ export default function NatleLogo({
 
 
  {/* ==================== 2. LETTER 'A' (Triangular Chevron with Cutout) ==================== */}
- <g>
  <path
- d="M 188 114 L 218 54 L 248 114 L 230 114 L 218 88 L 206 114 Z"
- fill="url(#letterAGrad)"
+   d="M 188 114 L 218 54 L 248 114 L 230 114 L 218 88 L 206 114 Z M 218 70 L 228 94 L 208 94 Z"
+   fillRule="evenodd"
+   clipRule="evenodd"
+   fill="url(#letterAGrad)"
  />
- <polygon 
- points="218,70 228,94 208,94" 
- className="fill-white ] group-[.text-white]:fill-[#071326]"
- />
- </g>
 
 
  {/* ==================== 3. LETTER 'T' ==================== */}
