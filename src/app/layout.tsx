@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Space_Grotesk, Inter } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
 import AuroraBackdrop from "@/components/AuroraBackdrop";
 import SmoothScroll from "@/components/SmoothScroll";
 
@@ -36,7 +35,6 @@ export default function RootLayout({
           <AuroraBackdrop />
           <Navbar />
           <main className="relative z-10">{children}</main>
-          <Footer />
         </SmoothScroll>
       </body>
     </html>

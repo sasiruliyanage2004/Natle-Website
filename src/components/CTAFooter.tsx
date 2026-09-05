@@ -1,162 +1,246 @@
 "use client";
 
-import React, { useState } from "react";
-import { motion } from "framer-motion";
-import { ArrowRight, ShieldCheck, Mail, MapPin, Phone } from "lucide-react";
-import NatleLogo from "@/components/common/NatleLogo";
+import { useRef } from "react";
+import { motion, useInView } from "framer-motion";
 import Link from "next/link";
-import { validateEmail, sanitizeInput } from "@/lib/security";
+import { ArrowUpRight, Mail, MapPin, Phone } from "lucide-react";
 
-export default function CTAFooter() {
-  const [email, setEmail] = useState("");
-  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
-  const [errorMsg, setErrorMsg] = useState("");
+const NAV = [
+  {
+    heading: "Platform",
+    links: [
+      { label: "Services", href: "/services" },
+      { label: "Solutions", href: "/solutions" },
+      { label: "Projects", href: "/projects" },
+      { label: "Pricing", href: "/contact" },
+    ],
+  },
+  {
+    heading: "Company",
+    links: [
+      { label: "About Us", href: "/about" },
+      { label: "Careers", href: "/careers" },
+      { label: "Blog", href: "/blog" },
+      { label: "Contact", href: "/contact" },
+    ],
+  },
+  {
+    heading: "Resources",
+    links: [
+      { label: "Documentation", href: "#" },
+      { label: "Case Studies", href: "/projects" },
+      { label: "Security", href: "#" },
+      { label: "Status", href: "#" },
+    ],
+  },
+];
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setErrorMsg("");
-    
-    const sanitizedEmail = sanitizeInput(email);
-    if (!validateEmail(sanitizedEmail)) {
-      setStatus("error");
-      setErrorMsg("Please enter a valid corporate email address.");
-      return;
-    }
+const CONTACT = [
+  { icon: MapPin, text: "Level 4, Access Towers II, Colombo 02, Sri Lanka" },
+  { icon: Phone, text: "+94 11 234 5678" },
+  { icon: Mail, text: "enterprise@natle.com" },
+];
 
-    setStatus("loading");
-    setTimeout(() => {
-      setStatus("success");
-      setEmail("");
-    }, 1500);
-  };
+// Staggered word reveal animation
+function BigRevealText({ children }: { children: string }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const inView = useInView(ref, { once: true, margin: "-100px" });
+  const words = children.split(" ");
 
   return (
-    <footer className="relative bg-[#070d24] overflow-hidden pt-24 pb-12 border-t border-[#0ea5e9]/20">
-      {/* Background Aurora */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-gradient-to-b from-[#1a3a8f]/20 to-transparent blur-[100px] pointer-events-none"></div>
+    <div ref={ref} className="overflow-hidden">
+      <div className="flex flex-wrap gap-x-[0.22em]">
+        {words.map((word, i) => (
+          <div key={i} className="overflow-hidden">
+            <motion.span
+              className="block"
+              initial={{ y: "110%" }}
+              animate={inView ? { y: "0%" } : { y: "110%" }}
+              transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.05 + i * 0.08 }}
+            >
+              {word}
+            </motion.span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        
-        {/* Top CTA Section */}
-        <div className="glass-card rounded-[2.5rem] p-8 md:p-16 mb-20 text-center relative overflow-hidden">
-          <div className="absolute inset-0 bg-[url('/images/noise.png')] opacity-[0.03] mix-blend-overlay"></div>
-          
+export default function CTAFooter() {
+  const ref = useRef<HTMLDivElement>(null);
+  const inView = useInView(ref, { once: true, margin: "-80px" });
+
+  return (
+    <footer
+      className="relative overflow-hidden"
+      style={{
+        background: "linear-gradient(180deg, transparent 0%, rgba(2,8,24,0.95) 8%, #020818 100%)",
+        borderTop: "1px solid rgba(14,165,233,0.08)",
+      }}
+    >
+      {/* ── CTA Section (Revnue-inspired large enter animation) ── */}
+      <div
+        ref={ref}
+        className="relative max-w-7xl mx-auto px-6 lg:px-12 pt-28 pb-24 border-b"
+        style={{ borderColor: "rgba(14,165,233,0.08)" }}
+      >
+        {/* Glowing blob behind CTA text */}
+        <div
+          className="absolute top-0 left-1/2 -translate-x-1/2 pointer-events-none"
+          style={{
+            width: "700px",
+            height: "400px",
+            background: "radial-gradient(ellipse, rgba(14,165,233,0.12) 0%, transparent 70%)",
+            filter: "blur(60px)",
+          }}
+        />
+
+        {/* Eyebrow badge */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6 }}
+          className="flex justify-center mb-8"
+        >
+          <span
+            className="inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-xs font-mono font-bold uppercase tracking-widest border"
+            style={{ background: "rgba(90,236,143,0.1)", borderColor: "rgba(90,236,143,0.3)", color: "#5aec8f" }}
+          >
+            <span className="w-1.5 h-1.5 rounded-full bg-[#5aec8f] animate-pulse" />
+            Start Today
+          </span>
+        </motion.div>
+
+        {/* Giant heading — Revnue style word-by-word reveal */}
+        <div className="text-center mb-10">
+          <h2
+            className="font-display font-black text-white leading-[1.0] mb-2"
+            style={{ fontSize: "clamp(3rem, 8vw, 7rem)" }}
+          >
+            <BigRevealText>Ready to Move</BigRevealText>
+          </h2>
+          <h2
+            className="font-display font-black leading-[1.0]"
+            style={{
+              fontSize: "clamp(3rem, 8vw, 7rem)",
+              background: "linear-gradient(90deg, #0ea5e9 0%, #5aec8f 60%)",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+              backgroundClip: "text",
+            }}
+          >
+            <BigRevealText>Your Industry?</BigRevealText>
+          </h2>
+        </div>
+
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6, delay: 0.5 }}
+          className="text-center text-[#64748b] text-lg max-w-xl mx-auto mb-12"
+        >
+          Let&apos;s build something intelligent. Talk to a NATLE engineer and get your AI roadmap in 48 hours.
+        </motion.p>
+
+        {/* CTA Buttons */}
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6, delay: 0.65 }}
+          className="flex flex-col sm:flex-row gap-4 justify-center"
+        >
+          <Link
+            href="/contact"
+            className="group flex items-center justify-center gap-2 px-10 py-4 rounded-full font-bold text-white text-sm transition-all duration-300 hover:scale-105"
+            style={{ background: "linear-gradient(135deg, #1a3a8f 0%, #0ea5e9 55%, #5aec8f 100%)", boxShadow: "0 4px 30px -6px rgba(14,165,233,0.55)" }}
+          >
+            Request a Demo
+            <ArrowUpRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+          </Link>
+          <Link
+            href="/services"
+            className="flex items-center justify-center gap-2 px-10 py-4 rounded-full font-bold text-sm transition-all duration-300 hover:scale-105"
+            style={{ background: "rgba(14,165,233,0.07)", border: "1px solid rgba(14,165,233,0.3)", color: "#38bdf8" }}
+          >
+            Explore Services
+          </Link>
+        </motion.div>
+      </div>
+
+      {/* ── Footer Links Grid ── */}
+      <div
+        className="max-w-7xl mx-auto px-6 lg:px-12 py-16 grid grid-cols-2 lg:grid-cols-5 gap-10 border-b"
+        style={{ borderColor: "rgba(14,165,233,0.06)" }}
+      >
+        {/* Brand column */}
+        <div className="col-span-2">
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="relative z-10"
+            transition={{ duration: 0.6 }}
           >
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#1a3a8f]/20 border border-[#1a3a8f]/40 text-[#0ea5e9] text-xs font-bold uppercase tracking-wider mb-6">
-              <ShieldCheck className="w-4 h-4" />
-              Secure Enterprise Deployment
+            {/* Logo wordmark */}
+            <div className="font-display text-2xl font-black tracking-tight mb-4">
+              <span className="text-white">NATLE</span>
+              <span style={{ color: "#0ea5e9" }}>.</span>
             </div>
-            
-            <h2 className="font-display text-4xl sm:text-5xl md:text-6xl font-bold text-white mb-6">
-              Ready to <span className="gradient-text">Scale with AI?</span>
-            </h2>
-            
-            <p className="text-[#94a3b8] text-lg max-w-2xl mx-auto mb-10">
-              Join industry leaders who trust NATLE to transform their operations. Get a custom architecture assessment for your enterprise today.
+            <p className="text-[#64748b] text-sm leading-relaxed mb-6 max-w-[220px]">
+              Enterprise AI systems, engineered for production — not demos.
             </p>
 
-            <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3 max-w-lg mx-auto mb-4">
-              <div className="relative flex-grow">
-                <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-[#64748b]" />
-                <input
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="Enter your corporate email"
-                  className="w-full bg-[#070d24]/50 border border-[#0ea5e9]/20 rounded-full py-4 pl-12 pr-4 text-white placeholder:text-[#64748b] focus:outline-none focus:border-[#0ea5e9]/60 focus:ring-1 focus:ring-[#0ea5e9]/60 transition-all"
-                  required
-                />
-              </div>
-              <button
-                type="submit"
-                disabled={status === "loading" || status === "success"}
-                className="gradient-btn px-8 py-4 rounded-full flex items-center justify-center gap-2 whitespace-nowrap disabled:opacity-70"
-              >
-                {status === "loading" ? (
-                  "Processing..."
-                ) : status === "success" ? (
-                  "Assessment Requested ?"
-                ) : (
-                  <>
-                    Request Assessment <ArrowRight className="w-4 h-4" />
-                  </>
-                )}
-              </button>
-            </form>
-            {status === "error" && <p className="text-red-400 text-xs mt-2">{errorMsg}</p>}
-            
-            <div className="flex items-center justify-center gap-6 mt-8 text-[#64748b] text-xs font-medium">
-              <span className="flex items-center gap-1.5"><ShieldCheck className="w-4 h-4 text-[#0ea5e9]" /> SOC 2 Certified</span>
-              <span className="flex items-center gap-1.5"><ShieldCheck className="w-4 h-4 text-[#5aec8f]" /> HIPAA Compliant</span>
+            {/* Contact info */}
+            <div className="space-y-3">
+              {CONTACT.map((c, i) => {
+                const Icon = c.icon;
+                return (
+                  <div key={i} className="flex items-start gap-2.5">
+                    <Icon className="w-4 h-4 mt-0.5 shrink-0" style={{ color: "#0ea5e9" }} />
+                    <span className="text-xs text-[#64748b]">{c.text}</span>
+                  </div>
+                );
+              })}
             </div>
           </motion.div>
         </div>
 
-        {/* Bottom Footer Links */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
-          <div className="md:col-span-1">
-            <NatleLogo showTagline={false} />
-            <p className="mt-6 text-[#64748b] text-sm leading-relaxed">
-              NATLE Technologies delivers intelligent, scalable AI solutions that transform how enterprises operate, compete, and grow.
-            </p>
-          </div>
-          
-          <div>
-            <h4 className="font-bold text-white mb-6 uppercase tracking-wider text-sm">Platforms</h4>
+        {/* Nav columns */}
+        {NAV.map((col, ci) => (
+          <motion.div
+            key={col.heading}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: ci * 0.1 }}
+          >
+            <h4 className="text-white font-bold text-xs uppercase tracking-widest mb-5">{col.heading}</h4>
             <ul className="space-y-3">
-              <li><Link href="/services#healthcare" className="text-[#94a3b8] hover:text-[#0ea5e9] text-sm transition-colors">Healthcare AI</Link></li>
-              <li><Link href="/services#agriculture" className="text-[#94a3b8] hover:text-[#5aec8f] text-sm transition-colors">Agriculture AI</Link></li>
-              <li><Link href="/services#pos" className="text-[#94a3b8] hover:text-[#f97316] text-sm transition-colors">Retail POS</Link></li>
-              <li><Link href="/services#education" className="text-[#94a3b8] hover:text-[#a855f7] text-sm transition-colors">EdTech Systems</Link></li>
-              <li><Link href="/services#hr" className="text-[#94a3b8] hover:text-[#14b8a6] text-sm transition-colors">HR Analytics</Link></li>
+              {col.links.map(link => (
+                <li key={link.label}>
+                  <Link
+                    href={link.href}
+                    className="text-sm text-[#64748b] hover:text-[#0ea5e9] transition-colors duration-200"
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
             </ul>
-          </div>
+          </motion.div>
+        ))}
+      </div>
 
-          <div>
-            <h4 className="font-bold text-white mb-6 uppercase tracking-wider text-sm">Company</h4>
-            <ul className="space-y-3">
-              <li><Link href="/about" className="text-[#94a3b8] hover:text-white text-sm transition-colors">About Us</Link></li>
-              <li><Link href="/projects" className="text-[#94a3b8] hover:text-white text-sm transition-colors">Case Studies</Link></li>
-              <li><Link href="/careers" className="text-[#94a3b8] hover:text-white text-sm transition-colors">Careers</Link></li>
-              <li><Link href="/blog" className="text-[#94a3b8] hover:text-white text-sm transition-colors">Insights</Link></li>
-            </ul>
-          </div>
-
-          <div>
-            <h4 className="font-bold text-white mb-6 uppercase tracking-wider text-sm">Contact HQ</h4>
-            <ul className="space-y-4">
-              <li className="flex items-start gap-3">
-                <MapPin className="w-5 h-5 text-[#0ea5e9] shrink-0 mt-0.5" />
-                <span className="text-[#94a3b8] text-sm">Level 4, Access Towers II,<br/>Colombo 02, Sri Lanka</span>
-              </li>
-              <li className="flex items-center gap-3">
-                <Phone className="w-5 h-5 text-[#0ea5e9] shrink-0" />
-                <span className="text-[#94a3b8] text-sm">+94 11 234 5678</span>
-              </li>
-              <li className="flex items-center gap-3">
-                <Mail className="w-5 h-5 text-[#0ea5e9] shrink-0" />
-                <span className="text-[#94a3b8] text-sm">enterprise@natle.com</span>
-              </li>
-            </ul>
-          </div>
-        </div>
-
-        <div className="pt-8 border-t border-white/10 flex flex-col md:flex-row items-center justify-between gap-4">
-          <p className="text-[#64748b] text-xs">
-            &copy; {new Date().getFullYear()} NATLE Technologies (Pvt) Ltd. All rights reserved.
-          </p>
-          <div className="flex gap-6">
-            <Link href="/privacy" className="text-[#64748b] hover:text-white text-xs transition-colors">Privacy Policy</Link>
-            <Link href="/terms" className="text-[#64748b] hover:text-white text-xs transition-colors">Terms of Service</Link>
-          </div>
+      {/* ── Bottom bar ── */}
+      <div className="max-w-7xl mx-auto px-6 lg:px-12 py-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <p className="text-xs text-[#475569]">
+          © 2026 NATLE Technologies (Pvt) Ltd. All rights reserved.
+        </p>
+        <div className="flex items-center gap-6">
+          <Link href="#" className="text-xs text-[#475569] hover:text-[#0ea5e9] transition-colors">Privacy Policy</Link>
+          <Link href="#" className="text-xs text-[#475569] hover:text-[#0ea5e9] transition-colors">Terms of Service</Link>
         </div>
       </div>
     </footer>
   );
 }
-
