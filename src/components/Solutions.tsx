@@ -3,6 +3,7 @@
 import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { Brain, Leaf, ShoppingCart, GraduationCap, Users, Cpu, ArrowRight } from "lucide-react";
+import { TechCornerBrackets } from "@/components/common/TechCornerBrackets";
 
 const DOMAINS = [
  {
@@ -98,8 +99,10 @@ export default function Solutions() {
  return (
  <div
  key={d.label}
- className="clay-card shrink-0 w-[310px] lg:w-[360px] p-7 flex flex-col gap-5 cursor-pointer group"
+ className="clay-card relative shrink-0 w-[310px] lg:w-[360px] p-7 flex flex-col gap-5 cursor-pointer group hover:border-[#0ea5e9]/40 hover:-translate-y-1 transition-all duration-300"
  >
+ <TechCornerBrackets color={`${d.color}66`} size={10} offset={8} />
+
  <div className="w-12 h-12 rounded-2xl flex items-center justify-center shrink-0 border"
  style={{ background: `${d.color}12`, borderColor: `${d.color}30` }}>
  <Icon className="w-6 h-6" style={{ color: d.color }} />
