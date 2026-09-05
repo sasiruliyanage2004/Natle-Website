@@ -10,6 +10,9 @@ const LINKS = [
   { href: "/about", label: "About" },
   { href: "/services", label: "Services" },
   { href: "/solutions", label: "Solutions" },
+  { href: "/projects", label: "Projects" },
+  { href: "/blog", label: "Blog" },
+  { href: "/careers", label: "Careers" },
   { href: "/contact", label: "Contact" },
 ];
 
@@ -28,19 +31,17 @@ export default function Navbar() {
   return (
     <header className="fixed top-0 inset-x-0 z-50 flex justify-center pt-6 px-6 pointer-events-none">
       <nav
-        className="pointer-events-auto flex items-center justify-between w-full max-w-5xl rounded-full transition-all duration-300 px-6 py-3"
+        className={`pointer-events-auto flex items-center justify-between w-full max-w-6xl rounded-full transition-all duration-300 px-6 py-3 ${scrolled ? 'clay-card' : ''}`}
         style={{
-          background: scrolled ? "rgba(255,255,255,0.85)" : "rgba(255,255,255,0.4)",
-          backdropFilter: "blur(24px)",
-          border: "1px solid rgba(14,165,233,0.15)",
-          boxShadow: scrolled ? "0 8px 32px -8px rgba(10,22,60,0.1)" : "none",
+          background: scrolled ? "#ffffff" : "rgba(255,255,255,0.4)",
+          backdropFilter: scrolled ? "none" : "blur(24px)",
         }}
       >
         <Link href="/" className="font-display text-xl font-black tracking-tight" style={{ color: "#0a1628" }}>
           NATLE<span style={{ color: "#0ea5e9" }}>.</span>
         </Link>
 
-        <ul className="hidden md:flex items-center gap-8">
+        <ul className="hidden lg:flex items-center gap-7">
           {LINKS.map((link) => {
             const active = pathname === link.href;
             return (
@@ -66,7 +67,7 @@ export default function Navbar() {
           })}
         </ul>
 
-        <div className="hidden md:block">
+        <div className="hidden lg:block">
           <Link
             href="/contact"
             className="clay-btn flex items-center justify-center px-6 py-2.5 rounded-full text-sm font-bold"
@@ -76,7 +77,7 @@ export default function Navbar() {
         </div>
 
         <button
-          className="md:hidden"
+          className="lg:hidden"
           onClick={() => setOpen((v) => !v)}
           style={{ color: "#0a1628" }}
         >
@@ -91,8 +92,7 @@ export default function Navbar() {
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
-            className="absolute top-24 left-6 right-6 rounded-3xl overflow-hidden pointer-events-auto border"
-            style={{ background: "rgba(255,255,255,0.95)", backdropFilter: "blur(24px)", borderColor: "rgba(14,165,233,0.15)", boxShadow: "0 12px 40px -10px rgba(10,22,60,0.15)" }}
+            className="absolute top-24 left-6 right-6 rounded-3xl overflow-hidden pointer-events-auto clay-card lg:hidden"
           >
             <ul className="flex flex-col p-4 gap-2">
               {LINKS.map((link) => (

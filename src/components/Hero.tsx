@@ -270,15 +270,13 @@ export default function Hero() {
             ].map((b, i) => (
               <motion.div
                 key={b.label}
-                className="absolute px-3 py-1.5 rounded-full text-xs font-bold backdrop-blur-md z-10 pointer-events-none border"
+                className="clay-card absolute px-4 py-2 rounded-full text-xs font-bold z-10 pointer-events-none"
                 style={{
                   ...b as any,
-                  background: `${b.color}12`,
-                  borderColor: `${b.color}40`,
+                  background: "#ffffff",
                   color: b.color,
                   animation: `float ${3.5 + i * 0.4}s ease-in-out infinite`,
                   animationDelay: `${i * 0.5}s`,
-                  boxShadow: `0 4px 16px -4px ${b.color}30`,
                 }}
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={{ opacity: 1, scale: 1 }}
