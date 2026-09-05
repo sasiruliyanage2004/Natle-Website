@@ -92,7 +92,7 @@ export default function ProjectsPage() {
  : caseStudies.filter(p => p.domain === selectedCategory);
 
  return (
- <main className="relative min-h-screen bg-[#f8faff] text-[#0a1628] antialiased selection:bg-[#0ea5e9] selection:text-white transition-colors duration-300 select-none">
+ <div className="relative min-h-screen bg-transparent text-[#0a1628] antialiased selection:bg-[#0ea5e9] selection:text-white transition-colors duration-300 select-none">
  
  <div className="relative z-10">
  
@@ -233,7 +233,7 @@ export default function ProjectsPage() {
  </div>
  </section>
 
- </div>
- </main>
- );
+      </div>
+    </div>
+  );
 }
