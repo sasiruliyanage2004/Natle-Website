@@ -96,7 +96,7 @@ export default function ProjectsPage() {
     : caseStudies.filter(p => p.domain === selectedCategory);
 
   return (
-    <main className="relative min-h-screen bg-[#F8FAFC] dark:bg-[#050505] text-slate-900 dark:text-emerald-50 antialiased selection:bg-[#059669] selection:text-white transition-colors duration-300 select-none">
+    <main className="relative min-h-screen bg-[#f8faff] text-[#0a1628] antialiased selection:bg-[#0ea5e9] selection:text-white transition-colors duration-300 select-none">
       <BeamsBackground intensity="subtle" className="absolute inset-0 z-0 pointer-events-none" />
       <SmoothCursor />
 
@@ -109,9 +109,10 @@ export default function ProjectsPage() {
             <motion.div 
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
-              className="inline-flex items-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-4 py-1.5 text-xs font-mono font-bold uppercase tracking-wider text-[#059669] dark:text-[#10E599] shadow-sm mb-6"
+              className="inline-flex items-center gap-2 rounded-full border px-4 py-1.5 text-xs font-mono font-bold uppercase tracking-wider mb-6"
+              style={{ background: "rgba(14,165,233,0.08)", borderColor: "rgba(14,165,233,0.25)", color: "#0369a1" }}
             >
-              <Building2 className="w-4 h-4 text-[#059669] dark:text-[#10E599]" />
+              <Building2 className="w-4 h-4" />
               <span>Real AI &bull; Measurable Production Results</span>
             </motion.div>
 
@@ -119,7 +120,8 @@ export default function ProjectsPage() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1 }}
-              className="text-5xl sm:text-6xl md:text-7xl font-black text-slate-900 dark:text-white tracking-tight leading-[1.05]"
+              className="text-5xl sm:text-6xl md:text-7xl font-black tracking-tight leading-[1.05]"
+              style={{ color: "#0a1628" }}
             >
               Enterprise Case Studies That{" "}
               <span className="gradient-text">
@@ -131,7 +133,8 @@ export default function ProjectsPage() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.15 }}
-              className="mt-6 text-xl text-slate-600 dark:text-emerald-100/70 font-normal leading-relaxed max-w-3xl mx-auto"
+              className="mt-6 text-xl font-normal leading-relaxed max-w-3xl mx-auto"
+              style={{ color: "#475569" }}
             >
               Explore how NATLE deploys bespoke deep learning pipelines, edge telemetry meshes, and high-concurrency cloud systems to solve industry bottlenecks with audited commercial returns.
             </motion.p>
@@ -142,11 +145,14 @@ export default function ProjectsPage() {
                 <button
                   key={cat}
                   onClick={() => setSelectedCategory(cat)}
-                  className={`px-4 py-2 rounded-full text-xs font-bold transition-all ${
+                  className={`px-5 py-2.5 rounded-full text-xs font-bold transition-all ${
                     selectedCategory === cat
-                      ? "bg-[#059669] text-white shadow-lg shadow-emerald-500/20 scale-105"
-                      : "bg-white/80 dark:bg-zinc-900/80 text-slate-600 dark:text-zinc-400 border border-slate-200 dark:border-white/10 hover:border-[#059669]"
+                      ? "clay-btn"
+                      : "bg-white border border-[#e2e8f0] text-[#64748b] hover:border-[#0ea5e9]"
                   }`}
+                  style={{
+                    color: selectedCategory === cat ? "#0ea5e9" : "#64748b"
+                  }}
                 >
                   {cat}
                 </button>
@@ -167,62 +173,61 @@ export default function ProjectsPage() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, margin: "-40px" }}
                   transition={{ duration: 0.5, delay: i * 0.1 }}
-                  whileHover={{ y: -6, transition: { duration: 0.25 } }}
-                  className="glass-card rounded-3xl p-8 md:p-10 shadow-xl flex flex-col justify-between hover:shadow-2xl transition-all relative overflow-hidden group border border-white/10"
+                  className="clay-card rounded-3xl p-8 md:p-10 flex flex-col justify-between relative overflow-hidden group"
                 >
                   <CardPattern pattern="circuit" glowColor={study.accentGlow} />
 
                   <div className="relative z-10">
                     <div className="flex items-center justify-between mb-4">
-                      <span className={`px-3 py-1 rounded-full text-xs font-mono font-bold border ${study.badgeColor}`}>
+                      <span className={`px-3 py-1 rounded-full text-xs font-mono font-bold border`} style={{ background: "rgba(14,165,233,0.08)", borderColor: "rgba(14,165,233,0.25)", color: "#0369a1" }}>
                         {study.domain}
                       </span>
-                      <span className="text-xs text-slate-500 dark:text-zinc-400 font-medium">
+                      <span className="text-xs text-[#64748b] font-semibold">
                         {study.client}
                       </span>
                     </div>
 
                     <div className="flex items-start gap-4 mb-4">
-                      <div className="w-12 h-12 rounded-2xl bg-white/10 dark:bg-white/5 border border-white/10 flex items-center justify-center shrink-0 text-[#059669] dark:text-[#10E599]">
+                      <div className="w-12 h-12 rounded-2xl bg-white border border-[#e2e8f0] flex items-center justify-center shrink-0 shadow-sm" style={{ color: "#0ea5e9" }}>
                         <Icon className="w-6 h-6" />
                       </div>
-                      <h3 className="text-2xl font-black text-slate-900 dark:text-white leading-snug">
+                      <h3 className="text-2xl font-black text-[#0a1628] leading-snug">
                         {study.title}
                       </h3>
                     </div>
 
-                    <p className="text-sm text-slate-600 dark:text-zinc-300 leading-relaxed font-normal mb-6">
+                    <p className="text-sm text-[#475569] leading-relaxed font-normal mb-6">
                       {study.summary}
                     </p>
 
                     {/* Metrics Grid */}
                     <div className="grid grid-cols-3 gap-3 mb-6">
                       {study.metrics.map((m, mi) => (
-                        <div key={mi} className="bg-slate-100 dark:bg-zinc-900/60 p-3 rounded-2xl text-center border border-slate-200 dark:border-white/5">
-                          <p className="text-lg sm:text-xl font-black text-[#059669] dark:text-[#10E599] font-mono">{m.value}</p>
-                          <p className="text-[10px] font-bold text-slate-500 dark:text-zinc-400 uppercase mt-0.5">{m.label}</p>
+                        <div key={mi} className="bg-[#f8faff] p-3 rounded-2xl text-center border border-[#e2e8f0]">
+                          <p className="text-lg sm:text-xl font-black font-mono" style={{ color: "#0ea5e9" }}>{m.value}</p>
+                          <p className="text-[10px] font-bold text-[#64748b] uppercase mt-0.5">{m.label}</p>
                         </div>
                       ))}
                     </div>
 
                     {/* Tech Stack Pills */}
-                    <div className="flex flex-wrap gap-1.5 pt-4 border-t border-slate-200 dark:border-white/10">
+                    <div className="flex flex-wrap gap-1.5 pt-4 border-t border-[#e2e8f0]">
                       {study.techStack.map((tech) => (
-                        <span key={tech} className="px-2.5 py-1 bg-white/60 dark:bg-white/5 border border-slate-200 dark:border-white/10 text-slate-600 dark:text-zinc-400 rounded-lg text-xs font-mono">
+                        <span key={tech} className="px-2.5 py-1 bg-white border border-[#e2e8f0] text-[#475569] rounded-lg text-xs font-mono shadow-sm">
                           {tech}
                         </span>
                       ))}
                     </div>
                   </div>
 
-                  <div className="relative z-10 mt-8 pt-6 border-t border-slate-200 dark:border-white/10 flex items-center justify-between">
-                    <span className="text-xs font-mono font-bold text-[#059669] dark:text-[#10E599] flex items-center gap-1.5">
+                  <div className="relative z-10 mt-8 pt-6 border-t border-[#e2e8f0] flex items-center justify-between">
+                    <span className="text-xs font-mono font-bold flex items-center gap-1.5" style={{ color: "#0ea5e9" }}>
                       <CheckCircle2 className="w-4 h-4" />
                       Audited Production Deployment
                     </span>
                     <Link 
                       href="/contact" 
-                      className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-emerald-500/10 hover:bg-[#059669] text-[#059669] dark:text-[#10E599] hover:text-white transition-all text-xs font-bold"
+                      className="clay-btn inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-bold"
                     >
                       <span>Inquire Blueprint</span>
                       <ArrowUpRight className="w-3.5 h-3.5" />

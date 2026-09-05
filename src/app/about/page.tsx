@@ -43,11 +43,11 @@ export default function AboutPage() {
       {/* Hero — asymmetric: headline left, stat stack right */}
       <section className="grid gap-12 pb-20 pt-20 md:grid-cols-[1.3fr_1fr] md:pt-28">
         <Reveal>
-          <h1 className="font-display text-4xl font-bold leading-[1.1] text-ink md:text-5xl">
+          <h1 className="font-display text-4xl font-bold leading-[1.1] text-[#0a1628] md:text-5xl">
             We build the AI systems that sit behind the decisions{" "}
             <span className="text-gradient-brand">you can't afford to get wrong.</span>
           </h1>
-          <p className="mt-6 max-w-xl text-lg leading-relaxed text-ink-muted">
+          <p className="mt-6 max-w-xl text-lg leading-relaxed text-[#475569]">
             NATLE Technologies designs, deploys, and operates AI infrastructure for
             enterprises where failure has a cost — finance, healthcare, and
             logistics. We're not a lab. We're the team on call at 2am.
@@ -55,13 +55,13 @@ export default function AboutPage() {
         </Reveal>
 
         <Reveal delay={0.15}>
-          <div className="card-glass flex h-full flex-col justify-center gap-6 p-8">
+          <div className="clay-card border-none flex h-full flex-col justify-center gap-6 p-8">
             {STATS.map((stat) => (
               <div key={stat.label}>
                 <p className="font-display text-3xl font-bold text-gradient-brand">
                   {stat.value}
                 </p>
-                <p className="mt-1 text-sm text-ink-muted">{stat.label}</p>
+                <p className="mt-1 text-sm text-[#475569]">{stat.label}</p>
               </div>
             ))}
           </div>
@@ -69,13 +69,13 @@ export default function AboutPage() {
       </section>
 
       {/* Narrative */}
-      <section className="border-t border-white/5 py-20">
+      <section className="border-t border-[#e2e8f0] py-20">
         <Reveal>
           <div className="grid gap-10 md:grid-cols-[240px_1fr]">
-            <h2 className="font-display text-2xl font-bold text-ink md:sticky md:top-28 md:self-start">
+            <h2 className="font-display text-2xl font-bold text-[#0a1628] md:sticky md:top-28 md:self-start">
               How we <span className="text-gradient-brand">got here</span>
             </h2>
-            <div className="max-w-2xl space-y-5 text-base leading-relaxed text-ink-muted">
+            <div className="max-w-2xl space-y-5 text-base leading-relaxed text-[#475569]">
               <p>
                 NATLE started because three of our founders were paged during
                 the same week in 2021 — three different companies, three
@@ -95,20 +95,20 @@ export default function AboutPage() {
       </section>
 
       {/* Values — bento grid, deliberately uneven spans */}
-      <section className="border-t border-white/5 py-20">
+      <section className="border-t border-[#e2e8f0] py-20">
         <Reveal>
-          <h2 className="font-display text-2xl font-bold text-ink md:text-3xl">
+          <h2 className="font-display text-2xl font-bold text-[#0a1628] md:text-3xl">
             What we <span className="text-gradient-brand">optimize for</span>
           </h2>
         </Reveal>
         <div className="mt-10 grid gap-5 md:grid-cols-3">
           {VALUES.map((value, i) => (
             <Reveal key={value.title} delay={i * 0.05} className={value.span}>
-              <div className="card-glass h-full p-7">
-                <h3 className="font-display text-lg font-semibold text-ink">
+              <div className="clay-card border-none h-full p-7">
+                <h3 className="font-display text-lg font-semibold text-[#0a1628]">
                   {value.title}
                 </h3>
-                <p className="mt-3 text-sm leading-relaxed text-ink-muted">
+                <p className="mt-3 text-sm leading-relaxed text-[#475569]">
                   {value.body}
                 </p>
               </div>
@@ -118,20 +118,20 @@ export default function AboutPage() {
       </section>
 
       {/* Milestones — genuine chronological sequence, numbered by year */}
-      <section className="border-t border-white/5 py-20">
+      <section className="border-t border-[#e2e8f0] py-20">
         <Reveal>
-          <h2 className="font-display text-2xl font-bold text-ink md:text-3xl">
+          <h2 className="font-display text-2xl font-bold text-[#0a1628] md:text-3xl">
             Four years, <span className="text-gradient-brand">in short</span>
           </h2>
         </Reveal>
         <div className="mt-10 space-y-0">
           {MILESTONES.map((m, i) => (
             <Reveal key={m.year} delay={i * 0.05}>
-              <div className="grid grid-cols-[80px_1fr] gap-6 border-t border-white/5 py-6 first:border-t-0 md:grid-cols-[120px_1fr]">
-                <span className="font-display text-xl font-bold text-accent-lime">
+              <div className="grid grid-cols-[80px_1fr] gap-6 border-t border-[#e2e8f0] py-6 first:border-t-0 md:grid-cols-[120px_1fr]">
+                <span className="font-display text-xl font-bold text-[#0ea5e9]">
                   {m.year}
                 </span>
-                <p className="text-ink-muted">{m.text}</p>
+                <p className="text-[#475569]">{m.text}</p>
               </div>
             </Reveal>
           ))}
@@ -139,18 +139,18 @@ export default function AboutPage() {
       </section>
 
       {/* Closing CTA */}
-      <section className="border-t border-white/5 py-20">
+      <section className="border-t border-[#e2e8f0] py-20">
         <Reveal>
-          <div className="card-glass flex flex-col items-start justify-between gap-6 p-10 md:flex-row md:items-center">
+          <div className="clay-card border-none flex flex-col items-start justify-between gap-6 p-10 md:flex-row md:items-center">
             <div>
-              <h2 className="font-display text-2xl font-bold text-ink">
+              <h2 className="font-display text-2xl font-bold text-[#0a1628]">
                 Want the team, not just the platform?
               </h2>
-              <p className="mt-2 max-w-md text-ink-muted">
+              <p className="mt-2 max-w-md text-[#475569]">
                 Talk to an engineer about what you're trying to ship.
               </p>
             </div>
-            <Link href="/contact" className="btn-primary shrink-0">
+            <Link href="/contact" className="clay-btn px-6 py-2.5 rounded-full shrink-0">
               Book a call
             </Link>
           </div>

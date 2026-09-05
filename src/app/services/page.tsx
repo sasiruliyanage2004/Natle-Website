@@ -41,10 +41,10 @@ export default function ServicesPage() {
     <div className="mx-auto max-w-6xl px-6">
       <section className="pb-16 pt-20 md:pt-28">
         <Reveal>
-          <h1 className="max-w-2xl font-display text-4xl font-bold leading-[1.1] text-ink md:text-5xl">
+          <h1 className="max-w-2xl font-display text-4xl font-bold leading-[1.1] text-[#0a1628] md:text-5xl">
             Three services. <span className="text-gradient-brand">One team that owns the outcome.</span>
           </h1>
-          <p className="mt-6 max-w-xl text-lg leading-relaxed text-ink-muted">
+          <p className="mt-6 max-w-xl text-lg leading-relaxed text-[#475569]">
             Most AI vendors hand you a model and a Slack channel. We stay
             attached to the system we build until it's boring — in the good,
             reliable sense.
@@ -53,28 +53,28 @@ export default function ServicesPage() {
       </section>
 
       {/* Alternating service rows */}
-      <section className="space-y-6 border-t border-white/5 py-16">
+      <section className="space-y-6 border-t border-[#e2e8f0] py-16">
         {SERVICES.map((service, i) => {
           const Icon = service.icon;
           const reversed = i % 2 === 1;
           return (
             <Reveal key={service.title} delay={i * 0.05}>
-              <div className="card-glass grid gap-8 p-8 md:grid-cols-[280px_1fr] md:p-10">
+              <div className="clay-card border-none grid gap-8 p-8 md:grid-cols-[280px_1fr] md:p-10">
                 <div className={`flex flex-col justify-center ${reversed ? "md:order-2" : ""}`}>
                   <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-brand-gradient-soft">
-                    <Icon size={26} className="text-accent-lime" />
+                    <Icon size={26} className="text-[#0ea5e9]" />
                   </div>
-                  <h2 className="mt-5 font-display text-2xl font-semibold text-ink">
+                  <h2 className="mt-5 font-display text-2xl font-semibold text-[#0a1628]">
                     {service.title}
                   </h2>
                 </div>
                 <div className={reversed ? "md:order-1" : ""}>
-                  <p className="text-base leading-relaxed text-ink-muted">
+                  <p className="text-base leading-relaxed text-[#475569]">
                     {service.body}
                   </p>
                   <ul className="mt-5 space-y-2">
                     {service.points.map((point) => (
-                      <li key={point} className="flex items-start gap-3 text-sm text-ink">
+                      <li key={point} className="flex items-start gap-3 text-sm text-[#0a1628]">
                         <span className="mt-2 h-1 w-1 shrink-0 rounded-full bg-accent-lime" />
                         {point}
                       </li>
@@ -88,9 +88,9 @@ export default function ServicesPage() {
       </section>
 
       {/* Capabilities strip */}
-      <section className="border-t border-white/5 py-16">
+      <section className="border-t border-[#e2e8f0] py-16">
         <Reveal>
-          <h2 className="font-display text-2xl font-bold text-ink md:text-3xl">
+          <h2 className="font-display text-2xl font-bold text-[#0a1628] md:text-3xl">
             Underneath every engagement
           </h2>
         </Reveal>
@@ -99,12 +99,12 @@ export default function ServicesPage() {
             const Icon = cap.icon;
             return (
               <Reveal key={cap.title} delay={i * 0.05}>
-                <div className="card-glass h-full p-7">
-                  <Icon size={22} className="text-accent-cyan" />
-                  <h3 className="mt-4 font-display text-base font-semibold text-ink">
+                <div className="clay-card border-none h-full p-7">
+                  <Icon size={22} className="text-[#0ea5e9]" />
+                  <h3 className="mt-4 font-display text-base font-semibold text-[#0a1628]">
                     {cap.title}
                   </h3>
-                  <p className="mt-2 text-sm leading-relaxed text-ink-muted">
+                  <p className="mt-2 text-sm leading-relaxed text-[#475569]">
                     {cap.body}
                   </p>
                 </div>
@@ -114,14 +114,14 @@ export default function ServicesPage() {
         </div>
       </section>
 
-      <section className="border-t border-white/5 py-20">
+      <section className="border-t border-[#e2e8f0] py-20">
         <Reveal>
-          <div className="card-glass flex flex-col items-start justify-between gap-6 p-10 md:flex-row md:items-center">
+          <div className="clay-card border-none flex flex-col items-start justify-between gap-6 p-10 md:flex-row md:items-center">
             <div>
-              <h2 className="font-display text-2xl font-bold text-ink">
+              <h2 className="font-display text-2xl font-bold text-[#0a1628]">
                 Not sure which service you need?
               </h2>
-              <p className="mt-2 max-w-md text-ink-muted">
+              <p className="mt-2 max-w-md text-[#475569]">
                 Tell us what's breaking and we'll tell you where to start.
               </p>
             </div>

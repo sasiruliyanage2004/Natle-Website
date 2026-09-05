@@ -9,20 +9,19 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        // NATLE Technologies brand tokens — do not use ad-hoc hex values
-        // elsewhere in the app; reference these instead.
         base: {
-          DEFAULT: "#070D24", // Deep Space Navy — page background
-          raised: "#0d1535",  // card surface (used with /60 opacity for glass)
-          border: "#151f47",
+          DEFAULT: "#f8faff", 
+          raised: "#ffffff",  
+          border: "#e2e8f0",
         },
         accent: {
           cyan: "#0EA5E9",
           lime: "#5AEC8F",
+          navy: "#1A3A8F",
         },
         ink: {
-          DEFAULT: "#E7ECFB", // primary body text on dark bg
-          muted: "#8C97BE",   // secondary/body-muted text
+          DEFAULT: "#0a1628", 
+          muted: "#475569",   
         },
       },
       fontFamily: {

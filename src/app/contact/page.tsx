@@ -63,7 +63,7 @@ export default function ContactPage() {
   };
 
   return (
-    <main className="relative min-h-screen bg-[#F8FAFC] dark:bg-[#050505] text-slate-900 dark:text-emerald-50 antialiased selection:bg-[#059669] selection:text-white transition-colors duration-300 select-none">
+    <main className="relative min-h-screen bg-[#F8FAFC]  text-[#0a1628]  antialiased selection:bg-[#0ea5e9] selection:text-white transition-colors duration-300 select-none">
       <BeamsBackground intensity="subtle" className="absolute inset-0 z-0 pointer-events-none" />
       <SmoothCursor />
 
@@ -86,7 +86,7 @@ export default function ContactPage() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1 }}
-              className="text-5xl sm:text-6xl md:text-7xl font-black text-slate-900 dark:text-white tracking-tight leading-[1.05]"
+              className="text-5xl sm:text-6xl md:text-7xl font-black text-[#0a1628]  tracking-tight leading-[1.05]"
             >
               Let&apos;s Build Your Next{" "}
               <span className="gradient-text">
@@ -98,7 +98,7 @@ export default function ContactPage() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.15 }}
-              className="mt-6 text-xl text-slate-600 dark:text-emerald-100/70 font-normal leading-relaxed max-w-3xl mx-auto"
+              className="mt-6 text-xl text-[#475569]  font-normal leading-relaxed max-w-3xl mx-auto"
             >
               Consult directly with our solution architects and engineering leads to scope your enterprise AI platform, edge telemetry mesh, or custom neural architecture.
             </motion.p>
@@ -114,16 +114,16 @@ export default function ContactPage() {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.55 }}
-              className="lg:col-span-7 glass-card rounded-3xl p-8 md:p-12 shadow-2xl relative overflow-hidden border border-white/10"
+              className="lg:col-span-7 clay-card border-none rounded-3xl p-8 md:p-12 shadow-2xl relative overflow-hidden border border-[#e2e8f0]"
             >
               <div className="mb-8">
                 <span className="text-xs font-mono font-bold uppercase tracking-wider text-[#059669] dark:text-[#10E599]">
                   Architect Consultation
                 </span>
-                <h2 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white mt-1">
+                <h2 className="text-2xl sm:text-3xl font-black text-[#0a1628]  mt-1">
                   Scope Your Implementation
                 </h2>
-                <p className="text-xs text-slate-600 dark:text-zinc-400 mt-2">
+                <p className="text-xs text-[#475569]  mt-2">
                   Guaranteed response from a senior Solution Architect within 4 business hours.
                 </p>
               </div>
@@ -133,13 +133,13 @@ export default function ContactPage() {
                   <div className="w-16 h-16 rounded-full bg-emerald-500/10 text-[#059669] dark:text-[#10E599] flex items-center justify-center mx-auto mb-4 border border-emerald-500/30">
                     <CheckCircle2 className="w-8 h-8" />
                   </div>
-                  <h3 className="text-2xl font-black text-slate-900 dark:text-white">Consultation Request Received</h3>
-                  <p className="text-sm text-slate-600 dark:text-zinc-400 max-w-md mx-auto">
+                  <h3 className="text-2xl font-black text-[#0a1628] ">Consultation Request Received</h3>
+                  <p className="text-sm text-[#475569]  max-w-md mx-auto">
                     Thank you, <strong>{formData.name}</strong>. A NATLE Enterprise Architect has been assigned to your inquiry for <em>{formData.platformDomain}</em> and will reach out via <strong>{formData.email}</strong>.
                   </p>
                   <button
                     onClick={() => setSubmitted(false)}
-                    className="mt-6 px-6 py-2.5 rounded-xl bg-slate-900 dark:bg-white text-white dark:text-slate-950 text-xs font-bold hover:scale-105 transition-all"
+                    className="mt-6 px-6 py-2.5 rounded-xl bg-slate-900  text-white dark:text-slate-950 text-xs font-bold hover:scale-105 transition-all"
                   >
                     Submit Another Inquiry
                   </button>
@@ -148,7 +148,7 @@ export default function ContactPage() {
                 <form onSubmit={handleSubmit} className="space-y-6">
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                     <div>
-                      <label className="block text-xs font-bold text-slate-700 dark:text-zinc-300 uppercase tracking-wider mb-2">
+                      <label className="block text-xs font-bold text-slate-700  uppercase tracking-wider mb-2">
                         Full Name *
                       </label>
                       <input
@@ -157,12 +157,12 @@ export default function ContactPage() {
                         value={formData.name}
                         onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                         placeholder="Dr. Eleanor Vance"
-                        className="w-full h-12 px-4 rounded-xl border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-zinc-900/60 text-sm text-slate-900 dark:text-white focus:outline-none focus:border-[#059669] transition-all"
+                        className="w-full h-12 px-4 rounded-xl border border-[#e2e8f0] dark:border-[#e2e8f0] bg-slate-50  text-sm text-[#0a1628]  focus:outline-none focus:border-[#059669] transition-all"
                       />
                     </div>
 
                     <div>
-                      <label className="block text-xs font-bold text-slate-700 dark:text-zinc-300 uppercase tracking-wider mb-2">
+                      <label className="block text-xs font-bold text-slate-700  uppercase tracking-wider mb-2">
                         Enterprise Email *
                       </label>
                       <input
@@ -171,13 +171,13 @@ export default function ContactPage() {
                         value={formData.email}
                         onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                         placeholder="eleanor@healthfirst.org"
-                        className="w-full h-12 px-4 rounded-xl border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-zinc-900/60 text-sm text-slate-900 dark:text-white focus:outline-none focus:border-[#059669] transition-all"
+                        className="w-full h-12 px-4 rounded-xl border border-[#e2e8f0] dark:border-[#e2e8f0] bg-slate-50  text-sm text-[#0a1628]  focus:outline-none focus:border-[#059669] transition-all"
                       />
                     </div>
                   </div>
 
                   <div>
-                    <label className="block text-xs font-bold text-slate-700 dark:text-zinc-300 uppercase tracking-wider mb-2">
+                    <label className="block text-xs font-bold text-slate-700  uppercase tracking-wider mb-2">
                       Company / Organization Name
                     </label>
                     <input
@@ -185,18 +185,18 @@ export default function ContactPage() {
                       value={formData.company}
                       onChange={(e) => setFormData({ ...formData, company: e.target.value })}
                       placeholder="HealthFirst Hospital Group / RetailMax Corp"
-                      className="w-full h-12 px-4 rounded-xl border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-zinc-900/60 text-sm text-slate-900 dark:text-white focus:outline-none focus:border-[#059669] transition-all"
+                      className="w-full h-12 px-4 rounded-xl border border-[#e2e8f0] dark:border-[#e2e8f0] bg-slate-50  text-sm text-[#0a1628]  focus:outline-none focus:border-[#059669] transition-all"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-xs font-bold text-slate-700 dark:text-zinc-300 uppercase tracking-wider mb-2">
+                    <label className="block text-xs font-bold text-slate-700  uppercase tracking-wider mb-2">
                       Target AI Platform / Vertical
                     </label>
                     <select
                       value={formData.platformDomain}
                       onChange={(e) => setFormData({ ...formData, platformDomain: e.target.value })}
-                      className="w-full h-12 px-4 rounded-xl border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-zinc-900/60 text-sm text-slate-900 dark:text-white focus:outline-none focus:border-[#059669] transition-all"
+                      className="w-full h-12 px-4 rounded-xl border border-[#e2e8f0] dark:border-[#e2e8f0] bg-slate-50  text-sm text-[#0a1628]  focus:outline-none focus:border-[#059669] transition-all"
                     >
                       <option>Healthcare AI &amp; Clinical Diagnostics (PACS / EHR Integration)</option>
                       <option>Agriculture AI &amp; FieldOS™ Edge Telemetry (50k+ Hectares)</option>
@@ -209,7 +209,7 @@ export default function ContactPage() {
 
                   {/* Budget Selector */}
                   <div>
-                    <label className="block text-xs font-bold text-slate-700 dark:text-zinc-300 uppercase tracking-wider mb-2">
+                    <label className="block text-xs font-bold text-slate-700  uppercase tracking-wider mb-2">
                       Estimated Project Budget Bracket
                     </label>
                     <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
@@ -220,8 +220,8 @@ export default function ContactPage() {
                           onClick={() => setFormData({ ...formData, budgetRange: b })}
                           className={`py-2.5 px-3 rounded-xl text-xs font-bold border transition-all cursor-pointer ${
                             formData.budgetRange === b
-                              ? "bg-emerald-500/15 border-emerald-500 text-slate-900 dark:text-white shadow-xs"
-                              : "bg-slate-50 dark:bg-zinc-900/40 border-slate-200 dark:border-white/10 text-slate-600 dark:text-zinc-400"
+                              ? "bg-emerald-500/15 border-emerald-500 text-[#0a1628]  shadow-xs"
+                              : "bg-slate-50  border-[#e2e8f0] dark:border-[#e2e8f0] text-[#475569] "
                           }`}
                         >
                           {b}
@@ -231,7 +231,7 @@ export default function ContactPage() {
                   </div>
 
                   <div>
-                    <label className="block text-xs font-bold text-slate-700 dark:text-zinc-300 uppercase tracking-wider mb-2">
+                    <label className="block text-xs font-bold text-slate-700  uppercase tracking-wider mb-2">
                       Project Goals &amp; Architecture Requirements
                     </label>
                     <textarea
@@ -239,7 +239,7 @@ export default function ContactPage() {
                       value={formData.message}
                       onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                       placeholder="Describe your operational bottleneck, data pipelines, PACS/ERP integrations, or latency requirements..."
-                      className="w-full p-4 rounded-xl border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-zinc-900/60 text-sm text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-zinc-500 focus:outline-none focus:border-[#059669] transition-all"
+                      className="w-full p-4 rounded-xl border border-[#e2e8f0] dark:border-[#e2e8f0] bg-slate-50  text-sm text-[#0a1628]  placeholder-slate-400 dark:placeholder-zinc-500 focus:outline-none focus:border-[#059669] transition-all"
                     />
                   </div>
 
@@ -263,7 +263,7 @@ export default function ContactPage() {
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true, margin: "-40px" }}
                 transition={{ duration: 0.55 }}
-                className="glass-card rounded-3xl p-8 shadow-xl border border-white/10"
+                className="clay-card border-none rounded-3xl p-8 shadow-xl border border-[#e2e8f0]"
               >
                 <div className="flex items-center gap-3 mb-6">
                   <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-[#059669] to-[#10E599] text-slate-950 flex items-center justify-center shadow-md font-bold">
@@ -273,17 +273,17 @@ export default function ContactPage() {
                     <span className="text-[10px] font-mono font-bold text-[#059669] dark:text-[#10E599] uppercase">
                       Global Headquarters
                     </span>
-                    <h3 className="text-xl font-black text-slate-900 dark:text-white">
+                    <h3 className="text-xl font-black text-[#0a1628] ">
                       NATLE Technologies
                     </h3>
                   </div>
                 </div>
 
-                <p className="text-xs text-slate-600 dark:text-zinc-300 mb-5 leading-relaxed">
+                <p className="text-xs text-[#475569]  mb-5 leading-relaxed">
                   Central engineering center, neural model laboratory, and primary international client delivery command.
                 </p>
 
-                <div className="space-y-3.5 text-xs text-slate-700 dark:text-zinc-300 font-mono">
+                <div className="space-y-3.5 text-xs text-slate-700  font-mono">
                   <div className="flex items-start gap-3">
                     <MapPin className="w-4 h-4 text-[#059669] dark:text-[#10E599] shrink-0 mt-0.5" />
                     <span className="leading-relaxed">
@@ -311,7 +311,7 @@ export default function ContactPage() {
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true, margin: "-40px" }}
                 transition={{ duration: 0.55, delay: 0.1 }}
-                className="rounded-3xl bg-slate-950 dark:bg-zinc-950 p-8 text-white shadow-2xl border border-white/10"
+                className="rounded-3xl bg-slate-950  p-8 text-white shadow-2xl border border-[#e2e8f0]"
               >
                 <div className="flex items-center gap-3 mb-6">
                   <div className="w-12 h-12 rounded-2xl bg-indigo-500/20 text-indigo-400 border border-indigo-500/30 flex items-center justify-center font-bold">
@@ -331,18 +331,18 @@ export default function ContactPage() {
                   Supporting multinational clients with regional delivery desks in Singapore and Malaysia, scaling towards our $100M global acceleration roadmap.
                 </p>
 
-                <div className="grid grid-cols-2 gap-3 pt-4 border-t border-white/10 text-xs font-mono">
-                  <div className="bg-white/5 p-3 rounded-xl border border-white/5">
+                <div className="grid grid-cols-2 gap-3 pt-4 border-t border-[#e2e8f0] text-xs font-mono">
+                  <div className="bg-white/5 p-3 rounded-xl border border-[#e2e8f0]">
                     <p className="font-bold text-indigo-300">Singapore</p>
                     <p className="text-[10px] text-slate-400 mt-0.5">APAC Business Hub</p>
                   </div>
-                  <div className="bg-white/5 p-3 rounded-xl border border-white/5">
+                  <div className="bg-white/5 p-3 rounded-xl border border-[#e2e8f0]">
                     <p className="font-bold text-indigo-300">Malaysia</p>
                     <p className="text-[10px] text-slate-400 mt-0.5">Regional Delivery</p>
                   </div>
                 </div>
 
-                <div className="mt-6 pt-4 border-t border-white/10 flex items-center justify-between text-xs text-slate-400 font-mono">
+                <div className="mt-6 pt-4 border-t border-[#e2e8f0] flex items-center justify-between text-xs text-slate-400 font-mono">
                   <span className="flex items-center gap-1.5 text-green-400">
                     <ShieldCheck className="w-4 h-4" />
                     SOC 2 &bull; HIPAA &bull; GDPR

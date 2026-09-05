@@ -13,7 +13,7 @@ export const metadata = {
 
 export default function BlogPage() {
   return (
-    <main className="relative min-h-screen bg-[#F8FAFC] dark:bg-[#050505] text-slate-900 dark:text-emerald-50 antialiased selection:bg-[#059669] selection:text-white transition-colors duration-300">
+    <main className="relative min-h-screen bg-[#F8FAFC]  text-[#0a1628]  antialiased selection:bg-[#0ea5e9] selection:text-white transition-colors duration-300">
       {/* Background Luminous Beams */}
       <BeamsBackground intensity="subtle" />
       <SmoothCursor />
@@ -23,19 +23,19 @@ export default function BlogPage() {
 
         {/* Hero Header */}
         <section className="pt-36 pb-16 md:pt-48 md:pb-20 text-center max-w-4xl mx-auto px-4">
-          <div className="inline-flex items-center gap-2 rounded-full border border-emerald-300/80 bg-white/80 dark:bg-zinc-900/80 px-4 py-1.5 text-xs font-mono font-bold uppercase tracking-wider text-[#059669] dark:text-emerald-400 shadow-sm backdrop-blur-md mb-6">
+          <div className="inline-flex items-center gap-2 rounded-full border border-emerald-300/80 bg-white/80  px-4 py-1.5 text-xs font-mono font-bold uppercase tracking-wider text-[#059669] dark:text-emerald-400 shadow-sm backdrop-blur-md mb-6">
             <BookOpen className="w-4 h-4 text-[#059669] dark:text-emerald-400" />
             <span>Enterprise AI &bull; Research &amp; Whitepapers</span>
           </div>
 
-          <h1 className="text-5xl sm:text-6xl md:text-7xl font-extrabold text-[#071326] dark:text-white tracking-tight leading-[1.05]">
+          <h1 className="text-5xl sm:text-6xl md:text-7xl font-extrabold text-[#071326]  tracking-tight leading-[1.05]">
             Insights on the Future of{" "}
             <span className="font-serif italic font-normal gradient-text">
               Intelligent Systems.
             </span>
           </h1>
 
-          <p className="mt-6 text-lg md:text-xl text-slate-600 dark:text-zinc-400 font-normal leading-relaxed max-w-2xl mx-auto">
+          <p className="mt-6 text-lg md:text-xl text-[#475569]  font-normal leading-relaxed max-w-2xl mx-auto">
             Explore whitepapers, machine learning architectures, edge IoT telemetry blueprints, and enterprise case studies published by our AI researchers and architects.
           </p>
         </section>

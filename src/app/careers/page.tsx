@@ -67,7 +67,7 @@ const perks = [
 
 export default function CareersPage() {
   return (
-    <main className="relative min-h-screen bg-[#F8FAFC] dark:bg-[#050505] text-slate-900 dark:text-emerald-50 antialiased selection:bg-[#059669] selection:text-white transition-colors duration-300 select-none">
+    <main className="relative min-h-screen bg-[#F8FAFC]  text-[#0a1628]  antialiased selection:bg-[#0ea5e9] selection:text-white transition-colors duration-300 select-none">
       <BeamsBackground intensity="subtle" className="absolute inset-0 z-0 pointer-events-none" />
       <SmoothCursor />
 
@@ -90,7 +90,7 @@ export default function CareersPage() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1 }}
-              className="text-5xl sm:text-6xl md:text-7xl font-black text-slate-900 dark:text-white tracking-tight leading-[1.05]"
+              className="text-5xl sm:text-6xl md:text-7xl font-black text-[#0a1628]  tracking-tight leading-[1.05]"
             >
               Build the Technology that{" "}
               <span className="gradient-text">
@@ -102,7 +102,7 @@ export default function CareersPage() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.15 }}
-              className="mt-6 text-xl text-slate-600 dark:text-emerald-100/70 font-normal leading-relaxed max-w-3xl mx-auto"
+              className="mt-6 text-xl text-[#475569]  font-normal leading-relaxed max-w-3xl mx-auto"
             >
               We are a passionate team of software architects, hardware hackers, and soil scientists building the next generation of autonomous precision farming.
             </motion.p>
@@ -122,13 +122,13 @@ export default function CareersPage() {
                   viewport={{ once: true, margin: "-30px" }}
                   transition={{ duration: 0.5, delay: i * 0.12 }}
                   whileHover={{ y: -8, scale: 1.02, transition: { duration: 0.25 } }}
-                  className="glass-card rounded-3xl p-8 shadow-xl hover:shadow-2xl hover:border-emerald-500/50 transition-all cursor-pointer"
+                  className="clay-card border-none rounded-3xl p-8 shadow-xl hover:shadow-2xl hover:border-emerald-500/50 transition-all cursor-pointer"
                 >
                   <div className="w-12 h-12 rounded-2xl bg-emerald-500/10 text-[#059669] dark:text-[#10E599] border border-emerald-500/20 flex items-center justify-center mb-6">
                     <Icon className="w-6 h-6" />
                   </div>
-                  <h3 className="text-xl font-black text-slate-900 dark:text-white">{p.title}</h3>
-                  <p className="mt-3 text-xs text-slate-600 dark:text-emerald-100/70 leading-relaxed font-normal">{p.description}</p>
+                  <h3 className="text-xl font-black text-[#0a1628] ">{p.title}</h3>
+                  <p className="mt-3 text-xs text-[#475569]  leading-relaxed font-normal">{p.description}</p>
                 </motion.div>
               );
             })}
@@ -150,7 +150,7 @@ export default function CareersPage() {
               initial={{ opacity: 0, y: 16 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white mt-2"
+              className="text-3xl sm:text-4xl font-black text-[#0a1628]  mt-2"
             >
               Open Engineering &amp; Agri Roles
             </motion.h2>
@@ -165,23 +165,23 @@ export default function CareersPage() {
                 viewport={{ once: true, margin: "-30px" }}
                 transition={{ duration: 0.45, delay: i * 0.1 }}
                 whileHover={{ y: -4, scale: 1.01, transition: { duration: 0.2 } }}
-                className="glass-card rounded-3xl p-8 shadow-lg hover:shadow-2xl hover:border-emerald-500/50 transition-all flex flex-col md:flex-row items-start md:items-center justify-between gap-6 cursor-pointer"
+                className="clay-card border-none rounded-3xl p-8 shadow-lg hover:shadow-2xl hover:border-emerald-500/50 transition-all flex flex-col md:flex-row items-start md:items-center justify-between gap-6 cursor-pointer"
               >
                 <div>
                   <div className="flex items-center gap-3 mb-2">
                     <span className="px-3 py-1 rounded-full bg-emerald-500/10 text-[#059669] dark:text-[#10E599] text-xs font-mono font-bold border border-emerald-500/20">
                       {job.department}
                     </span>
-                    <span className="px-3 py-1 rounded-full bg-slate-100 dark:bg-emerald-950/40 text-slate-600 dark:text-emerald-200/70 text-xs font-mono">
+                    <span className="px-3 py-1 rounded-full bg-[#ffffff]  text-[#475569] dark:text-emerald-200/70 text-xs font-mono">
                       {job.type}
                     </span>
                   </div>
-                  <h3 className="text-2xl font-black text-slate-900 dark:text-white">{job.title}</h3>
-                  <p className="text-xs text-slate-500 dark:text-emerald-300/60 mt-1 flex items-center gap-1.5 font-medium">
+                  <h3 className="text-2xl font-black text-[#0a1628] ">{job.title}</h3>
+                  <p className="text-xs text-[#475569] dark:text-emerald-300/60 mt-1 flex items-center gap-1.5 font-medium">
                     <MapPin className="w-3.5 h-3.5 text-slate-400 dark:text-emerald-400/60" />
                     {job.location}
                   </p>
-                  <p className="text-xs text-slate-600 dark:text-emerald-100/70 mt-3 max-w-2xl font-normal leading-relaxed">{job.snippet}</p>
+                  <p className="text-xs text-[#475569]  mt-3 max-w-2xl font-normal leading-relaxed">{job.snippet}</p>
                 </div>
 
                 <Link

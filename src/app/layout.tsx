@@ -29,7 +29,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${spaceGrotesk.variable} ${inter.variable} dark`}>
+    <html lang="en" className={`${spaceGrotesk.variable} ${inter.variable}`}>
       <body className="relative min-h-screen overflow-x-hidden" style={{ background: "#f8faff", color: "#0a1628" }}>
         <SmoothScroll>
           <AuroraBackdrop />
