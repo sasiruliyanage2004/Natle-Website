@@ -64,14 +64,15 @@ export default function ContactPage() {
  <div className="relative z-10">
  
  {/* Hero Header */}
- <section className="pt-36 pb-16 md:pt-48 md:pb-24 bg-transparent">
- <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center max-w-4xl relative z-10">
+ <section className="pt-32 pb-12 md:pt-40 md:pb-16 bg-transparent">
+ <div className="max-w-6xl mx-auto px-6 text-left relative z-10">
+ <div className="max-w-3xl">
  <motion.div 
  initial={{ opacity: 0, y: 16 }}
  animate={{ opacity: 1, y: 0 }}
- className="inline-flex items-center gap-2 rounded-full border border-[#0ea5e9]/30 bg-[#0ea5e9]/10 px-4 py-1.5 text-xs font-mono font-bold uppercase tracking-wider text-[#059669] [#10E599] shadow-sm mb-6"
+ className="inline-flex items-center gap-2 rounded-full border border-[#0ea5e9]/30 bg-[#0ea5e9]/10 px-4 py-1.5 text-xs font-mono font-bold uppercase tracking-wider text-[#059669] shadow-sm mb-6"
  >
- <Sparkles className="w-4 h-4 text-[#059669] [#10E599]" />
+ <Sparkles className="w-4 h-4 text-[#059669]" />
  <span>Enterprise AI Consultation &bull; Global Engineering</span>
  </motion.div>
 
@@ -79,7 +80,7 @@ export default function ContactPage() {
  initial={{ opacity: 0, y: 20 }}
  animate={{ opacity: 1, y: 0 }}
  transition={{ delay: 0.1 }}
- className="text-5xl sm:text-6xl md:text-7xl font-black text-[#0a1628] tracking-tight leading-[1.05]"
+ className="font-display text-4xl sm:text-5xl md:text-6xl font-bold text-[#0a1628] tracking-tight leading-[1.1]"
  >
  Let&apos;s Build Your Next{" "}
  <span className="gradient-text">
@@ -91,15 +92,16 @@ export default function ContactPage() {
  initial={{ opacity: 0, y: 20 }}
  animate={{ opacity: 1, y: 0 }}
  transition={{ delay: 0.15 }}
- className="mt-6 text-xl text-[#475569] font-normal leading-relaxed max-w-3xl mx-auto"
+ className="mt-6 text-lg md:text-xl text-[#475569] font-normal leading-relaxed"
  >
  Consult directly with our solution architects and engineering leads to scope your enterprise AI platform, edge telemetry mesh, or custom neural architecture.
  </motion.p>
  </div>
+ </div>
  </section>
 
  {/* Contact Form & Office Grid */}
- <section className="py-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+ <section className="py-12 max-w-6xl mx-auto px-6">
  <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
  
  {/* Left Column: Interactive Contact Form */}

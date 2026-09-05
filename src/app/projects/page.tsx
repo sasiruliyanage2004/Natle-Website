@@ -96,66 +96,67 @@ export default function ProjectsPage() {
  
  <div className="relative z-10">
  
- {/* Hero Header */}
- <section className="pt-36 pb-16 md:pt-48 md:pb-20 bg-transparent">
- <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center max-w-4xl relative z-10">
- <motion.div 
- initial={{ opacity: 0, y: 16 }}
- animate={{ opacity: 1, y: 0 }}
- className="inline-flex items-center gap-2 rounded-full border px-4 py-1.5 text-xs font-mono font-bold uppercase tracking-wider mb-6"
- style={{ background: "rgba(14,165,233,0.08)", borderColor: "rgba(14,165,233,0.25)", color: "#0369a1" }}
- >
- <Building2 className="w-4 h-4" />
- <span>Real AI &bull; Measurable Production Results</span>
- </motion.div>
+        {/* Hero Header */}
+        <section className="pt-32 pb-12 md:pt-40 md:pb-16 bg-transparent">
+          <div className="max-w-6xl mx-auto px-6 text-left relative z-10">
+            <div className="max-w-3xl">
+              <motion.div 
+                initial={{ opacity: 0, y: 16 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="inline-flex items-center gap-2 rounded-full border px-4 py-1.5 text-xs font-mono font-bold uppercase tracking-wider mb-6"
+                style={{ background: "rgba(14,165,233,0.08)", borderColor: "rgba(14,165,233,0.25)", color: "#0369a1" }}
+              >
+                <Building2 className="w-4 h-4" />
+                <span>Real AI &bull; Measurable Production Results</span>
+              </motion.div>
 
- <motion.h1 
- initial={{ opacity: 0, y: 20 }}
- animate={{ opacity: 1, y: 0 }}
- transition={{ delay: 0.1 }}
- className="text-5xl sm:text-6xl md:text-7xl font-black tracking-tight leading-[1.05]"
- style={{ color: "#0a1628" }}
- >
- Enterprise Case Studies That{" "}
- <span className="gradient-text">
- Deliver Quantified ROI.
- </span>
- </motion.h1>
+              <motion.h1 
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.1 }}
+                className="font-display text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight leading-[1.1]"
+                style={{ color: "#0a1628" }}
+              >
+                Enterprise Case Studies That{" "}
+                <span className="gradient-text">
+                  Deliver Quantified ROI.
+                </span>
+              </motion.h1>
 
- <motion.p 
- initial={{ opacity: 0, y: 20 }}
- animate={{ opacity: 1, y: 0 }}
- transition={{ delay: 0.15 }}
- className="mt-6 text-xl font-normal leading-relaxed max-w-3xl mx-auto"
- style={{ color: "#475569" }}
- >
- Explore how NATLE deploys bespoke deep learning pipelines, edge telemetry meshes, and high-concurrency cloud systems to solve industry bottlenecks with audited commercial returns.
- </motion.p>
+              <motion.p 
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.15 }}
+                className="mt-6 text-lg md:text-xl font-normal leading-relaxed text-[#475569]"
+              >
+                Explore how NATLE deploys bespoke deep learning pipelines, edge telemetry meshes, and high-concurrency cloud systems to solve industry bottlenecks with audited commercial returns.
+              </motion.p>
 
- {/* Filter Pills */}
- <div className="flex flex-wrap items-center justify-center gap-2.5 mt-10">
- {categories.map((cat) => (
- <button
- key={cat}
- onClick={() => setSelectedCategory(cat)}
- className={`px-5 py-2.5 rounded-full text-xs font-bold transition-all ${
- selectedCategory === cat
- ? "clay-btn"
- : " border border-[#e2e8f0] text-[#64748b] hover:border-[#0ea5e9]"
- }`}
- style={{
- color: selectedCategory === cat ? "#0ea5e9" : "#64748b"
- }}
- >
- {cat}
- </button>
- ))}
- </div>
- </div>
- </section>
+              {/* Filter Pills */}
+              <div className="flex flex-wrap items-center justify-start gap-2.5 mt-8">
+                {categories.map((cat) => (
+                  <button
+                    key={cat}
+                    onClick={() => setSelectedCategory(cat)}
+                    className={`px-5 py-2.5 rounded-full text-xs font-bold transition-all ${
+                      selectedCategory === cat
+                        ? "clay-btn"
+                        : " border border-[#e2e8f0] text-[#64748b] hover:border-[#0ea5e9]"
+                    }`}
+                    style={{
+                      color: selectedCategory === cat ? "#0ea5e9" : "#64748b"
+                    }}
+                  >
+                    {cat}
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
 
  {/* Case Studies Grid */}
- <section className="py-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+ <section className="py-12 max-w-6xl mx-auto px-6">
  <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
  {filteredProjects.map((study, i) => {
  const Icon = study.icon;

@@ -41,9 +41,9 @@ export default function AboutPage() {
  return (
  <div className="mx-auto max-w-6xl px-6">
  {/* Hero — asymmetric: headline left, stat stack right */}
- <section className="grid gap-12 pb-20 pt-20 md:grid-cols-[1.3fr_1fr] md:pt-28">
+ <section className="grid gap-12 pb-20 pt-32 md:grid-cols-[1.3fr_1fr] md:pt-40">
  <Reveal>
- <h1 className="font-display text-4xl font-bold leading-[1.1] text-[#0a1628] md:text-5xl">
+ <h1 className="font-display text-4xl sm:text-5xl md:text-6xl font-bold leading-[1.1] text-[#0a1628]">
  We build the AI systems that sit behind the decisions{" "}
  <span className="gradient-text">you can't afford to get wrong.</span>
  </h1>

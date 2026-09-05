@@ -39,18 +39,20 @@ const CAPABILITIES = [
 export default function ServicesPage() {
  return (
  <div className="mx-auto max-w-6xl px-6">
- <section className="pb-16 pt-20 md:pt-28">
- <Reveal>
- <h1 className="max-w-2xl font-display text-4xl font-bold leading-[1.1] text-[#0a1628] md:text-5xl">
- Three services. <span className="gradient-text">One team that owns the outcome.</span>
- </h1>
- <p className="mt-6 max-w-xl text-lg leading-relaxed text-[#475569]">
- Most AI vendors hand you a model and a Slack channel. We stay
- attached to the system we build until it's boring — in the good,
- reliable sense.
- </p>
- </Reveal>
- </section>
+      <section className="pt-32 pb-12 md:pt-40 md:pb-16">
+        <Reveal>
+          <div className="max-w-3xl">
+            <h1 className="font-display text-4xl sm:text-5xl md:text-6xl font-bold leading-[1.1] text-[#0a1628]">
+              Three services. <span className="gradient-text">One team that owns the outcome.</span>
+            </h1>
+            <p className="mt-6 text-lg md:text-xl leading-relaxed text-[#475569]">
+              Most AI vendors hand you a model and a Slack channel. We stay
+              attached to the system we build until it's boring — in the good,
+              reliable sense.
+            </p>
+          </div>
+        </Reveal>
+      </section>
 
  {/* Alternating service rows */}
  <section className="space-y-6 border-t border-[#e2e8f0] py-16">

@@ -67,43 +67,45 @@ export default function CareersPage() {
  
  <div className="relative z-10">
  
- {/* Hero Header */}
- <section className="pt-36 pb-20 md:pt-48 md:pb-28 bg-transparent">
- <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center max-w-4xl relative z-10">
- <motion.div 
- initial={{ opacity: 0, y: 16 }}
- animate={{ opacity: 1, y: 0 }}
- className="inline-flex items-center gap-2 rounded-full border border-[#0ea5e9]/30 bg-[#0ea5e9]/10 px-4 py-1.5 text-xs font-black uppercase tracking-wider text-[#059669] [#10E599] shadow-sm mb-6"
- >
- <Briefcase className="w-4 h-4 text-[#059669] [#10E599]" />
- <span>Join the Engineering Movement</span>
- </motion.div>
+        {/* Hero Header */}
+        <section className="pt-32 pb-12 md:pt-40 md:pb-16 bg-transparent">
+          <div className="max-w-6xl mx-auto px-6 text-left relative z-10">
+            <div className="max-w-3xl">
+              <motion.div 
+                initial={{ opacity: 0, y: 16 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="inline-flex items-center gap-2 rounded-full border border-[#0ea5e9]/30 bg-[#0ea5e9]/10 px-4 py-1.5 text-xs font-black uppercase tracking-wider text-[#059669] shadow-sm mb-6"
+              >
+                <Briefcase className="w-4 h-4 text-[#059669]" />
+                <span>Join the Engineering Movement</span>
+              </motion.div>
 
- <motion.h1 
- initial={{ opacity: 0, y: 20 }}
- animate={{ opacity: 1, y: 0 }}
- transition={{ delay: 0.1 }}
- className="text-5xl sm:text-6xl md:text-7xl font-black text-[#0a1628] tracking-tight leading-[1.05]"
- >
- Build the Technology that{" "}
- <span className="gradient-text">
- Feeds the World.
- </span>
- </motion.h1>
+              <motion.h1 
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.1 }}
+                className="font-display text-4xl sm:text-5xl md:text-6xl font-bold text-[#0a1628] tracking-tight leading-[1.1]"
+              >
+                Build the Technology that{" "}
+                <span className="gradient-text">
+                  Feeds the World.
+                </span>
+              </motion.h1>
 
- <motion.p 
- initial={{ opacity: 0, y: 20 }}
- animate={{ opacity: 1, y: 0 }}
- transition={{ delay: 0.15 }}
- className="mt-6 text-xl text-[#475569] font-normal leading-relaxed max-w-3xl mx-auto"
- >
- We are a passionate team of software architects, hardware hackers, and soil scientists building the next generation of autonomous precision farming.
- </motion.p>
- </div>
- </section>
+              <motion.p 
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.15 }}
+                className="mt-6 text-lg md:text-xl text-[#475569] font-normal leading-relaxed"
+              >
+                We are a passionate team of software architects, hardware hackers, and soil scientists building the next generation of autonomous precision farming.
+              </motion.p>
+            </div>
+          </div>
+        </section>
 
  {/* Perks Grid */}
- <section className="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+ <section className="py-20 max-w-6xl mx-auto px-6">
  <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
  {perks.map((p, i) => {
  const Icon = p.icon;
@@ -128,8 +130,8 @@ export default function CareersPage() {
  </div>
  </section>
 
- {/* Open Positions Grid */}
- <section className="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Open Positions Grid */}
+        <section className="py-20 max-w-6xl mx-auto px-6">
  <div className="text-center max-w-3xl mx-auto mb-16">
  <motion.span 
  initial={{ opacity: 0 }}

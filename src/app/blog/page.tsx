@@ -13,25 +13,26 @@ export default function BlogPage() {
  {/* Background Luminous Beams */}
  
  <div className="relative z-10">
- 
- {/* Hero Header */}
- <section className="pt-36 pb-16 md:pt-48 md:pb-20 text-center max-w-4xl mx-auto px-4">
- <div className="inline-flex items-center gap-2 rounded-full border border-emerald-300/80 bg-white/80 px-4 py-1.5 text-xs font-mono font-bold uppercase tracking-wider text-[#059669] shadow-sm backdrop-blur-md mb-6">
- <BookOpen className="w-4 h-4 text-[#059669] " />
- <span>Enterprise AI &bull; Research &amp; Whitepapers</span>
- </div>
+        {/* Hero Header */}
+        <section className="pt-32 pb-12 md:pt-40 md:pb-16 max-w-6xl mx-auto px-6 text-left">
+          <div className="max-w-3xl">
+            <div className="inline-flex items-center gap-2 rounded-full border border-emerald-300/80 bg-white/80 px-4 py-1.5 text-xs font-mono font-bold uppercase tracking-wider text-[#059669] shadow-sm backdrop-blur-md mb-6">
+              <BookOpen className="w-4 h-4 text-[#059669]" />
+              <span>Enterprise AI &bull; Research &amp; Whitepapers</span>
+            </div>
 
- <h1 className="text-5xl sm:text-6xl md:text-7xl font-extrabold text-[#0a1628] tracking-tight leading-[1.05]">
- Insights on the Future of{" "}
- <span className="font-serif italic font-normal gradient-text">
- Intelligent Systems.
- </span>
- </h1>
+            <h1 className="font-display text-4xl sm:text-5xl md:text-6xl font-bold text-[#0a1628] tracking-tight leading-[1.1]">
+              Insights on the Future of{" "}
+              <span className="gradient-text">
+                Intelligent Systems.
+              </span>
+            </h1>
 
- <p className="mt-6 text-lg md:text-xl text-[#475569] font-normal leading-relaxed max-w-2xl mx-auto">
- Explore whitepapers, machine learning architectures, edge IoT telemetry blueprints, and enterprise case studies published by our AI researchers and architects.
- </p>
- </section>
+            <p className="mt-6 text-lg md:text-xl text-[#475569] font-normal leading-relaxed">
+              Explore whitepapers, machine learning architectures, edge IoT telemetry blueprints, and enterprise case studies published by our AI researchers and architects.
+            </p>
+          </div>
+        </section>
 
  {/* Watermelon Blog2 Grid */}
  <Blog2 

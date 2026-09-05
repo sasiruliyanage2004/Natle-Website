@@ -5,16 +5,18 @@ import Link from "next/link";
 export default function SolutionsPage() {
  return (
  <div className="mx-auto max-w-6xl px-6">
- <section className="pb-16 pt-20 md:pt-28">
+ <section className="pt-32 pb-12 md:pt-40 md:pb-16">
  <Reveal>
- <h1 className="max-w-2xl font-display text-4xl font-bold leading-[1.1] text-[#0a1628] md:text-5xl">
+ <div className="max-w-3xl">
+ <h1 className="font-display text-4xl sm:text-5xl md:text-6xl font-bold leading-[1.1] text-[#0a1628]">
  Solutions built for the industries{" "}
  <span className="gradient-text">where mistakes are expensive.</span>
  </h1>
- <p className="mt-6 max-w-xl text-lg leading-relaxed text-[#475569]">
+ <p className="mt-6 text-lg md:text-xl leading-relaxed text-[#475569]">
  The same AI system looks different in a hospital, a bank, and a
  warehouse. Pick your industry to see what we actually build.
  </p>
+ </div>
  </Reveal>
  </section>
 
