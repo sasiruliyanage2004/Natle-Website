@@ -27,37 +27,44 @@ const testimonials = [
 
 export default function Testimonials() {
   return (
-    <section className="bg-[#070d24] py-24 relative overflow-hidden border-y border-[#0ea5e9]/10">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        
-        <div className="text-center mb-16">
-          <motion.h2 
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="font-display text-4xl sm:text-5xl font-bold text-[#e8f0fe] mb-4"
-          >
-            Trusted by <span className="gradient-text">Enterprise Leaders</span>
-          </motion.h2>
-        </div>
+    <section className="bg-[#f0f7ff] py-24 relative overflow-hidden border-y border-[#e2e8f0]">
+      {/* Background decoration */}
+      <div className="absolute top-0 right-0 -mr-32 -mt-32 w-96 h-96 rounded-full opacity-30 blur-3xl pointer-events-none" style={{ background: "radial-gradient(circle, rgba(14,165,233,0.2) 0%, transparent 70%)" }}></div>
+      <div className="absolute bottom-0 left-0 -ml-32 -mb-32 w-96 h-96 rounded-full opacity-30 blur-3xl pointer-events-none" style={{ background: "radial-gradient(circle, rgba(90,236,143,0.2) 0%, transparent 70%)" }}></div>
 
-        <div className="grid md:grid-cols-3 gap-8">
-          {testimonials.map((t, i) => (
+      <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="text-center mb-16"
+        >
+          <div className="inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-mono font-bold uppercase tracking-wider mb-4 border"
+            style={{ background: "rgba(14,165,233,0.08)", borderColor: "rgba(14,165,233,0.25)", color: "#0369a1" }}>
+            Client Success
+          </div>
+          <h2 className="font-display text-4xl font-black mb-4" style={{ color: "#0a1628" }}>
+            Trusted by Enterprises
+          </h2>
+        </motion.div>
+
+        <div className="grid md:grid-cols-3 gap-6">
+          {testimonials.map((test, i) => (
             <motion.div
               key={i}
-              initial={{ opacity: 0, y: 30 }}
+              initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ delay: i * 0.2 }}
-              className="glass-card rounded-2xl p-8 flex flex-col relative"
+              transition={{ delay: i * 0.1 }}
+              className="p-8 rounded-3xl border transition-all duration-300 hover:-translate-y-1"
+              style={{ background: "#ffffff", borderColor: "rgba(14,165,233,0.12)", boxShadow: "0 4px 20px -4px rgba(10,22,60,0.05)" }}
             >
-              <Quote className="w-10 h-10 text-[#0ea5e9]/20 absolute top-6 right-6" />
-              <p className="text-[#e8f0fe] text-lg leading-relaxed mb-8 flex-grow relative z-10 italic">
-                "{t.quote}"
-              </p>
-              <div className="mt-auto">
-                <div className="font-bold text-[#0ea5e9]">{t.author}</div>
-                <div className="text-xs text-[#94a3b8]">{t.role} &bull; {t.company}</div>
+              <Quote className="w-8 h-8 mb-6" style={{ color: "#0ea5e9" }} />
+              <p className="text-[#475569] leading-relaxed mb-8 italic">"{test.quote}"</p>
+              <div>
+                <h4 className="font-display font-bold text-sm" style={{ color: "#0a1628" }}>{test.author}</h4>
+                <p className="text-xs mt-1 font-semibold" style={{ color: "#0ea5e9" }}>{test.role}</p>
+                <p className="text-xs mt-0.5" style={{ color: "#94a3b8" }}>{test.company}</p>
               </div>
             </motion.div>
           ))}

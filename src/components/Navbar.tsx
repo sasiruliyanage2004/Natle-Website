@@ -5,7 +5,6 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
-import { cn } from "@/lib/utils";
 
 const LINKS = [
   { href: "/about", label: "About" },
@@ -20,43 +19,45 @@ export default function Navbar() {
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 8);
+    const onScroll = () => setScrolled(window.scrollY > 20);
     onScroll();
-    window.addEventListener("scroll", onScroll);
+    window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
   return (
-    <header
-      className={cn(
-        "sticky top-0 z-50 transition-colors duration-300",
-        scrolled
-          ? "border-b border-accent-lime/10 bg-base/70 backdrop-blur-xl"
-          : "border-b border-transparent bg-transparent"
-      )}
-    >
-      <nav className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
-        <Link href="/" className="font-display text-lg font-bold text-ink">
-          NATLE<span className="text-accent-lime">.</span>
+    <header className="fixed top-0 inset-x-0 z-50 flex justify-center pt-6 px-6 pointer-events-none">
+      <nav
+        className="pointer-events-auto flex items-center justify-between w-full max-w-5xl rounded-full transition-all duration-300 px-6 py-3"
+        style={{
+          background: scrolled ? "rgba(255,255,255,0.85)" : "rgba(255,255,255,0.4)",
+          backdropFilter: "blur(24px)",
+          border: "1px solid rgba(14,165,233,0.15)",
+          boxShadow: scrolled ? "0 8px 32px -8px rgba(10,22,60,0.1)" : "none",
+        }}
+      >
+        <Link href="/" className="font-display text-xl font-black tracking-tight" style={{ color: "#0a1628" }}>
+          NATLE<span style={{ color: "#0ea5e9" }}>.</span>
         </Link>
 
-        <ul className="hidden items-center gap-8 md:flex">
+        <ul className="hidden md:flex items-center gap-8">
           {LINKS.map((link) => {
             const active = pathname === link.href;
             return (
               <li key={link.href}>
                 <Link
                   href={link.href}
-                  className={cn(
-                    "relative font-body text-sm transition-colors",
-                    active ? "text-ink" : "text-ink-muted hover:text-ink"
-                  )}
+                  className="relative text-sm font-semibold transition-colors duration-200"
+                  style={{ color: active ? "#0ea5e9" : "#475569" }}
+                  onMouseEnter={(e) => (e.currentTarget.style.color = "#0ea5e9")}
+                  onMouseLeave={(e) => (e.currentTarget.style.color = active ? "#0ea5e9" : "#475569")}
                 >
                   {link.label}
                   {active && (
                     <motion.span
-                      layoutId="nav-underline"
-                      className="absolute -bottom-1.5 left-0 h-px w-full bg-gradient-to-r from-accent-cyan to-accent-lime"
+                      layoutId="nav-pill"
+                      className="absolute -bottom-1.5 left-0 right-0 h-[2px] rounded-full"
+                      style={{ background: "linear-gradient(90deg, #1a3a8f, #0ea5e9)" }}
                     />
                   )}
                 </Link>
@@ -65,46 +66,53 @@ export default function Navbar() {
           })}
         </ul>
 
-        <Link href="/contact" className="btn-primary hidden text-sm md:inline-flex">
-          Talk to sales
-        </Link>
+        <div className="hidden md:block">
+          <Link
+            href="/contact"
+            className="flex items-center justify-center px-5 py-2.5 rounded-full text-sm font-bold transition-all duration-300 hover:scale-105 border"
+            style={{ background: "#ffffff", color: "#0a1628", borderColor: "rgba(14,165,233,0.2)", boxShadow: "0 2px 12px -4px rgba(14,165,233,0.15)" }}
+          >
+            Talk to sales
+          </Link>
+        </div>
 
         <button
-          className="text-ink md:hidden"
+          className="md:hidden"
           onClick={() => setOpen((v) => !v)}
-          aria-label={open ? "Close menu" : "Open menu"}
-          aria-expanded={open}
+          style={{ color: "#0a1628" }}
         >
           {open ? <X size={22} /> : <Menu size={22} />}
         </button>
       </nav>
 
+      {/* Mobile Menu */}
       <AnimatePresence>
         {open && (
           <motion.div
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: "auto", opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.25, ease: "easeInOut" }}
-            className="overflow-hidden border-t border-accent-lime/10 bg-base/95 backdrop-blur-xl md:hidden"
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            className="absolute top-24 left-6 right-6 rounded-3xl overflow-hidden pointer-events-auto border"
+            style={{ background: "rgba(255,255,255,0.95)", backdropFilter: "blur(24px)", borderColor: "rgba(14,165,233,0.15)", boxShadow: "0 12px 40px -10px rgba(10,22,60,0.15)" }}
           >
-            <ul className="flex flex-col gap-1 px-6 py-4">
+            <ul className="flex flex-col p-4 gap-2">
               {LINKS.map((link) => (
                 <li key={link.href}>
                   <Link
                     href={link.href}
                     onClick={() => setOpen(false)}
-                    className="block py-2.5 font-body text-ink-muted hover:text-ink"
+                    className="block px-4 py-3 rounded-xl font-bold text-sm"
+                    style={{ color: "#0a1628", background: "rgba(14,165,233,0.04)" }}
                   >
                     {link.label}
                   </Link>
                 </li>
               ))}
-              <li className="pt-2">
+              <li className="pt-2 mt-2 border-t" style={{ borderColor: "rgba(14,165,233,0.1)" }}>
                 <Link
                   href="/contact"
                   onClick={() => setOpen(false)}
-                  className="btn-primary w-full text-sm"
+                  className="gradient-btn flex items-center justify-center w-full py-3 rounded-xl font-bold text-sm"
                 >
                   Talk to sales
                 </Link>

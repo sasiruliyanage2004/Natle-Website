@@ -68,8 +68,8 @@ export default function Solutions() {
 
   return (
     <section ref={containerRef} className="relative" style={{ height: `${DOMAINS.length * 80}vh` }}>
-      {/* Sticky viewport */}
-      <div className="sticky top-0 h-screen overflow-hidden flex flex-col justify-center">
+        {/* Sticky viewport */}
+      <div className="sticky top-0 h-screen overflow-hidden flex flex-col justify-center" style={{ background: "linear-gradient(180deg, #f0f7ff 0%, #f8faff 100%)" }}>
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -79,12 +79,12 @@ export default function Solutions() {
           className="px-6 lg:px-12 mb-10 shrink-0"
         >
           <div className="inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-mono font-bold uppercase tracking-wider mb-4 border"
-            style={{ background: "rgba(14,165,233,0.1)", borderColor: "rgba(14,165,233,0.3)", color: "#0ea5e9" }}>
+            style={{ background: "rgba(14,165,233,0.08)", borderColor: "rgba(14,165,233,0.25)", color: "#0369a1" }}>
             AI Domains
           </div>
-          <h2 className="font-display text-4xl lg:text-5xl font-black text-white leading-tight">
+          <h2 className="font-display text-4xl lg:text-5xl font-black leading-tight" style={{ color: "#0a1628" }}>
             Six Industries.{" "}
-            <span style={{ background: "linear-gradient(90deg,#0ea5e9,#5aec8f)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>
+            <span style={{ background: "linear-gradient(90deg,#1a3a8f,#0ea5e9)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>
               One Platform.
             </span>
           </h2>
@@ -92,51 +92,43 @@ export default function Solutions() {
 
         {/* Scrolling cards track */}
         <div className="overflow-hidden px-6 lg:px-12">
-          <motion.div
-            style={{ x }}
-            className="flex gap-6"
-          >
-            {DOMAINS.map((d, i) => {
+          <motion.div style={{ x }} className="flex gap-5">
+            {DOMAINS.map((d) => {
               const Icon = d.icon;
               return (
                 <div
                   key={d.label}
-                  className="shrink-0 w-[320px] lg:w-[380px] rounded-3xl p-8 flex flex-col gap-6 transition-all duration-300 group cursor-pointer"
+                  className="shrink-0 w-[310px] lg:w-[360px] rounded-3xl p-7 flex flex-col gap-5 cursor-pointer border transition-all duration-300 group"
                   style={{
-                    background: "rgba(13,21,53,0.7)",
-                    backdropFilter: "blur(24px)",
-                    border: `1px solid ${d.color}28`,
-                    boxShadow: `0 8px 40px -12px ${d.color}22`,
+                    background: "#ffffff",
+                    borderColor: `${d.color}20`,
+                    boxShadow: `0 4px 20px -6px ${d.color}18, 0 1px 3px rgba(10,22,60,0.06)`,
                   }}
                 >
-                  {/* Icon */}
-                  <div className="w-14 h-14 rounded-2xl flex items-center justify-center shrink-0"
-                    style={{ background: `${d.color}18`, border: `1px solid ${d.color}35` }}>
+                  <div className="w-12 h-12 rounded-2xl flex items-center justify-center shrink-0 border"
+                    style={{ background: `${d.color}12`, borderColor: `${d.color}30` }}>
                     <Icon className="w-6 h-6" style={{ color: d.color }} />
                   </div>
 
-                  {/* Label badge */}
                   <div>
                     <span className="text-xs font-bold uppercase tracking-wider px-2 py-0.5 rounded-full"
-                      style={{ background: `${d.color}15`, color: d.color }}>
+                      style={{ background: `${d.color}12`, color: d.color }}>
                       {d.label}
                     </span>
-                    <h3 className="font-display text-xl font-bold text-white mt-3">{d.title}</h3>
+                    <h3 className="font-display text-xl font-bold mt-3" style={{ color: "#0a1628" }}>{d.title}</h3>
                   </div>
 
-                  <p className="text-[#94a3b8] text-sm leading-relaxed flex-1">{d.desc}</p>
+                  <p className="text-sm leading-relaxed flex-1" style={{ color: "#64748b" }}>{d.desc}</p>
 
-                  {/* Tags */}
                   <div className="flex gap-2 flex-wrap">
                     {d.tags.map(tag => (
-                      <span key={tag} className="text-xs px-2.5 py-1 rounded-lg"
-                        style={{ background: "rgba(255,255,255,0.04)", color: "#64748b", border: "1px solid rgba(255,255,255,0.07)" }}>
+                      <span key={tag} className="text-xs px-2.5 py-1 rounded-lg border"
+                        style={{ background: "#f8faff", color: "#94a3b8", borderColor: "#e2e8f0" }}>
                         {tag}
                       </span>
                     ))}
                   </div>
 
-                  {/* CTA link */}
                   <div className="flex items-center gap-2 text-sm font-semibold group-hover:gap-3 transition-all duration-300"
                     style={{ color: d.color }}>
                     Learn more <ArrowRight className="w-4 h-4" />
@@ -147,16 +139,16 @@ export default function Solutions() {
           </motion.div>
         </div>
 
-        {/* Scroll hint */}
-        <div className="px-6 lg:px-12 mt-8 shrink-0">
+        {/* Scroll hint dots */}
+        <div className="px-6 lg:px-12 mt-7 shrink-0">
           <div className="flex items-center gap-3">
             <div className="flex gap-1.5">
               {DOMAINS.map((_, i) => (
-                <div key={i} className="w-6 h-1 rounded-full transition-all"
-                  style={{ background: i === 0 ? "linear-gradient(90deg,#0ea5e9,#5aec8f)" : "rgba(255,255,255,0.1)" }} />
+                <div key={i} className="h-1 rounded-full transition-all"
+                  style={{ width: i === 0 ? "24px" : "8px", background: i === 0 ? "linear-gradient(90deg,#1a3a8f,#0ea5e9)" : "#e2e8f0" }} />
               ))}
             </div>
-            <span className="text-xs text-[#64748b] font-mono">scroll to explore</span>
+            <span className="text-xs font-mono" style={{ color: "#94a3b8" }}>scroll to explore</span>
           </div>
         </div>
       </div>

@@ -1,19 +1,19 @@
 @import "tailwindcss";
 
 /* ═══════════════════════════════════════════════════════════════
-   NATLE Technologies — Global Design System
-   Dark Only · Navy-Cyan-Lime · Jiro-inspired Dramatic Depth
+   NATLE Technologies — Premium Light Design System
+   Inspired by Stripe · Linear · Vercel
    ═══════════════════════════════════════════════════════════════ */
 
 html {
-  color-scheme: dark;
-  scroll-behavior: auto; /* Lenis handles smooth scroll */
-  background: #020818;
+  color-scheme: light;
+  scroll-behavior: auto;
+  background: #f8faff;
 }
 
 body {
-  background: #020818;
-  color: #e8f0fe;
+  background: #f8faff;
+  color: #0a1628;
   font-family: var(--font-inter), "Inter", system-ui, sans-serif;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
@@ -24,85 +24,82 @@ body {
   color: #ffffff;
 }
 
-/* ── Typography helpers ── */
 .font-display {
   font-family: var(--font-space-grotesk), "Space Grotesk", system-ui, sans-serif;
 }
 
-/* ── Gradient text ── */
+/* ── Gradient text (works great on white bg) ── */
 .gradient-text {
-  background: linear-gradient(90deg, #0ea5e9 0%, #5aec8f 100%);
+  background: linear-gradient(90deg, #1a3a8f 0%, #0ea5e9 55%, #5aec8f 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
   display: inline-block;
 }
 
-/* ── Buttons ── */
+/* ── Primary gradient button ── */
 .gradient-btn {
   background: linear-gradient(135deg, #1a3a8f 0%, #0ea5e9 55%, #5aec8f 100%);
   color: #ffffff;
-  font-weight: 800;
-  box-shadow: 0 4px 24px -4px rgba(14, 165, 233, 0.5);
+  font-weight: 700;
+  box-shadow: 0 4px 20px -4px rgba(14, 165, 233, 0.45);
   transition: all 0.3s ease;
 }
 .gradient-btn:hover {
   transform: translateY(-2px) scale(1.02);
-  box-shadow: 0 12px 40px -6px rgba(14, 165, 233, 0.65);
+  box-shadow: 0 10px 32px -6px rgba(14, 165, 233, 0.55);
 }
 
-/* ── Glass card ── */
+/* ── Glass card (light version) ── */
 .glass-card {
-  background: rgba(10, 18, 48, 0.75);
-  backdrop-filter: blur(28px);
-  -webkit-backdrop-filter: blur(28px);
-  border: 1px solid rgba(14, 165, 233, 0.12);
-  box-shadow: 0 8px 32px -8px rgba(0, 0, 0, 0.7);
-  transition: all 0.35s ease;
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(14, 165, 233, 0.14);
+  box-shadow: 0 4px 24px -4px rgba(10, 22, 60, 0.08), 0 1px 3px rgba(10, 22, 60, 0.05);
+  transition: all 0.3s ease;
 }
 .glass-card:hover {
-  border-color: rgba(14, 165, 233, 0.3);
-  box-shadow: 0 16px 48px -10px rgba(0, 0, 0, 0.8), 0 0 40px -12px rgba(14, 165, 233, 0.2);
+  border-color: rgba(14, 165, 233, 0.35);
+  box-shadow: 0 12px 40px -8px rgba(10, 22, 60, 0.12), 0 0 0 1px rgba(14, 165, 233, 0.15);
+  transform: translateY(-2px);
 }
 
-/* ── Dot grid ── */
+/* ── Dot grid (light) ── */
 .dot-grid {
-  background-image: radial-gradient(rgba(14, 165, 233, 0.06) 1px, transparent 1px);
-  background-size: 30px 30px;
+  background-image: radial-gradient(rgba(14, 165, 233, 0.12) 1px, transparent 1px);
+  background-size: 28px 28px;
 }
 
-/* ── Floating animation (domain badges) ── */
+/* ── Float animation ── */
 @keyframes float {
   0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-12px); }
+  50% { transform: translateY(-10px); }
 }
 .animate-float { animation: float 4s ease-in-out infinite; }
 
-/* ── Horizontal scroll snap ── */
-.snap-x-mandatory {
-  scroll-snap-type: x mandatory;
+/* ── Section alternating bg ── */
+.section-alt {
+  background: linear-gradient(180deg, #f0f7ff 0%, #f8faff 100%);
 }
 
-/* ── Scrollbar ── */
+/* ── Scrollbar (light) ── */
 ::-webkit-scrollbar { width: 4px; }
-::-webkit-scrollbar-track { background: #020818; }
-::-webkit-scrollbar-thumb {
-  background: rgba(14, 165, 233, 0.35);
-  border-radius: 4px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: rgba(14, 165, 233, 0.65);
-}
+::-webkit-scrollbar-track { background: #f1f5f9; }
+::-webkit-scrollbar-thumb { background: rgba(14,165,233,0.3); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(14,165,233,0.6); }
 
-/* ── Theme layer for Tailwind v4 ── */
+/* ── Theme tokens ── */
 @theme {
-  --color-base:       #020818;
-  --color-base-card:  #0a1230;
-  --color-cyan:       #0ea5e9;
-  --color-lime:       #5aec8f;
-  --color-navy:       #1a3a8f;
-  --color-text:       #e8f0fe;
-  --color-muted:      #64748b;
+  --color-bg:        #f8faff;
+  --color-bg-card:   #ffffff;
+  --color-bg-alt:    #f0f7ff;
+  --color-cyan:      #0ea5e9;
+  --color-lime:      #5aec8f;
+  --color-navy:      #1a3a8f;
+  --color-text:      #0a1628;
+  --color-muted:     #64748b;
+  --color-border:    #e2e8f0;
   --font-display: var(--font-space-grotesk), sans-serif;
   --font-body:    var(--font-inter), sans-serif;
 }

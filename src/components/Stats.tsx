@@ -1,67 +1,50 @@
 "use client";
 
-import React from "react";
 import { motion } from "framer-motion";
 
 export default function Stats() {
   return (
-    <section className="bg-transparent py-20 border-t border-[#0ea5e9]/10">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        
-        <div className="text-center mb-12">
-          <div className="inline-flex items-center justify-center px-3 py-1 rounded-full bg-[#0ea5e9]/10 border border-[#0ea5e9]/20 text-[#0ea5e9] text-xs font-bold uppercase tracking-wider mb-4">
+    <section className="py-20 relative" style={{ background: "linear-gradient(180deg, #f0f7ff 0%, #f8faff 100%)", borderTop: "1px solid rgba(14,165,233,0.1)", borderBottom: "1px solid rgba(14,165,233,0.1)" }}>
+      <div className="max-w-7xl mx-auto px-6 lg:px-8">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="text-center mb-12"
+        >
+          <div className="inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-mono font-bold uppercase tracking-wider mb-3 border"
+            style={{ background: "rgba(14,165,233,0.08)", borderColor: "rgba(14,165,233,0.25)", color: "#0369a1" }}>
             Enterprise Scale
           </div>
-          <h2 className="font-display text-3xl font-bold text-[#e8f0fe]">Proven at Enterprise Scale</h2>
-        </div>
+          <h2 className="font-display text-3xl font-black" style={{ color: "#0a1628" }}>Proven at Enterprise Scale</h2>
+        </motion.div>
 
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.1 }}
-            className="glass-card rounded-2xl p-6 text-center flex flex-col items-center justify-center"
-          >
-            <div className="font-display text-4xl sm:text-5xl font-bold text-[#0ea5e9] mb-2">9+</div>
-            <div className="text-[#94a3b8] text-xs uppercase tracking-wider font-semibold">Projects Delivered</div>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.2 }}
-            className="glass-card rounded-2xl p-6 text-center flex flex-col items-center justify-center"
-          >
-            <div className="font-display text-4xl sm:text-5xl font-bold text-[#5aec8f] mb-2">98.2%</div>
-            <div className="text-[#94a3b8] text-xs uppercase tracking-wider font-semibold">Model Accuracy</div>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.3 }}
-            className="glass-card rounded-2xl p-6 text-center flex flex-col items-center justify-center"
-          >
-            <div className="font-display text-4xl sm:text-5xl font-bold text-[#00c9a7] mb-2">5</div>
-            <div className="text-[#94a3b8] text-xs uppercase tracking-wider font-semibold">Continents</div>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.4 }}
-            className="glass-card rounded-2xl p-6 text-center flex flex-col items-center justify-center"
-          >
-            <div className="font-display text-4xl sm:text-5xl font-bold text-[#1a6fd4] mb-2">6</div>
-            <div className="text-[#94a3b8] text-xs uppercase tracking-wider font-semibold">AI Domains</div>
-          </motion.div>
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-5">
+          {[
+            { val: "9+", label: "Projects Delivered", color: "#0ea5e9" },
+            { val: "98.2%", label: "Model Accuracy", color: "#5aec8f" },
+            { val: "5", label: "Continents Served", color: "#0d9488" },
+            { val: "6", label: "AI Domains", color: "#1a3a8f" },
+          ].map((s, i) => (
+            <motion.div
+              key={s.label}
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: i * 0.1, duration: 0.6 }}
+              className="rounded-2xl p-6 text-center border"
+              style={{ background: "#ffffff", borderColor: "rgba(14,165,233,0.12)", boxShadow: "0 4px 20px -4px rgba(10,22,60,0.07)" }}
+            >
+              <div
+                className="font-display text-4xl sm:text-5xl font-black mb-2"
+                style={{ background: `linear-gradient(135deg, ${s.color}, #0ea5e9)`, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}
+              >{s.val}</div>
+              <div className="text-xs uppercase tracking-wider font-semibold" style={{ color: "#64748b" }}>{s.label}</div>
+            </motion.div>
+          ))}
         </div>
       </div>
     </section>
   );
 }
-

@@ -30,7 +30,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={`${spaceGrotesk.variable} ${inter.variable} dark`}>
-      <body className="relative min-h-screen overflow-x-hidden font-body text-ink" style={{ background: "#070d24", color: "#e8f0fe" }}>
+      <body className="relative min-h-screen overflow-x-hidden" style={{ background: "#f8faff", color: "#0a1628" }}>
         <SmoothScroll>
           <AuroraBackdrop />
           <Navbar />
