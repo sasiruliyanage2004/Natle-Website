@@ -1,6 +1,7 @@
 import Reveal from "@/components/Reveal";
 import IndustryTabs from "@/components/IndustryTabs";
 import Link from "next/link";
+import TrustBadgeBar from "@/components/trust/TrustBadgeBar";
 
 export default function SolutionsPage() {
  return (
@@ -20,11 +21,15 @@ export default function SolutionsPage() {
  </Reveal>
  </section>
 
- <section className="border-t border-[#e2e8f0] py-16">
- <Reveal>
- <IndustryTabs />
- </Reveal>
- </section>
+      <section className="border-t border-[#e2e8f0] py-16">
+        <Reveal>
+          <IndustryTabs />
+        </Reveal>
+      </section>
+
+      <div className="border-t border-[#e2e8f0] py-6">
+        <TrustBadgeBar />
+      </div>
 
  <section className="border-t border-[#e2e8f0] py-20">
  <Reveal>

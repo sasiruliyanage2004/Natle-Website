@@ -8,6 +8,8 @@ import Image from "next/image";
 
 import NeuralField from "@/components/animations/NeuralField";
 import Counter from "@/components/common/Counter";
+import MagneticButton from "@/components/ui/MagneticButton";
+import LiveSystemStatus from "@/components/common/LiveSystemStatus";
 
 function WordReveal({ text, className = "", delay = 0 }: { text: string; className?: string; delay?: number }) {
  const words = text.split(" ");
@@ -48,6 +50,16 @@ export default function Hero() {
 
  {/* LEFT */}
  <div className="flex flex-col items-start">
+          {/* Live Enterprise System Status */}
+          <motion.div
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4 }}
+            className="mb-4"
+          >
+            <LiveSystemStatus />
+          </motion.div>
+
  {/* Badge */}
  <motion.div
  initial={{ opacity: 0, y: 16 }}
@@ -103,12 +115,15 @@ export default function Hero() {
  transition={{ delay: 0.72 }}
  className="flex flex-col sm:flex-row gap-4 mb-12"
  >
+ <MagneticButton strength={22}>
  <Link
  href="/services"
  className="gradient-btn flex items-center justify-center gap-2 px-8 py-4 rounded-full font-bold text-white text-sm"
  >
  Explore Our Services <ArrowRight className="w-4 h-4" />
  </Link>
+ </MagneticButton>
+ <MagneticButton strength={18}>
  <Link
  href="/contact"
  className="flex items-center justify-center gap-2 px-8 py-4 rounded-full font-bold text-sm transition-all duration-300 hover:scale-105 border"
@@ -116,6 +131,7 @@ export default function Hero() {
  >
  <ShieldCheck className="w-4 h-4" /> Talk to a Specialist
  </Link>
+ </MagneticButton>
  </motion.div>
 
  {/* Stats */}

@@ -26,14 +26,17 @@ export default function SmoothScroll({ children }: { children: React.ReactNode }
  rafId = requestAnimationFrame(raf);
  };
  rafId = requestAnimationFrame(raf);
- };
 
- init();
+      // Reset to top smoothly on page transition
+      lenis.scrollTo(0, { immediate: true });
+    };
 
- return () => {
- cancelAnimationFrame(rafId);
- if (lenisRef.current) lenisRef.current.destroy();
- };
+    init();
+
+    return () => {
+      cancelAnimationFrame(rafId);
+      if (lenisRef.current) lenisRef.current.destroy();
+    };
  }, [pathname]);
 
  return <>{children}</>;

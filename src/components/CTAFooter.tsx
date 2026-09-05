@@ -15,6 +15,9 @@ import {
   Sparkles,
 } from "lucide-react";
 import { Floating3DParticles } from "@/components/magicui/floating-3d-particles";
+import { useTrustCenter } from "@/components/trust/TrustCenterModal";
+import MagneticButton from "@/components/ui/MagneticButton";
+import BorderBeam from "@/components/ui/BorderBeam";
 
 function GitHubIcon({ className }: { className?: string }) {
   return (
@@ -64,6 +67,7 @@ const RESOURCE_LINKS = [
 ];
 
 export default function CTAFooter() {
+  const { openTrustCenter } = useTrustCenter();
   const [email, setEmail] = useState("");
   const [subscribed, setSubscribed] = useState(false);
 
@@ -93,6 +97,9 @@ export default function CTAFooter() {
           transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
           className="clay-card relative mb-12 overflow-hidden rounded-2xl sm:rounded-3xl border border-white/90 bg-white/95 p-6 sm:p-8 lg:p-10 shadow-[0_12px_36px_-10px_rgba(14,165,233,0.10)]"
         >
+          {/* Luminous Border Beam Shimmer */}
+          <BorderBeam size={280} duration={14} colorFrom="#0ea5e9" colorTo="#10e599" />
+
           {/* Subtle 3D Particles Effect inside the banner */}
           <Floating3DParticles
             color="#0ea5e9"
@@ -123,40 +130,56 @@ export default function CTAFooter() {
                 Consult with our systems architecture team. We audit your infrastructure and provide a production blueprint in 48 hours.
               </p>
 
-              {/* Compliance trust chips */}
+              {/* Compliance trust chips - Clickable triggers for Trust Center */}
               <div className="mt-4 flex flex-wrap items-center gap-2 text-[11px] font-medium text-[#64748b]">
-                <div className="flex items-center gap-1 rounded-md bg-slate-100/90 px-2 py-0.5 border border-slate-200/60">
+                <button
+                  type="button"
+                  onClick={() => openTrustCenter("soc2")}
+                  className="flex items-center gap-1 rounded-md bg-slate-100/90 px-2 py-0.5 border border-slate-200/60 hover:border-[#0ea5e9]/50 hover:bg-[#0ea5e9]/10 hover:text-[#0ea5e9] transition-all cursor-pointer"
+                >
                   <Shield className="h-3 w-3 text-[#0ea5e9]" />
                   <span>SOC 2 Type II</span>
-                </div>
-                <div className="flex items-center gap-1 rounded-md bg-slate-100/90 px-2 py-0.5 border border-slate-200/60">
+                </button>
+                <button
+                  type="button"
+                  onClick={() => openTrustCenter("hipaa")}
+                  className="flex items-center gap-1 rounded-md bg-slate-100/90 px-2 py-0.5 border border-slate-200/60 hover:border-emerald-400/50 hover:bg-emerald-500/10 hover:text-emerald-700 transition-all cursor-pointer"
+                >
                   <CheckCircle2 className="h-3 w-3 text-[#059669]" />
                   <span>HIPAA Compliant</span>
-                </div>
-                <div className="flex items-center gap-1 rounded-md bg-slate-100/90 px-2 py-0.5 border border-slate-200/60">
-                  <Sparkles className="h-3 w-3 text-[#0ea5e9]" />
+                </button>
+                <button
+                  type="button"
+                  onClick={() => openTrustCenter("sovereign")}
+                  className="flex items-center gap-1 rounded-md bg-slate-100/90 px-2 py-0.5 border border-slate-200/60 hover:border-amber-400/50 hover:bg-amber-500/10 hover:text-amber-700 transition-all cursor-pointer"
+                >
+                  <Sparkles className="h-3 w-3 text-[#f59e0b]" />
                   <span>Air-Gapped Sovereign AI</span>
-                </div>
+                </button>
               </div>
             </div>
 
-            {/* Action buttons */}
+            {/* Action buttons with Magnetic physics */}
             <div className="flex flex-row sm:flex-row lg:flex-col gap-3 shrink-0">
-              <Link
-                href="/contact"
-                className="gradient-btn inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 font-bold text-white text-xs sm:text-sm shadow-sm hover:shadow-md transition-all duration-300"
-              >
-                <span>Architecture Review</span>
-                <ArrowRight className="h-3.5 w-3.5" />
-              </Link>
+              <MagneticButton strength={18}>
+                <Link
+                  href="/contact"
+                  className="gradient-btn inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 font-bold text-white text-xs sm:text-sm shadow-sm hover:shadow-md transition-all duration-300"
+                >
+                  <span>Architecture Review</span>
+                  <ArrowRight className="h-3.5 w-3.5" />
+                </Link>
+              </MagneticButton>
 
-              <Link
-                href="/projects"
-                className="clay-btn inline-flex items-center justify-center gap-1.5 rounded-full border border-slate-200/80 bg-white px-6 py-3 font-bold text-xs sm:text-sm text-[#0a1628] hover:text-[#0ea5e9] transition-all duration-300"
-              >
-                <span>Case Studies</span>
-                <ArrowUpRight className="h-3.5 w-3.5 text-[#64748b]" />
-              </Link>
+              <MagneticButton strength={15}>
+                <Link
+                  href="/projects"
+                  className="clay-btn inline-flex items-center justify-center gap-1.5 rounded-full border border-slate-200/80 bg-white px-6 py-3 font-bold text-xs sm:text-sm text-[#0a1628] hover:text-[#0ea5e9] transition-all duration-300"
+                >
+                  <span>Case Studies</span>
+                  <ArrowUpRight className="h-3.5 w-3.5 text-[#64748b]" />
+                </Link>
+              </MagneticButton>
             </div>
           </div>
         </motion.div>

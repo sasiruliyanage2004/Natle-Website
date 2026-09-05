@@ -6,6 +6,7 @@ import NatleLogo from "@/components/common/NatleLogo";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
+import MagneticButton from "@/components/ui/MagneticButton";
 
 const LINKS = [
  { href: "/about", label: "About" },
@@ -69,12 +70,14 @@ export default function Navbar() {
  </ul>
 
  <div className="hidden lg:block">
+ <MagneticButton strength={18}>
  <Link
  href="/contact"
  className="clay-btn flex items-center justify-center px-6 py-2.5 rounded-full text-sm font-bold"
  >
  Talk to sales
  </Link>
+ </MagneticButton>
  </div>
 
  <button

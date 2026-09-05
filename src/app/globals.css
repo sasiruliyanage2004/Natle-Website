@@ -108,6 +108,16 @@ body {
 }
 .animate-float { animation: float 4s ease-in-out infinite; }
 
+/* ── Border Beam animation ── */
+@keyframes border-beam {
+  100% {
+    offset-distance: 100%;
+  }
+}
+.animate-border-beam {
+  animation: border-beam calc(var(--duration)*1s) infinite linear;
+}
+
 /* ── Section alternating bg ── */
 .section-alt {
   background: linear-gradient(180deg, #f0f7ff 0%, #f8faff 100%);
