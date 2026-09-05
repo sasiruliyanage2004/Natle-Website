@@ -1,5 +1,7 @@
 "use client";
 
+import { Floating3DParticles } from "@/components/magicui/floating-3d-particles";
+
 export default function AuroraBackdrop() {
  return (
  <div
@@ -14,6 +16,9 @@ export default function AuroraBackdrop() {
  background: "radial-gradient(ellipse 130% 70% at 50% -10%, #dbeafe 0%, #f8faff 50%)",
  }}
  />
+
+ {/* ── Floating 3D Particles (Ethereal buoyant drift) ── */}
+ <Floating3DParticles color="#0ea5e9" quantity={110} opacity={0.2} size={3.5} drift={0.4} />
 
  {/* ── Cyan glow — top right (light, airy) ── */}
  <div

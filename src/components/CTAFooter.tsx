@@ -15,6 +15,8 @@ import {
   Sparkles,
 } from "lucide-react";
 
+import { Floating3DParticles } from "@/components/magicui/floating-3d-particles";
+
 // Clean inline SVGs for social platforms
 function GitHubIcon({ className }: { className?: string }) {
   return (
@@ -98,6 +100,9 @@ export default function CTAFooter() {
           transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
           className="clay-card relative mb-20 overflow-hidden rounded-[2.5rem] border border-white/80 bg-white/95 p-8 md:p-14 lg:p-16 shadow-[0_25px_60px_-15px_rgba(14,165,233,0.12)]"
         >
+          {/* Magic UI Floating 3D Particles Effect */}
+          <Floating3DParticles color="#0ea5e9" quantity={160} opacity={0.35} size={4.5} drift={0.6} />
+
           {/* Subtle inner corner glow */}
           <div className="pointer-events-none absolute -right-20 -top-20 h-72 w-72 rounded-full bg-gradient-to-br from-[#0ea5e9]/15 to-[#5aec8f]/15 blur-2xl" />
           <div className="pointer-events-none absolute -bottom-20 -left-20 h-72 w-72 rounded-full bg-gradient-to-tr from-[#1a3a8f]/10 to-[#0ea5e9]/10 blur-2xl" />
