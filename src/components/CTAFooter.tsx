@@ -7,17 +7,14 @@ import {
   ArrowRight,
   ArrowUpRight,
   CheckCircle2,
-  Globe,
   Mail,
   MapPin,
   Phone,
   Shield,
   Sparkles,
 } from "lucide-react";
-
 import { Floating3DParticles } from "@/components/magicui/floating-3d-particles";
 
-// Clean inline SVGs for social platforms
 function GitHubIcon({ className }: { className?: string }) {
   return (
     <svg className={className} fill="currentColor" viewBox="0 0 24 24">
@@ -48,23 +45,21 @@ const PLATFORM_LINKS = [
   { label: "Retail Demand & Loss", href: "/solutions#retail" },
   { label: "HR Predictive Copilot", href: "/solutions#hr" },
   { label: "Edge Inference Runtime", href: "/services" },
-  { label: "Custom Foundation Models", href: "/services" },
 ];
 
 const COMPANY_LINKS = [
   { label: "About NATLE", href: "/about" },
-  { label: "Our Engineering Culture", href: "/about#culture" },
+  { label: "Engineering Culture", href: "/about#culture" },
   { label: "Careers", href: "/careers", badge: "Hiring" },
-  { label: "Client Case Studies", href: "/projects" },
-  { label: "Contact Specialists", href: "/contact" },
+  { label: "Case Studies", href: "/projects" },
+  { label: "Contact Us", href: "/contact" },
 ];
 
 const RESOURCE_LINKS = [
-  { label: "Research Whitepapers", href: "/blog" },
-  { label: "Edge Architecture Blueprint", href: "/blog" },
-  { label: "Model Evaluation Suite", href: "/about" },
-  { label: "Security & SOC 2", href: "/contact" },
-  { label: "HIPAA / GDPR Compliance", href: "/contact" },
+  { label: "Whitepapers", href: "/blog" },
+  { label: "Edge Architecture", href: "/blog" },
+  { label: "SOC 2 & Security", href: "/contact" },
+  { label: "HIPAA Compliance", href: "/contact" },
 ];
 
 export default function CTAFooter() {
@@ -81,197 +76,194 @@ export default function CTAFooter() {
   };
 
   return (
-    <footer className="relative z-10 w-full overflow-hidden bg-[#f8faff] text-[#0a1628]">
-      {/* Hairline subtle top border */}
-      <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-[#0ea5e9]/30 to-transparent" />
+    <footer className="relative z-10 w-full max-w-full overflow-hidden bg-[#f8faff] text-[#0a1628]">
+      {/* Subtle top divider line */}
+      <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-[#0ea5e9]/25 to-transparent" />
 
-      {/* Ambient background glow accents */}
-      <div className="pointer-events-none absolute -top-40 left-1/2 -translate-x-1/2 w-[800px] h-[350px] bg-gradient-to-b from-[#0ea5e9]/10 via-[#5aec8f]/5 to-transparent blur-3xl opacity-70" />
-
-      <div className="relative mx-auto max-w-7xl px-6 pt-20 pb-12 lg:px-8">
+      <div className="relative mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 pt-12 pb-8">
         
         {/* ══════════════════════════════════════════════════
-            PRE-FOOTER FLOATING CLAYMORPHISM CTA HERO
+            COMPACT CLAYMORPHISM CTA BANNER (PROPORTIONAL)
            ══════════════════════════════════════════════════ */}
         <motion.div
-          initial={{ opacity: 0, y: 28 }}
+          initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-60px" }}
-          transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-          className="clay-card relative mb-20 overflow-hidden rounded-[2.5rem] border border-white/80 bg-white/95 p-8 md:p-14 lg:p-16 shadow-[0_25px_60px_-15px_rgba(14,165,233,0.12)]"
+          viewport={{ once: true, margin: "-40px" }}
+          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+          className="clay-card relative mb-12 overflow-hidden rounded-2xl sm:rounded-3xl border border-white/90 bg-white/95 p-6 sm:p-8 lg:p-10 shadow-[0_12px_36px_-10px_rgba(14,165,233,0.10)]"
         >
-          {/* Magic UI Floating 3D Particles Effect */}
-          <Floating3DParticles color="#0ea5e9" quantity={160} opacity={0.35} size={4.5} drift={0.6} />
+          {/* Subtle 3D Particles Effect inside the banner */}
+          <Floating3DParticles
+            color="#0ea5e9"
+            quantity={90}
+            opacity={0.3}
+            size={3.5}
+            drift={0.5}
+            className="rounded-2xl sm:rounded-3xl"
+          />
 
-          {/* Subtle inner corner glow */}
-          <div className="pointer-events-none absolute -right-20 -top-20 h-72 w-72 rounded-full bg-gradient-to-br from-[#0ea5e9]/15 to-[#5aec8f]/15 blur-2xl" />
-          <div className="pointer-events-none absolute -bottom-20 -left-20 h-72 w-72 rounded-full bg-gradient-to-tr from-[#1a3a8f]/10 to-[#0ea5e9]/10 blur-2xl" />
-
-          <div className="relative z-10 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-10">
-            <div className="max-w-2xl">
+          <div className="relative z-10 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6 lg:gap-10">
+            <div className="max-w-xl">
               {/* Eyebrow status badge */}
-              <div className="inline-flex items-center gap-2 rounded-full border border-emerald-200 bg-emerald-50/90 px-3.5 py-1 text-xs font-mono font-bold uppercase tracking-wider text-emerald-700 shadow-xs mb-6">
+              <div className="inline-flex items-center gap-2 rounded-full border border-emerald-200 bg-emerald-50/90 px-3 py-0.5 text-[11px] font-mono font-bold uppercase tracking-wider text-emerald-700 shadow-xs mb-3">
                 <span className="relative flex h-2 w-2">
                   <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
                   <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
                 </span>
-                <span>Open for Enterprise Deployments &bull; Q3/Q4 2026</span>
+                <span>Open for Deployments &bull; Q3/Q4 2026</span>
               </div>
 
-              <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-[#0a1628] leading-[1.12]">
+              <h2 className="font-display text-2xl sm:text-3xl lg:text-4xl font-black tracking-tight text-[#0a1628] leading-tight">
                 Ready to Deploy AI That{" "}
-                <span className="gradient-text">Actually Delivers ROI?</span>
+                <span className="gradient-text">Delivers Real ROI?</span>
               </h2>
 
-              <p className="mt-4 text-base sm:text-lg text-[#475569] leading-relaxed max-w-xl">
-                Consult with our systems architecture team. We audit your infrastructure and provide a production deployment blueprint within 48 hours.
+              <p className="mt-2 text-xs sm:text-sm text-[#475569] leading-relaxed max-w-lg">
+                Consult with our systems architecture team. We audit your infrastructure and provide a production blueprint in 48 hours.
               </p>
 
               {/* Compliance trust chips */}
-              <div className="mt-8 flex flex-wrap items-center gap-4 text-xs font-semibold text-[#64748b]">
-                <div className="flex items-center gap-1.5 rounded-full bg-slate-100/80 px-3 py-1 border border-slate-200/60">
-                  <Shield className="h-3.5 w-3.5 text-[#0ea5e9]" />
+              <div className="mt-4 flex flex-wrap items-center gap-2 text-[11px] font-medium text-[#64748b]">
+                <div className="flex items-center gap-1 rounded-md bg-slate-100/90 px-2 py-0.5 border border-slate-200/60">
+                  <Shield className="h-3 w-3 text-[#0ea5e9]" />
                   <span>SOC 2 Type II</span>
                 </div>
-                <div className="flex items-center gap-1.5 rounded-full bg-slate-100/80 px-3 py-1 border border-slate-200/60">
-                  <CheckCircle2 className="h-3.5 w-3.5 text-[#059669]" />
+                <div className="flex items-center gap-1 rounded-md bg-slate-100/90 px-2 py-0.5 border border-slate-200/60">
+                  <CheckCircle2 className="h-3 w-3 text-[#059669]" />
                   <span>HIPAA Compliant</span>
                 </div>
-                <div className="flex items-center gap-1.5 rounded-full bg-slate-100/80 px-3 py-1 border border-slate-200/60">
-                  <Sparkles className="h-3.5 w-3.5 text-[#0ea5e9]" />
+                <div className="flex items-center gap-1 rounded-md bg-slate-100/90 px-2 py-0.5 border border-slate-200/60">
+                  <Sparkles className="h-3 w-3 text-[#0ea5e9]" />
                   <span>Air-Gapped Sovereign AI</span>
                 </div>
               </div>
             </div>
 
-            {/* CTA action buttons */}
-            <div className="flex flex-col sm:flex-row lg:flex-col gap-4 shrink-0">
+            {/* Action buttons */}
+            <div className="flex flex-row sm:flex-row lg:flex-col gap-3 shrink-0">
               <Link
                 href="/contact"
-                className="gradient-btn inline-flex items-center justify-center gap-2.5 rounded-full px-8 py-4 font-bold text-white text-sm shadow-md hover:shadow-xl transition-all duration-300"
+                className="gradient-btn inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 font-bold text-white text-xs sm:text-sm shadow-sm hover:shadow-md transition-all duration-300"
               >
-                <span>Schedule Architecture Review</span>
-                <ArrowRight className="h-4 w-4" />
+                <span>Architecture Review</span>
+                <ArrowRight className="h-3.5 w-3.5" />
               </Link>
 
               <Link
                 href="/projects"
-                className="clay-btn inline-flex items-center justify-center gap-2 rounded-full border border-slate-200/80 bg-white px-8 py-4 font-bold text-sm text-[#0a1628] hover:text-[#0ea5e9] transition-all duration-300"
+                className="clay-btn inline-flex items-center justify-center gap-1.5 rounded-full border border-slate-200/80 bg-white px-6 py-3 font-bold text-xs sm:text-sm text-[#0a1628] hover:text-[#0ea5e9] transition-all duration-300"
               >
-                <span>Explore Case Studies</span>
-                <ArrowUpRight className="h-4 w-4 text-[#64748b]" />
+                <span>Case Studies</span>
+                <ArrowUpRight className="h-3.5 w-3.5 text-[#64748b]" />
               </Link>
             </div>
           </div>
         </motion.div>
 
         {/* ══════════════════════════════════════════════════
-            MAIN FOOTER COLUMNS
+            MAIN FOOTER GRID (PROPORTIONALLY SIZED)
            ══════════════════════════════════════════════════ */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12 lg:gap-8 pb-16 border-b border-slate-200/80">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-8 lg:gap-6 pb-10 border-b border-slate-200/80 text-xs">
           
-          {/* Col 1: Brand & Contact (4 cols) */}
-          <div className="lg:col-span-4 flex flex-col justify-between space-y-6">
+          {/* Col 1: Brand & Office (4 cols) */}
+          <div className="lg:col-span-4 space-y-4">
             <div>
-              <Link href="/" className="inline-block font-display text-2xl font-black tracking-tight text-[#0a1628]">
+              <Link href="/" className="inline-block font-display text-xl font-black tracking-tight text-[#0a1628]">
                 NATLE<span className="text-[#0ea5e9]">.</span>
               </Link>
-              
-              <p className="mt-4 text-sm text-[#475569] leading-relaxed max-w-sm">
-                Architecting high-reliability, sovereign enterprise AI platforms across healthcare diagnostics, agricultural telemetry, and high-concurrency commercial operations.
+              <p className="mt-2 text-xs text-[#64748b] leading-relaxed max-w-xs">
+                Architecting high-reliability, sovereign enterprise AI platforms across healthcare diagnostics, agricultural telemetry, and enterprise automation.
               </p>
             </div>
 
-            {/* Direct Contact Info */}
-            <div className="space-y-2.5 text-xs text-[#475569]">
-              <div className="flex items-start gap-2.5">
-                <MapPin className="h-4 w-4 mt-0.5 text-[#0ea5e9] shrink-0" />
+            <div className="space-y-1.5 text-xs text-[#475569]">
+              <div className="flex items-start gap-2">
+                <MapPin className="h-3.5 w-3.5 mt-0.5 text-[#0ea5e9] shrink-0" />
                 <span>Level 4, Access Towers II, Colombo 02, Sri Lanka</span>
               </div>
-              <div className="flex items-center gap-2.5">
-                <Phone className="h-4 w-4 text-[#0ea5e9] shrink-0" />
+              <div className="flex items-center gap-2">
+                <Phone className="h-3.5 w-3.5 text-[#0ea5e9] shrink-0" />
                 <a href="tel:+94112345678" className="hover:text-[#0ea5e9] transition-colors">+94 11 234 5678</a>
               </div>
-              <div className="flex items-center gap-2.5">
-                <Mail className="h-4 w-4 text-[#0ea5e9] shrink-0" />
+              <div className="flex items-center gap-2">
+                <Mail className="h-3.5 w-3.5 text-[#0ea5e9] shrink-0" />
                 <a href="mailto:enterprise@natle.com" className="hover:text-[#0ea5e9] transition-colors font-mono">enterprise@natle.com</a>
               </div>
             </div>
 
-            {/* Social / Developer Icons */}
-            <div className="flex items-center gap-2.5 pt-2">
+            {/* Social Icons */}
+            <div className="flex items-center gap-2 pt-1">
               <a
                 href="https://github.com"
                 aria-label="GitHub"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="clay-card flex h-9 w-9 items-center justify-center rounded-full bg-white text-[#64748b] hover:text-[#0ea5e9] transition-all hover:scale-110"
+                className="clay-card flex h-8 w-8 items-center justify-center rounded-full bg-white text-[#64748b] hover:text-[#0ea5e9] transition-all hover:scale-105"
               >
-                <GitHubIcon className="h-4 w-4" />
+                <GitHubIcon className="h-3.5 w-3.5" />
               </a>
               <a
                 href="https://linkedin.com"
                 aria-label="LinkedIn"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="clay-card flex h-9 w-9 items-center justify-center rounded-full bg-white text-[#64748b] hover:text-[#0ea5e9] transition-all hover:scale-110"
+                className="clay-card flex h-8 w-8 items-center justify-center rounded-full bg-white text-[#64748b] hover:text-[#0ea5e9] transition-all hover:scale-105"
               >
-                <LinkedInIcon className="h-4 w-4" />
+                <LinkedInIcon className="h-3.5 w-3.5" />
               </a>
               <a
                 href="https://twitter.com"
-                aria-label="X (Twitter)"
+                aria-label="Twitter"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="clay-card flex h-9 w-9 items-center justify-center rounded-full bg-white text-[#64748b] hover:text-[#0ea5e9] transition-all hover:scale-110"
+                className="clay-card flex h-8 w-8 items-center justify-center rounded-full bg-white text-[#64748b] hover:text-[#0ea5e9] transition-all hover:scale-105"
               >
-                <TwitterXIcon className="h-3.5 w-3.5" />
+                <TwitterXIcon className="h-3 w-3" />
               </a>
               <a
                 href="mailto:enterprise@natle.com"
                 aria-label="Email"
-                className="clay-card flex h-9 w-9 items-center justify-center rounded-full bg-white text-[#64748b] hover:text-[#0ea5e9] transition-all hover:scale-110"
+                className="clay-card flex h-8 w-8 items-center justify-center rounded-full bg-white text-[#64748b] hover:text-[#0ea5e9] transition-all hover:scale-105"
               >
-                <Mail className="h-4 w-4" />
+                <Mail className="h-3.5 w-3.5" />
               </a>
             </div>
           </div>
 
           {/* Col 2: Platform (3 cols) */}
-          <div className="lg:col-span-3">
-            <h3 className="font-mono text-xs font-bold uppercase tracking-widest text-[#0a1628] mb-5">
+          <div className="lg:col-span-3 space-y-3">
+            <h3 className="font-mono text-[11px] font-bold uppercase tracking-widest text-[#0a1628]">
               Platform &bull; Solutions
             </h3>
-            <ul className="space-y-3">
+            <ul className="space-y-2 text-xs">
               {PLATFORM_LINKS.map((link) => (
                 <li key={link.label}>
                   <Link
                     href={link.href}
-                    className="group inline-flex items-center gap-1.5 text-sm text-[#475569] hover:text-[#0ea5e9] transition-colors"
+                    className="text-[#64748b] hover:text-[#0ea5e9] transition-colors"
                   >
-                    <span className="h-1 w-1 rounded-full bg-[#0ea5e9]/40 group-hover:bg-[#0ea5e9] group-hover:w-2 transition-all" />
-                    <span>{link.label}</span>
+                    {link.label}
                   </Link>
                 </li>
               ))}
             </ul>
           </div>
 
-          {/* Col 3: Company & Culture (2 cols) */}
-          <div className="lg:col-span-2">
-            <h3 className="font-mono text-xs font-bold uppercase tracking-widest text-[#0a1628] mb-5">
+          {/* Col 3: Company (2 cols) */}
+          <div className="lg:col-span-2 space-y-3">
+            <h3 className="font-mono text-[11px] font-bold uppercase tracking-widest text-[#0a1628]">
               Company
             </h3>
-            <ul className="space-y-3">
+            <ul className="space-y-2 text-xs">
               {COMPANY_LINKS.map((link) => (
                 <li key={link.label}>
                   <Link
                     href={link.href}
-                    className="group inline-flex items-center gap-2 text-sm text-[#475569] hover:text-[#0ea5e9] transition-colors"
+                    className="inline-flex items-center gap-1.5 text-[#64748b] hover:text-[#0ea5e9] transition-colors"
                   >
                     <span>{link.label}</span>
                     {link.badge && (
-                      <span className="rounded-full bg-emerald-100 px-2 py-0.5 text-[10px] font-bold font-mono text-emerald-700">
+                      <span className="rounded-full bg-emerald-100 px-1.5 py-0.2 text-[9px] font-bold font-mono text-emerald-700">
                         {link.badge}
                       </span>
                     )}
@@ -281,17 +273,17 @@ export default function CTAFooter() {
             </ul>
           </div>
 
-          {/* Col 4: Newsletter / Enterprise Dispatch (3 cols) */}
-          <div className="lg:col-span-3">
-            <h3 className="font-mono text-xs font-bold uppercase tracking-widest text-[#0a1628] mb-4">
+          {/* Col 4: Newsletter (3 cols) */}
+          <div className="lg:col-span-3 space-y-3">
+            <h3 className="font-mono text-[11px] font-bold uppercase tracking-widest text-[#0a1628]">
               Enterprise Dispatch
             </h3>
-            <p className="text-xs text-[#64748b] leading-relaxed mb-4">
-              Monthly technical whitepapers, telemetry benchmarks, and deployment debriefs directly from our lab.
+            <p className="text-xs text-[#64748b] leading-relaxed">
+              Technical whitepapers & deployment debriefs directly from our engineering team.
             </p>
 
             <form onSubmit={handleSubscribe} className="space-y-2">
-              <div className="clay-card flex items-center rounded-full bg-white p-1.5 border border-slate-200/80 shadow-xs focus-within:border-[#0ea5e9] transition-colors">
+              <div className="clay-card flex items-center rounded-full bg-white p-1 border border-slate-200/80 shadow-xs focus-within:border-[#0ea5e9] transition-colors">
                 <input
                   type="email"
                   value={email}
@@ -303,47 +295,44 @@ export default function CTAFooter() {
                 <button
                   type="submit"
                   aria-label="Subscribe"
-                  className="gradient-btn flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-white shadow-xs hover:scale-105 transition-transform"
+                  className="gradient-btn flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-white shadow-xs hover:scale-105 transition-transform"
                 >
-                  <ArrowRight className="h-3.5 w-3.5" />
+                  <ArrowRight className="h-3 w-3" />
                 </button>
               </div>
 
               {subscribed && (
                 <p className="text-[11px] font-medium text-emerald-600 animate-fadeIn">
-                  ✓ Thank you! You&apos;re subscribed to our dispatch.
+                  ✓ Subscribed successfully!
                 </p>
               )}
-              <p className="text-[10px] text-[#94a3b8]">
-                Sovereign data policy. No marketing trackers.
-              </p>
             </form>
           </div>
         </div>
 
         {/* ══════════════════════════════════════════════════
-            GIANT WATERMARK BRANDING (Awwwards Style)
+            SUBTLE BACKGROUND LOGO WATERMARK (CONTROLLED)
            ══════════════════════════════════════════════════ */}
-        <div className="relative select-none overflow-hidden py-6 text-center">
-          <span className="font-display font-black tracking-tighter text-slate-900/[0.04] text-[13vw] sm:text-[14vw] leading-none block">
+        <div className="relative select-none overflow-hidden py-3 text-center pointer-events-none">
+          <span className="font-display font-black tracking-tighter text-slate-900/[0.03] text-6xl sm:text-8xl md:text-9xl leading-none block truncate">
             NATLE
           </span>
         </div>
 
         {/* ══════════════════════════════════════════════════
-            BOTTOM LEGAL & CREDITS
+            BOTTOM BAR
            ══════════════════════════════════════════════════ */}
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-4 text-xs text-[#64748b]">
-          <div className="flex items-center gap-2">
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-3 text-[11px] text-[#64748b]">
+          <div>
             <span>&copy; {new Date().getFullYear()} NATLE Technologies (Pvt) Ltd. All rights reserved.</span>
           </div>
 
-          <div className="flex flex-wrap items-center gap-6">
+          <div className="flex flex-wrap items-center gap-4">
             <Link href="/contact" className="hover:text-[#0ea5e9] transition-colors">Privacy Policy</Link>
-            <Link href="/contact" className="hover:text-[#0ea5e9] transition-colors">Terms of Service</Link>
-            <Link href="/contact" className="hover:text-[#0ea5e9] transition-colors">Security Disclosures</Link>
-            <span className="hidden md:inline text-slate-300">|</span>
-            <span className="inline-flex items-center gap-1 text-[11px] text-slate-500">
+            <Link href="/contact" className="hover:text-[#0ea5e9] transition-colors">Terms</Link>
+            <Link href="/contact" className="hover:text-[#0ea5e9] transition-colors">Security</Link>
+            <span className="text-slate-300">|</span>
+            <span className="inline-flex items-center gap-1 text-[10px] text-slate-500">
               <span>🇱🇰</span> Colombo HQ &bull; Global Operations
             </span>
           </div>
