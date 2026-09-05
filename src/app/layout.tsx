@@ -4,6 +4,7 @@ import "./globals.css";
 import Navbar from "@/components/Navbar";
 import AuroraBackdrop from "@/components/AuroraBackdrop";
 import SmoothScroll from "@/components/SmoothScroll";
+import CTAFooter from "@/components/CTAFooter";
 
 const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
@@ -35,6 +36,7 @@ export default function RootLayout({
           <AuroraBackdrop />
           <Navbar />
           <main className="relative z-10">{children}</main>
+          <CTAFooter />
         </SmoothScroll>
       </body>
     </html>

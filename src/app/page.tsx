@@ -11,17 +11,17 @@ import AgentaFAQ from "@/components/AgentaFAQ";
 import CTAFooter from "@/components/CTAFooter";
 
 export default function Home() {
-  return (
-    <main className="relative min-h-screen">
-      <Hero />
-      <AgentaMarquee />
-      <Stats />
-      <Solutions />
-      <Features />
-      <AgentaHowItWorks />
-      <Testimonials />
-      <AgentaFAQ />
-      <CTAFooter />
-    </main>
-  );
+ return (
+ <main className="relative min-h-screen">
+ <Hero />
+ <AgentaMarquee />
+ <Stats />
+ <Solutions />
+ <Features />
+ <AgentaHowItWorks />
+ <Testimonials />
+ <AgentaFAQ />
+ <CTAFooter />
+ </main>
+ );
 }
