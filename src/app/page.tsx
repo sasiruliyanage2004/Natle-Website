@@ -8,6 +8,7 @@ import Features from "@/components/Features";
 import AgentaHowItWorks from "@/components/AgentaHowItWorks";
 import Testimonials from "@/components/Testimonials";
 import AgentaFAQ from "@/components/AgentaFAQ";
+import CTAFooter from "@/components/CTAFooter";
 
 export default function Home() {
   return (
@@ -20,6 +21,7 @@ export default function Home() {
       <AgentaHowItWorks />
       <Testimonials />
       <AgentaFAQ />
-          </main>
+      <CTAFooter />
+    </main>
   );
 }

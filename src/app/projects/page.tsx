@@ -1,6 +1,10 @@
 "use client";
 
 import React, { useState } from "react";
+import Navbar from "@/components/Navbar";
+import CTAFooter from "@/components/CTAFooter";
+import SmoothCursor from "@/components/magicui/smooth-cursor";
+import BeamsBackground from "@/components/animations/BeamsBackground";
 import { motion } from "framer-motion";
 import { 
   Building2, 
@@ -92,20 +96,23 @@ export default function ProjectsPage() {
     : caseStudies.filter(p => p.domain === selectedCategory);
 
   return (
-    <main className="">
-            
-      <div >
-        
+    <main className="relative min-h-screen bg-[#f8faff] text-[#0a1628] antialiased selection:bg-[#0ea5e9] selection:text-white transition-colors duration-300 select-none">
+      <BeamsBackground intensity="subtle" className="absolute inset-0 z-0 pointer-events-none" />
+      <SmoothCursor />
+
+      <div className="relative z-10">
+        <Navbar />
+
         {/* Hero Header */}
-        <section >
-          <div >
+        <section className="pt-36 pb-16 md:pt-48 md:pb-20 bg-transparent">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center max-w-4xl relative z-10">
             <motion.div 
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
-              
+              className="inline-flex items-center gap-2 rounded-full border px-4 py-1.5 text-xs font-mono font-bold uppercase tracking-wider mb-6"
               style={{ background: "rgba(14,165,233,0.08)", borderColor: "rgba(14,165,233,0.25)", color: "#0369a1" }}
             >
-              <Building2  />
+              <Building2 className="w-4 h-4" />
               <span>Real AI &bull; Measurable Production Results</span>
             </motion.div>
 
@@ -113,11 +120,11 @@ export default function ProjectsPage() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1 }}
-              
+              className="text-5xl sm:text-6xl md:text-7xl font-black tracking-tight leading-[1.05]"
               style={{ color: "#0a1628" }}
             >
               Enterprise Case Studies That{" "}
-              <span >
+              <span className="gradient-text">
                 Deliver Quantified ROI.
               </span>
             </motion.h1>
@@ -126,14 +133,14 @@ export default function ProjectsPage() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.15 }}
-              
+              className="mt-6 text-xl font-normal leading-relaxed max-w-3xl mx-auto"
               style={{ color: "#475569" }}
             >
               Explore how NATLE deploys bespoke deep learning pipelines, edge telemetry meshes, and high-concurrency cloud systems to solve industry bottlenecks with audited commercial returns.
             </motion.p>
 
             {/* Filter Pills */}
-            <div >
+            <div className="flex flex-wrap items-center justify-center gap-2.5 mt-10">
               {categories.map((cat) => (
                 <button
                   key={cat}
@@ -155,8 +162,8 @@ export default function ProjectsPage() {
         </section>
 
         {/* Case Studies Grid */}
-        <section >
-          <div >
+        <section className="py-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {filteredProjects.map((study, i) => {
               const Icon = study.icon;
               return (
@@ -166,64 +173,64 @@ export default function ProjectsPage() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, margin: "-40px" }}
                   transition={{ duration: 0.5, delay: i * 0.1 }}
-                  
+                  className="clay-card rounded-3xl p-8 md:p-10 flex flex-col justify-between relative overflow-hidden group"
                 >
                   <CardPattern pattern="circuit" glowColor={study.accentGlow} />
 
-                  <div >
-                    <div >
+                  <div className="relative z-10">
+                    <div className="flex items-center justify-between mb-4">
                       <span className={`px-3 py-1 rounded-full text-xs font-mono font-bold border`} style={{ background: "rgba(14,165,233,0.08)", borderColor: "rgba(14,165,233,0.25)", color: "#0369a1" }}>
                         {study.domain}
                       </span>
-                      <span >
+                      <span className="text-xs text-[#64748b] font-semibold">
                         {study.client}
                       </span>
                     </div>
 
-                    <div >
-                      <div  style={{ color: "#0ea5e9" }}>
-                        <Icon  />
+                    <div className="flex items-start gap-4 mb-4">
+                      <div className="w-12 h-12 rounded-2xl bg-white border border-[#e2e8f0] flex items-center justify-center shrink-0 shadow-sm" style={{ color: "#0ea5e9" }}>
+                        <Icon className="w-6 h-6" />
                       </div>
-                      <h3 >
+                      <h3 className="text-2xl font-black text-[#0a1628] leading-snug">
                         {study.title}
                       </h3>
                     </div>
 
-                    <p >
+                    <p className="text-sm text-[#475569] leading-relaxed font-normal mb-6">
                       {study.summary}
                     </p>
 
                     {/* Metrics Grid */}
-                    <div >
+                    <div className="grid grid-cols-3 gap-3 mb-6">
                       {study.metrics.map((m, mi) => (
-                        <div key={mi} >
-                          <p  style={{ color: "#0ea5e9" }}>{m.value}</p>
-                          <p >{m.label}</p>
+                        <div key={mi} className="bg-[#f8faff] p-3 rounded-2xl text-center border border-[#e2e8f0]">
+                          <p className="text-lg sm:text-xl font-black font-mono" style={{ color: "#0ea5e9" }}>{m.value}</p>
+                          <p className="text-[10px] font-bold text-[#64748b] uppercase mt-0.5">{m.label}</p>
                         </div>
                       ))}
                     </div>
 
                     {/* Tech Stack Pills */}
-                    <div >
+                    <div className="flex flex-wrap gap-1.5 pt-4 border-t border-[#e2e8f0]">
                       {study.techStack.map((tech) => (
-                        <span key={tech} >
+                        <span key={tech} className="px-2.5 py-1 bg-white border border-[#e2e8f0] text-[#475569] rounded-lg text-xs font-mono shadow-sm">
                           {tech}
                         </span>
                       ))}
                     </div>
                   </div>
 
-                  <div >
-                    <span  style={{ color: "#0ea5e9" }}>
-                      <CheckCircle2  />
+                  <div className="relative z-10 mt-8 pt-6 border-t border-[#e2e8f0] flex items-center justify-between">
+                    <span className="text-xs font-mono font-bold flex items-center gap-1.5" style={{ color: "#0ea5e9" }}>
+                      <CheckCircle2 className="w-4 h-4" />
                       Audited Production Deployment
                     </span>
                     <Link 
                       href="/contact" 
-                      
+                      className="clay-btn inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-bold"
                     >
                       <span>Inquire Blueprint</span>
-                      <ArrowUpRight  />
+                      <ArrowUpRight className="w-3.5 h-3.5" />
                     </Link>
                   </div>
                 </motion.div>
@@ -232,7 +239,8 @@ export default function ProjectsPage() {
           </div>
         </section>
 
-              </div>
+        <CTAFooter />
+      </div>
     </main>
   );
 }
