@@ -1,6 +1,5 @@
 "use client";
 
-import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import AgentaMarquee from "@/components/AgentaMarquee";
 import Stats from "@/components/Stats";
@@ -14,7 +13,6 @@ import CTAFooter from "@/components/CTAFooter";
 export default function Home() {
   return (
     <main className="relative min-h-screen">
-      <Navbar />
       <Hero />
       <AgentaMarquee />
       <Stats />
@@ -27,4 +25,3 @@ export default function Home() {
     </main>
   );
 }
-

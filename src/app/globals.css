@@ -1,124 +1,108 @@
 @import "tailwindcss";
 
-/* ═══════════════════════════════════════════════════════════════════
-   NATLE TECHNOLOGIES — Design System v2.0
-   Theme: Dark Only · Palette: Logo-Extracted Navy-Cyan-Lime
-   ═══════════════════════════════════════════════════════════════════ */
-
-:root {
-  --bg-base:        #070d24;
-  --bg-card:        #0d1535;
-  --bg-elevated:    #111c45;
-  --bg-glass:       rgba(13, 21, 53, 0.7);
-
-  --blue-primary:   #1a3a8f;
-  --cyan-secondary: #0ea5e9;
-  --teal-accent:    #00c9a7;
-  --lime-energy:    #5aec8f;
-
-  --text-primary:   #e8f0fe;
-  --text-secondary: #94a3b8;
-  --text-muted:     #64748b;
-}
+/* ═══════════════════════════════════════════════════════════════
+   NATLE Technologies — Global Design System
+   Dark Only · Navy-Cyan-Lime · Jiro-inspired Dramatic Depth
+   ═══════════════════════════════════════════════════════════════ */
 
 html {
   color-scheme: dark;
-  background-color: #070d24;
-  color: #e8f0fe;
-  scroll-behavior: smooth;
+  scroll-behavior: auto; /* Lenis handles smooth scroll */
+  background: #020818;
 }
 
 body {
-  background-color: #070d24;
+  background: #020818;
   color: #e8f0fe;
-  font-family: var(--font-sans), system-ui, -apple-system, sans-serif;
+  font-family: var(--font-inter), "Inter", system-ui, sans-serif;
   overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
 }
 
-::selection { background-color: #0ea5e9; color: #ffffff; }
+::selection {
+  background: #0ea5e9;
+  color: #ffffff;
+}
 
-.font-display { font-family: var(--font-display), 'Space Grotesk', system-ui, sans-serif; }
-.font-serif { font-family: var(--font-serif), 'Playfair Display', serif; }
+/* ── Typography helpers ── */
+.font-display {
+  font-family: var(--font-space-grotesk), "Space Grotesk", system-ui, sans-serif;
+}
 
+/* ── Gradient text ── */
 .gradient-text {
-  background: linear-gradient(90deg, #1a6fd4 0%, #0ea5e9 45%, #5aec8f 100%);
+  background: linear-gradient(90deg, #0ea5e9 0%, #5aec8f 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
   display: inline-block;
 }
 
-.gradient-text-reverse {
-  background: linear-gradient(90deg, #5aec8f 0%, #0ea5e9 50%, #1a6fd4 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  display: inline-block;
-}
-
+/* ── Buttons ── */
 .gradient-btn {
   background: linear-gradient(135deg, #1a3a8f 0%, #0ea5e9 55%, #5aec8f 100%);
   color: #ffffff;
   font-weight: 800;
-  transition: all 0.35s ease;
-  box-shadow: 0 4px 20px -4px rgba(14, 165, 233, 0.45);
+  box-shadow: 0 4px 24px -4px rgba(14, 165, 233, 0.5);
+  transition: all 0.3s ease;
 }
-
 .gradient-btn:hover {
   transform: translateY(-2px) scale(1.02);
-  box-shadow: 0 12px 36px -6px rgba(14, 165, 233, 0.55);
+  box-shadow: 0 12px 40px -6px rgba(14, 165, 233, 0.65);
 }
 
+/* ── Glass card ── */
 .glass-card {
-  background: rgba(13, 21, 53, 0.65);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
+  background: rgba(10, 18, 48, 0.75);
+  backdrop-filter: blur(28px);
+  -webkit-backdrop-filter: blur(28px);
   border: 1px solid rgba(14, 165, 233, 0.12);
-  box-shadow: 0 4px 24px -6px rgba(0, 0, 0, 0.6);
+  box-shadow: 0 8px 32px -8px rgba(0, 0, 0, 0.7);
   transition: all 0.35s ease;
 }
-
 .glass-card:hover {
   border-color: rgba(14, 165, 233, 0.3);
-  box-shadow: 0 8px 40px -8px rgba(0, 0, 0, 0.7), 0 0 30px -8px rgba(14, 165, 233, 0.15);
+  box-shadow: 0 16px 48px -10px rgba(0, 0, 0, 0.8), 0 0 40px -12px rgba(14, 165, 233, 0.2);
 }
 
-.dot-grid-bg {
-  background-image: radial-gradient(rgba(14, 165, 233, 0.08) 1px, transparent 1px);
-  background-size: 32px 32px;
+/* ── Dot grid ── */
+.dot-grid {
+  background-image: radial-gradient(rgba(14, 165, 233, 0.06) 1px, transparent 1px);
+  background-size: 30px 30px;
 }
 
-.badge-healthcare { background: rgba(14,165,233,0.12); border: 1px solid rgba(14,165,233,0.3); color: #38bdf8; }
-.badge-agriculture { background: rgba(90,236,143,0.12); border: 1px solid rgba(90,236,143,0.3); color: #5aec8f; }
-.badge-pos { background: rgba(249,115,22,0.12); border: 1px solid rgba(249,115,22,0.3); color: #fb923c; }
-.badge-education { background: rgba(168,85,247,0.12); border: 1px solid rgba(168,85,247,0.3); color: #c084fc; }
-.badge-hr { background: rgba(20,184,166,0.12); border: 1px solid rgba(20,184,166,0.3); color: #2dd4bf; }
-.badge-custom { background: rgba(245,158,11,0.12); border: 1px solid rgba(245,158,11,0.3); color: #fbbf24; }
-
+/* ── Floating animation (domain badges) ── */
 @keyframes float {
   0%, 100% { transform: translateY(0px); }
   50% { transform: translateY(-12px); }
 }
 .animate-float { animation: float 4s ease-in-out infinite; }
 
-::-webkit-scrollbar { width: 5px; }
-::-webkit-scrollbar-track { background: #070d24; }
-::-webkit-scrollbar-thumb { background: rgba(14,165,233,0.3); border-radius: 3px; }
-::-webkit-scrollbar-thumb:hover { background: rgba(14,165,233,0.6); }
+/* ── Horizontal scroll snap ── */
+.snap-x-mandatory {
+  scroll-snap-type: x mandatory;
+}
 
+/* ── Scrollbar ── */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: #020818; }
+::-webkit-scrollbar-thumb {
+  background: rgba(14, 165, 233, 0.35);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(14, 165, 233, 0.65);
+}
 
-
+/* ── Theme layer for Tailwind v4 ── */
 @theme {
-  --color-base: #070D24;
-  --color-base-raised: #0d1535;
-  --color-base-border: #151f47;
-  --color-accent-cyan: #0EA5E9;
-  --color-accent-lime: #5AEC8F;
-  --color-ink: #E7ECFB;
-  --color-ink-muted: #8C97BE;
-
+  --color-base:       #020818;
+  --color-base-card:  #0a1230;
+  --color-cyan:       #0ea5e9;
+  --color-lime:       #5aec8f;
+  --color-navy:       #1a3a8f;
+  --color-text:       #e8f0fe;
+  --color-muted:      #64748b;
   --font-display: var(--font-space-grotesk), sans-serif;
-  --font-body: var(--font-inter), sans-serif;
-
-  --border-radius-xl2: 1.25rem;
+  --font-body:    var(--font-inter), sans-serif;
 }
