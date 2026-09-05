@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { ArrowRight, ShieldCheck } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 
 import NeuralField from "@/components/animations/NeuralField";
 import Counter from "@/components/common/Counter";
@@ -153,17 +154,48 @@ export default function Hero() {
  </motion.div>
  </div>
 
- {/* RIGHT — Neural Luminescence Field (particles vivid on white) */}
- <motion.div
- initial={{ opacity: 0 }}
- animate={{ opacity: 1 }}
- transition={{ duration: 1.4, delay: 0.2 }}
- className="relative hidden lg:block"
- style={{ height: "560px" }}
- >
- <motion.div className="absolute inset-0" style={{ opacity: fieldOpacity, scale: fieldScale }}>
- <NeuralField funnel={funnel} />
- </motion.div>
+          {/* RIGHT — Next-Level 3D Enterprise AI Core Orb */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 1.2, delay: 0.2 }}
+            className="relative hidden lg:flex items-center justify-center"
+            style={{ height: "560px" }}
+          >
+            {/* Ambient Background Radial Halo */}
+            <div
+              className="pointer-events-none absolute w-[460px] h-[460px] rounded-full blur-3xl opacity-60"
+              style={{
+                background: "radial-gradient(circle, rgba(14,165,233,0.22) 0%, rgba(16,185,129,0.15) 45%, transparent 70%)",
+              }}
+            />
+
+            {/* Concentric Orbital Pulse Rings */}
+            <motion.div
+              animate={{ rotate: 360 }}
+              transition={{ duration: 40, repeat: Infinity, ease: "linear" }}
+              className="pointer-events-none absolute w-[480px] h-[480px] rounded-full border border-[#0ea5e9]/20 border-dashed"
+            />
+            <motion.div
+              animate={{ rotate: -360 }}
+              transition={{ duration: 55, repeat: Infinity, ease: "linear" }}
+              className="pointer-events-none absolute w-[530px] h-[530px] rounded-full border border-emerald-400/15"
+            />
+
+            {/* Central Floating 3D AI Core Asset */}
+            <motion.div
+              animate={{ y: [-10, 10, -10], rotate: [-1, 1, -1] }}
+              transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+              className="relative z-10 w-[420px] h-[420px] rounded-full shadow-[0_25px_60px_-12px_rgba(14,165,233,0.25)] mix-blend-multiply overflow-hidden"
+            >
+              <Image
+                src="/images/ai-core-hero.jpg"
+                alt="NATLE Enterprise Neural AI Core"
+                fill
+                priority
+                className="object-contain"
+              />
+            </motion.div>
 
  {/* Floating domain badges */}
  {[
