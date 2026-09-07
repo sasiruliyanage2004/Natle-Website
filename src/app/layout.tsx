@@ -6,6 +6,7 @@ import Footer from "@/components/Footer";
 import SmoothScroll from "@/components/SmoothScroll";
 import Preloader from "@/components/Preloader";
 import ScrollProgress from "@/components/ScrollProgress";
+import SmoothCursor from "@/components/SmoothCursor";
 
 export const metadata: Metadata = {
   title: "NATLE | Engineering the Future",
@@ -38,6 +39,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${display.variable} ${body.variable}`}>
       <body className="font-body bg-paper text-ink selection:bg-primary/20 selection:text-primary flex flex-col min-h-screen antialiased">
+        <SmoothCursor />
         <Preloader />
         <ScrollProgress />
         <SmoothScroll>
