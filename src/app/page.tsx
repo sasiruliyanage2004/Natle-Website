@@ -7,7 +7,7 @@ import Reveal from "@/components/Reveal";
 import Magnetic from "@/components/Magnetic";
 import CutoutCard from "@/components/CutoutCard";
 import SpotlightBento from "@/components/SpotlightBento";
-import ArchitectureSandbox from "@/components/ArchitectureSandbox";
+import ArchitecturePipeline from "@/components/ArchitecturePipeline";
 import { PROJECTS, BLOG_POSTS } from "@/lib/data";
 
 const PARTNERS = ["Harborline", "Meridian", "Fernvale", "Crestpoint", "Solano", "Ridgeway"];
@@ -67,8 +67,8 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Interactive Architecture Sandbox */}
-      <ArchitectureSandbox />
+      {/* Scroll-Driven Architecture Pipeline */}
+      <ArchitecturePipeline />
 
       {/* Why us + platform panel */}
       <section className="py-28 lg:py-32 bg-ink-gradient text-white relative overflow-hidden">
