@@ -33,61 +33,61 @@ export default function SpotlightBento() {
           <div
             className="pointer-events-none absolute inset-0 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"
             style={{
-              background: `radial-gradient(600px circle at var(--mouse-x, 0) var(--mouse-y, 0), rgba(30, 127, 232, 0.45), rgba(18, 184, 166, 0.15) 35%, transparent 65%)`,
+              background: `radial-gradient(600px circle at var(--mouse-x, 0) var(--mouse-y, 0), rgba(30, 127, 232, 0.4), rgba(18, 184, 166, 0.2) 35%, transparent 65%)`,
             }}
           />
           {/* Card Body */}
-          <div className="relative h-full w-full rounded-[23px] bg-[#0C0E15] border border-white/10 p-8 md:p-10 flex flex-col justify-between overflow-hidden">
+          <div className="relative h-full w-full rounded-[23px] bg-white border border-ink/8 p-8 md:p-10 flex flex-col justify-between overflow-hidden shadow-sm hover:shadow-card transition-shadow">
             {/* Inner spotlight glow */}
             <div
               className="pointer-events-none absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
               style={{
-                background: `radial-gradient(750px circle at var(--mouse-x, 0) var(--mouse-y, 0), rgba(30, 127, 232, 0.08), transparent 50%)`,
+                background: `radial-gradient(750px circle at var(--mouse-x, 0) var(--mouse-y, 0), rgba(30, 127, 232, 0.04), transparent 50%)`,
               }}
             />
 
             <div>
               {/* Header Badge */}
               <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-azure/10 border border-azure/25 text-azure text-xs font-semibold tracking-wide">
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-azure/10 border border-azure/20 text-azure text-xs font-semibold tracking-wide">
                   <span className="w-1.5 h-1.5 rounded-full bg-azure animate-pulse" />
                   CORE ARCHITECTURE
                 </div>
-                <div className="flex items-center gap-2 text-xs font-mono text-white/50">
-                  <span className="w-2 h-2 rounded-full bg-emerald-400" />
+                <div className="flex items-center gap-2 text-xs font-mono text-ink/50">
+                  <span className="w-2 h-2 rounded-full bg-emerald-500" />
                   P99 LATENCY &lt; 14ms
                 </div>
               </div>
 
-              <h3 className="font-display text-2xl md:text-3xl text-white mb-4">
+              <h3 className="font-display text-2xl md:text-3xl text-ink mb-4">
                 Full-Stack Product Engineering & Scalable Systems
               </h3>
-              <p className="text-white/70 text-[15px] md:text-base leading-relaxed max-w-2xl mb-8">
+              <p className="text-ink/65 text-[15px] md:text-base leading-relaxed max-w-2xl mb-8">
                 We design and build production-grade web and native applications engineered for zero downtime, sub-millisecond edge response, and horizontal scale. From distributed Go/Rust microservices to responsive Next.js architectures.
               </p>
 
               {/* Architecture Pillars Grid */}
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-2">
-                <div className="rounded-2xl border border-white/5 bg-white/[0.02] p-5">
+                <div className="rounded-2xl border border-ink/5 bg-mist/80 p-5">
                   <div className="font-mono text-xs text-azure font-semibold mb-2">01 / FRONTEND</div>
-                  <div className="text-white text-sm font-semibold mb-1">Modern Web & Mobile</div>
-                  <p className="text-white/50 text-xs leading-relaxed">
+                  <div className="text-ink text-sm font-semibold mb-1">Modern Web & Mobile</div>
+                  <p className="text-ink/60 text-xs leading-relaxed">
                     Next.js App Router, React Server Components, and native iOS/Android with sub-100ms hydration.
                   </p>
                 </div>
 
-                <div className="rounded-2xl border border-white/5 bg-white/[0.02] p-5">
+                <div className="rounded-2xl border border-ink/5 bg-mist/80 p-5">
                   <div className="font-mono text-xs text-teal font-semibold mb-2">02 / BACKEND</div>
-                  <div className="text-white text-sm font-semibold mb-1">Distributed Microservices</div>
-                  <p className="text-white/50 text-xs leading-relaxed">
+                  <div className="text-ink text-sm font-semibold mb-1">Distributed Microservices</div>
+                  <p className="text-ink/60 text-xs leading-relaxed">
                     Go, Rust, and Node.js microservices interconnected via low-latency gRPC and message queues.
                   </p>
                 </div>
 
-                <div className="rounded-2xl border border-white/5 bg-white/[0.02] p-5">
-                  <div className="font-mono text-xs text-lime font-semibold mb-2">03 / PERFORMANCE</div>
-                  <div className="text-white text-sm font-semibold mb-1">Global Edge Delivery</div>
-                  <p className="text-white/50 text-xs leading-relaxed">
+                <div className="rounded-2xl border border-ink/5 bg-mist/80 p-5">
+                  <div className="font-mono text-xs text-emerald-600 font-semibold mb-2">03 / PERFORMANCE</div>
+                  <div className="text-ink text-sm font-semibold mb-1">Global Edge Delivery</div>
+                  <p className="text-ink/60 text-xs leading-relaxed">
                     Anycast routing, automated Redis caching layers, and zero-downtime rolling releases.
                   </p>
                 </div>
@@ -95,10 +95,10 @@ export default function SpotlightBento() {
             </div>
 
             {/* Bottom feature tags */}
-            <div className="mt-8 pt-6 border-t border-white/10 flex flex-wrap items-center justify-between gap-4">
+            <div className="mt-8 pt-6 border-t border-ink/5 flex flex-wrap items-center justify-between gap-4">
               <div className="flex flex-wrap gap-2">
                 {["Next.js / React 19", "Distributed Go", "gRPC & WebSockets", "PostgreSQL / Redis"].map((t) => (
-                  <span key={t} className="text-xs px-3 py-1 rounded-full bg-white/[0.04] text-white/70 border border-white/5">
+                  <span key={t} className="text-xs px-3 py-1 rounded-full bg-ink/[0.04] text-ink/70 border border-ink/5">
                     {t}
                   </span>
                 ))}
@@ -118,54 +118,54 @@ export default function SpotlightBento() {
           <div
             className="pointer-events-none absolute inset-0 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"
             style={{
-              background: `radial-gradient(450px circle at var(--mouse-x, 0) var(--mouse-y, 0), rgba(18, 184, 166, 0.45), transparent 60%)`,
+              background: `radial-gradient(450px circle at var(--mouse-x, 0) var(--mouse-y, 0), rgba(18, 184, 166, 0.4), transparent 60%)`,
             }}
           />
-          <div className="relative h-full w-full rounded-[23px] bg-[#0C0E15] border border-white/10 p-8 flex flex-col justify-between overflow-hidden">
+          <div className="relative h-full w-full rounded-[23px] bg-white border border-ink/8 p-8 flex flex-col justify-between overflow-hidden shadow-sm hover:shadow-card transition-shadow">
             <div
               className="pointer-events-none absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
               style={{
-                background: `radial-gradient(550px circle at var(--mouse-x, 0) var(--mouse-y, 0), rgba(18, 184, 166, 0.08), transparent 50%)`,
+                background: `radial-gradient(550px circle at var(--mouse-x, 0) var(--mouse-y, 0), rgba(18, 184, 166, 0.04), transparent 50%)`,
               }}
             />
 
             <div>
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-teal/10 border border-teal/25 text-teal text-xs font-semibold tracking-wide mb-6">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-teal/10 border border-teal/20 text-teal text-xs font-semibold tracking-wide mb-6">
                 <span className="w-1.5 h-1.5 rounded-full bg-teal animate-pulse" />
                 APPLIED AI
               </div>
 
-              <h3 className="font-display text-2xl text-white mb-3">
+              <h3 className="font-display text-2xl text-ink mb-3">
                 Applied AI & Autonomous Pipelines
               </h3>
-              <p className="text-white/70 text-[14px] leading-relaxed mb-6">
+              <p className="text-ink/65 text-[14px] leading-relaxed mb-6">
                 Transform business data into automated intelligence with production RAG architectures, fine-tuned domain models, and high-throughput vector search.
               </p>
 
               {/* Clean Telemetry Overview */}
-              <div className="rounded-2xl border border-white/10 bg-[#07080D] p-5 font-mono text-xs space-y-3">
-                <div className="flex items-center justify-between text-white/50 pb-2 border-b border-white/5">
+              <div className="rounded-2xl border border-ink/5 bg-mist/80 p-5 font-mono text-xs space-y-3">
+                <div className="flex items-center justify-between text-ink/50 pb-2 border-b border-ink/5">
                   <span className="text-teal font-semibold">PRODUCTION BENCHMARK</span>
-                  <span className="text-emerald-400">OPTIMAL</span>
+                  <span className="text-emerald-600 font-semibold">OPTIMAL</span>
                 </div>
-                <div className="flex justify-between text-white/70">
-                  <span className="text-white/40">Inference P99:</span>
-                  <span className="text-emerald-400 font-semibold">&lt; 12ms</span>
+                <div className="flex justify-between text-ink/70">
+                  <span className="text-ink/40">Inference P99:</span>
+                  <span className="text-emerald-600 font-semibold">&lt; 12ms</span>
                 </div>
-                <div className="flex justify-between text-white/70">
-                  <span className="text-white/40">Embedding Dimension:</span>
-                  <span className="text-white">1536 (Cosine HNSW)</span>
+                <div className="flex justify-between text-ink/70">
+                  <span className="text-ink/40">Embedding Dimension:</span>
+                  <span className="text-ink">1536 (Cosine HNSW)</span>
                 </div>
-                <div className="flex justify-between text-white/70">
-                  <span className="text-white/40">Knowledge Base:</span>
-                  <span className="text-white">Multi-Tenant Vector DB</span>
+                <div className="flex justify-between text-ink/70">
+                  <span className="text-ink/40">Knowledge Base:</span>
+                  <span className="text-ink">Multi-Tenant Vector DB</span>
                 </div>
               </div>
             </div>
 
-            <div className="mt-8 pt-6 border-t border-white/10 flex flex-wrap gap-2">
+            <div className="mt-8 pt-6 border-t border-ink/5 flex flex-wrap gap-2">
               {["Custom RAG", "Vector Search", "Fine-Tuning", "Autonomous Agents"].map((t) => (
-                <span key={t} className="text-[11px] px-2.5 py-1 rounded-full bg-white/[0.04] text-white/70 border border-white/5">
+                <span key={t} className="text-[11px] px-2.5 py-1 rounded-full bg-ink/[0.04] text-ink/70 border border-ink/5">
                   {t}
                 </span>
               ))}
@@ -178,55 +178,55 @@ export default function SpotlightBento() {
           <div
             className="pointer-events-none absolute inset-0 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"
             style={{
-              background: `radial-gradient(450px circle at var(--mouse-x, 0) var(--mouse-y, 0), rgba(111, 207, 62, 0.45), transparent 60%)`,
+              background: `radial-gradient(450px circle at var(--mouse-x, 0) var(--mouse-y, 0), rgba(111, 207, 62, 0.4), transparent 60%)`,
             }}
           />
-          <div className="relative h-full w-full rounded-[23px] bg-[#0C0E15] border border-white/10 p-8 flex flex-col justify-between overflow-hidden">
+          <div className="relative h-full w-full rounded-[23px] bg-white border border-ink/8 p-8 flex flex-col justify-between overflow-hidden shadow-sm hover:shadow-card transition-shadow">
             <div
               className="pointer-events-none absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
               style={{
-                background: `radial-gradient(550px circle at var(--mouse-x, 0) var(--mouse-y, 0), rgba(111, 207, 62, 0.08), transparent 50%)`,
+                background: `radial-gradient(550px circle at var(--mouse-x, 0) var(--mouse-y, 0), rgba(111, 207, 62, 0.04), transparent 50%)`,
               }}
             />
 
             <div>
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-lime/10 border border-lime/25 text-lime text-xs font-semibold tracking-wide mb-6">
-                <span className="w-1.5 h-1.5 rounded-full bg-lime animate-pulse" />
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-lime/10 border border-lime/30 text-emerald-600 text-xs font-semibold tracking-wide mb-6">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
                 CLOUD & DEVOPS
               </div>
 
-              <h3 className="font-display text-2xl text-white mb-3">
+              <h3 className="font-display text-2xl text-ink mb-3">
                 Cloud Architecture & Auto-Scaling DevOps
               </h3>
-              <p className="text-white/70 text-[14px] leading-relaxed mb-6">
+              <p className="text-ink/65 text-[14px] leading-relaxed mb-6">
                 Zero-downtime rolling deployments, automated multi-cloud failovers, and resilient Kubernetes clusters that scale dynamically without manual intervention.
               </p>
 
               {/* Multi-Region Availability */}
-              <div className="rounded-2xl border border-white/10 bg-[#07080D] p-5 font-mono text-xs space-y-2.5">
-                <div className="flex items-center justify-between text-white/50 pb-2 border-b border-white/5">
+              <div className="rounded-2xl border border-ink/5 bg-mist/80 p-5 font-mono text-xs space-y-2.5">
+                <div className="flex items-center justify-between text-ink/50 pb-2 border-b border-ink/5">
                   <span>ACTIVE REGIONS</span>
-                  <span className="text-lime font-semibold">99.999% SLA</span>
+                  <span className="text-emerald-600 font-semibold">99.999% SLA</span>
                 </div>
                 {[
                   { name: "US-East (N. Virginia)", ping: "12ms" },
                   { name: "EU-West (Frankfurt)", ping: "18ms" },
                   { name: "AP-South (Singapore)", ping: "24ms" },
                 ].map((r) => (
-                  <div key={r.name} className="flex items-center justify-between text-white/70">
+                  <div key={r.name} className="flex items-center justify-between text-ink/70">
                     <span className="flex items-center gap-2">
-                      <span className="w-1.5 h-1.5 rounded-full bg-lime animate-pulse" />
+                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
                       {r.name}
                     </span>
-                    <span className="text-white/40">{r.ping}</span>
+                    <span className="text-ink/40">{r.ping}</span>
                   </div>
                 ))}
               </div>
             </div>
 
-            <div className="mt-8 pt-6 border-t border-white/10 flex flex-wrap gap-2">
+            <div className="mt-8 pt-6 border-t border-ink/5 flex flex-wrap gap-2">
               {["Kubernetes", "AWS / GCP / Azure", "Terraform", "Zero Downtime"].map((t) => (
-                <span key={t} className="text-[11px] px-2.5 py-1 rounded-full bg-white/[0.04] text-white/70 border border-white/5">
+                <span key={t} className="text-[11px] px-2.5 py-1 rounded-full bg-ink/[0.04] text-ink/70 border border-ink/5">
                   {t}
                 </span>
               ))}
@@ -239,27 +239,27 @@ export default function SpotlightBento() {
           <div
             className="pointer-events-none absolute inset-0 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"
             style={{
-              background: `radial-gradient(450px circle at var(--mouse-x, 0) var(--mouse-y, 0), rgba(245, 158, 11, 0.45), transparent 60%)`,
+              background: `radial-gradient(450px circle at var(--mouse-x, 0) var(--mouse-y, 0), rgba(245, 158, 11, 0.4), transparent 60%)`,
             }}
           />
-          <div className="relative h-full w-full rounded-[23px] bg-[#0C0E15] border border-white/10 p-8 flex flex-col justify-between overflow-hidden">
+          <div className="relative h-full w-full rounded-[23px] bg-white border border-ink/8 p-8 flex flex-col justify-between overflow-hidden shadow-sm hover:shadow-card transition-shadow">
             <div
               className="pointer-events-none absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
               style={{
-                background: `radial-gradient(550px circle at var(--mouse-x, 0) var(--mouse-y, 0), rgba(245, 158, 11, 0.08), transparent 50%)`,
+                background: `radial-gradient(550px circle at var(--mouse-x, 0) var(--mouse-y, 0), rgba(245, 158, 11, 0.04), transparent 50%)`,
               }}
             />
 
             <div>
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/25 text-amber-400 text-xs font-semibold tracking-wide mb-6">
-                <span className="w-1.5 h-1.5 rounded-full bg-amber-400" />
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/20 text-amber-600 text-xs font-semibold tracking-wide mb-6">
+                <span className="w-1.5 h-1.5 rounded-full bg-amber-500" />
                 SECURITY & AUDIT
               </div>
 
-              <h3 className="font-display text-2xl text-white mb-3">
+              <h3 className="font-display text-2xl text-ink mb-3">
                 Zero-Trust Enterprise Systems & Modernization
               </h3>
-              <p className="text-white/70 text-[14px] leading-relaxed mb-6">
+              <p className="text-ink/65 text-[14px] leading-relaxed mb-6">
                 Replace brittle legacy tools with secure internal platforms, automated compliance protocols, and cryptographically verified data pipelines.
               </p>
 
@@ -271,9 +271,9 @@ export default function SpotlightBento() {
                   { name: "HIPAA / GDPR", status: "Compliant" },
                   { name: "End-to-End TLS", status: "Enforced" },
                 ].map((item) => (
-                  <div key={item.name} className="rounded-xl border border-white/5 bg-white/[0.02] p-3 font-mono text-xs">
-                    <div className="text-white/80 font-semibold mb-0.5">{item.name}</div>
-                    <div className="text-emerald-400 text-[10px] flex items-center gap-1">
+                  <div key={item.name} className="rounded-xl border border-ink/5 bg-mist/80 p-3 font-mono text-xs">
+                    <div className="text-ink font-semibold mb-0.5">{item.name}</div>
+                    <div className="text-emerald-600 text-[10px] flex items-center gap-1 font-semibold">
                       <span>✓</span> {item.status}
                     </div>
                   </div>
@@ -281,9 +281,9 @@ export default function SpotlightBento() {
               </div>
             </div>
 
-            <div className="mt-8 pt-6 border-t border-white/10 flex flex-wrap gap-2">
+            <div className="mt-8 pt-6 border-t border-ink/5 flex flex-wrap gap-2">
               {["Legacy Migration", "ERP Systems", "Role-Based ACL", "Audit Logging"].map((t) => (
-                <span key={t} className="text-[11px] px-2.5 py-1 rounded-full bg-white/[0.04] text-white/70 border border-white/5">
+                <span key={t} className="text-[11px] px-2.5 py-1 rounded-full bg-ink/[0.04] text-ink/70 border border-ink/5">
                   {t}
                 </span>
               ))}
@@ -296,61 +296,61 @@ export default function SpotlightBento() {
           <div
             className="pointer-events-none absolute inset-0 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"
             style={{
-              background: `radial-gradient(600px circle at var(--mouse-x, 0) var(--mouse-y, 0), rgba(168, 85, 247, 0.45), transparent 60%)`,
+              background: `radial-gradient(600px circle at var(--mouse-x, 0) var(--mouse-y, 0), rgba(168, 85, 247, 0.4), transparent 60%)`,
             }}
           />
-          <div className="relative h-full w-full rounded-[23px] bg-[#0C0E15] border border-white/10 p-8 md:p-10 flex flex-col justify-between overflow-hidden">
+          <div className="relative h-full w-full rounded-[23px] bg-white border border-ink/8 p-8 md:p-10 flex flex-col justify-between overflow-hidden shadow-sm hover:shadow-card transition-shadow">
             <div
               className="pointer-events-none absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
               style={{
-                background: `radial-gradient(750px circle at var(--mouse-x, 0) var(--mouse-y, 0), rgba(168, 85, 247, 0.08), transparent 50%)`,
+                background: `radial-gradient(750px circle at var(--mouse-x, 0) var(--mouse-y, 0), rgba(168, 85, 247, 0.04), transparent 50%)`,
               }}
             />
 
             <div>
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-500/10 border border-purple-500/25 text-purple-400 text-xs font-semibold tracking-wide mb-6">
-                <span className="w-1.5 h-1.5 rounded-full bg-purple-400 animate-pulse" />
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-500/10 border border-purple-500/20 text-purple-600 text-xs font-semibold tracking-wide mb-6">
+                <span className="w-1.5 h-1.5 rounded-full bg-purple-500 animate-pulse" />
                 PRODUCT DESIGN
               </div>
 
-              <h3 className="font-display text-2xl md:text-3xl text-white mb-4">
+              <h3 className="font-display text-2xl md:text-3xl text-ink mb-4">
                 Product Design & Cohesive Design Systems
               </h3>
-              <p className="text-white/70 text-[15px] leading-relaxed max-w-2xl mb-8">
+              <p className="text-ink/65 text-[15px] leading-relaxed max-w-2xl mb-8">
                 Great software feels effortless. Our design engineering team creates unified Figma design tokens, micro-interactions, and accessible component architectures that translate directly into clean production code without handover loss.
               </p>
 
               {/* Design System Foundations Grid */}
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                <div className="rounded-2xl border border-white/5 bg-white/[0.02] p-5">
-                  <div className="font-mono text-xs text-purple-400 font-semibold mb-2">DESIGN TOKENS</div>
-                  <div className="text-white text-sm font-semibold mb-1">Single Source of Truth</div>
-                  <p className="text-white/50 text-xs leading-relaxed">
+                <div className="rounded-2xl border border-ink/5 bg-mist/80 p-5">
+                  <div className="font-mono text-xs text-purple-600 font-semibold mb-2">DESIGN TOKENS</div>
+                  <div className="text-ink text-sm font-semibold mb-1">Single Source of Truth</div>
+                  <p className="text-ink/60 text-xs leading-relaxed">
                     Synchronized color, typography, and spacing variables exported directly to Tailwind and CSS modules.
                   </p>
                 </div>
 
-                <div className="rounded-2xl border border-white/5 bg-white/[0.02] p-5">
+                <div className="rounded-2xl border border-ink/5 bg-mist/80 p-5">
                   <div className="font-mono text-xs text-azure font-semibold mb-2">MICRO-INTERACTIONS</div>
-                  <div className="text-white text-sm font-semibold mb-1">Intentional Motion</div>
-                  <p className="text-white/50 text-xs leading-relaxed">
+                  <div className="text-ink text-sm font-semibold mb-1">Intentional Motion</div>
+                  <p className="text-ink/60 text-xs leading-relaxed">
                     GPU-accelerated transforms and physics springs that guide user focus without causing layout delay.
                   </p>
                 </div>
 
-                <div className="rounded-2xl border border-white/5 bg-white/[0.02] p-5">
-                  <div className="font-mono text-xs text-emerald-400 font-semibold mb-2">ACCESSIBILITY</div>
-                  <div className="text-white text-sm font-semibold mb-1">WCAG AAA Certified</div>
-                  <p className="text-white/50 text-xs leading-relaxed">
+                <div className="rounded-2xl border border-ink/5 bg-mist/80 p-5">
+                  <div className="font-mono text-xs text-emerald-600 font-semibold mb-2">ACCESSIBILITY</div>
+                  <div className="text-ink text-sm font-semibold mb-1">WCAG AAA Certified</div>
+                  <p className="text-ink/60 text-xs leading-relaxed">
                     Semantic DOM hierarchy, keyboard navigation, and high-contrast color balance validated by automated audits.
                   </p>
                 </div>
               </div>
             </div>
 
-            <div className="mt-8 pt-6 border-t border-white/10 flex flex-wrap gap-2">
+            <div className="mt-8 pt-6 border-t border-ink/5 flex flex-wrap gap-2">
               {["Figma Tokens", "Micro-Interactions", "WCAG AAA", "Component Libraries", "UX Research"].map((t) => (
-                <span key={t} className="text-xs px-3 py-1 rounded-full bg-white/[0.04] text-white/70 border border-white/5">
+                <span key={t} className="text-xs px-3 py-1 rounded-full bg-ink/[0.04] text-ink/70 border border-ink/5">
                   {t}
                 </span>
               ))}
@@ -363,56 +363,56 @@ export default function SpotlightBento() {
           <div
             className="pointer-events-none absolute inset-0 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"
             style={{
-              background: `radial-gradient(450px circle at var(--mouse-x, 0) var(--mouse-y, 0), rgba(59, 130, 246, 0.45), transparent 60%)`,
+              background: `radial-gradient(450px circle at var(--mouse-x, 0) var(--mouse-y, 0), rgba(59, 130, 246, 0.4), transparent 60%)`,
             }}
           />
-          <div className="relative h-full w-full rounded-[23px] bg-[#0C0E15] border border-white/10 p-8 flex flex-col justify-between overflow-hidden">
+          <div className="relative h-full w-full rounded-[23px] bg-white border border-ink/8 p-8 flex flex-col justify-between overflow-hidden shadow-sm hover:shadow-card transition-shadow">
             <div
               className="pointer-events-none absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
               style={{
-                background: `radial-gradient(550px circle at var(--mouse-x, 0) var(--mouse-y, 0), rgba(59, 130, 246, 0.08), transparent 50%)`,
+                background: `radial-gradient(550px circle at var(--mouse-x, 0) var(--mouse-y, 0), rgba(59, 130, 246, 0.04), transparent 50%)`,
               }}
             />
 
             <div>
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/25 text-blue-400 text-xs font-semibold tracking-wide mb-6">
-                <span className="w-1.5 h-1.5 rounded-full bg-blue-400" />
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-600 text-xs font-semibold tracking-wide mb-6">
+                <span className="w-1.5 h-1.5 rounded-full bg-blue-500" />
                 EXECUTIVE ADVISORY
               </div>
 
-              <h3 className="font-display text-2xl text-white mb-3">
+              <h3 className="font-display text-2xl text-ink mb-3">
                 Fractional CTO & Strategic Architecture
               </h3>
-              <p className="text-white/70 text-[14px] leading-relaxed mb-6">
+              <p className="text-ink/65 text-[14px] leading-relaxed mb-6">
                 Senior engineering direction for tech roadmaps, vendor evaluations, security audits, and institutional fundraising due diligence.
               </p>
 
               {/* Concrete Advisory Deliverables */}
-              <div className="rounded-2xl border border-white/10 bg-[#07080D] p-5 font-mono text-xs space-y-2.5">
-                <div className="flex items-center justify-between text-white/50 pb-2 border-b border-white/5">
+              <div className="rounded-2xl border border-ink/5 bg-mist/80 p-5 font-mono text-xs space-y-2.5">
+                <div className="flex items-center justify-between text-ink/50 pb-2 border-b border-ink/5">
                   <span>ENG VELOCITY IMPACT</span>
                   <span className="text-azure font-bold">+3.8x</span>
                 </div>
-                <div className="space-y-2 text-white/80 text-[11px]">
+                <div className="space-y-2 text-ink/80 text-[11px]">
                   <div className="flex items-center gap-2">
-                    <span className="text-emerald-400">✓</span>
+                    <span className="text-emerald-600 font-bold">✓</span>
                     <span>Zero Tech-Debt Codebase Handover</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <span className="text-emerald-400">✓</span>
+                    <span className="text-emerald-600 font-bold">✓</span>
                     <span>Investor Technical Due Diligence</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <span className="text-emerald-400">✓</span>
+                    <span className="text-emerald-600 font-bold">✓</span>
                     <span>Full Documentation & Team Mentorship</span>
                   </div>
                 </div>
               </div>
             </div>
 
-            <div className="mt-8 pt-6 border-t border-white/10 flex flex-wrap gap-2">
+            <div className="mt-8 pt-6 border-t border-ink/5 flex flex-wrap gap-2">
               {["Tech Diligence", "Roadmap Scoping", "Vendor Audit", "Team Mentorship"].map((t) => (
-                <span key={t} className="text-[11px] px-2.5 py-1 rounded-full bg-white/[0.04] text-white/70 border border-white/5">
+                <span key={t} className="text-[11px] px-2.5 py-1 rounded-full bg-ink/[0.04] text-ink/70 border border-ink/5">
                   {t}
                 </span>
               ))}

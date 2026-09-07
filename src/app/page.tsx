@@ -54,11 +54,11 @@ export default function Home() {
       </section>
 
       {/* Services - Spotlight Bento */}
-      <section className="py-28 lg:py-32 bg-[#090B11] text-white relative overflow-hidden border-t border-white/5">
+      <section className="py-28 lg:py-32 bg-paper relative overflow-hidden border-t border-ink/5">
         <div className="container-content">
           <Reveal className="max-w-2xl mb-14">
             <p className="text-azure font-semibold text-sm mb-3 tracking-wide">WHAT WE DO</p>
-            <h2 className="font-display text-4xl md:text-5xl text-white leading-tight">
+            <h2 className="font-display text-4xl md:text-5xl text-ink leading-tight">
               One team, from first sketch to production system.
             </h2>
           </Reveal>
