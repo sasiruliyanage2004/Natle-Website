@@ -236,8 +236,10 @@ export function SmoothCursor({
     <motion.div
       style={{
         position: "fixed",
-        left: cursorX,
-        top: cursorY,
+        left: 0,
+        top: 0,
+        x: cursorX,
+        y: cursorY,
         translateX: "-50%",
         translateY: "-50%",
         rotate: rotation,
@@ -245,7 +247,6 @@ export function SmoothCursor({
         zIndex: 9999,
         pointerEvents: "none",
         willChange: "transform",
-        opacity: isVisible ? 1 : 0,
       }}
       initial={false}
       animate={{ opacity: isVisible ? 1 : 0 }}
