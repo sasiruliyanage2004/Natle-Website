@@ -10,10 +10,29 @@ import Magnetic from "./Magnetic";
 export default function Navbar() {
   const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
+  const [visible, setVisible] = useState(true);
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 12);
+    let lastY = window.scrollY;
+    const onScroll = () => {
+      const currentY = window.scrollY;
+      setScrolled(currentY > 12);
+
+      const windowHeight = window.innerHeight;
+      const docHeight = document.documentElement.scrollHeight;
+      const isNearBottom = currentY + windowHeight >= docHeight - 150;
+
+      if (isNearBottom) {
+        setVisible(false);
+      } else if (currentY > lastY && currentY > 120) {
+        setVisible(false);
+      } else {
+        setVisible(true);
+      }
+      lastY = currentY;
+    };
+
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
@@ -26,6 +45,8 @@ export default function Navbar() {
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        visible ? "translate-y-0 opacity-100" : "-translate-y-full opacity-0 pointer-events-none"
+      } ${
         scrolled
           ? "bg-paper/90 backdrop-blur-md shadow-[0_1px_0_rgba(11,30,61,0.08)]"
           : "bg-transparent"

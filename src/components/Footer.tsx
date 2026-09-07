@@ -33,16 +33,15 @@ export default function Footer() {
     if (typeof window === "undefined" || !wrapperRef.current) return;
 
     const ctx = gsap.context(() => {
-      // Background Parallax for Giant Text (only on desktop)
-      if (window.innerWidth >= 1024) {
+      // Smooth fade & scale for giant watermark text
+      if (giantTextRef.current) {
         gsap.fromTo(
           giantTextRef.current,
-          { y: "15vh", scale: 0.85, opacity: 0 },
+          { scale: 0.94, opacity: 0.1 },
           {
-            y: "0vh",
             scale: 1,
-            opacity: 1,
-            ease: "power1.out",
+            opacity: 0.35,
+            ease: "power2.out",
             scrollTrigger: {
               trigger: wrapperRef.current,
               start: "top 80%",
@@ -51,11 +50,13 @@ export default function Footer() {
             },
           }
         );
+      }
 
-        // Staggered Content Reveal
+      // Staggered Content Reveal
+      if (headingRef.current && linksRef.current) {
         gsap.fromTo(
           [headingRef.current, linksRef.current],
-          { y: 40, opacity: 0 },
+          { y: 30, opacity: 0 },
           {
             y: 0,
             opacity: 1,
@@ -63,7 +64,7 @@ export default function Footer() {
             ease: "power3.out",
             scrollTrigger: {
               trigger: wrapperRef.current,
-              start: "top 45%",
+              start: "top 75%",
               end: "bottom bottom",
               scrub: 1,
             },
@@ -82,31 +83,30 @@ export default function Footer() {
   return (
     <div
       ref={wrapperRef}
-      className="relative min-h-screen lg:h-screen w-full mt-24"
-      style={{ clipPath: "polygon(0% 0, 100% 0%, 100% 100%, 0 100%)" }}
+      className="relative w-full mt-24 bg-[#090A0F] text-white overflow-hidden"
     >
-      <footer className="relative lg:fixed bottom-0 left-0 flex min-h-screen lg:h-screen w-full flex-col justify-between overflow-hidden bg-[#090A0F] text-white">
+      <footer className="relative w-full flex flex-col justify-between pt-10 pb-0">
         
         {/* Ambient Aurora Glow */}
         <div className="absolute left-1/2 top-1/2 h-[60vh] w-[80vw] -translate-x-1/2 -translate-y-1/2 bg-[radial-gradient(circle_at_50%_50%,rgba(30,127,232,0.12)_0%,rgba(18,184,166,0.08)_40%,transparent_70%)] rounded-[50%] blur-[90px] pointer-events-none z-0" />
         
-        {/* Giant background text */}
+        {/* Giant background text - Fully visible from top to bottom */}
         <div
           ref={giantTextRef}
-          className="absolute -bottom-[4vh] left-1/2 -translate-x-1/2 whitespace-nowrap z-0 pointer-events-none select-none text-[24vw] leading-[0.75] font-black tracking-tighter opacity-70"
+          className="absolute bottom-20 sm:bottom-24 lg:bottom-28 left-1/2 -translate-x-1/2 whitespace-nowrap z-0 pointer-events-none select-none text-[16vw] xl:text-[14vw] leading-none font-black tracking-tighter"
           style={{
             color: "transparent",
-            WebkitTextStroke: "1px rgba(255,255,255,0.04)",
-            background: "linear-gradient(180deg, rgba(255,255,255,0.06) 0%, transparent 60%)",
+            WebkitTextStroke: "1.5px rgba(255,255,255,0.08)",
+            background: "linear-gradient(180deg, rgba(255,255,255,0.12) 0%, rgba(255,255,255,0.02) 100%)",
             WebkitBackgroundClip: "text",
-            backgroundClip: "text"
+            backgroundClip: "text",
           }}
         >
           NATLE
         </div>
 
-        {/* 1. Diagonal Sleek Marquee */}
-        <div className="relative lg:absolute top-0 lg:top-8 left-0 w-full overflow-hidden border-y border-white/10 bg-[#090A0F]/80 backdrop-blur-md py-3.5 z-10 lg:-rotate-1 scale-105 shadow-xl">
+        {/* 1. Sleek Kinetic Marquee */}
+        <div className="w-full overflow-hidden border-y border-white/10 bg-[#090A0F]/80 backdrop-blur-md py-3.5 mb-12 sm:mb-16 z-10 shadow-xl">
           <div className="flex w-max animate-marquee-fast text-xs font-bold tracking-[0.25em] text-white/50 uppercase">
             <MarqueeItem />
             <MarqueeItem />
@@ -115,15 +115,15 @@ export default function Footer() {
         </div>
 
         {/* 2. Main Content */}
-        <div className="relative z-10 flex flex-1 flex-col items-center justify-center px-6 pt-16 lg:pt-24 pb-12 w-full max-w-7xl mx-auto">
+        <div className="relative z-10 flex flex-col items-center px-6 pb-12 w-full max-w-7xl mx-auto">
           
           {/* Top CTA Area */}
-          <div className="flex flex-col items-center w-full mb-10 lg:mb-14 text-center">
+          <div className="flex flex-col items-center w-full mb-12 lg:mb-16 text-center">
             <h2
               ref={headingRef}
-              className="text-4xl sm:text-5xl lg:text-7xl font-display tracking-tight mb-8 max-w-3xl leading-[1.08]"
+              className="text-3xl sm:text-5xl lg:text-6xl font-display tracking-tight mb-6 max-w-3xl leading-tight"
               style={{
-                background: "linear-gradient(180deg, #FFFFFF 0%, rgba(255,255,255,0.45) 100%)",
+                background: "linear-gradient(180deg, #FFFFFF 0%, rgba(255,255,255,0.5) 100%)",
                 WebkitBackgroundClip: "text",
                 WebkitTextFillColor: "transparent",
                 filter: "drop-shadow(0px 0px 20px rgba(255,255,255,0.12))"
@@ -136,7 +136,7 @@ export default function Footer() {
               <Magnetic>
                 <Link 
                   href="/contact" 
-                  className="px-8 py-4 rounded-full bg-white text-ink hover:bg-white/90 font-semibold text-sm flex items-center gap-2.5 transition-all shadow-lg shadow-white/5"
+                  className="px-8 py-3.5 rounded-full bg-white text-ink hover:bg-white/90 font-semibold text-sm flex items-center gap-2.5 transition-all shadow-lg shadow-white/5"
                 >
                   Start a project
                 </Link>
@@ -145,7 +145,7 @@ export default function Footer() {
               <Magnetic>
                 <Link 
                   href="/projects" 
-                  className="px-8 py-4 rounded-full bg-white/5 border border-white/15 hover:bg-white/10 text-white font-semibold text-sm flex items-center gap-2.5 transition-all backdrop-blur-sm"
+                  className="px-8 py-3.5 rounded-full bg-white/5 border border-white/15 hover:bg-white/10 text-white font-semibold text-sm flex items-center gap-2.5 transition-all backdrop-blur-sm"
                 >
                   View our work
                 </Link>
@@ -154,7 +154,7 @@ export default function Footer() {
           </div>
 
           {/* 4-Column Directory Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12 w-full border-t border-white/10 pt-10 lg:pt-12">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12 w-full border-t border-white/10 pt-10 lg:pt-12 mb-12">
             <div>
               <div className="bg-white/5 inline-block px-4 py-2.5 rounded-xl mb-4">
                 <NatleLogo className="h-6 w-auto text-white" showTagline={false} />
@@ -205,7 +205,7 @@ export default function Footer() {
         </div>
 
         {/* 3. Bottom Bar */}
-        <div className="relative z-20 w-full py-6 px-6 lg:px-12 flex flex-col sm:flex-row items-center justify-between gap-4 border-t border-white/10 bg-[#090A0F]">
+        <div className="relative z-10 w-full py-6 px-6 lg:px-12 flex flex-col sm:flex-row items-center justify-between gap-4 border-t border-white/10 bg-[#06070B]">
           <div className="text-white/40 text-xs font-medium tracking-wider uppercase order-2 sm:order-1">
             © {new Date().getFullYear()} NATLE. All rights reserved.
           </div>
