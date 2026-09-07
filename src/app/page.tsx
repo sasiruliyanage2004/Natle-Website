@@ -6,7 +6,9 @@ import Counter from "@/components/Counter";
 import Reveal from "@/components/Reveal";
 import Magnetic from "@/components/Magnetic";
 import CutoutCard from "@/components/CutoutCard";
-import { SERVICES, PROJECTS, BLOG_POSTS } from "@/lib/data";
+import SpotlightBento from "@/components/SpotlightBento";
+import ArchitectureSandbox from "@/components/ArchitectureSandbox";
+import { PROJECTS, BLOG_POSTS } from "@/lib/data";
 
 const PARTNERS = ["Harborline", "Meridian", "Fernvale", "Crestpoint", "Solano", "Ridgeway"];
 
@@ -51,29 +53,22 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Services */}
-      <section className="py-28 lg:py-32">
+      {/* Services - Spotlight Bento */}
+      <section className="py-28 lg:py-32 bg-[#090B11] text-white relative overflow-hidden border-t border-white/5">
         <div className="container-content">
-          <Reveal className="max-w-2xl">
-            <p className="text-azure font-semibold text-sm mb-3">What we do</p>
-            <h2 className="font-display text-4xl md:text-5xl text-ink leading-tight">
+          <Reveal className="max-w-2xl mb-14">
+            <p className="text-azure font-semibold text-sm mb-3 tracking-wide">WHAT WE DO</p>
+            <h2 className="font-display text-4xl md:text-5xl text-white leading-tight">
               One team, from first sketch to production system.
             </h2>
           </Reveal>
 
-          <div className="mt-14 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {SERVICES.map((s, i) => (
-              <Reveal key={s.slug} delay={(i % 3) * 0.08}>
-                <div className="h-full rounded-2xl border border-ink/8 bg-paper p-7 hover:shadow-card transition-shadow">
-                  <div className="w-10 h-10 rounded-full bg-brand-gradient mb-6" />
-                  <h3 className="font-display text-xl text-ink mb-2">{s.name}</h3>
-                  <p className="text-ink/60 text-[15px] leading-relaxed">{s.short}</p>
-                </div>
-              </Reveal>
-            ))}
-          </div>
+          <SpotlightBento />
         </div>
       </section>
+
+      {/* Interactive Architecture Sandbox */}
+      <ArchitectureSandbox />
 
       {/* Why us + platform panel */}
       <section className="py-28 lg:py-32 bg-ink-gradient text-white relative overflow-hidden">
