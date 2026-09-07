@@ -28,15 +28,15 @@ export default function Reveal({
       gsap.fromTo(
         el,
         {
-          y: y + 10,
+          y: y + 8,
           opacity: 0,
-          scale: 0.98,
+          scale: 0.99,
         },
         {
           y: 0,
           opacity: 1,
           scale: 1,
-          duration: 0.85,
+          duration: 0.55,
           delay,
           ease: "power2.out",
           scrollTrigger: {
