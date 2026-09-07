@@ -55,7 +55,25 @@ export default function Home() {
 
       {/* Services - Spotlight Bento */}
       <section className="py-28 lg:py-32 bg-paper relative overflow-hidden border-t border-ink/5">
-        <div className="container-content">
+        {/* Soft Ambient Fluid Mesh Orbs (Option 01) */}
+        <div className="pointer-events-none absolute inset-0 overflow-hidden">
+          {/* Subtle Dot Grid */}
+          <div
+            className="absolute inset-0 opacity-40"
+            style={{
+              backgroundImage: `radial-gradient(rgba(10, 10, 10, 0.07) 1px, transparent 1px)`,
+              backgroundSize: "32px 32px",
+            }}
+          />
+          {/* Azure Ambient Glowing Orb */}
+          <div className="absolute -top-24 -left-20 w-[600px] h-[600px] rounded-full bg-azure/10 blur-[130px] animate-pulse" style={{ animationDuration: "8s" }} />
+          {/* Teal Ambient Glowing Orb */}
+          <div className="absolute top-1/2 -right-24 -translate-y-1/2 w-[550px] h-[550px] rounded-full bg-teal/10 blur-[140px] animate-pulse" style={{ animationDuration: "10s" }} />
+          {/* Lime Ambient Glowing Orb */}
+          <div className="absolute -bottom-20 left-1/3 w-[500px] h-[400px] rounded-full bg-lime/10 blur-[150px] animate-pulse" style={{ animationDuration: "12s" }} />
+        </div>
+
+        <div className="container-content relative z-10">
           <Reveal className="max-w-2xl mb-14">
             <p className="text-azure font-semibold text-sm mb-3 tracking-wide">WHAT WE DO</p>
             <h2 className="font-display text-4xl md:text-5xl text-ink leading-tight">

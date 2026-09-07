@@ -161,16 +161,22 @@ export default function ArchitecturePipeline() {
     >
       {/* Sticky Viewport Container */}
       <div className="sticky top-0 h-screen w-full flex flex-col justify-between py-12 md:py-16 overflow-hidden">
-        {/* Subtle Architectural Blueprint Background */}
-        <div className="pointer-events-none absolute inset-0 opacity-40">
+        {/* Soft Ambient Fluid Mesh Orbs (Option 01) */}
+        <div className="pointer-events-none absolute inset-0 overflow-hidden">
+          {/* Subtle Blueprint Dot Grid */}
           <div
-            className="absolute inset-0"
+            className="absolute inset-0 opacity-40"
             style={{
               backgroundImage: `radial-gradient(rgba(10, 10, 10, 0.08) 1px, transparent 1px)`,
               backgroundSize: "36px 36px",
             }}
           />
-          <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-azure/5 blur-[120px] rounded-full" />
+          {/* Drifting Azure Fluid Glow Orb */}
+          <div className="absolute top-1/4 -left-32 w-[650px] h-[550px] rounded-full bg-azure/10 blur-[140px] animate-pulse" style={{ animationDuration: "9s" }} />
+          {/* Drifting Teal Fluid Glow Orb */}
+          <div className="absolute bottom-1/4 -right-32 w-[600px] h-[500px] rounded-full bg-teal/10 blur-[150px] animate-pulse" style={{ animationDuration: "11s" }} />
+          {/* Center Lime Fluid Glow Orb */}
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[400px] rounded-full bg-lime/10 blur-[160px] animate-pulse" style={{ animationDuration: "14s" }} />
         </div>
 
         <div className="container-content relative z-10 w-full flex-1 flex flex-col justify-between">
@@ -272,7 +278,7 @@ export default function ArchitecturePipeline() {
           </div>
 
           {/* Detailed Active Step Stage */}
-          <div className="rounded-3xl border border-ink/10 bg-white p-6 md:p-10 shadow-xl relative overflow-hidden">
+          <div className="rounded-3xl border border-ink/10 bg-white/90 backdrop-blur-xl p-6 md:p-10 shadow-xl relative overflow-hidden">
             <AnimatePresence mode="wait">
               <motion.div
                 key={activeStep.id}
