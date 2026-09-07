@@ -25,20 +25,28 @@ export default function Reveal({
     const el = ref.current;
     if (!el) return;
     const ctx = gsap.context(() => {
-      gsap.from(el, {
-        y: y + 15,
-        opacity: 0,
-        scale: 0.97,
-        rotation: 0.5,
-        duration: 1.4,
-        delay,
-        ease: "expo.out",
-        scrollTrigger: {
-          trigger: el,
-          start: "top 90%",
-          once: true,
+      gsap.fromTo(
+        el,
+        {
+          y: y + 10,
+          opacity: 0,
+          scale: 0.98,
         },
-      });
+        {
+          y: 0,
+          opacity: 1,
+          scale: 1,
+          duration: 0.85,
+          delay,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: el,
+            start: "top 90%",
+            end: "bottom 10%",
+            toggleActions: "play reverse play reverse",
+          },
+        }
+      );
     }, el);
     return () => ctx.revert();
   }, [y, delay]);

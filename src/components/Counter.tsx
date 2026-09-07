@@ -36,7 +36,7 @@ export default function Counter({
         scrollTrigger: {
           trigger: el,
           start: "top 85%",
-          once: true,
+          toggleActions: "restart none none reset",
         },
         onUpdate: () => {
           el.textContent = `${prefix}${obj.val.toFixed(decimals)}${suffix}`;
