@@ -33,43 +33,47 @@ export default function Footer() {
     if (typeof window === "undefined" || !wrapperRef.current) return;
 
     const ctx = gsap.context(() => {
-      // Smooth fade & scale for giant watermark text
-      if (giantTextRef.current) {
-        gsap.fromTo(
-          giantTextRef.current,
-          { scale: 0.94, opacity: 0.1 },
-          {
-            scale: 1,
-            opacity: 0.35,
-            ease: "power2.out",
-            scrollTrigger: {
-              trigger: wrapperRef.current,
-              start: "top 80%",
-              end: "bottom bottom",
-              scrub: 1,
-            },
-          }
-        );
-      }
+      // Desktop Cinematic Curtain & Parallax Animations
+      if (window.innerWidth >= 1024) {
+        // Parallax upward float for the wide NATLE watermark
+        if (giantTextRef.current) {
+          gsap.fromTo(
+            giantTextRef.current,
+            { y: 80, scale: 0.92, opacity: 0.05 },
+            {
+              y: 0,
+              scale: 1,
+              opacity: 0.45,
+              ease: "power2.out",
+              scrollTrigger: {
+                trigger: wrapperRef.current,
+                start: "top 85%",
+                end: "bottom bottom",
+                scrub: 1,
+              },
+            }
+          );
+        }
 
-      // Staggered Content Reveal
-      if (headingRef.current && linksRef.current) {
-        gsap.fromTo(
-          [headingRef.current, linksRef.current],
-          { y: 30, opacity: 0 },
-          {
-            y: 0,
-            opacity: 1,
-            stagger: 0.12,
-            ease: "power3.out",
-            scrollTrigger: {
-              trigger: wrapperRef.current,
-              start: "top 75%",
-              end: "bottom bottom",
-              scrub: 1,
-            },
-          }
-        );
+        // Staggered upward emergence for heading and buttons
+        if (headingRef.current && linksRef.current) {
+          gsap.fromTo(
+            [headingRef.current, linksRef.current],
+            { y: 40, opacity: 0 },
+            {
+              y: 0,
+              opacity: 1,
+              stagger: 0.12,
+              ease: "power3.out",
+              scrollTrigger: {
+                trigger: wrapperRef.current,
+                start: "top 55%",
+                end: "bottom bottom",
+                scrub: 1,
+              },
+            }
+          );
+        }
       }
     }, wrapperRef);
 
@@ -83,21 +87,22 @@ export default function Footer() {
   return (
     <div
       ref={wrapperRef}
-      className="relative w-full mt-24 bg-[#090A0F] text-white overflow-hidden"
+      className="relative min-h-screen lg:h-screen w-full"
+      style={{ clipPath: "polygon(0% 0, 100% 0%, 100% 100%, 0 100%)" }}
     >
-      <footer className="relative w-full flex flex-col justify-between pt-10 pb-0">
+      <footer className="relative lg:fixed bottom-0 left-0 flex min-h-screen lg:h-screen w-full flex-col justify-between overflow-hidden bg-[#090A0F] text-white">
         
         {/* Ambient Aurora Glow */}
-        <div className="absolute left-1/2 top-1/2 h-[60vh] w-[80vw] -translate-x-1/2 -translate-y-1/2 bg-[radial-gradient(circle_at_50%_50%,rgba(30,127,232,0.12)_0%,rgba(18,184,166,0.08)_40%,transparent_70%)] rounded-[50%] blur-[90px] pointer-events-none z-0" />
+        <div className="absolute left-1/2 top-1/2 h-[60vh] w-[85vw] -translate-x-1/2 -translate-y-1/2 bg-[radial-gradient(circle_at_50%_50%,rgba(30,127,232,0.14)_0%,rgba(18,184,166,0.09)_40%,transparent_70%)] rounded-[50%] blur-[100px] pointer-events-none z-0" />
         
-        {/* Giant background text - Fully visible from top to bottom */}
+        {/* Giant background text - WIDE & EXPANSIVE ("diga karala"), 100% visible above bottom bar */}
         <div
           ref={giantTextRef}
-          className="absolute bottom-20 sm:bottom-24 lg:bottom-28 left-1/2 -translate-x-1/2 whitespace-nowrap z-0 pointer-events-none select-none text-[16vw] xl:text-[14vw] leading-none font-black tracking-tighter"
+          className="absolute bottom-16 sm:bottom-20 lg:bottom-24 left-1/2 -translate-x-1/2 whitespace-nowrap z-0 pointer-events-none select-none text-[18vw] sm:text-[20vw] lg:text-[22vw] tracking-[0.14em] font-black leading-none text-center w-full"
           style={{
             color: "transparent",
             WebkitTextStroke: "1.5px rgba(255,255,255,0.08)",
-            background: "linear-gradient(180deg, rgba(255,255,255,0.12) 0%, rgba(255,255,255,0.02) 100%)",
+            background: "linear-gradient(180deg, rgba(255,255,255,0.14) 0%, rgba(255,255,255,0.02) 100%)",
             WebkitBackgroundClip: "text",
             backgroundClip: "text",
           }}
@@ -105,8 +110,8 @@ export default function Footer() {
           NATLE
         </div>
 
-        {/* 1. Sleek Kinetic Marquee */}
-        <div className="w-full overflow-hidden border-y border-white/10 bg-[#090A0F]/80 backdrop-blur-md py-3.5 mb-12 sm:mb-16 z-10 shadow-xl">
+        {/* 1. Diagonal Sleek Kinetic Marquee */}
+        <div className="relative lg:absolute top-0 lg:top-4 left-0 w-full overflow-hidden border-y border-white/10 bg-[#090A0F]/80 backdrop-blur-md py-3 z-10 lg:-rotate-1 scale-105 shadow-xl">
           <div className="flex w-max animate-marquee-fast text-xs font-bold tracking-[0.25em] text-white/50 uppercase">
             <MarqueeItem />
             <MarqueeItem />
@@ -114,14 +119,14 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* 2. Main Content */}
-        <div className="relative z-10 flex flex-col items-center px-6 pb-12 w-full max-w-7xl mx-auto">
+        {/* 2. Main Content - Compact fluid vertical rhythm */}
+        <div className="relative z-10 flex flex-1 flex-col items-center justify-center px-6 pt-16 lg:pt-14 pb-4 w-full max-w-7xl mx-auto">
           
           {/* Top CTA Area */}
-          <div className="flex flex-col items-center w-full mb-12 lg:mb-16 text-center">
+          <div className="flex flex-col items-center w-full mb-6 lg:mb-8 text-center">
             <h2
               ref={headingRef}
-              className="text-3xl sm:text-5xl lg:text-6xl font-display tracking-tight mb-6 max-w-3xl leading-tight"
+              className="text-3xl sm:text-5xl lg:text-6xl font-display tracking-tight mb-4 sm:mb-6 max-w-3xl leading-tight"
               style={{
                 background: "linear-gradient(180deg, #FFFFFF 0%, rgba(255,255,255,0.5) 100%)",
                 WebkitBackgroundClip: "text",
@@ -154,22 +159,22 @@ export default function Footer() {
           </div>
 
           {/* 4-Column Directory Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12 w-full border-t border-white/10 pt-10 lg:pt-12 mb-12">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8 w-full border-t border-white/10 pt-6 lg:pt-8 mb-2">
             <div>
-              <div className="bg-white/5 inline-block px-4 py-2.5 rounded-xl mb-4">
+              <div className="bg-white/5 inline-block px-4 py-2 rounded-xl mb-3">
                 <NatleLogo className="h-6 w-auto text-white" showTagline={false} />
               </div>
-              <p className="text-white/55 text-sm leading-relaxed max-w-xs">
+              <p className="text-white/55 text-xs sm:text-sm leading-relaxed max-w-xs">
                 Empowering ambitious enterprises with scalable, production-ready AI and software systems.
               </p>
             </div>
             
             <div>
-              <h4 className="text-white font-semibold text-sm mb-4 tracking-wider uppercase text-xs text-white/40">Services</h4>
-              <ul className="space-y-2.5">
+              <h4 className="text-white font-semibold text-xs mb-3 tracking-wider uppercase text-white/40">Services</h4>
+              <ul className="space-y-2">
                 {FOOTER_SERVICES.map((l) => (
                   <li key={l.href}>
-                    <Link href={l.href} className="text-white/60 hover:text-white text-sm transition-colors">
+                    <Link href={l.href} className="text-white/60 hover:text-white text-xs sm:text-sm transition-colors">
                       {l.label}
                     </Link>
                   </li>
@@ -178,11 +183,11 @@ export default function Footer() {
             </div>
 
             <div>
-              <h4 className="text-white font-semibold text-sm mb-4 tracking-wider uppercase text-xs text-white/40">Company</h4>
-              <ul className="space-y-2.5">
+              <h4 className="text-white font-semibold text-xs mb-3 tracking-wider uppercase text-white/40">Company</h4>
+              <ul className="space-y-2">
                 {FOOTER_COMPANY.map((l) => (
                   <li key={l.href}>
-                    <Link href={l.href} className="text-white/60 hover:text-white text-sm transition-colors">
+                    <Link href={l.href} className="text-white/60 hover:text-white text-xs sm:text-sm transition-colors">
                       {l.label}
                     </Link>
                   </li>
@@ -191,13 +196,13 @@ export default function Footer() {
             </div>
 
             <div>
-              <h4 className="text-white font-semibold text-sm mb-4 tracking-wider uppercase text-xs text-white/40">Contact</h4>
-              <ul className="space-y-2.5 text-white/60 text-sm">
+              <h4 className="text-white font-semibold text-xs mb-3 tracking-wider uppercase text-white/40">Contact</h4>
+              <ul className="space-y-2 text-white/60 text-xs sm:text-sm">
                 <li><a href="mailto:info@natle.dev" className="hover:text-white transition-colors">info@natle.dev</a></li>
                 <li><a href="tel:+94704659847" className="hover:text-white transition-colors">+94 70 465 9847</a></li>
                 <li><a href="tel:+94112507601" className="hover:text-white transition-colors">+94 11 250 7601</a></li>
-                <li className="leading-relaxed pt-1 text-white/45 text-xs">
-                  No. 283 1/1, Ruwan Mawatha, Thimbirigasyaya Road, Colombo 05, Sri Lanka
+                <li className="leading-relaxed pt-0.5 text-white/45 text-[11px]">
+                  No. 283 1/1, Ruwan Mawatha, Colombo 05, Sri Lanka
                 </li>
               </ul>
             </div>
@@ -205,7 +210,7 @@ export default function Footer() {
         </div>
 
         {/* 3. Bottom Bar */}
-        <div className="relative z-10 w-full py-6 px-6 lg:px-12 flex flex-col sm:flex-row items-center justify-between gap-4 border-t border-white/10 bg-[#06070B]">
+        <div className="relative z-20 w-full py-4 px-6 lg:px-12 flex flex-col sm:flex-row items-center justify-between gap-4 border-t border-white/10 bg-[#090A0F]/80 backdrop-blur-md">
           <div className="text-white/40 text-xs font-medium tracking-wider uppercase order-2 sm:order-1">
             © {new Date().getFullYear()} NATLE. All rights reserved.
           </div>
@@ -218,10 +223,10 @@ export default function Footer() {
           <Magnetic>
             <button
               onClick={scrollToTop}
-              className="w-10 h-10 rounded-full border border-white/10 bg-white/5 hover:bg-white/10 flex items-center justify-center text-white/50 hover:text-white transition-all group order-3"
+              className="w-9 h-9 rounded-full border border-white/10 bg-white/5 hover:bg-white/10 flex items-center justify-center text-white/50 hover:text-white transition-all group order-3"
               aria-label="Scroll to top"
             >
-              <svg className="w-4 h-4 transform group-hover:-translate-y-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-3.5 h-3.5 transform group-hover:-translate-y-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path>
               </svg>
             </button>
