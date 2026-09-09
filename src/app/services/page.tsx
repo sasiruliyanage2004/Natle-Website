@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import Reveal from "@/components/Reveal";
+import Magnetic from "@/components/Magnetic";
+import SpotlightCard, { SpotlightAccent } from "@/components/SpotlightCard";
+import AmbientBackground from "@/components/AmbientBackground";
 import { SERVICES } from "@/lib/data";
 
 export const metadata: Metadata = {
@@ -8,13 +11,19 @@ export const metadata: Metadata = {
   description: "Product engineering, cloud & DevOps, data & AI, design, and consulting services from NATLE.",
 };
 
+const ACCENTS: SpotlightAccent[] = ["azure", "teal", "lime", "purple", "blue", "azure"];
+
 export default function ServicesPage() {
   return (
     <>
-      <section className="pt-40 pb-20 bg-mist">
-        <div className="container-content">
+      <section className="pt-40 pb-20 bg-mist relative overflow-hidden">
+        <AmbientBackground />
+        <div className="container-content relative">
           <Reveal className="max-w-2xl">
-            <p className="text-azure font-semibold text-sm mb-4">Services</p>
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-azure/10 border border-azure/20 text-azure text-xs font-semibold tracking-wide mb-5">
+              <span className="w-1.5 h-1.5 rounded-full bg-azure animate-pulse" />
+              SERVICES
+            </div>
             <h1 className="font-display text-5xl md:text-6xl text-ink leading-[1.05]">
               Six ways we help you build.
             </h1>
@@ -27,30 +36,28 @@ export default function ServicesPage() {
         </div>
       </section>
 
-      <section className="py-20 lg:py-24">
-        <div className="container-content space-y-6">
+      <section className="py-20 lg:py-24 bg-paper relative overflow-hidden border-t border-ink/5">
+        <div className="container-content grid grid-cols-1 md:grid-cols-2 gap-6">
           {SERVICES.map((s, i) => (
-            <Reveal key={s.slug} delay={(i % 3) * 0.05}>
-              <div
-                id={s.slug}
-                className="grid grid-cols-1 lg:grid-cols-[1.1fr_1fr] gap-8 lg:gap-16 rounded-3xl border border-ink/8 p-8 lg:p-12 scroll-mt-28"
-              >
-                <div>
-                  <div className="w-11 h-11 rounded-full bg-brand-gradient mb-6" />
-                  <h2 className="font-display text-3xl text-ink mb-4">{s.name}</h2>
-                  <p className="text-ink/60 leading-relaxed">{s.detail}</p>
-                </div>
-                <div className="flex flex-col justify-center">
-                  <ul className="space-y-4">
+            <Reveal key={s.slug} delay={(i % 2) * 0.06}>
+              <SpotlightCard accent={ACCENTS[i]} id={s.slug} className="h-full">
+                <div className="p-8 md:p-9 flex flex-col h-full">
+                  <div className="flex items-center justify-between gap-4 mb-6">
+                    <span className="font-mono text-xs text-ink/40">0{i + 1}</span>
+                    <div className="w-10 h-10 rounded-full bg-brand-gradient" />
+                  </div>
+                  <h2 className="font-display text-2xl text-ink mb-3">{s.name}</h2>
+                  <p className="text-ink/60 leading-relaxed mb-7">{s.detail}</p>
+                  <ul className="space-y-3 mt-auto pt-6 border-t border-ink/5">
                     {s.points.map((p) => (
-                      <li key={p} className="flex items-start gap-3 text-ink/75">
+                      <li key={p} className="flex items-start gap-3 text-ink/75 text-[15px]">
                         <span className="mt-2 w-1.5 h-1.5 rounded-full bg-teal shrink-0" />
                         <span>{p}</span>
                       </li>
                     ))}
                   </ul>
                 </div>
-              </div>
+              </SpotlightCard>
             </Reveal>
           ))}
         </div>
@@ -66,12 +73,16 @@ export default function ServicesPage() {
               That&apos;s fine — most projects touch more than one. Tell us
               what you&apos;re working on and we&apos;ll map it out together.
             </p>
-            <Link
-              href="/contact"
-              className="inline-flex items-center justify-center mt-9 rounded-full bg-brand-gradient text-ink px-8 py-4 text-[15px] font-semibold"
-            >
-              Book a discovery call
-            </Link>
+            <div className="mt-9 flex justify-center">
+              <Magnetic>
+                <Link
+                  href="/contact"
+                  className="inline-flex items-center justify-center rounded-full bg-brand-gradient text-ink px-8 py-4 text-[15px] font-semibold"
+                >
+                  Book a discovery call
+                </Link>
+              </Magnetic>
+            </div>
           </Reveal>
         </div>
       </section>

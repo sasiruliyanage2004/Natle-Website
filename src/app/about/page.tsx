@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import Reveal from "@/components/Reveal";
 import Counter from "@/components/Counter";
+import SpotlightCard, { SpotlightAccent } from "@/components/SpotlightCard";
+import AmbientBackground from "@/components/AmbientBackground";
 import { TEAM, VALUES } from "@/lib/data";
 
 export const metadata: Metadata = {
@@ -8,13 +10,19 @@ export const metadata: Metadata = {
   description: "The story, mission, and people behind NATLE.",
 };
 
+const VALUE_ACCENTS: SpotlightAccent[] = ["azure", "teal", "lime", "purple"];
+
 export default function AboutPage() {
   return (
     <>
-      <section className="pt-40 pb-24 bg-mist">
-        <div className="container-content">
+      <section className="pt-40 pb-24 bg-mist relative overflow-hidden">
+        <AmbientBackground />
+        <div className="container-content relative">
           <Reveal className="max-w-3xl">
-            <p className="text-azure font-semibold text-sm mb-4">About NATLE</p>
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-azure/10 border border-azure/20 text-azure text-xs font-semibold tracking-wide mb-5">
+              <span className="w-1.5 h-1.5 rounded-full bg-azure animate-pulse" />
+              ABOUT NATLE
+            </div>
             <h1 className="font-display text-5xl md:text-6xl text-ink leading-[1.05]">
               We started NATLE because good software shouldn&apos;t be rare.
             </h1>
@@ -25,7 +33,7 @@ export default function AboutPage() {
             </p>
           </Reveal>
 
-          <div className="mt-16 grid grid-cols-2 sm:grid-cols-4 gap-8 border-t border-ink/10 pt-10">
+          <Reveal delay={0.1} className="mt-16 grid grid-cols-2 sm:grid-cols-4 gap-8 border-t border-ink/10 pt-10">
             <div>
               <div className="font-display text-3xl text-ink"><Counter to={120} suffix="+" /></div>
               <div className="text-sm text-ink/50 mt-1">Projects delivered</div>
@@ -42,27 +50,43 @@ export default function AboutPage() {
               <div className="font-display text-3xl text-ink"><Counter to={7} /></div>
               <div className="text-sm text-ink/50 mt-1">Years building</div>
             </div>
-          </div>
+          </Reveal>
         </div>
       </section>
 
-      <section className="py-24 lg:py-28">
-        <div className="container-content grid grid-cols-1 lg:grid-cols-2 gap-12">
-          <Reveal className="rounded-2xl border border-ink/8 p-9">
-            <h2 className="font-display text-2xl text-ink mb-4">Our mission</h2>
-            <p className="text-ink/60 leading-relaxed">
-              To give growing companies access to the same quality of software
-              engineering and design that only large enterprises could
-              previously afford — without the enterprise overhead.
-            </p>
+      <section className="py-24 lg:py-28 bg-paper border-t border-ink/5">
+        <div className="container-content grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <Reveal>
+            <SpotlightCard accent="azure" className="h-full">
+              <div className="p-9">
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-azure/10 border border-azure/20 text-azure text-xs font-semibold tracking-wide mb-6">
+                  <span className="w-1.5 h-1.5 rounded-full bg-azure animate-pulse" />
+                  MISSION
+                </div>
+                <h2 className="font-display text-2xl text-ink mb-4">Our mission</h2>
+                <p className="text-ink/60 leading-relaxed">
+                  To give growing companies access to the same quality of
+                  software engineering and design that only large enterprises
+                  could previously afford — without the enterprise overhead.
+                </p>
+              </div>
+            </SpotlightCard>
           </Reveal>
-          <Reveal delay={0.08} className="rounded-2xl border border-ink/8 p-9">
-            <h2 className="font-display text-2xl text-ink mb-4">Our vision</h2>
-            <p className="text-ink/60 leading-relaxed">
-              A future where every ambitious team, regardless of size or
-              location, can turn a good idea into reliable, well-designed
-              software.
-            </p>
+          <Reveal delay={0.08}>
+            <SpotlightCard accent="lime" className="h-full">
+              <div className="p-9">
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-lime/10 border border-lime/20 text-lime-600 text-xs font-semibold tracking-wide mb-6">
+                  <span className="w-1.5 h-1.5 rounded-full bg-lime animate-pulse" />
+                  VISION
+                </div>
+                <h2 className="font-display text-2xl text-ink mb-4">Our vision</h2>
+                <p className="text-ink/60 leading-relaxed">
+                  A future where every ambitious team, regardless of size or
+                  location, can turn a good idea into reliable, well-designed
+                  software.
+                </p>
+              </div>
+            </SpotlightCard>
           </Reveal>
         </div>
       </section>
@@ -97,7 +121,7 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section className="py-24 lg:py-28">
+      <section className="py-24 lg:py-28 bg-paper">
         <div className="container-content">
           <Reveal className="max-w-xl mb-14">
             <p className="text-azure font-semibold text-sm mb-3">Leadership</p>
@@ -105,38 +129,45 @@ export default function AboutPage() {
               The people steering NATLE.
             </h2>
           </Reveal>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             {TEAM.map((person, i) => (
               <Reveal key={person.name} delay={i * 0.06}>
-                <div className="aspect-square rounded-2xl bg-brand-gradient-soft border border-ink/8 mb-4 flex items-center justify-center">
-                  <span className="font-display text-3xl text-ink/30">
-                    {person.name.split(" ").map((n) => n[0]).join("")}
-                  </span>
+                <div className="group rounded-3xl border border-ink/8 p-5 hover:shadow-card hover:border-ink/15 transition-all">
+                  <div className="aspect-square rounded-2xl bg-brand-gradient-soft mb-4 flex items-center justify-center overflow-hidden relative">
+                    <span className="font-display text-3xl text-ink/30 group-hover:scale-110 transition-transform duration-300">
+                      {person.name.split(" ").map((n) => n[0]).join("")}
+                    </span>
+                  </div>
+                  <h3 className="font-display text-base text-ink">{person.name}</h3>
+                  <p className="text-ink/50 text-sm">{person.role}</p>
                 </div>
-                <h3 className="font-display text-base text-ink">{person.name}</h3>
-                <p className="text-ink/50 text-sm">{person.role}</p>
               </Reveal>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="py-24 lg:py-28 bg-mist">
-        <div className="container-content">
+      <section className="py-24 lg:py-28 bg-mist relative overflow-hidden">
+        <AmbientBackground variant="reversed" />
+        <div className="container-content relative">
           <Reveal className="max-w-xl mb-14">
             <p className="text-azure font-semibold text-sm mb-3">What we stand for</p>
             <h2 className="font-display text-4xl text-ink leading-tight">
               Operating principles, not slogans.
             </h2>
           </Reveal>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-10 gap-y-10">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
             {VALUES.map((v, i) => (
-              <Reveal key={v.title} delay={i * 0.06} className="flex gap-5">
-                <div className="w-1.5 shrink-0 rounded-full bg-brand-gradient" />
-                <div>
-                  <h3 className="font-display text-lg text-ink mb-1.5">{v.title}</h3>
-                  <p className="text-ink/60 text-[15px] leading-relaxed">{v.detail}</p>
-                </div>
+              <Reveal key={v.title} delay={i * 0.06}>
+                <SpotlightCard accent={VALUE_ACCENTS[i % VALUE_ACCENTS.length]} className="h-full">
+                  <div className="p-8 flex gap-5">
+                    <div className="w-1.5 shrink-0 rounded-full bg-brand-gradient" />
+                    <div>
+                      <h3 className="font-display text-lg text-ink mb-1.5">{v.title}</h3>
+                      <p className="text-ink/60 text-[15px] leading-relaxed">{v.detail}</p>
+                    </div>
+                  </div>
+                </SpotlightCard>
               </Reveal>
             ))}
           </div>

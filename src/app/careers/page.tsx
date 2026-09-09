@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import Reveal from "@/components/Reveal";
+import SpotlightCard, { SpotlightAccent } from "@/components/SpotlightCard";
+import AmbientBackground from "@/components/AmbientBackground";
 import { OPEN_ROLES, BENEFITS } from "@/lib/data";
 
 export const metadata: Metadata = {
@@ -8,13 +10,19 @@ export const metadata: Metadata = {
   description: "Open roles and life at NATLE.",
 };
 
+const BENEFIT_ACCENTS: SpotlightAccent[] = ["azure", "teal", "lime", "purple"];
+
 export default function CareersPage() {
   return (
     <>
-      <section className="pt-40 pb-20 bg-mist">
-        <div className="container-content">
+      <section className="pt-40 pb-20 bg-mist relative overflow-hidden">
+        <AmbientBackground />
+        <div className="container-content relative">
           <Reveal className="max-w-2xl">
-            <p className="text-azure font-semibold text-sm mb-4">Careers</p>
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-azure/10 border border-azure/20 text-azure text-xs font-semibold tracking-wide mb-5">
+              <span className="w-1.5 h-1.5 rounded-full bg-azure animate-pulse" />
+              CAREERS
+            </div>
             <h1 className="font-display text-5xl md:text-6xl text-ink leading-[1.05]">
               Build the tools other teams rely on.
             </h1>
@@ -27,45 +35,55 @@ export default function CareersPage() {
         </div>
       </section>
 
-      <section className="py-20 lg:py-24">
+      <section className="py-20 lg:py-24 bg-paper border-t border-ink/5">
         <div className="container-content">
           <Reveal className="max-w-xl mb-12">
             <h2 className="font-display text-3xl text-ink leading-tight">Life at NATLE</h2>
           </Reveal>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {BENEFITS.map((b, i) => (
-              <Reveal key={b.title} delay={i * 0.06} className="rounded-2xl border border-ink/8 p-7">
-                <div className="w-8 h-8 rounded-full bg-brand-gradient mb-5" />
-                <h3 className="font-display text-lg text-ink mb-2">{b.title}</h3>
-                <p className="text-ink/60 text-[15px] leading-relaxed">{b.detail}</p>
+              <Reveal key={b.title} delay={i * 0.06}>
+                <SpotlightCard accent={BENEFIT_ACCENTS[i % BENEFIT_ACCENTS.length]} className="h-full">
+                  <div className="p-7">
+                    <div className="w-9 h-9 rounded-full bg-brand-gradient mb-5" />
+                    <h3 className="font-display text-lg text-ink mb-2">{b.title}</h3>
+                    <p className="text-ink/60 text-[15px] leading-relaxed">{b.detail}</p>
+                  </div>
+                </SpotlightCard>
               </Reveal>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="py-20 lg:py-24 bg-mist">
-        <div className="container-content">
+      <section className="py-20 lg:py-24 bg-mist relative overflow-hidden">
+        <AmbientBackground variant="reversed" />
+        <div className="container-content relative">
           <Reveal className="max-w-xl mb-12">
             <p className="text-azure font-semibold text-sm mb-3">Open roles</p>
             <h2 className="font-display text-3xl text-ink leading-tight">Current openings</h2>
           </Reveal>
 
-          <div className="rounded-2xl border border-ink/8 overflow-hidden bg-paper">
+          <div className="rounded-3xl border border-ink/8 overflow-hidden bg-paper shadow-sm">
             {OPEN_ROLES.map((role, i) => (
               <Reveal key={role.title} delay={i * 0.04}>
                 <Link
                   href="/contact"
-                  className="flex flex-wrap items-center justify-between gap-4 px-7 py-6 border-b border-ink/8 last:border-0 hover:bg-mist transition-colors"
+                  className="group flex flex-wrap items-center justify-between gap-4 px-7 py-6 border-b border-ink/8 last:border-0 hover:bg-mist transition-colors"
                 >
-                  <div>
-                    <h3 className="font-display text-lg text-ink">{role.title}</h3>
-                    <p className="text-ink/50 text-sm mt-1">
-                      {role.team} &middot; {role.location}
-                    </p>
+                  <div className="flex items-center gap-4">
+                    <span className="hidden sm:block w-1.5 h-10 rounded-full bg-brand-gradient opacity-0 group-hover:opacity-100 transition-opacity" />
+                    <div>
+                      <h3 className="font-display text-lg text-ink group-hover:text-azure transition-colors">
+                        {role.title}
+                      </h3>
+                      <p className="text-ink/50 text-sm mt-1">
+                        {role.team} &middot; {role.location}
+                      </p>
+                    </div>
                   </div>
-                  <span className="text-ink font-semibold text-sm border-b-2 border-lime pb-1 shrink-0">
-                    Apply now
+                  <span className="text-ink font-semibold text-sm border-b-2 border-lime pb-1 shrink-0 flex items-center gap-1.5 group-hover:gap-2.5 transition-all">
+                    Apply now <span aria-hidden>→</span>
                   </span>
                 </Link>
               </Reveal>
