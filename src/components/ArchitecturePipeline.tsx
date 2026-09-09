@@ -183,8 +183,7 @@ export default function ArchitecturePipeline() {
           {/* Header */}
           <div className="flex flex-wrap items-end justify-between gap-4">
             <div>
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-azure/10 border border-azure/20 text-azure text-xs font-mono font-semibold tracking-wider uppercase mb-3">
-                <span className="w-1.5 h-1.5 rounded-full bg-azure animate-pulse" />
+              <div className="text-azure text-xs font-mono font-semibold tracking-widest uppercase mb-2">
                 SYSTEM ARCHITECTURE
               </div>
               <h2 className="font-display text-2xl md:text-4xl text-ink">

@@ -19,8 +19,7 @@ export default function CareersPage() {
         <AmbientBackground />
         <div className="container-content relative">
           <Reveal className="max-w-2xl">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-azure/10 border border-azure/20 text-azure text-xs font-semibold tracking-wide mb-5">
-              <span className="w-1.5 h-1.5 rounded-full bg-azure animate-pulse" />
+            <div className="text-azure text-xs font-mono font-semibold tracking-widest uppercase mb-4">
               CAREERS
             </div>
             <h1 className="font-display text-5xl md:text-6xl text-ink leading-[1.05]">

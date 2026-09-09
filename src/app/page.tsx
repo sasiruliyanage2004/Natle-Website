@@ -45,7 +45,7 @@ export default function Home() {
       <section className="border-y border-ink/5 py-10 bg-paper relative">
         <div className="container-content mb-6">
           <div className="flex flex-col items-center justify-center text-center">
-            <span className="text-[11px] font-mono tracking-widest uppercase text-azure font-semibold px-3 py-1 rounded-full bg-azure/10 mb-2.5">
+            <span className="text-xs font-mono tracking-widest uppercase text-azure font-semibold mb-2">
               Technology Stack
             </span>
             <p className="text-xs sm:text-sm font-medium text-ink/50 max-w-lg">

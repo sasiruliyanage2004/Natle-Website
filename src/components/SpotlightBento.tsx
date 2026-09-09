@@ -47,12 +47,11 @@ export default function SpotlightBento() {
             />
 
             <div>
-              {/* Header Badge */}
+              {/* Header Eyebrow */}
               <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-azure/10 border border-azure/20 text-azure text-xs font-semibold tracking-wide">
-                  <span className="w-1.5 h-1.5 rounded-full bg-azure animate-pulse" />
+                <span className="text-azure text-xs font-mono font-semibold tracking-widest uppercase">
                   CORE ARCHITECTURE
-                </div>
+                </span>
                 <div className="flex items-center gap-2 text-xs font-mono text-ink/50">
                   <span className="w-2 h-2 rounded-full bg-emerald-500" />
                   P99 LATENCY &lt; 14ms
@@ -130,8 +129,7 @@ export default function SpotlightBento() {
             />
 
             <div>
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-teal/10 border border-teal/20 text-teal text-xs font-semibold tracking-wide mb-6">
-                <span className="w-1.5 h-1.5 rounded-full bg-teal animate-pulse" />
+              <div className="text-teal text-xs font-mono font-semibold tracking-widest uppercase mb-4">
                 APPLIED AI
               </div>
 
@@ -190,9 +188,8 @@ export default function SpotlightBento() {
             />
 
             <div>
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-lime/10 border border-lime/30 text-emerald-600 text-xs font-semibold tracking-wide mb-6">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                CLOUD & DEVOPS
+              <div className="text-emerald-600 text-xs font-mono font-semibold tracking-widest uppercase mb-4">
+                CLOUD &amp; DEVOPS
               </div>
 
               <h3 className="font-display text-2xl text-ink mb-3">
@@ -251,9 +248,8 @@ export default function SpotlightBento() {
             />
 
             <div>
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/20 text-amber-600 text-xs font-semibold tracking-wide mb-6">
-                <span className="w-1.5 h-1.5 rounded-full bg-amber-500" />
-                SECURITY & AUDIT
+              <div className="text-amber-600 text-xs font-mono font-semibold tracking-widest uppercase mb-4">
+                SECURITY &amp; AUDIT
               </div>
 
               <h3 className="font-display text-2xl text-ink mb-3">
@@ -308,8 +304,7 @@ export default function SpotlightBento() {
             />
 
             <div>
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-500/10 border border-purple-500/20 text-purple-600 text-xs font-semibold tracking-wide mb-6">
-                <span className="w-1.5 h-1.5 rounded-full bg-purple-500 animate-pulse" />
+              <div className="text-purple-600 text-xs font-mono font-semibold tracking-widest uppercase mb-4">
                 PRODUCT DESIGN
               </div>
 
@@ -375,8 +370,7 @@ export default function SpotlightBento() {
             />
 
             <div>
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-600 text-xs font-semibold tracking-wide mb-6">
-                <span className="w-1.5 h-1.5 rounded-full bg-blue-500" />
+              <div className="text-blue-600 text-xs font-mono font-semibold tracking-widest uppercase mb-4">
                 EXECUTIVE ADVISORY
               </div>
 

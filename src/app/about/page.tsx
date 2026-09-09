@@ -19,8 +19,7 @@ export default function AboutPage() {
         <AmbientBackground />
         <div className="container-content relative">
           <Reveal className="max-w-3xl">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-azure/10 border border-azure/20 text-azure text-xs font-semibold tracking-wide mb-5">
-              <span className="w-1.5 h-1.5 rounded-full bg-azure animate-pulse" />
+            <div className="text-azure text-xs font-mono font-semibold tracking-widest uppercase mb-4">
               ABOUT NATLE
             </div>
             <h1 className="font-display text-5xl md:text-6xl text-ink leading-[1.05]">
@@ -59,8 +58,7 @@ export default function AboutPage() {
           <Reveal>
             <SpotlightCard accent="azure" className="h-full">
               <div className="p-9">
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-azure/10 border border-azure/20 text-azure text-xs font-semibold tracking-wide mb-6">
-                  <span className="w-1.5 h-1.5 rounded-full bg-azure animate-pulse" />
+                <div className="text-azure text-xs font-mono font-semibold tracking-widest uppercase mb-4">
                   MISSION
                 </div>
                 <h2 className="font-display text-2xl text-ink mb-4">Our mission</h2>
@@ -75,8 +73,7 @@ export default function AboutPage() {
           <Reveal delay={0.08}>
             <SpotlightCard accent="lime" className="h-full">
               <div className="p-9">
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-lime/10 border border-lime/20 text-lime-600 text-xs font-semibold tracking-wide mb-6">
-                  <span className="w-1.5 h-1.5 rounded-full bg-lime animate-pulse" />
+                <div className="text-lime-600 text-xs font-mono font-semibold tracking-widest uppercase mb-4">
                   VISION
                 </div>
                 <h2 className="font-display text-2xl text-ink mb-4">Our vision</h2>

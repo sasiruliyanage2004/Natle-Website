@@ -20,8 +20,7 @@ export default function ProductsPage() {
         <AmbientBackground variant="reversed" />
         <div className="container-content relative">
           <Reveal className="max-w-2xl">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-teal/10 border border-teal/20 text-teal text-xs font-semibold tracking-wide mb-5">
-              <span className="w-1.5 h-1.5 rounded-full bg-teal animate-pulse" />
+            <div className="text-teal text-xs font-mono font-semibold tracking-widest uppercase mb-4">
               PRODUCTS &amp; SOLUTIONS
             </div>
             <h1 className="font-display text-5xl md:text-6xl text-ink leading-[1.05]">
@@ -43,7 +42,7 @@ export default function ProductsPage() {
               <SpotlightCard accent={ACCENTS[i % ACCENTS.length]} className="h-full">
                 <div className="p-8 md:p-9 flex flex-col h-full">
                   <div className="flex items-center justify-between gap-4 mb-6">
-                    <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-ink/[0.04] border border-ink/8 text-ink/70 text-xs font-semibold tracking-wide uppercase">
+                    <span className="text-azure text-xs font-mono font-semibold tracking-wider uppercase">
                       {p.tag}
                     </span>
                     <span className="font-mono text-xs text-ink/30">
