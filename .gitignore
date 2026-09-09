@@ -1,4 +1,4 @@
-﻿# Dependencies
+# Dependencies
 /node_modules
 /.pnp
 .pnp.js
@@ -40,3 +40,6 @@ next-env.d.ts
 # Vercel & Turbopack
 .vercel
 .turbo
+
+# Local scripts
+*.bat
