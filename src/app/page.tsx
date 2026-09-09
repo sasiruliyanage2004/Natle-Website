@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Hero3D from "@/components/Hero3D";
 import HeroContent from "@/components/HeroContent";
-import Marquee from "@/components/Marquee";
+import TechMarquee from "@/components/TechMarquee";
 import Counter from "@/components/Counter";
 import Reveal from "@/components/Reveal";
 import Magnetic from "@/components/Magnetic";
@@ -9,8 +9,6 @@ import CutoutCard from "@/components/CutoutCard";
 import SpotlightBento from "@/components/SpotlightBento";
 import ArchitecturePipeline from "@/components/ArchitecturePipeline";
 import { PROJECTS, BLOG_POSTS } from "@/lib/data";
-
-const PARTNERS = ["Harborline", "Meridian", "Fernvale", "Crestpoint", "Solano", "Ridgeway"];
 
 const WHY_US = [
   {
@@ -43,14 +41,19 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Partner marquee */}
-      <section className="border-y border-ink/5 py-8 bg-paper">
-        <div className="container-content">
-          <p className="text-center text-xs tracking-wide text-ink/40 mb-6">
-            Trusted by growing teams across industries
-          </p>
-          <Marquee items={PARTNERS} />
+      {/* Tech Stack Marquee */}
+      <section className="border-y border-ink/5 py-10 bg-paper relative">
+        <div className="container-content mb-6">
+          <div className="flex flex-col items-center justify-center text-center">
+            <span className="text-[11px] font-mono tracking-widest uppercase text-azure font-semibold px-3 py-1 rounded-full bg-azure/10 mb-2.5">
+              Technology Stack
+            </span>
+            <p className="text-xs sm:text-sm font-medium text-ink/50 max-w-lg">
+              Powering modern enterprise platforms with industry-leading frameworks &amp; cloud infrastructure
+            </p>
+          </div>
         </div>
+        <TechMarquee />
       </section>
 
       {/* Services - Spotlight Bento */}
