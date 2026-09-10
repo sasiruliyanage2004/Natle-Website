@@ -145,7 +145,7 @@ export default function Home() {
       </section>
 
       {/* Featured projects */}
-      <section className="py-28 lg:py-32">
+      <section className="py-28 lg:py-32 bg-transparent relative">
         <div className="container-content">
           <Reveal className="flex flex-wrap items-end justify-between gap-6 mb-14">
             <div className="max-w-xl">
@@ -181,7 +181,7 @@ export default function Home() {
       </section>
 
       {/* Blog preview */}
-      <section className="py-28 lg:py-32 bg-mist/60 backdrop-blur-sm relative">
+      <section className="py-28 lg:py-32 bg-transparent relative">
         <div className="container-content">
           <Reveal className="flex flex-wrap items-end justify-between gap-6 mb-14">
             <div className="max-w-xl">
