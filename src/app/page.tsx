@@ -8,6 +8,8 @@ import Magnetic from "@/components/Magnetic";
 import CutoutCard from "@/components/CutoutCard";
 import SpotlightBento from "@/components/SpotlightBento";
 import ArchitecturePipeline from "@/components/ArchitecturePipeline";
+import ArchitectureSimulator from "@/components/ArchitectureSimulator";
+import Testimonials from "@/components/Testimonials";
 import ScrollBackground from "@/components/ScrollBackground";
 import { PROJECTS, BLOG_POSTS } from "@/lib/data";
 
@@ -76,6 +78,9 @@ export default function Home() {
 
       {/* Scroll-Driven Architecture Pipeline */}
       <ArchitecturePipeline />
+
+      {/* Interactive System Simulator */}
+      <ArchitectureSimulator />
 
       {/* Why us + platform panel */}
       <section className="py-28 lg:py-32 bg-ink-gradient text-white relative overflow-hidden">
@@ -162,7 +167,11 @@ export default function Home() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {PROJECTS.slice(0, 3).map((p, i) => (
               <Reveal key={p.name} delay={i * 0.08}>
-                <div className="rounded-2xl overflow-hidden border border-ink/8 group">
+                <div
+                  className="rounded-2xl overflow-hidden border border-ink/8 group cursor-pointer transition-transform hover:-translate-y-1"
+                  data-cursor="view"
+                  data-cursor-text="EXPLORE"
+                >
                   <div className="h-44 bg-brand-gradient-soft relative">
                     <div className="absolute inset-0 bg-ink-gradient opacity-90 group-hover:opacity-80 transition-opacity" />
                     <div className="absolute inset-0 flex items-center justify-center">
@@ -219,6 +228,9 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      {/* Client Testimonials Carousel */}
+      <Testimonials />
 
       {/* CTA */}
       <section className="py-28 bg-transparent relative z-10">

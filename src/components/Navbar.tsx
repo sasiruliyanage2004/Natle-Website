@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { NAV_LINKS } from "@/lib/nav";
 import NatleLogo from "./NatleLogo";
 import Magnetic from "./Magnetic";
+import ThemeToggle from "./ThemeToggle";
 
 export default function Navbar() {
   const pathname = usePathname();
@@ -79,6 +80,7 @@ export default function Navbar() {
         </nav>
 
         <div className="hidden lg:flex items-center gap-3">
+          <ThemeToggle />
           <Magnetic>
             <Link
               href="/contact"
@@ -90,16 +92,19 @@ export default function Navbar() {
           </Magnetic>
         </div>
 
-        <button
-          className="lg:hidden relative w-10 h-10 flex flex-col items-center justify-center gap-[5px]"
-          onClick={() => setOpen((v) => !v)}
-          aria-label="Toggle menu"
-          aria-expanded={open}
-        >
-          <span className={`block h-[2px] w-6 bg-ink transition-transform ${open ? "translate-y-[7px] rotate-45" : ""}`} />
-          <span className={`block h-[2px] w-6 bg-ink transition-opacity ${open ? "opacity-0" : ""}`} />
-          <span className={`block h-[2px] w-6 bg-ink transition-transform ${open ? "-translate-y-[7px] -rotate-45" : ""}`} />
-        </button>
+        <div className="lg:hidden flex items-center gap-2">
+          <ThemeToggle />
+          <button
+            className="relative w-10 h-10 flex flex-col items-center justify-center gap-[5px]"
+            onClick={() => setOpen((v) => !v)}
+            aria-label="Toggle menu"
+            aria-expanded={open}
+          >
+            <span className={`block h-[2px] w-6 bg-ink transition-transform ${open ? "translate-y-[7px] rotate-45" : ""}`} />
+            <span className={`block h-[2px] w-6 bg-ink transition-opacity ${open ? "opacity-0" : ""}`} />
+            <span className={`block h-[2px] w-6 bg-ink transition-transform ${open ? "-translate-y-[7px] -rotate-45" : ""}`} />
+          </button>
+        </div>
       </div>
 
       <div

@@ -151,7 +151,7 @@ export default function ScrollBackground() {
 
   return (
     <div
-      className="fixed inset-0 pointer-events-none overflow-hidden z-0 bg-[#FCFDFE]"
+      className="fixed inset-0 pointer-events-none overflow-hidden z-0 bg-[#FCFDFE] dark:bg-[#07090E] transition-colors duration-300"
       aria-hidden="true"
     >
       {/* AURORA STREAM: Smooth elliptical radial aura (100% rounded falloff, zero lines, zero yellow) */}

@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useEffect, useRef, useState, type FC } from "react";
 import { motion, useSpring } from "framer-motion";
@@ -102,6 +102,8 @@ export function SmoothCursor({
   const accumulatedRotation = useRef(0);
   const [isEnabled, setIsEnabled] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
+  const [cursorMode, setCursorMode] = useState<"default" | "view" | "pointer">("default");
+  const [cursorLabel, setCursorLabel] = useState<string>("VIEW");
 
   const cursorX = useSpring(0, springConfig);
   const cursorY = useSpring(0, springConfig);
@@ -158,6 +160,28 @@ export function SmoothCursor({
       lastMousePos.current = currentPos;
     };
 
+    const onMouseOver = (e: MouseEvent) => {
+      const target = e.target as HTMLElement | null;
+      if (!target) return;
+
+      const viewEl = target.closest("[data-cursor='view'], [data-cursor-text]") as HTMLElement | null;
+      if (viewEl) {
+        setCursorMode("view");
+        setCursorLabel(viewEl.getAttribute("data-cursor-text") || "VIEW");
+        rotation.set(0);
+        return;
+      }
+
+      const interactiveEl = target.closest("a, button, [role='button']");
+      if (interactiveEl) {
+        setCursorMode("pointer");
+        rotation.set(0);
+        return;
+      }
+
+      setCursorMode("default");
+    };
+
     const smoothPointerMove = (e: PointerEvent) => {
       if (!isTrackablePointer(e.pointerType)) {
         return;
@@ -175,7 +199,7 @@ export function SmoothCursor({
       cursorX.set(currentPos.x);
       cursorY.set(currentPos.y);
 
-      if (speed > 0.1) {
+      if (cursorMode === "default" && speed > 0.1) {
         const currentAngle =
           Math.atan2(velocity.current.y, velocity.current.x) * (180 / Math.PI) +
           90;
@@ -217,16 +241,18 @@ export function SmoothCursor({
     window.addEventListener("pointermove", throttledPointerMove, {
       passive: true,
     });
+    window.addEventListener("mouseover", onMouseOver, { passive: true });
 
     return () => {
       window.removeEventListener("pointermove", throttledPointerMove);
+      window.removeEventListener("mouseover", onMouseOver);
       document.body.style.cursor = "auto";
       if (rafId) cancelAnimationFrame(rafId);
       if (timeout !== null) {
         clearTimeout(timeout);
       }
     };
-  }, [cursorX, cursorY, rotation, scale, isEnabled]);
+  }, [cursorX, cursorY, rotation, scale, isEnabled, cursorMode]);
 
   if (!isEnabled) {
     return null;
@@ -242,7 +268,7 @@ export function SmoothCursor({
         y: cursorY,
         translateX: "-50%",
         translateY: "-50%",
-        rotate: rotation,
+        rotate: cursorMode === "default" ? rotation : 0,
         scale: scale,
         zIndex: 9999,
         pointerEvents: "none",
@@ -254,7 +280,30 @@ export function SmoothCursor({
         duration: 0.15,
       }}
     >
-      {cursor}
+      {cursorMode === "view" ? (
+        <motion.div
+          initial={{ scale: 0.6, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          exit={{ scale: 0.6, opacity: 0 }}
+          transition={{ duration: 0.18, ease: "easeOut" }}
+          className="px-3.5 py-1.5 rounded-full bg-[#1E7FE8] text-white text-[11px] font-mono font-bold tracking-widest uppercase shadow-xl shadow-[#1E7FE8]/40 flex items-center gap-1.5 border border-white/25"
+        >
+          <span>{cursorLabel}</span>
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
+            <path d="M7 17L17 7M17 7H7M17 7V17" />
+          </svg>
+        </motion.div>
+      ) : cursorMode === "pointer" ? (
+        <motion.div
+          initial={{ scale: 0.7, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          exit={{ scale: 0.7, opacity: 0 }}
+          transition={{ duration: 0.15 }}
+          className="w-10 h-10 rounded-full border-2 border-[#1E7FE8] bg-[#1E7FE8]/15 backdrop-blur-[1px]"
+        />
+      ) : (
+        cursor
+      )}
     </motion.div>
   );
 }
