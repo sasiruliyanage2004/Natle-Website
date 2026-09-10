@@ -37,9 +37,9 @@ export default function Home() {
       <ScrollBackground />
 
       {/* Hero */}
-      <section className="relative pt-40 pb-24 lg:pt-48 lg:pb-32 overflow-hidden bg-mist">
+      <section className="relative pt-40 pb-24 lg:pt-48 lg:pb-32 overflow-hidden bg-transparent">
         <Hero3D />
-        <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-mist/0 via-mist/0 to-mist" />
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-transparent" />
         <div className="container-content relative">
           <HeroContent />
         </div>
@@ -221,7 +221,7 @@ export default function Home() {
       </section>
 
       {/* CTA */}
-      <section className="py-28 bg-paper relative z-10">
+      <section className="py-28 bg-transparent relative z-10">
         <div className="container-content">
           <Reveal className="rounded-3xl bg-brand-gradient px-8 py-16 lg:px-16 lg:py-20 text-center relative overflow-hidden">
             <h2 className="font-display text-3xl md:text-5xl text-white max-w-2xl mx-auto leading-tight">
