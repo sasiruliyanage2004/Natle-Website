@@ -64,6 +64,7 @@ export default function Navbar() {
               <Link
                 key={item.href}
                 href={item.href}
+                prefetch={true}
                 className={`relative px-4 py-2 text-[15px] font-medium rounded-full transition-colors ${
                   active ? "text-ink" : "text-ink/60 hover:text-ink"
                 }`}
@@ -81,6 +82,7 @@ export default function Navbar() {
           <Magnetic>
             <Link
               href="/contact"
+              prefetch={true}
               className="inline-block rounded-full bg-ink text-white px-5 py-2.5 text-sm font-semibold hover:bg-ink-soft transition-colors"
             >
               Start a project
@@ -110,6 +112,7 @@ export default function Navbar() {
             <Link
               key={item.href}
               href={item.href}
+              prefetch={true}
               className={`py-3 text-base font-medium border-b border-ink/5 last:border-0 ${
                 pathname === item.href ? "text-azure" : "text-ink/80"
               }`}
@@ -119,6 +122,7 @@ export default function Navbar() {
           ))}
           <Link
             href="/contact"
+            prefetch={true}
             className="mt-4 inline-flex items-center justify-center rounded-full bg-ink text-white px-5 py-3 text-sm font-semibold"
           >
             Start a project
