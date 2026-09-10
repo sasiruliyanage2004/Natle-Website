@@ -15,13 +15,13 @@ const TECH_STACK: TechItem[] = [
     category: "Full-Stack",
     brandColor: "#0A0A0A",
     icon: (
-      <svg viewBox="0 0 128 128" className="w-5 h-5 fill-current">
-        <circle cx="64" cy="64" r="64" />
+      <svg viewBox="0 0 128 128" className="w-5 h-5">
+        <circle cx="64" cy="64" r="64" className="fill-ink dark:fill-white transition-colors duration-300" />
         <path
           d="M104.5 108.5L46.2 36H35V92H45.8V49.7L96.8 113.2C99.6 111.9 102.2 110.3 104.5 108.5Z"
-          fill="white"
+          className="fill-white dark:fill-ink transition-colors duration-300"
         />
-        <rect x="82" y="36" width="11" height="56" fill="white" />
+        <rect x="82" y="36" width="11" height="56" className="fill-white dark:fill-ink transition-colors duration-300" />
       </svg>
     ),
   },
@@ -159,11 +159,11 @@ export default function TechMarquee() {
         {loop.map((tech, i) => (
           <div
             key={`${tech.name}-${i}`}
-            className="group flex items-center gap-3.5 px-4 py-2 rounded-full border border-ink/[0.06] bg-white/70 shadow-[0_2px_8px_-2px_rgba(10,10,10,0.03)] backdrop-blur-md transition-all duration-300 hover:scale-105 hover:bg-white hover:border-azure/40 hover:shadow-[0_8px_20px_-6px_rgba(30,127,232,0.15)] cursor-pointer select-none"
+            className="group flex items-center gap-3.5 px-4 py-2 rounded-full border border-ink/[0.06] dark:border-white/10 bg-white/70 dark:bg-white/[0.05] shadow-[0_2px_8px_-2px_rgba(10,10,10,0.03)] dark:shadow-none backdrop-blur-md transition-all duration-300 hover:scale-105 hover:bg-white dark:hover:bg-white/[0.12] hover:border-azure/40 dark:hover:border-azure/50 hover:shadow-[0_8px_20px_-6px_rgba(30,127,232,0.15)] cursor-pointer select-none"
           >
             {/* Tech SVG Icon with brand hover transition */}
             <div
-              className="text-ink/60 transition-colors duration-300"
+              className="text-ink/60 dark:text-white/60 transition-colors duration-300"
               style={
                 {
                   "--hover-color": tech.brandColor,
@@ -176,12 +176,12 @@ export default function TechMarquee() {
             </div>
 
             {/* Tech Name */}
-            <span className="font-display font-medium text-xs sm:text-sm text-ink/80 transition-colors duration-300 group-hover:text-ink whitespace-nowrap">
+            <span className="font-display font-medium text-xs sm:text-sm text-ink/80 dark:text-white/90 transition-colors duration-300 group-hover:text-ink dark:group-hover:text-white whitespace-nowrap">
               {tech.name}
             </span>
 
             {/* Subtle Category Tag */}
-            <span className="text-[10px] font-mono uppercase tracking-wider text-ink/35 bg-ink/[0.03] px-2 py-0.5 rounded-full transition-colors duration-300 group-hover:bg-azure/5 group-hover:text-azure whitespace-nowrap">
+            <span className="text-[10px] font-mono uppercase tracking-wider text-ink/35 dark:text-white/40 bg-ink/[0.03] dark:bg-white/[0.06] px-2 py-0.5 rounded-full transition-colors duration-300 group-hover:bg-azure/5 dark:group-hover:bg-azure/20 group-hover:text-azure whitespace-nowrap">
               {tech.category}
             </span>
           </div>
