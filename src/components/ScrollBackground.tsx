@@ -31,15 +31,20 @@ export default function ScrollBackground() {
     let rafId: number | null = null;
     let startTime = performance.now();
 
+    let isInitial = true;
     const onScroll = () => {
       const scrollY = window.scrollY;
       const maxScroll =
         document.documentElement.scrollHeight - window.innerHeight;
       targetProgress = maxScroll > 0 ? Math.max(0, Math.min(1, scrollY / maxScroll)) : 0;
 
-      // Calculate instantaneous scroll velocity with dampening
-      const delta = Math.abs(scrollY - lastScrollY);
-      scrollVelocity = Math.min(delta / 40, 1.5);
+      if (!isInitial) {
+        const delta = Math.abs(scrollY - lastScrollY);
+        scrollVelocity = Math.min(delta / 40, 1.5);
+      } else {
+        isInitial = false;
+        smoothProgress = targetProgress;
+      }
       lastScrollY = scrollY;
     };
 
@@ -51,6 +56,7 @@ export default function ScrollBackground() {
     };
 
     window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll, { passive: true });
     window.addEventListener("mousemove", onMouseMove, { passive: true });
     onScroll();
 

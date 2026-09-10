@@ -141,6 +141,7 @@ export default function Hero3D() {
       if (!mount) return;
       const w = mount.clientWidth;
       const h = mount.clientHeight;
+      if (!w || !h) return;
       
       const aspect = w / h;
       camera.left = -aspect;

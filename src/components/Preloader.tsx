@@ -9,10 +9,21 @@ export default function Preloader() {
   const [counter, setCounter] = useState(0);
 
   useEffect(() => {
-    // Lock scroll while loading
+    // Check if user already saw preloader in this session (e.g. Page Refresh)
+    try {
+      if (sessionStorage.getItem("natle_preloader_seen")) {
+        setIsLoading(false);
+        document.body.style.overflow = "";
+        return;
+      }
+    } catch {
+      // Ignore sessionStorage errors in restricted environments
+    }
+
+    // Lock scroll while loading on cold start
     document.body.style.overflow = "hidden";
     
-    const duration = 1800;
+    const duration = 1600;
     const intervalTime = 30;
     const steps = duration / intervalTime;
     let currentStep = 0;
@@ -21,16 +32,27 @@ export default function Preloader() {
 
     const interval = setInterval(() => {
       currentStep++;
-      // Easing function for counter (fast start, slow end)
       const progress = Math.min(100, Math.floor(100 * (1 - Math.pow(1 - currentStep / steps, 3))));
       setCounter(progress);
 
       if (currentStep >= steps) {
         clearInterval(interval);
         timeoutId = setTimeout(() => {
+          try {
+            sessionStorage.setItem("natle_preloader_seen", "true");
+          } catch {}
           setIsLoading(false);
           document.body.style.overflow = "";
-        }, 400);
+
+          // Notify Lenis, GSAP, and ScrollBackground that layout is unlocked
+          setTimeout(() => {
+            window.dispatchEvent(new Event("resize"));
+            window.dispatchEvent(new Event("scroll"));
+            if (typeof window !== "undefined" && (window as any).__lenis) {
+              (window as any).__lenis.resize();
+            }
+          }, 100);
+        }, 300);
       }
     }, intervalTime);
 

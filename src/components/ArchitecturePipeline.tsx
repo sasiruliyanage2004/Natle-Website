@@ -133,7 +133,15 @@ export default function ArchitecturePipeline() {
       });
     }, el);
 
-    return () => ctx.revert();
+    // Refresh after DOM and layout stabilization on page load / refresh
+    const refreshTimer = setTimeout(() => {
+      ScrollTrigger.refresh();
+    }, 350);
+
+    return () => {
+      clearTimeout(refreshTimer);
+      ctx.revert();
+    };
   }, []);
 
   const activeStep = PIPELINE_STEPS[activeStepIndex];
