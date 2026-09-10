@@ -8,6 +8,7 @@ import Magnetic from "@/components/Magnetic";
 import CutoutCard from "@/components/CutoutCard";
 import SpotlightBento from "@/components/SpotlightBento";
 import ArchitecturePipeline from "@/components/ArchitecturePipeline";
+import ScrollBackground from "@/components/ScrollBackground";
 import { PROJECTS, BLOG_POSTS } from "@/lib/data";
 
 const WHY_US = [
@@ -32,6 +33,9 @@ const WHY_US = [
 export default function Home() {
   return (
     <>
+      {/* Scroll-driven fluid ambient background layer */}
+      <ScrollBackground />
+
       {/* Hero */}
       <section className="relative pt-40 pb-24 lg:pt-48 lg:pb-32 overflow-hidden bg-mist">
         <Hero3D />
@@ -42,7 +46,7 @@ export default function Home() {
       </section>
 
       {/* Tech Stack Marquee */}
-      <section className="border-y border-ink/5 py-10 bg-paper relative">
+      <section className="border-y border-ink/5 py-10 bg-paper/75 backdrop-blur-sm relative">
         <div className="container-content mb-6">
           <div className="flex flex-col items-center justify-center text-center">
             <span className="text-xs font-mono tracking-widest uppercase text-azure font-semibold mb-2">
@@ -57,25 +61,7 @@ export default function Home() {
       </section>
 
       {/* Services - Spotlight Bento */}
-      <section className="py-28 lg:py-32 bg-paper relative overflow-hidden border-t border-ink/5">
-        {/* Soft Ambient Fluid Mesh Orbs (Option 01) */}
-        <div className="pointer-events-none absolute inset-0 overflow-hidden">
-          {/* Subtle Dot Grid */}
-          <div
-            className="absolute inset-0 opacity-40"
-            style={{
-              backgroundImage: `radial-gradient(rgba(10, 10, 10, 0.07) 1px, transparent 1px)`,
-              backgroundSize: "32px 32px",
-            }}
-          />
-          {/* Azure Ambient Glowing Orb */}
-          <div className="absolute -top-24 -left-20 w-[600px] h-[600px] rounded-full bg-azure/10 blur-[130px] animate-pulse" style={{ animationDuration: "8s" }} />
-          {/* Teal Ambient Glowing Orb */}
-          <div className="absolute top-1/2 -right-24 -translate-y-1/2 w-[550px] h-[550px] rounded-full bg-teal/10 blur-[140px] animate-pulse" style={{ animationDuration: "10s" }} />
-          {/* Lime Ambient Glowing Orb */}
-          <div className="absolute -bottom-20 left-1/3 w-[500px] h-[400px] rounded-full bg-lime/10 blur-[150px] animate-pulse" style={{ animationDuration: "12s" }} />
-        </div>
-
+      <section className="py-28 lg:py-32 bg-transparent relative overflow-hidden border-t border-ink/5">
         <div className="container-content relative z-10">
           <Reveal className="max-w-2xl mb-14">
             <p className="text-azure font-semibold text-sm mb-3 tracking-wide">WHAT WE DO</p>
@@ -195,7 +181,7 @@ export default function Home() {
       </section>
 
       {/* Blog preview */}
-      <section className="py-28 lg:py-32 bg-mist">
+      <section className="py-28 lg:py-32 bg-mist/60 backdrop-blur-sm relative">
         <div className="container-content">
           <Reveal className="flex flex-wrap items-end justify-between gap-6 mb-14">
             <div className="max-w-xl">

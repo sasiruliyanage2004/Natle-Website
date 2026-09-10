@@ -57,8 +57,10 @@ export default function Preloader() {
             initial={{ scale: 0.8, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
+            className="max-w-xs md:max-w-md w-full flex justify-center px-4"
+            style={{ maxHeight: "160px" }}
           >
-            <NatleLogo className="h-24 md:h-32 w-auto scale-125 md:scale-150" showTagline={true} />
+            <NatleLogo className="h-20 sm:h-24 md:h-28 w-auto" showTagline={true} />
           </motion.div>
 
           <div className="absolute bottom-10 left-10 right-10 flex justify-between items-end text-xs sm:text-sm font-semibold text-ink/40 uppercase tracking-widest">
