@@ -71,25 +71,25 @@ export default function ScrollBackground() {
       {/* Blob A: Azure Blue (Upper right drifting down) */}
       <div
         ref={blobARef}
-        className="absolute -top-[10vw] right-[5vw] w-[46vw] h-[46vw] max-w-[650px] max-h-[650px] rounded-full bg-[#1E7FE8]/20 blur-[85px] md:blur-[120px] will-change-transform"
+        className="absolute -top-[10vw] right-[5vw] w-[48vw] h-[48vw] max-w-[680px] max-h-[680px] rounded-full bg-[#1E7FE8]/15 blur-[110px] md:blur-[150px] will-change-transform"
       />
 
-      {/* Blob B: Teal (Middle left drifting up) */}
+      {/* Blob B: Soft Teal (Middle left drifting up) */}
       <div
         ref={blobBRef}
-        className="absolute top-[35vh] -left-[8vw] w-[44vw] h-[44vw] max-w-[620px] max-h-[620px] rounded-full bg-[#12B8A6]/20 blur-[85px] md:blur-[125px] will-change-transform"
+        className="absolute top-[35vh] -left-[8vw] w-[46vw] h-[46vw] max-w-[640px] max-h-[640px] rounded-full bg-[#12B8A6]/14 blur-[110px] md:blur-[150px] will-change-transform"
       />
 
       {/* Blob C: Soft Violet (Lower right) */}
       <div
         ref={blobCRef}
-        className="absolute top-[75vh] right-[10vw] w-[45vw] h-[45vw] max-w-[640px] max-h-[640px] rounded-full bg-[#8B5CF6]/15 blur-[95px] md:blur-[135px] will-change-transform"
+        className="absolute top-[75vh] right-[10vw] w-[46vw] h-[46vw] max-w-[650px] max-h-[650px] rounded-full bg-[#8B5CF6]/12 blur-[120px] md:blur-[160px] will-change-transform"
       />
 
-      {/* Blob D: Lime (Bottom left) */}
+      {/* Blob D: Soft Lime (Bottom left) */}
       <div
         ref={blobDRef}
-        className="absolute top-[120vh] left-[8vw] w-[40vw] h-[40vw] max-w-[560px] max-h-[560px] rounded-full bg-[#6FCF3E]/20 blur-[85px] md:blur-[120px] will-change-transform"
+        className="absolute top-[120vh] left-[8vw] w-[42vw] h-[42vw] max-w-[580px] max-h-[580px] rounded-full bg-[#6FCF3E]/12 blur-[110px] md:blur-[150px] will-change-transform"
       />
 
       {/* Blueprint Dot Grid Texture */}

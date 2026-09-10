@@ -46,7 +46,7 @@ export default function Home() {
       </section>
 
       {/* Tech Stack Marquee */}
-      <section className="border-y border-ink/5 py-10 bg-paper/75 backdrop-blur-sm relative">
+      <section className="py-12 bg-transparent relative">
         <div className="container-content mb-6">
           <div className="flex flex-col items-center justify-center text-center">
             <span className="text-xs font-mono tracking-widest uppercase text-azure font-semibold mb-2">
@@ -61,7 +61,7 @@ export default function Home() {
       </section>
 
       {/* Services - Spotlight Bento */}
-      <section className="py-28 lg:py-32 bg-transparent relative overflow-hidden border-t border-ink/5">
+      <section className="py-24 lg:py-28 bg-transparent relative overflow-hidden">
         <div className="container-content relative z-10">
           <Reveal className="max-w-2xl mb-14">
             <p className="text-azure font-semibold text-sm mb-3 tracking-wide">WHAT WE DO</p>

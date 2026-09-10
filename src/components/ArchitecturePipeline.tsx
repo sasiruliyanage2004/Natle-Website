@@ -156,7 +156,7 @@ export default function ArchitecturePipeline() {
   return (
     <section
       ref={sectionRef}
-      className="relative bg-mist text-ink border-t border-ink/5"
+      className="relative bg-transparent text-ink"
       style={{ height: "300vh" }}
     >
       {/* Sticky Viewport Container */}
