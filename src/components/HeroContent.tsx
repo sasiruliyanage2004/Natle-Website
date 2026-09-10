@@ -53,14 +53,14 @@ export default function HeroContent() {
         <Link
           data-hero="cta"
           href="/contact"
-          className="inline-flex items-center justify-center rounded-full bg-ink text-white px-7 py-3.5 text-[15px] font-semibold hover:bg-ink-soft transition-colors"
+          className="inline-flex items-center justify-center rounded-full bg-ink text-white px-7 py-3.5 text-[15px] font-semibold hover:bg-ink-soft dark:bg-white dark:text-ink dark:hover:bg-slate-100 dark:shadow-[0_0_24px_rgba(255,255,255,0.14)] transition-all"
         >
           Start a project
         </Link>
         <Link
           data-hero="cta"
           href="/projects"
-          className="inline-flex items-center justify-center rounded-full border border-ink/15 text-ink px-7 py-3.5 text-[15px] font-semibold hover:border-ink/30 transition-colors"
+          className="inline-flex items-center justify-center rounded-full border border-ink/15 text-ink px-7 py-3.5 text-[15px] font-semibold hover:border-ink/30 dark:border-white/20 dark:text-white dark:hover:border-white/40 dark:hover:bg-white/5 transition-colors"
         >
           See our work
         </Link>

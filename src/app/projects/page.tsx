@@ -14,17 +14,17 @@ const ACCENTS: SpotlightAccent[] = ["azure", "teal", "lime", "purple", "blue", "
 export default function ProjectsPage() {
   return (
     <>
-      <section className="pt-40 pb-20 bg-mist relative overflow-hidden">
+      <section className="pt-40 pb-20 bg-mist dark:bg-[#07090E] relative overflow-hidden">
         <AmbientBackground />
         <div className="container-content relative">
           <Reveal className="max-w-2xl">
             <div className="text-azure text-xs font-mono font-semibold tracking-widest uppercase mb-4">
               PROJECTS
             </div>
-            <h1 className="font-display text-5xl md:text-6xl text-ink leading-[1.05]">
+            <h1 className="font-display text-5xl md:text-6xl text-ink dark:text-white leading-[1.05]">
               Work we&apos;re proud to put our name on.
             </h1>
-            <p className="mt-6 text-lg text-ink/60 leading-relaxed">
+            <p className="mt-6 text-lg text-ink/60 dark:text-white/60 leading-relaxed">
               A sample of products and platforms NATLE has designed, built,
               and shipped across industries.
             </p>
@@ -32,7 +32,7 @@ export default function ProjectsPage() {
         </div>
       </section>
 
-      <section className="py-20 lg:py-24 bg-paper border-t border-ink/5">
+      <section className="py-20 lg:py-24 bg-paper dark:bg-[#07090E] border-t border-ink/5 dark:border-white/10">
         <div className="container-content grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {PROJECTS.map((p, i) => (
             <Reveal key={p.name} delay={(i % 3) * 0.06}>
@@ -49,7 +49,7 @@ export default function ProjectsPage() {
                   </div>
                   <div className="p-6 flex-1 flex flex-col">
                     <p className="text-xs font-semibold text-teal mb-2">{p.category}</p>
-                    <p className="text-ink/70 text-[15px] leading-relaxed">{p.result}</p>
+                    <p className="text-ink/70 dark:text-white/70 text-[15px] leading-relaxed">{p.result}</p>
                   </div>
                 </div>
               </SpotlightCard>

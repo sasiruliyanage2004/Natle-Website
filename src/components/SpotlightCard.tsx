@@ -51,7 +51,7 @@ export default function SpotlightCard({
           background: `radial-gradient(500px circle at var(--mouse-x, 0) var(--mouse-y, 0), ${rgb}0.4), transparent 60%)`,
         }}
       />
-      <div className="relative h-full w-full rounded-[23px] bg-white border border-ink/8 overflow-hidden shadow-sm group-hover:shadow-card transition-shadow">
+      <div className="relative h-full w-full rounded-[23px] bg-white dark:bg-[#0D1118] border border-ink/8 dark:border-white/[0.08] overflow-hidden shadow-sm group-hover:shadow-card transition-shadow">
         <div
           className="pointer-events-none absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
           style={{

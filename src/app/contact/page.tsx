@@ -14,46 +14,46 @@ const CONTACT_DETAILS = [
 ];
 
 const inputClass =
-  "w-full rounded-xl border border-ink/15 px-4 py-3 text-ink placeholder:text-ink/30 outline-none transition-shadow focus:border-azure focus:ring-4 focus:ring-azure/10";
+  "w-full rounded-xl border border-ink/15 dark:border-white/15 bg-white dark:bg-[#121620] px-4 py-3 text-ink dark:text-white placeholder:text-ink/35 dark:placeholder:text-white/30 outline-none transition-all focus:border-azure focus:ring-4 focus:ring-azure/10";
 
 export default function ContactPage() {
   return (
-    <section className="pt-40 pb-28 bg-mist relative overflow-hidden">
+    <section className="pt-40 pb-28 bg-mist dark:bg-[#07090E] relative overflow-hidden">
       <AmbientBackground />
       <div className="container-content relative grid grid-cols-1 lg:grid-cols-[1fr_1.2fr] gap-16">
         <Reveal>
           <div className="text-azure text-xs font-mono font-semibold tracking-widest uppercase mb-4">
             CONTACT
           </div>
-          <h1 className="font-display text-4xl md:text-5xl text-ink leading-[1.05] mb-6">
+          <h1 className="font-display text-4xl md:text-5xl text-ink dark:text-white leading-[1.05] mb-6">
             Let&apos;s talk about what you&apos;re building.
           </h1>
-          <p className="text-ink/60 leading-relaxed mb-10 max-w-sm">
+          <p className="text-ink/60 dark:text-white/60 leading-relaxed mb-10 max-w-sm">
             Tell us a little about your project and a member of our team will
             get back to you within one business day.
           </p>
 
           <div className="space-y-6">
             {CONTACT_DETAILS.map((c) => (
-              <div key={c.label} className="pb-6 border-b border-ink/8 last:border-0 last:pb-0">
-                <p className="text-xs text-ink/40 uppercase tracking-wide mb-1.5">{c.label}</p>
-                <p className="text-ink font-medium leading-relaxed">{c.value}</p>
+              <div key={c.label} className="pb-6 border-b border-ink/8 dark:border-white/10 last:border-0 last:pb-0">
+                <p className="text-xs text-ink/40 dark:text-white/40 uppercase tracking-wide mb-1.5">{c.label}</p>
+                <p className="text-ink dark:text-white font-medium leading-relaxed">{c.value}</p>
               </div>
             ))}
           </div>
         </Reveal>
 
         <Reveal delay={0.1}>
-          <form className="rounded-3xl bg-paper border border-ink/8 shadow-card p-8 lg:p-10 space-y-6">
+          <form className="rounded-3xl bg-paper dark:bg-[#0D1118] border border-ink/8 dark:border-white/10 shadow-card dark:shadow-2xl p-8 lg:p-10 space-y-6">
             <div className="grid sm:grid-cols-2 gap-6">
               <div>
-                <label className="block text-sm font-medium text-ink/70 mb-2" htmlFor="name">
+                <label className="block text-sm font-medium text-ink/70 dark:text-white/70 mb-2" htmlFor="name">
                   Full name
                 </label>
                 <input id="name" name="name" type="text" placeholder="Jane Silva" className={inputClass} />
               </div>
               <div>
-                <label className="block text-sm font-medium text-ink/70 mb-2" htmlFor="email">
+                <label className="block text-sm font-medium text-ink/70 dark:text-white/70 mb-2" htmlFor="email">
                   Email
                 </label>
                 <input id="email" name="email" type="email" placeholder="jane@company.com" className={inputClass} />
@@ -61,17 +61,17 @@ export default function ContactPage() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-ink/70 mb-2" htmlFor="company">
+              <label className="block text-sm font-medium text-ink/70 dark:text-white/70 mb-2" htmlFor="company">
                 Company
               </label>
               <input id="company" name="company" type="text" placeholder="Company name" className={inputClass} />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-ink/70 mb-2" htmlFor="budget">
+              <label className="block text-sm font-medium text-ink/70 dark:text-white/70 mb-2" htmlFor="budget">
                 Estimated budget
               </label>
-              <select id="budget" name="budget" className={`${inputClass} bg-paper`} defaultValue="">
+              <select id="budget" name="budget" className={`${inputClass} bg-white dark:bg-[#121620]`} defaultValue="">
                 <option value="" disabled>
                   Select a range
                 </option>
@@ -83,7 +83,7 @@ export default function ContactPage() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-ink/70 mb-2" htmlFor="message">
+              <label className="block text-sm font-medium text-ink/70 dark:text-white/70 mb-2" htmlFor="message">
                 Tell us about your project
               </label>
               <textarea
@@ -97,7 +97,7 @@ export default function ContactPage() {
 
             <button
               type="submit"
-              className="w-full sm:w-auto inline-flex items-center justify-center rounded-full bg-ink text-white px-8 py-4 text-[15px] font-semibold hover:bg-ink-soft active:scale-[0.98] transition-all"
+              className="w-full sm:w-auto inline-flex items-center justify-center rounded-full bg-ink text-white px-8 py-4 text-[15px] font-semibold hover:bg-ink-soft dark:bg-white dark:text-ink dark:hover:bg-slate-200 active:scale-[0.98] transition-all shadow-sm"
             >
               Send message
             </button>

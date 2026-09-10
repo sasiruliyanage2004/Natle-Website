@@ -49,7 +49,7 @@ export default function Navbar() {
         visible ? "translate-y-0 opacity-100" : "-translate-y-full opacity-0 pointer-events-none"
       } ${
         scrolled
-          ? "bg-paper/90 backdrop-blur-md shadow-[0_1px_0_rgba(11,30,61,0.08)]"
+          ? "bg-paper/90 dark:bg-[#07090E]/90 backdrop-blur-md shadow-[0_1px_0_rgba(11,30,61,0.08)] dark:shadow-[0_1px_0_rgba(255,255,255,0.08)]"
           : "bg-transparent"
       }`}
     >
@@ -85,7 +85,7 @@ export default function Navbar() {
             <Link
               href="/contact"
               prefetch={true}
-              className="inline-block rounded-full bg-ink text-white px-5 py-2.5 text-sm font-semibold hover:bg-ink-soft transition-colors"
+              className="inline-block rounded-full bg-ink text-white px-5 py-2.5 text-sm font-semibold hover:bg-ink-soft dark:bg-white dark:text-ink dark:hover:bg-slate-200 transition-colors shadow-sm"
             >
               Start a project
             </Link>
@@ -100,15 +100,15 @@ export default function Navbar() {
             aria-label="Toggle menu"
             aria-expanded={open}
           >
-            <span className={`block h-[2px] w-6 bg-ink transition-transform ${open ? "translate-y-[7px] rotate-45" : ""}`} />
-            <span className={`block h-[2px] w-6 bg-ink transition-opacity ${open ? "opacity-0" : ""}`} />
-            <span className={`block h-[2px] w-6 bg-ink transition-transform ${open ? "-translate-y-[7px] -rotate-45" : ""}`} />
+            <span className={`block h-[2px] w-6 bg-ink dark:bg-white transition-transform ${open ? "translate-y-[7px] rotate-45" : ""}`} />
+            <span className={`block h-[2px] w-6 bg-ink dark:bg-white transition-opacity ${open ? "opacity-0" : ""}`} />
+            <span className={`block h-[2px] w-6 bg-ink dark:bg-white transition-transform ${open ? "-translate-y-[7px] -rotate-45" : ""}`} />
           </button>
         </div>
       </div>
 
       <div
-        className={`lg:hidden overflow-hidden transition-[max-height,opacity] duration-300 ease-in-out bg-paper border-t border-ink/5 ${
+        className={`lg:hidden overflow-hidden transition-[max-height,opacity] duration-300 ease-in-out bg-paper dark:bg-[#0B0E14] border-t border-ink/5 dark:border-white/10 ${
           open ? "max-h-[520px] opacity-100" : "max-h-0 opacity-0"
         }`}
       >
@@ -118,7 +118,7 @@ export default function Navbar() {
               key={item.href}
               href={item.href}
               prefetch={true}
-              className={`py-3 text-base font-medium border-b border-ink/5 last:border-0 ${
+              className={`py-3 text-base font-medium border-b border-ink/5 dark:border-white/10 last:border-0 ${
                 pathname === item.href ? "text-azure" : "text-ink/80"
               }`}
             >
@@ -128,7 +128,7 @@ export default function Navbar() {
           <Link
             href="/contact"
             prefetch={true}
-            className="mt-4 inline-flex items-center justify-center rounded-full bg-ink text-white px-5 py-3 text-sm font-semibold"
+            className="mt-4 inline-flex items-center justify-center rounded-full bg-ink text-white px-5 py-3 text-sm font-semibold hover:bg-ink-soft dark:bg-white dark:text-ink dark:hover:bg-slate-200 transition-colors shadow-sm"
           >
             Start a project
           </Link>

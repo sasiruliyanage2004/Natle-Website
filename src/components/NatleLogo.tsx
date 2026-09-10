@@ -12,7 +12,7 @@ export default function NatleLogo({
     const hasCustomText = className.includes("text-");
     return (
       <div 
-        className={`group relative inline-flex items-center justify-center select-none cursor-pointer ${hasCustomText ? "" : "text-[#0A0A0A]"} ${className}`}
+        className={`group relative inline-flex items-center justify-center select-none cursor-pointer ${hasCustomText ? "" : "text-[#0A0A0A] dark:text-white"} ${className}`}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
       >

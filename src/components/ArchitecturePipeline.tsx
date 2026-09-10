@@ -173,18 +173,15 @@ export default function ArchitecturePipeline() {
         <div className="pointer-events-none absolute inset-0 overflow-hidden">
           {/* Subtle Blueprint Dot Grid */}
           <div
-            className="absolute inset-0 opacity-40"
-            style={{
-              backgroundImage: `radial-gradient(rgba(10, 10, 10, 0.08) 1px, transparent 1px)`,
-              backgroundSize: "36px 36px",
-            }}
+            className="absolute inset-0 opacity-40 bg-[radial-gradient(rgba(10,10,10,0.08)_1px,transparent_1px)] dark:bg-[radial-gradient(rgba(255,255,255,0.06)_1px,transparent_1px)]"
+            style={{ backgroundSize: "36px 36px" }}
           />
           {/* Drifting Azure Fluid Glow Orb */}
-          <div className="absolute top-1/4 -left-32 w-[650px] h-[550px] rounded-full bg-azure/10 blur-[140px] animate-pulse" style={{ animationDuration: "9s" }} />
+          <div className="absolute top-1/4 -left-32 w-[650px] h-[550px] rounded-full bg-azure/10 dark:bg-azure/15 blur-[140px] animate-pulse" style={{ animationDuration: "9s" }} />
           {/* Drifting Teal Fluid Glow Orb */}
-          <div className="absolute bottom-1/4 -right-32 w-[600px] h-[500px] rounded-full bg-teal/10 blur-[150px] animate-pulse" style={{ animationDuration: "11s" }} />
+          <div className="absolute bottom-1/4 -right-32 w-[600px] h-[500px] rounded-full bg-teal/10 dark:bg-teal/15 blur-[150px] animate-pulse" style={{ animationDuration: "11s" }} />
           {/* Center Lime Fluid Glow Orb */}
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[400px] rounded-full bg-lime/10 blur-[160px] animate-pulse" style={{ animationDuration: "14s" }} />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[400px] rounded-full bg-lime/10 dark:bg-lime/15 blur-[160px] animate-pulse" style={{ animationDuration: "14s" }} />
         </div>
 
         <div className="container-content relative z-10 w-full flex-1 flex flex-col justify-between">
@@ -194,17 +191,17 @@ export default function ArchitecturePipeline() {
               <div className="text-azure text-xs font-mono font-semibold tracking-widest uppercase mb-2">
                 SYSTEM ARCHITECTURE
               </div>
-              <h2 className="font-display text-2xl md:text-4xl text-ink">
+              <h2 className="font-display text-2xl md:text-4xl text-ink dark:text-white">
                 Sub-Millisecond Execution Pipeline
               </h2>
             </div>
 
-            <div className="hidden sm:flex items-center gap-3 font-mono text-xs text-ink/60 bg-white border border-ink/10 px-4 py-2 rounded-xl shadow-sm">
+            <div className="hidden sm:flex items-center gap-3 font-mono text-xs text-ink/60 dark:text-white/70 bg-white dark:bg-[#0D1118] border border-ink/10 dark:border-white/10 px-4 py-2 rounded-xl shadow-sm">
               <span>SCROLL PROGRESS:</span>
               <span className="text-azure font-semibold">
                 STEP {activeStep.stepNum} OF 05
               </span>
-              <div className="w-16 h-1.5 bg-ink/10 rounded-full overflow-hidden">
+              <div className="w-16 h-1.5 bg-ink/10 dark:bg-white/10 rounded-full overflow-hidden">
                 <div
                   className="h-full bg-azure rounded-full transition-all duration-150"
                   style={{ width: `${Math.min(100, Math.max(5, scrollProgress * 100))}%` }}
@@ -217,7 +214,7 @@ export default function ArchitecturePipeline() {
           <div className="my-6 md:my-8">
             <div className="relative">
               {/* Background connecting rail */}
-              <div className="hidden lg:block absolute top-1/2 left-4 right-4 -translate-y-1/2 h-[2px] bg-ink/10 z-0" />
+              <div className="hidden lg:block absolute top-1/2 left-4 right-4 -translate-y-1/2 h-[2px] bg-ink/10 dark:bg-white/10 z-0" />
               
               {/* Animated Progress Beam */}
               <div
@@ -240,10 +237,10 @@ export default function ArchitecturePipeline() {
                       onClick={() => handleStepClick(idx)}
                       className={`p-3.5 md:p-4 rounded-2xl text-left transition-all duration-300 border relative backdrop-blur-md ${
                         isActive
-                          ? "bg-white border-azure shadow-[0_8px_30px_rgba(30,127,232,0.18)] scale-[1.02]"
+                          ? "bg-white dark:bg-[#121824] border-azure dark:border-azure shadow-[0_8px_30px_rgba(30,127,232,0.25)] scale-[1.02]"
                           : isCompleted
-                          ? "bg-white border-emerald-200 text-ink/80 shadow-xs"
-                          : "bg-white/80 border-ink/8 text-ink/50 hover:border-ink/20"
+                          ? "bg-white dark:bg-[#0D1118] border-emerald-200 dark:border-emerald-800/40 text-ink/80 dark:text-emerald-400 shadow-xs"
+                          : "bg-white/80 dark:bg-[#0A0D14] border-ink/8 dark:border-white/10 text-ink/50 dark:text-white/40 hover:border-ink/20 dark:hover:border-white/20"
                       }`}
                     >
                       <div className="flex items-center justify-between mb-2">
@@ -252,8 +249,8 @@ export default function ArchitecturePipeline() {
                             isActive
                               ? "bg-azure text-white font-semibold shadow-xs"
                               : isCompleted
-                              ? "bg-emerald-50 text-emerald-600 font-semibold border border-emerald-200"
-                              : "bg-mist text-ink/50 border border-ink/5"
+                              ? "bg-emerald-50 dark:bg-emerald-950/40 text-emerald-600 dark:text-emerald-400 font-semibold border border-emerald-200 dark:border-emerald-800/40"
+                              : "bg-mist dark:bg-white/5 text-ink/50 dark:text-white/50 border border-ink/5 dark:border-white/10"
                           }`}
                         >
                           {isCompleted ? "✓ DONE" : `STAGE ${step.stepNum}`}
@@ -265,14 +262,14 @@ export default function ArchitecturePipeline() {
                               ? "bg-azure animate-pulse shadow-[0_0_8px_#1E7FE8]"
                               : isCompleted
                               ? "bg-emerald-500"
-                              : "bg-ink/20"
+                              : "bg-ink/20 dark:bg-white/20"
                           }`}
                         />
                       </div>
 
                       <div
                         className={`font-display text-xs md:text-sm font-semibold truncate ${
-                          isActive ? "text-ink" : isCompleted ? "text-ink/85" : "text-ink/50"
+                          isActive ? "text-ink dark:text-white" : isCompleted ? "text-ink/85 dark:text-white/80" : "text-ink/50 dark:text-white/40"
                         }`}
                       >
                         {step.shortName}
@@ -285,7 +282,7 @@ export default function ArchitecturePipeline() {
           </div>
 
           {/* Detailed Active Step Stage */}
-          <div className="rounded-3xl border border-ink/10 bg-white/90 backdrop-blur-xl p-6 md:p-10 shadow-xl relative overflow-hidden">
+          <div className="rounded-3xl border border-ink/10 dark:border-white/10 bg-white/90 dark:bg-[#0D1118]/95 backdrop-blur-xl p-6 md:p-10 shadow-xl relative overflow-hidden">
             <AnimatePresence mode="wait">
               <motion.div
                 key={activeStep.id}
@@ -301,13 +298,13 @@ export default function ArchitecturePipeline() {
                     <span className="font-mono text-3xl md:text-4xl text-azure font-bold">
                       {activeStep.stepNum}
                     </span>
-                    <div className="h-6 w-[1px] bg-ink/15" />
-                    <span className="text-ink/50 text-xs font-mono tracking-wide uppercase">
+                    <div className="h-6 w-[1px] bg-ink/15 dark:bg-white/15" />
+                    <span className="text-ink/50 dark:text-white/50 text-xs font-mono tracking-wide uppercase">
                       ACTIVE ARCHITECTURE STAGE
                     </span>
                   </div>
 
-                  <h3 className="font-display text-2xl md:text-3xl text-ink mb-2">
+                  <h3 className="font-display text-2xl md:text-3xl text-ink dark:text-white mb-2">
                     {activeStep.title}
                   </h3>
 
@@ -315,16 +312,16 @@ export default function ArchitecturePipeline() {
                     {activeStep.subtitle}
                   </p>
 
-                  <p className="text-ink/70 text-[14px] md:text-[15px] leading-relaxed mb-6 max-w-2xl">
+                  <p className="text-ink/70 dark:text-white/70 text-[14px] md:text-[15px] leading-relaxed mb-6 max-w-2xl">
                     {activeStep.description}
                   </p>
 
                   {/* Tech Stack Tags */}
-                  <div className="flex flex-wrap gap-2 pt-2 border-t border-ink/5">
+                  <div className="flex flex-wrap gap-2 pt-2 border-t border-ink/5 dark:border-white/10">
                     {activeStep.tech.map((t) => (
                       <span
                         key={t}
-                        className="text-xs px-3 py-1 rounded-full bg-mist text-ink/75 border border-ink/10 font-mono"
+                        className="text-xs px-3 py-1 rounded-full bg-mist dark:bg-white/5 text-ink/75 dark:text-white/80 border border-ink/10 dark:border-white/10 font-mono"
                       >
                         {t}
                       </span>
@@ -333,7 +330,7 @@ export default function ArchitecturePipeline() {
                 </div>
 
                 {/* Right Column: Concrete Engineering Telemetry Pod */}
-                <div className="lg:col-span-5 rounded-2xl border border-black/10 bg-[#090A10] text-white p-6 font-mono text-xs space-y-4 shadow-xl">
+                <div className="lg:col-span-5 rounded-2xl border border-black/10 dark:border-white/10 bg-[#090A10] text-white p-6 font-mono text-xs space-y-4 shadow-xl">
                   <div className="flex items-center justify-between pb-3 border-b border-white/10">
                     <span className="text-white/50">STAGE TELEMETRY</span>
                     <span className="flex items-center gap-1.5 text-emerald-400 font-semibold">
@@ -366,7 +363,7 @@ export default function ArchitecturePipeline() {
           </div>
 
           {/* Bottom Scroll Cue */}
-          <div className="pt-4 flex items-center justify-between text-xs font-mono text-ink/40">
+          <div className="pt-4 flex items-center justify-between text-xs font-mono text-ink/40 dark:text-white/40">
             <div className="flex items-center gap-2">
               <span className="w-1.5 h-1.5 rounded-full bg-azure animate-ping" />
               <span>SCROLL DOWN TO ADVANCE PIPELINE</span>

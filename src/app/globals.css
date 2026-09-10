@@ -6,7 +6,7 @@
 body {
   background-color: #FCFDFE;
   color: #090A0F;
-  transition: background-color 0.3s ease, color 0.3s ease;
+  transition: background-color 0.3s cubic-bezier(0.16, 1, 0.3, 1), color 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .dark body {
@@ -16,6 +16,10 @@ body {
 
 .dark .bg-paper {
   background-color: #0B0E14 !important;
+}
+
+.dark .bg-mist {
+  background-color: #080B11 !important;
 }
 
 .dark .text-ink {
@@ -42,15 +46,37 @@ body {
   color: rgba(248, 250, 252, 0.4) !important;
 }
 
+.dark .text-ink\/30 {
+  color: rgba(248, 250, 252, 0.3) !important;
+}
+
+.dark .border-ink\/15,
+.dark .border-ink\/20,
+.dark .border-ink\/30 {
+  border-color: rgba(255, 255, 255, 0.12) !important;
+}
+
 .dark .border-ink\/10,
 .dark .border-ink\/8,
 .dark .border-ink\/5 {
-  border-color: rgba(255, 255, 255, 0.09) !important;
+  border-color: rgba(255, 255, 255, 0.08) !important;
 }
 
 .dark .spotlight-card > div {
   background-color: #0D1118 !important;
   border-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+/* Dark mode native form controls */
+.dark input,
+.dark textarea,
+.dark select {
+  color-scheme: dark;
+}
+
+.dark select option {
+  background-color: #0D1118;
+  color: #F8FAFC;
 }
 
 ::selection {

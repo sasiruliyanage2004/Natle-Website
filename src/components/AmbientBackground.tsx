@@ -19,15 +19,14 @@ export default function AmbientBackground({
   return (
     <div className="pointer-events-none absolute inset-0 overflow-hidden">
       <div
-        className="absolute inset-0 opacity-40"
+        className="absolute inset-0 opacity-40 bg-[radial-gradient(rgba(10,10,10,0.07)_1px,transparent_1px)] dark:bg-[radial-gradient(rgba(255,255,255,0.05)_1px,transparent_1px)]"
         style={{
-          backgroundImage: `radial-gradient(rgba(10, 10, 10, 0.07) 1px, transparent 1px)`,
           backgroundSize: "32px 32px",
         }}
       />
-      <div className={`${positions[0]} animate-pulse`} style={{ animationDuration: "8s" }} />
-      <div className={`${positions[1]} animate-pulse`} style={{ animationDuration: "10s" }} />
-      <div className={`${positions[2]} animate-pulse`} style={{ animationDuration: "12s" }} />
+      <div className={`${positions[0]} animate-pulse dark:opacity-90`} style={{ animationDuration: "8s" }} />
+      <div className={`${positions[1]} animate-pulse dark:opacity-90`} style={{ animationDuration: "10s" }} />
+      <div className={`${positions[2]} animate-pulse dark:opacity-90`} style={{ animationDuration: "12s" }} />
     </div>
   );
 }

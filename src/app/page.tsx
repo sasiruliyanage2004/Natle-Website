@@ -67,7 +67,7 @@ export default function Home() {
         <div className="container-content relative z-10">
           <Reveal className="max-w-2xl mb-14">
             <p className="text-azure font-semibold text-sm mb-3 tracking-wide">WHAT WE DO</p>
-            <h2 className="font-display text-4xl md:text-5xl text-ink leading-tight">
+            <h2 className="font-display text-4xl md:text-5xl text-ink dark:text-white leading-tight">
               One team, from first sketch to production system.
             </h2>
           </Reveal>
@@ -155,11 +155,11 @@ export default function Home() {
           <Reveal className="flex flex-wrap items-end justify-between gap-6 mb-14">
             <div className="max-w-xl">
               <p className="text-azure font-semibold text-sm mb-3">Selected work</p>
-              <h2 className="font-display text-4xl md:text-5xl text-ink leading-tight">
+              <h2 className="font-display text-4xl md:text-5xl text-ink dark:text-white leading-tight">
                 Real products, real results.
               </h2>
             </div>
-            <Link href="/projects" className="text-ink font-semibold text-sm border-b-2 border-lime pb-1">
+            <Link href="/projects" className="text-ink dark:text-white font-semibold text-sm border-b-2 border-lime pb-1">
               View all projects
             </Link>
           </Reveal>
@@ -168,7 +168,7 @@ export default function Home() {
             {PROJECTS.slice(0, 3).map((p, i) => (
               <Reveal key={p.name} delay={i * 0.08}>
                 <div
-                  className="rounded-2xl overflow-hidden border border-ink/8 group cursor-pointer transition-transform hover:-translate-y-1"
+                  className="rounded-2xl overflow-hidden border border-ink/8 dark:border-white/10 group cursor-pointer transition-transform hover:-translate-y-1 bg-paper dark:bg-[#0D1118]"
                   data-cursor="view"
                   data-cursor-text="EXPLORE"
                 >
@@ -178,9 +178,9 @@ export default function Home() {
                       <span className="font-display text-2xl text-white/90">{p.name}</span>
                     </div>
                   </div>
-                  <div className="p-6 bg-paper">
+                  <div className="p-6 bg-paper dark:bg-[#0D1118]">
                     <p className="text-xs font-semibold text-teal mb-2">{p.category}</p>
-                    <p className="text-ink/70 text-[15px] leading-relaxed">{p.result}</p>
+                    <p className="text-ink/70 dark:text-white/70 text-[15px] leading-relaxed">{p.result}</p>
                   </div>
                 </div>
               </Reveal>
@@ -195,11 +195,11 @@ export default function Home() {
           <Reveal className="flex flex-wrap items-end justify-between gap-6 mb-14">
             <div className="max-w-xl">
               <p className="text-azure font-semibold text-sm mb-3">From the studio</p>
-              <h2 className="font-display text-4xl md:text-5xl text-ink leading-tight">
+              <h2 className="font-display text-4xl md:text-5xl text-ink dark:text-white leading-tight">
                 Notes on building good software.
               </h2>
             </div>
-            <Link href="/blog" className="text-ink font-semibold text-sm border-b-2 border-lime pb-1">
+            <Link href="/blog" className="text-ink dark:text-white font-semibold text-sm border-b-2 border-lime pb-1">
               Read the blog
             </Link>
           </Reveal>
@@ -246,7 +246,7 @@ export default function Home() {
               <Magnetic>
                 <Link
                   href="/contact"
-                  className="inline-block rounded-full bg-ink text-white px-8 py-4 text-[15px] font-semibold hover:bg-ink-soft transition-colors"
+                  className="inline-block rounded-full bg-ink text-white px-8 py-4 text-[15px] font-semibold hover:bg-ink-soft dark:bg-white dark:text-ink dark:hover:bg-slate-100 transition-colors shadow-xl"
                 >
                   Start the conversation
                 </Link>

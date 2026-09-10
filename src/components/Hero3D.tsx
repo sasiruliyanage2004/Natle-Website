@@ -25,6 +25,7 @@ varying vec2 vUv;
 varying vec3 vPosition;
 uniform float time;
 uniform vec2 mouse;
+uniform float isDark;
 
 vec3 mod289(vec3 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
 vec2 mod289(vec2 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
@@ -59,7 +60,7 @@ void main() {
   vec3 color1 = vec3(0.117, 0.498, 0.909);
   vec3 color2 = vec3(0.070, 0.721, 0.650);
   vec3 color3 = vec3(0.435, 0.811, 0.243);
-  vec3 color4 = vec3(0.960, 0.972, 0.984);
+  vec3 color4 = isDark > 0.5 ? vec3(0.0, 0.0, 0.0) : vec3(0.960, 0.972, 0.984);
   
   float n1 = snoise(uv * 1.5 + time * 0.2 + mouse * 0.5);
   float n2 = snoise(uv * 2.0 - time * 0.3 - mouse * 0.3);
@@ -71,7 +72,7 @@ void main() {
   float alpha = smoothstep(0.0, 0.4, uv.y) * smoothstep(1.0, 0.6, uv.y);
   alpha *= smoothstep(0.0, 0.3, uv.x) * smoothstep(1.0, 0.7, uv.x);
   
-  gl_FragColor = vec4(finalColor, alpha * 0.85);
+  gl_FragColor = vec4(finalColor, alpha * (isDark > 0.5 ? 0.75 : 0.85));
 }
 `;
 
@@ -98,7 +99,8 @@ export default function Hero3D() {
     
     const uniforms = {
       time: { value: 0.0 },
-      mouse: { value: new THREE.Vector2(0, 0) }
+      mouse: { value: new THREE.Vector2(0, 0) },
+      isDark: { value: typeof document !== "undefined" && document.documentElement.classList.contains("dark") ? 1.0 : 0.0 }
     };
 
     const material = new THREE.ShaderMaterial({
@@ -127,6 +129,7 @@ export default function Hero3D() {
 
     const animate = () => {
       uniforms.time.value = clock.getElapsedTime();
+      uniforms.isDark.value = document.documentElement.classList.contains("dark") ? 1.0 : 0.0;
       
       uniforms.mouse.value.x += (mouseX - uniforms.mouse.value.x) * 0.05;
       uniforms.mouse.value.y += (mouseY - uniforms.mouse.value.y) * 0.05;
@@ -172,8 +175,7 @@ export default function Hero3D() {
   return (
     <div 
       ref={mountRef} 
-      className="absolute right-0 top-0 w-full lg:w-3/4 h-full pointer-events-none opacity-80" 
-      style={{ mixBlendMode: 'multiply' }}
+      className="absolute right-0 top-0 w-full lg:w-3/4 h-full pointer-events-none opacity-80 mix-blend-multiply dark:mix-blend-screen dark:opacity-75 transition-opacity duration-300" 
       aria-hidden="true" 
     />
   );

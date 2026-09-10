@@ -37,11 +37,11 @@ const DefaultCursorSVG: FC = () => {
       <g filter="url(#filter0_d_91_7928)">
         <path
           d="M42.6817 41.1495L27.5103 6.79925C26.7269 5.02557 24.2082 5.02558 23.3927 6.79925L7.59814 41.1495C6.75833 42.9759 8.52712 44.8902 10.4125 44.1954L24.3757 39.0496C24.8829 38.8627 25.4385 38.8627 25.9422 39.0496L39.8121 44.1954C41.6849 44.8902 43.4884 42.9759 42.6817 41.1495Z"
-          fill="#090A0F"
+          className="fill-[#090A0F] dark:fill-white transition-colors duration-200"
         />
         <path
           d="M43.7146 40.6933L28.5431 6.34306C27.3556 3.65428 23.5772 3.69516 22.3668 6.32755L6.57226 40.6778C5.3134 43.4156 7.97238 46.298 10.803 45.2549L24.7662 40.109C25.0221 40.0147 25.2999 40.0156 25.5494 40.1082L39.4193 45.254C42.2261 46.2953 44.9254 43.4347 43.7146 40.6933Z"
-          stroke="#1E7FE8"
+          className="stroke-[#1E7FE8] dark:stroke-[#00D2FF] transition-colors duration-200"
           strokeWidth={2.25825}
         />
       </g>
@@ -286,7 +286,7 @@ export function SmoothCursor({
           animate={{ scale: 1, opacity: 1 }}
           exit={{ scale: 0.6, opacity: 0 }}
           transition={{ duration: 0.18, ease: "easeOut" }}
-          className="px-3.5 py-1.5 rounded-full bg-[#1E7FE8] text-white text-[11px] font-mono font-bold tracking-widest uppercase shadow-xl shadow-[#1E7FE8]/40 flex items-center gap-1.5 border border-white/25"
+          className="px-3.5 py-1.5 rounded-full bg-[#1E7FE8] text-white text-[11px] font-mono font-bold tracking-widest uppercase shadow-xl shadow-[#1E7FE8]/40 dark:shadow-[#00D2FF]/30 flex items-center gap-1.5 border border-white/25"
         >
           <span>{cursorLabel}</span>
           <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
@@ -299,7 +299,7 @@ export function SmoothCursor({
           animate={{ scale: 1, opacity: 1 }}
           exit={{ scale: 0.7, opacity: 0 }}
           transition={{ duration: 0.15 }}
-          className="w-10 h-10 rounded-full border-2 border-[#1E7FE8] bg-[#1E7FE8]/15 backdrop-blur-[1px]"
+          className="w-10 h-10 rounded-full border-2 border-[#1E7FE8] dark:border-[#00D2FF] bg-[#1E7FE8]/15 dark:bg-[#00D2FF]/20 backdrop-blur-[1px]"
         />
       ) : (
         cursor

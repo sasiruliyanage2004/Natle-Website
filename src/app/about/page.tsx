@@ -15,45 +15,45 @@ const VALUE_ACCENTS: SpotlightAccent[] = ["azure", "teal", "lime", "purple"];
 export default function AboutPage() {
   return (
     <>
-      <section className="pt-40 pb-24 bg-mist relative overflow-hidden">
+      <section className="pt-40 pb-24 bg-mist dark:bg-[#07090E] relative overflow-hidden">
         <AmbientBackground />
         <div className="container-content relative">
           <Reveal className="max-w-3xl">
             <div className="text-azure text-xs font-mono font-semibold tracking-widest uppercase mb-4">
               ABOUT NATLE
             </div>
-            <h1 className="font-display text-5xl md:text-6xl text-ink leading-[1.05]">
+            <h1 className="font-display text-5xl md:text-6xl text-ink dark:text-white leading-[1.05]">
               We started NATLE because good software shouldn&apos;t be rare.
             </h1>
-            <p className="mt-7 text-lg text-ink/60 leading-relaxed max-w-2xl">
+            <p className="mt-7 text-lg text-ink/60 dark:text-white/60 leading-relaxed max-w-2xl">
               Founded in Colombo, NATLE builds digital products and internal
               systems for companies who are tired of choosing between fast and
               well-built. We believe you can have both.
             </p>
           </Reveal>
 
-          <Reveal delay={0.1} className="mt-16 grid grid-cols-2 sm:grid-cols-4 gap-8 border-t border-ink/10 pt-10">
+          <Reveal delay={0.1} className="mt-16 grid grid-cols-2 sm:grid-cols-4 gap-8 border-t border-ink/10 dark:border-white/10 pt-10">
             <div>
-              <div className="font-display text-3xl text-ink"><Counter to={120} suffix="+" /></div>
-              <div className="text-sm text-ink/50 mt-1">Projects delivered</div>
+              <div className="font-display text-3xl text-ink dark:text-white"><Counter to={120} suffix="+" /></div>
+              <div className="text-sm text-ink/50 dark:text-white/50 mt-1">Projects delivered</div>
             </div>
             <div>
-              <div className="font-display text-3xl text-ink"><Counter to={60} suffix="+" /></div>
-              <div className="text-sm text-ink/50 mt-1">Clients served</div>
+              <div className="font-display text-3xl text-ink dark:text-white"><Counter to={60} suffix="+" /></div>
+              <div className="text-sm text-ink/50 dark:text-white/50 mt-1">Clients served</div>
             </div>
             <div>
-              <div className="font-display text-3xl text-ink"><Counter to={8} /></div>
-              <div className="text-sm text-ink/50 mt-1">Industries</div>
+              <div className="font-display text-3xl text-ink dark:text-white"><Counter to={8} /></div>
+              <div className="text-sm text-ink/50 dark:text-white/50 mt-1">Industries</div>
             </div>
             <div>
-              <div className="font-display text-3xl text-ink"><Counter to={7} /></div>
-              <div className="text-sm text-ink/50 mt-1">Years building</div>
+              <div className="font-display text-3xl text-ink dark:text-white"><Counter to={7} /></div>
+              <div className="text-sm text-ink/50 dark:text-white/50 mt-1">Years building</div>
             </div>
           </Reveal>
         </div>
       </section>
 
-      <section className="py-24 lg:py-28 bg-paper border-t border-ink/5">
+      <section className="py-24 lg:py-28 bg-paper dark:bg-[#090C12] border-t border-ink/5 dark:border-white/10">
         <div className="container-content grid grid-cols-1 lg:grid-cols-2 gap-6">
           <Reveal>
             <SpotlightCard accent="azure" className="h-full">
@@ -61,8 +61,8 @@ export default function AboutPage() {
                 <div className="text-azure text-xs font-mono font-semibold tracking-widest uppercase mb-4">
                   MISSION
                 </div>
-                <h2 className="font-display text-2xl text-ink mb-4">Our mission</h2>
-                <p className="text-ink/60 leading-relaxed">
+                <h2 className="font-display text-2xl text-ink dark:text-white mb-4">Our mission</h2>
+                <p className="text-ink/60 dark:text-white/60 leading-relaxed">
                   To give growing companies access to the same quality of
                   software engineering and design that only large enterprises
                   could previously afford — without the enterprise overhead.
@@ -73,11 +73,11 @@ export default function AboutPage() {
           <Reveal delay={0.08}>
             <SpotlightCard accent="lime" className="h-full">
               <div className="p-9">
-                <div className="text-lime-600 text-xs font-mono font-semibold tracking-widest uppercase mb-4">
+                <div className="text-lime-600 dark:text-lime-400 text-xs font-mono font-semibold tracking-widest uppercase mb-4">
                   VISION
                 </div>
-                <h2 className="font-display text-2xl text-ink mb-4">Our vision</h2>
-                <p className="text-ink/60 leading-relaxed">
+                <h2 className="font-display text-2xl text-ink dark:text-white mb-4">Our vision</h2>
+                <p className="text-ink/60 dark:text-white/60 leading-relaxed">
                   A future where every ambitious team, regardless of size or
                   location, can turn a good idea into reliable, well-designed
                   software.
@@ -118,25 +118,25 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section className="py-24 lg:py-28 bg-paper">
+      <section className="py-24 lg:py-28 bg-paper dark:bg-[#090C12]">
         <div className="container-content">
           <Reveal className="max-w-xl mb-14">
             <p className="text-azure font-semibold text-sm mb-3">Leadership</p>
-            <h2 className="font-display text-4xl text-ink leading-tight">
+            <h2 className="font-display text-4xl text-ink dark:text-white leading-tight">
               The people steering NATLE.
             </h2>
           </Reveal>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             {TEAM.map((person, i) => (
               <Reveal key={person.name} delay={i * 0.06}>
-                <div className="group rounded-3xl border border-ink/8 p-5 hover:shadow-card hover:border-ink/15 transition-all">
+                <div className="group rounded-3xl border border-ink/8 dark:border-white/10 bg-white dark:bg-[#0D1118] p-5 hover:shadow-card hover:border-ink/15 dark:hover:border-white/20 transition-all">
                   <div className="aspect-square rounded-2xl bg-brand-gradient-soft mb-4 flex items-center justify-center overflow-hidden relative">
-                    <span className="font-display text-3xl text-ink/30 group-hover:scale-110 transition-transform duration-300">
+                    <span className="font-display text-3xl text-ink/30 dark:text-white/40 group-hover:scale-110 transition-transform duration-300">
                       {person.name.split(" ").map((n) => n[0]).join("")}
                     </span>
                   </div>
-                  <h3 className="font-display text-base text-ink">{person.name}</h3>
-                  <p className="text-ink/50 text-sm">{person.role}</p>
+                  <h3 className="font-display text-base text-ink dark:text-white">{person.name}</h3>
+                  <p className="text-ink/50 dark:text-white/50 text-sm">{person.role}</p>
                 </div>
               </Reveal>
             ))}
@@ -144,12 +144,12 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section className="py-24 lg:py-28 bg-mist relative overflow-hidden">
+      <section className="py-24 lg:py-28 bg-mist dark:bg-[#07090E] relative overflow-hidden">
         <AmbientBackground variant="reversed" />
         <div className="container-content relative">
           <Reveal className="max-w-xl mb-14">
             <p className="text-azure font-semibold text-sm mb-3">What we stand for</p>
-            <h2 className="font-display text-4xl text-ink leading-tight">
+            <h2 className="font-display text-4xl text-ink dark:text-white leading-tight">
               Operating principles, not slogans.
             </h2>
           </Reveal>
@@ -160,8 +160,8 @@ export default function AboutPage() {
                   <div className="p-8 flex gap-5">
                     <div className="w-1.5 shrink-0 rounded-full bg-brand-gradient" />
                     <div>
-                      <h3 className="font-display text-lg text-ink mb-1.5">{v.title}</h3>
-                      <p className="text-ink/60 text-[15px] leading-relaxed">{v.detail}</p>
+                      <h3 className="font-display text-lg text-ink dark:text-white mb-1.5">{v.title}</h3>
+                      <p className="text-ink/60 dark:text-white/60 text-[15px] leading-relaxed">{v.detail}</p>
                     </div>
                   </div>
                 </SpotlightCard>
