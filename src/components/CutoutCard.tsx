@@ -71,7 +71,7 @@ export default function CutoutCard({
                 <CutoutCorner className="w-4 h-4 text-white dark:text-[#0E1015] -translate-y-px translate-x-[1px]" rotate={270} />
                 
                 <div className="bg-white dark:bg-[#0E1015] px-3.5 pt-1.5 pb-2 rounded-bl-2xl flex items-center justify-center relative">
-                  <span className="bg-ink text-white dark:bg-white dark:text-ink text-[11px] font-bold px-2.5 py-0.5 rounded-full uppercase tracking-wider shadow-sm">
+                  <span className="bg-ink text-white dark:bg-white dark:text-slate-950 text-[11px] font-bold px-2.5 py-0.5 rounded-full uppercase tracking-wider shadow-sm">
                     {badge}
                   </span>
                   {/* Bottom inverted curve */}

@@ -13,15 +13,35 @@ export default function HeroContent() {
 
     const ctx = gsap.context(() => {
       const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
-      tl.from("[data-hero='eyebrow']", { y: 16, opacity: 0, duration: 0.6 })
-        .from(
+      tl.fromTo(
+        "[data-hero='eyebrow']",
+        { y: 16, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.6, clearProps: "all" }
+      )
+        .fromTo(
           "[data-hero='line']",
-          { y: 44, opacity: 0, duration: 0.85, stagger: 0.09 },
+          { y: 44, opacity: 0 },
+          { y: 0, opacity: 1, duration: 0.85, stagger: 0.09, clearProps: "all" },
           "-=0.3"
         )
-        .from("[data-hero='sub']", { y: 20, opacity: 0, duration: 0.7 }, "-=0.35")
-        .from("[data-hero='cta']", { y: 16, opacity: 0, duration: 0.6, stagger: 0.08 }, "-=0.4")
-        .from("[data-hero='stat']", { y: 14, opacity: 0, duration: 0.6, stagger: 0.1 }, "-=0.35");
+        .fromTo(
+          "[data-hero='sub']",
+          { y: 20, opacity: 0 },
+          { y: 0, opacity: 1, duration: 0.7, clearProps: "all" },
+          "-=0.35"
+        )
+        .fromTo(
+          "[data-hero='cta']",
+          { y: 16, opacity: 0 },
+          { y: 0, opacity: 1, duration: 0.6, stagger: 0.08, clearProps: "all" },
+          "-=0.4"
+        )
+        .fromTo(
+          "[data-hero='stat']",
+          { y: 14, opacity: 0 },
+          { y: 0, opacity: 1, duration: 0.6, stagger: 0.1, clearProps: "all" },
+          "-=0.35"
+        );
     }, root);
 
     return () => ctx.revert();
@@ -53,7 +73,7 @@ export default function HeroContent() {
         <Link
           data-hero="cta"
           href="/contact"
-          className="pointer-events-auto inline-flex items-center justify-center gap-2 rounded-full bg-azure hover:bg-primary-hover text-white px-7 py-3.5 text-[15px] font-semibold shadow-lg shadow-azure/25 dark:shadow-[0_0_24px_rgba(30,127,232,0.45)] hover:scale-[1.02] active:scale-[0.98] transition-all duration-200"
+          className="pointer-events-auto inline-flex items-center justify-center gap-2.5 rounded-full bg-[#1E7FE8] hover:bg-[#1565C0] text-white px-7 py-3.5 text-[15px] font-semibold shadow-lg shadow-[#1E7FE8]/30 dark:shadow-[0_0_24px_rgba(30,127,232,0.5)] hover:scale-[1.02] active:scale-[0.98] transition-all duration-200"
         >
           <span>Start a project</span>
           <svg
@@ -73,7 +93,7 @@ export default function HeroContent() {
         <Link
           data-hero="cta"
           href="/projects"
-          className="pointer-events-auto inline-flex items-center justify-center rounded-full border border-ink/15 text-ink dark:border-white/20 dark:text-white px-7 py-3.5 text-[15px] font-semibold hover:border-ink/30 dark:hover:border-white/40 hover:bg-ink/[0.04] dark:hover:bg-white/[0.06] hover:scale-[1.02] active:scale-[0.98] transition-all duration-200"
+          className="pointer-events-auto inline-flex items-center justify-center rounded-full border border-slate-300 dark:border-white/25 bg-white/80 dark:bg-white/[0.08] text-slate-900 dark:text-white px-7 py-3.5 text-[15px] font-semibold hover:border-slate-400 dark:hover:border-white/40 hover:bg-slate-100 dark:hover:bg-white/[0.14] backdrop-blur-md hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 shadow-sm"
         >
           See our work
         </Link>

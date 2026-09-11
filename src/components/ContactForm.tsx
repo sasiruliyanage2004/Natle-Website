@@ -94,7 +94,7 @@ export default function ContactForm() {
 
             <button
               onClick={handleReset}
-              className="mt-4 inline-flex items-center justify-center rounded-full border border-ink/10 dark:border-white/15 px-6 py-2.5 text-xs font-semibold text-ink dark:text-white hover:bg-ink hover:text-white dark:hover:bg-white dark:hover:text-ink transition-all cursor-pointer"
+              className="mt-4 inline-flex items-center justify-center rounded-full border border-ink/10 dark:border-white/15 px-6 py-2.5 text-xs font-semibold text-ink dark:text-white hover:bg-ink hover:text-white dark:hover:bg-white dark:hover:text-slate-950 transition-all cursor-pointer"
             >
               Send another message
             </button>
@@ -201,7 +201,7 @@ export default function ContactForm() {
             <button
               type="submit"
               disabled={isSubmitting}
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-full bg-ink text-white px-8 py-4 text-[15px] font-semibold hover:bg-ink-soft dark:bg-white dark:text-ink dark:hover:bg-slate-200 active:scale-[0.98] transition-all shadow-sm disabled:opacity-70 disabled:cursor-not-allowed cursor-pointer"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-full bg-ink text-white px-8 py-4 text-[15px] font-semibold hover:bg-ink-soft dark:bg-white dark:text-slate-950 dark:hover:bg-slate-100 active:scale-[0.98] transition-all shadow-sm disabled:opacity-70 disabled:cursor-not-allowed cursor-pointer"
             >
               {isSubmitting ? (
                 <>

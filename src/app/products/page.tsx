@@ -78,7 +78,7 @@ export default function ProductsPage() {
               <Magnetic>
                 <Link
                   href="/services"
-                  className="inline-flex items-center justify-center rounded-full bg-ink text-white px-8 py-4 text-[15px] font-semibold hover:bg-ink-soft dark:bg-white dark:text-ink dark:hover:bg-slate-200 transition-colors shadow-sm"
+                  className="inline-flex items-center justify-center rounded-full bg-ink text-white px-8 py-4 text-[15px] font-semibold hover:bg-ink-soft dark:bg-white dark:text-slate-950 dark:hover:bg-slate-100 transition-colors shadow-sm"
                 >
                   See custom services
                 </Link>

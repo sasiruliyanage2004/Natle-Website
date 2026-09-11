@@ -141,7 +141,7 @@ export default function Footer() {
               <Magnetic>
                 <Link 
                   href="/contact" 
-                  className="px-8 py-3.5 rounded-full bg-white text-ink hover:bg-white/90 font-semibold text-sm flex items-center gap-2.5 transition-all shadow-lg shadow-white/5"
+                  className="px-8 py-3.5 rounded-full bg-white text-slate-950 hover:bg-slate-100 font-semibold text-sm flex items-center gap-2.5 transition-all shadow-lg shadow-white/5"
                 >
                   Start a project
                 </Link>

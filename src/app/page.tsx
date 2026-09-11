@@ -266,7 +266,7 @@ export default function Home() {
               <Magnetic>
                 <Link
                   href="/contact"
-                  className="inline-block rounded-full bg-ink text-white px-8 py-4 text-[15px] font-semibold hover:bg-ink-soft dark:bg-white dark:text-ink dark:hover:bg-slate-100 transition-colors shadow-xl"
+                  className="inline-block rounded-full bg-ink text-white px-8 py-4 text-[15px] font-semibold hover:bg-ink-soft dark:bg-white dark:text-slate-950 dark:hover:bg-slate-100 transition-colors shadow-xl"
                 >
                   Start the conversation
                 </Link>

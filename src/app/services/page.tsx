@@ -76,7 +76,7 @@ export default function ServicesPage() {
               <Magnetic>
                 <Link
                   href="/contact"
-                  className="inline-flex items-center justify-center rounded-full bg-brand-gradient text-ink px-8 py-4 text-[15px] font-semibold"
+                  className="inline-flex items-center justify-center rounded-full bg-brand-gradient text-slate-950 font-bold hover:brightness-105 px-8 py-4 text-[15px] shadow-md transition-all"
                 >
                   Book a discovery call
                 </Link>
