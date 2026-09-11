@@ -11,6 +11,8 @@ import ArchitecturePipeline from "@/components/ArchitecturePipeline";
 import ArchitectureSimulator from "@/components/ArchitectureSimulator";
 import Testimonials from "@/components/Testimonials";
 import ScrollBackground from "@/components/ScrollBackground";
+import Card3DTilt from "@/components/Card3DTilt";
+import NetworkGlobe3D from "@/components/NetworkGlobe3D";
 import { PROJECTS, BLOG_POSTS } from "@/lib/data";
 
 const WHY_US = [
@@ -81,6 +83,22 @@ export default function Home() {
 
       {/* Interactive System Simulator */}
       <ArchitectureSimulator />
+
+      {/* Global Distributed Infrastructure 3D Mesh */}
+      <section className="py-24 lg:py-28 bg-transparent relative overflow-hidden">
+        <div className="container-content relative z-10">
+          <Reveal className="max-w-2xl mb-12">
+            <p className="text-azure font-semibold text-sm mb-3 tracking-wide">GLOBAL INFRASTRUCTURE</p>
+            <h2 className="font-display text-4xl md:text-5xl text-ink dark:text-white leading-tight">
+              High-throughput edge mesh, engineered across 8 global nodes.
+            </h2>
+          </Reveal>
+
+          <Reveal delay={0.1}>
+            <NetworkGlobe3D />
+          </Reveal>
+        </div>
+      </section>
 
       {/* Why us + platform panel */}
       <section className="py-28 lg:py-32 bg-ink-gradient text-white relative overflow-hidden">
@@ -167,22 +185,24 @@ export default function Home() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {PROJECTS.slice(0, 3).map((p, i) => (
               <Reveal key={p.name} delay={i * 0.08}>
-                <div
-                  className="rounded-2xl overflow-hidden border border-ink/8 dark:border-white/10 group cursor-pointer transition-transform hover:-translate-y-1 bg-paper dark:bg-[#0D1118]"
-                  data-cursor="view"
-                  data-cursor-text="EXPLORE"
-                >
-                  <div className="h-44 bg-brand-gradient-soft relative">
-                    <div className="absolute inset-0 bg-ink-gradient opacity-90 group-hover:opacity-80 transition-opacity" />
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <span className="font-display text-2xl text-white/90">{p.name}</span>
+                <Card3DTilt maxTilt={8} scale={1.02} className="h-full rounded-2xl">
+                  <div
+                    className="h-full rounded-2xl overflow-hidden border border-ink/8 dark:border-white/10 group cursor-pointer transition-transform hover:-translate-y-1 bg-paper dark:bg-[#0D1118]"
+                    data-cursor="view"
+                    data-cursor-text="EXPLORE"
+                  >
+                    <div className="h-44 bg-brand-gradient-soft relative">
+                      <div className="absolute inset-0 bg-ink-gradient opacity-90 group-hover:opacity-80 transition-opacity" />
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <span className="font-display text-2xl text-white/90">{p.name}</span>
+                      </div>
+                    </div>
+                    <div className="p-6 bg-paper dark:bg-[#0D1118]">
+                      <p className="text-xs font-semibold text-teal mb-2">{p.category}</p>
+                      <p className="text-ink/70 dark:text-white/70 text-[15px] leading-relaxed">{p.result}</p>
                     </div>
                   </div>
-                  <div className="p-6 bg-paper dark:bg-[#0D1118]">
-                    <p className="text-xs font-semibold text-teal mb-2">{p.category}</p>
-                    <p className="text-ink/70 dark:text-white/70 text-[15px] leading-relaxed">{p.result}</p>
-                  </div>
-                </div>
+                </Card3DTilt>
               </Reveal>
             ))}
           </div>
