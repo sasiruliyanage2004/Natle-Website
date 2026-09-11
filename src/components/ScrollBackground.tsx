@@ -140,7 +140,23 @@ export default function ScrollBackground() {
 
     rafId = requestAnimationFrame(tick);
 
+    const handleVisibilityChange = () => {
+      if (document.hidden) {
+        if (rafId !== null) {
+          cancelAnimationFrame(rafId);
+          rafId = null;
+        }
+      } else {
+        if (rafId === null) {
+          startTime = performance.now();
+          rafId = requestAnimationFrame(tick);
+        }
+      }
+    };
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+
     return () => {
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("mousemove", onMouseMove);
       if (rafId !== null) {
@@ -196,9 +212,8 @@ export default function ScrollBackground() {
 
       {/* Blueprint Dot Grid Texture Overlay */}
       <div
-        className="absolute inset-0 opacity-[0.38]"
+        className="absolute inset-0 opacity-[0.38] bg-[radial-gradient(rgba(10,10,10,0.05)_1px,transparent_1px)] dark:bg-[radial-gradient(rgba(255,255,255,0.06)_1px,transparent_1px)]"
         style={{
-          backgroundImage: `radial-gradient(rgba(10, 10, 10, 0.05) 1px, transparent 1px)`,
           backgroundSize: "28px 28px",
         }}
       />

@@ -3,75 +3,28 @@
 @tailwind utilities;
 
 
+:root {
+  --ink: 10 10 10;
+  --ink-soft: 26 26 26;
+  --paper: 252 253 254;
+  --mist: 245 248 251;
+  --card: 255 255 255;
+  --border: 10 10 10;
+}
+
+.dark {
+  --ink: 248 250 252;
+  --ink-soft: 226 232 240;
+  --paper: 7 9 14;
+  --mist: 13 17 24;
+  --card: 13 17 24;
+  --border: 255 255 255;
+}
+
 body {
-  background-color: #FCFDFE;
-  color: #090A0F;
+  background-color: rgb(var(--paper));
+  color: rgb(var(--ink));
   transition: background-color 0.3s cubic-bezier(0.16, 1, 0.3, 1), color 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.dark body {
-  background-color: #07090E;
-  color: #F8FAFC;
-}
-
-.dark .bg-paper {
-  background-color: #0B0E14 !important;
-}
-
-.dark .bg-mist {
-  background-color: #080B11 !important;
-}
-
-.dark .text-ink {
-  color: #F8FAFC !important;
-}
-
-.dark .text-ink\/80 {
-  color: rgba(248, 250, 252, 0.8) !important;
-}
-
-.dark .text-ink\/70 {
-  color: rgba(248, 250, 252, 0.7) !important;
-}
-
-.dark .text-ink\/65 {
-  color: rgba(248, 250, 252, 0.7) !important;
-}
-
-.dark .text-ink\/60 {
-  color: rgba(248, 250, 252, 0.6) !important;
-}
-
-.dark .text-ink\/50 {
-  color: rgba(248, 250, 252, 0.5) !important;
-}
-
-.dark .text-ink\/40 {
-  color: rgba(248, 250, 252, 0.4) !important;
-}
-
-.dark .text-ink\/35 {
-  color: rgba(248, 250, 252, 0.4) !important;
-}
-
-.dark .text-ink\/30 {
-  color: rgba(248, 250, 252, 0.3) !important;
-}
-
-.dark [class*="bg-mist/"] {
-  background-color: rgba(255, 255, 255, 0.04) !important;
-}
-
-.dark .border-ink\/15,
-.dark .border-ink\/20,
-.dark .border-ink\/30 {
-  border-color: rgba(255, 255, 255, 0.12) !important;
-}
-
-.dark .border-ink\/10,
-.dark .border-ink\/8,
-.dark .border-ink\/5 {
-  border-color: rgba(255, 255, 255, 0.08) !important;
 }
 
 .dark .spotlight-card > div {

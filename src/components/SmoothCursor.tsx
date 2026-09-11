@@ -104,6 +104,8 @@ export function SmoothCursor({
   const [isVisible, setIsVisible] = useState(false);
   const [cursorMode, setCursorMode] = useState<"default" | "view" | "pointer">("default");
   const [cursorLabel, setCursorLabel] = useState<string>("VIEW");
+  const cursorModeRef = useRef<"default" | "view" | "pointer">("default");
+  cursorModeRef.current = cursorMode;
 
   const cursorX = useSpring(0, springConfig);
   const cursorY = useSpring(0, springConfig);
@@ -164,6 +166,16 @@ export function SmoothCursor({
       const target = e.target as HTMLElement | null;
       if (!target) return;
 
+      // Allow natural native cursor for text selection on form elements
+      const isInput = target.closest("input, textarea, select, [contenteditable='true']");
+      if (isInput) {
+        setIsVisible(false);
+        document.body.style.cursor = "auto";
+        return;
+      } else {
+        document.body.style.cursor = "none";
+      }
+
       const viewEl = target.closest("[data-cursor='view'], [data-cursor-text]") as HTMLElement | null;
       if (viewEl) {
         setCursorMode("view");
@@ -199,7 +211,7 @@ export function SmoothCursor({
       cursorX.set(currentPos.x);
       cursorY.set(currentPos.y);
 
-      if (cursorMode === "default" && speed > 0.1) {
+      if (cursorModeRef.current === "default" && speed > 0.1) {
         const currentAngle =
           Math.atan2(velocity.current.y, velocity.current.x) * (180 / Math.PI) +
           90;
@@ -252,7 +264,7 @@ export function SmoothCursor({
         clearTimeout(timeout);
       }
     };
-  }, [cursorX, cursorY, rotation, scale, isEnabled, cursorMode]);
+  }, [cursorX, cursorY, rotation, scale, isEnabled]);
 
   if (!isEnabled) {
     return null;

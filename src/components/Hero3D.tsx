@@ -126,19 +126,73 @@ export default function Hero3D() {
 
     const clock = new THREE.Clock();
     let raf = 0;
+    let isIntersecting = true;
+    let isTabVisible = !document.hidden;
 
-    const animate = () => {
-      uniforms.time.value = clock.getElapsedTime();
+    // MutationObserver to reactively sync dark mode uniform without polling DOM every frame
+    const updateDarkUniform = () => {
       uniforms.isDark.value = document.documentElement.classList.contains("dark") ? 1.0 : 0.0;
-      
+    };
+    updateDarkUniform();
+
+    const themeObserver = new MutationObserver(updateDarkUniform);
+    themeObserver.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["class"],
+    });
+
+    const render = () => {
+      uniforms.time.value = clock.getElapsedTime();
       uniforms.mouse.value.x += (mouseX - uniforms.mouse.value.x) * 0.05;
       uniforms.mouse.value.y += (mouseY - uniforms.mouse.value.y) * 0.05;
 
       renderer.render(scene, camera);
+    };
+
+    const animate = () => {
+      if (!isIntersecting || !isTabVisible) {
+        raf = 0;
+        return;
+      }
+      render();
       raf = requestAnimationFrame(animate);
     };
-    
-    animate();
+
+    const startAnimate = () => {
+      if (!raf && isIntersecting && isTabVisible) {
+        clock.start();
+        raf = requestAnimationFrame(animate);
+      }
+    };
+
+    // IntersectionObserver to pause WebGL rendering when hero is scrolled out of viewport
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        isIntersecting = entry.isIntersecting;
+        if (isIntersecting) {
+          startAnimate();
+        } else if (raf) {
+          cancelAnimationFrame(raf);
+          raf = 0;
+        }
+      },
+      { threshold: 0.05 }
+    );
+    io.observe(mount);
+
+    // Tab visibility handling to sleep render loop in background tabs
+    const handleVisibilityChange = () => {
+      isTabVisible = !document.hidden;
+      if (isTabVisible) {
+        startAnimate();
+      } else if (raf) {
+        cancelAnimationFrame(raf);
+        raf = 0;
+      }
+    };
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+
+    startAnimate();
 
     const onResize = () => {
       if (!mount) return;
@@ -160,7 +214,10 @@ export default function Hero3D() {
     onResize();
 
     return () => {
-      cancelAnimationFrame(raf);
+      if (raf) cancelAnimationFrame(raf);
+      io.disconnect();
+      themeObserver.disconnect();
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
       window.removeEventListener("resize", onResize);
       window.removeEventListener("mousemove", onMouseMove);
       geometry.dispose();

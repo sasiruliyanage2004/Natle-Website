@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
+import { motion, AnimatePresence } from "framer-motion";
 import Reveal from "./Reveal";
 
 const TESTIMONIALS = [
@@ -112,66 +113,73 @@ export default function Testimonials() {
             <div className="pointer-events-none absolute -top-32 -right-32 w-96 h-96 rounded-full bg-azure/15 blur-[100px]" />
             <div className="pointer-events-none absolute -bottom-32 -left-32 w-96 h-96 rounded-full bg-teal/15 blur-[100px]" />
 
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center relative z-10">
-              
-              {/* Left: Quote & Author (Col 8) */}
-              <div className="lg:col-span-8 flex flex-col justify-between">
-                <div>
-                  <div className="flex items-center gap-3 mb-6">
-                    <span className="text-xs font-mono font-semibold px-3 py-1 rounded-full bg-white/10 text-teal border border-teal/20">
-                      {current.tag}
-                    </span>
-                    <span className="text-xs font-mono text-white/40">
-                      0{currentIndex + 1} / 0{TESTIMONIALS.length}
-                    </span>
-                  </div>
-
-                  <blockquote className="text-xl sm:text-2xl md:text-3xl font-display leading-relaxed text-white/95 mb-8">
-                    &ldquo;{current.quote}&rdquo;
-                  </blockquote>
-                </div>
-
-                {/* Author Details */}
-                <div className="flex items-center gap-4 pt-6 border-t border-white/10">
-                  <div className="relative w-14 h-14 rounded-full overflow-hidden border-2 border-azure/40 shrink-0">
-                    <Image
-                      src={current.avatar}
-                      alt={current.author}
-                      fill
-                      className="object-cover"
-                    />
-                  </div>
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={currentIndex}
+                initial={{ opacity: 0, x: 24 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -24 }}
+                transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+                className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center relative z-10"
+              >
+                {/* Left: Quote & Author (Col 8) */}
+                <div className="lg:col-span-8 flex flex-col justify-between">
                   <div>
-                    <h3 className="font-display font-semibold text-lg text-white">
-                      {current.author}
-                    </h3>
-                    <p className="text-white/60 text-sm">
-                      {current.role}, <span className="text-white/80 font-medium">{current.company}</span>
-                    </p>
+                    <div className="flex items-center gap-3 mb-6">
+                      <span className="text-xs font-mono font-semibold px-3 py-1 rounded-full bg-white/10 text-teal border border-teal/20">
+                        {current.tag}
+                      </span>
+                      <span className="text-xs font-mono text-white/40">
+                        0{currentIndex + 1} / 0{TESTIMONIALS.length}
+                      </span>
+                    </div>
+
+                    <blockquote className="text-xl sm:text-2xl md:text-3xl font-display leading-relaxed text-white/95 mb-8">
+                      &ldquo;{current.quote}&rdquo;
+                    </blockquote>
+                  </div>
+
+                  {/* Author Details */}
+                  <div className="flex items-center gap-4 pt-6 border-t border-white/10">
+                    <div className="relative w-14 h-14 rounded-full overflow-hidden border-2 border-azure/40 shrink-0">
+                      <Image
+                        src={current.avatar}
+                        alt={current.author}
+                        fill
+                        className="object-cover"
+                      />
+                    </div>
+                    <div>
+                      <h3 className="font-display font-semibold text-lg text-white">
+                        {current.author}
+                      </h3>
+                      <p className="text-white/60 text-sm">
+                        {current.role}, <span className="text-white/80 font-medium">{current.company}</span>
+                      </p>
+                    </div>
                   </div>
                 </div>
-              </div>
 
-              {/* Right: Verified Metric Callout (Col 4) */}
-              <div className="lg:col-span-4 flex flex-col justify-center">
-                <div className="p-8 rounded-2xl bg-white/[0.06] border border-white/10 backdrop-blur-md text-center flex flex-col items-center justify-center">
-                  <span className="text-xs font-mono tracking-widest uppercase text-lime font-semibold mb-2 block">
-                    VERIFIED IMPACT
-                  </span>
-                  <div className="font-display text-5xl lg:text-6xl text-white font-bold tracking-tight mb-2">
-                    {current.metricValue}
-                  </div>
-                  <div className="text-sm font-medium text-white/70">
-                    {current.metricLabel}
-                  </div>
-                  <div className="mt-6 pt-4 border-t border-white/10 flex items-center gap-2 text-xs font-mono text-white/50">
-                    <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-                    Independent Audit Verified
+                {/* Right: Verified Metric Callout (Col 4) */}
+                <div className="lg:col-span-4 flex flex-col justify-center">
+                  <div className="p-8 rounded-2xl bg-white/[0.06] border border-white/10 backdrop-blur-md text-center flex flex-col items-center justify-center">
+                    <span className="text-xs font-mono tracking-widest uppercase text-lime font-semibold mb-2 block">
+                      VERIFIED IMPACT
+                    </span>
+                    <div className="font-display text-5xl lg:text-6xl text-white font-bold tracking-tight mb-2">
+                      {current.metricValue}
+                    </div>
+                    <div className="text-sm font-medium text-white/70">
+                      {current.metricLabel}
+                    </div>
+                    <div className="mt-6 pt-4 border-t border-white/10 flex items-center gap-2 text-xs font-mono text-white/50">
+                      <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                      Independent Audit Verified
+                    </div>
                   </div>
                 </div>
-              </div>
-
-            </div>
+              </motion.div>
+            </AnimatePresence>
 
             {/* Pagination Dots */}
             <div className="flex justify-center gap-2 mt-10 relative z-10">

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Reveal from "@/components/Reveal";
 import AmbientBackground from "@/components/AmbientBackground";
+import ContactForm from "@/components/ContactForm";
 
 export const metadata: Metadata = {
   title: "Contact — NATLE",
@@ -12,9 +13,6 @@ const CONTACT_DETAILS = [
   { label: "Phone", value: "+94 70 465 9847 / +94 11 250 7601" },
   { label: "Studio", value: "No. 283 1/1, Ruwan Mawatha, Thimbirigasyaya Road, Colombo 05, Sri Lanka" },
 ];
-
-const inputClass =
-  "w-full rounded-xl border border-ink/15 dark:border-white/15 bg-white dark:bg-[#121620] px-4 py-3 text-ink dark:text-white placeholder:text-ink/35 dark:placeholder:text-white/30 outline-none transition-all focus:border-azure focus:ring-4 focus:ring-azure/10";
 
 export default function ContactPage() {
   return (
@@ -44,64 +42,7 @@ export default function ContactPage() {
         </Reveal>
 
         <Reveal delay={0.1}>
-          <form className="rounded-3xl bg-paper dark:bg-[#0D1118] border border-ink/8 dark:border-white/10 shadow-card dark:shadow-2xl p-8 lg:p-10 space-y-6">
-            <div className="grid sm:grid-cols-2 gap-6">
-              <div>
-                <label className="block text-sm font-medium text-ink/70 dark:text-white/70 mb-2" htmlFor="name">
-                  Full name
-                </label>
-                <input id="name" name="name" type="text" placeholder="Jane Silva" className={inputClass} />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-ink/70 dark:text-white/70 mb-2" htmlFor="email">
-                  Email
-                </label>
-                <input id="email" name="email" type="email" placeholder="jane@company.com" className={inputClass} />
-              </div>
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-ink/70 dark:text-white/70 mb-2" htmlFor="company">
-                Company
-              </label>
-              <input id="company" name="company" type="text" placeholder="Company name" className={inputClass} />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-ink/70 dark:text-white/70 mb-2" htmlFor="budget">
-                Estimated budget
-              </label>
-              <select id="budget" name="budget" className={`${inputClass} bg-white dark:bg-[#121620]`} defaultValue="">
-                <option value="" disabled>
-                  Select a range
-                </option>
-                <option>Under $10,000</option>
-                <option>$10,000 – $50,000</option>
-                <option>$50,000 – $150,000</option>
-                <option>$150,000+</option>
-              </select>
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-ink/70 dark:text-white/70 mb-2" htmlFor="message">
-                Tell us about your project
-              </label>
-              <textarea
-                id="message"
-                name="message"
-                rows={5}
-                placeholder="What are you trying to build?"
-                className={`${inputClass} resize-none`}
-              />
-            </div>
-
-            <button
-              type="submit"
-              className="w-full sm:w-auto inline-flex items-center justify-center rounded-full bg-ink text-white px-8 py-4 text-[15px] font-semibold hover:bg-ink-soft dark:bg-white dark:text-ink dark:hover:bg-slate-200 active:scale-[0.98] transition-all shadow-sm"
-            >
-              Send message
-            </button>
-          </form>
+          <ContactForm />
         </Reveal>
       </div>
     </section>

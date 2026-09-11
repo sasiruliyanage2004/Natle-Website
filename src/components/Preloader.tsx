@@ -71,7 +71,7 @@ export default function Preloader() {
           initial={{ y: 0 }}
           exit={{ y: "-100%" }}
           transition={{ duration: 0.9, ease: [0.76, 0, 0.24, 1] }}
-          className="fixed inset-0 z-[99999] flex flex-col items-center justify-center bg-paper text-ink overflow-hidden"
+          className="fixed inset-0 z-[99999] flex flex-col items-center justify-center bg-paper dark:bg-[#07090E] text-ink dark:text-white overflow-hidden"
         >
           
           {/* Centered Animated Logo */}
@@ -85,11 +85,11 @@ export default function Preloader() {
             <NatleLogo className="h-20 sm:h-24 md:h-28 w-auto" showTagline={true} />
           </motion.div>
 
-          <div className="absolute bottom-10 left-10 right-10 flex justify-between items-end text-xs sm:text-sm font-semibold text-ink/40 uppercase tracking-widest">
+          <div className="absolute bottom-10 left-10 right-10 flex justify-between items-end text-xs sm:text-sm font-semibold text-ink/40 dark:text-white/40 uppercase tracking-widest">
             <span>NATLE STUDIO</span>
             <span className="flex flex-col items-end gap-1">
               <span>LOADING...</span>
-              <span className="text-ink text-2xl md:text-3xl font-display">{counter}%</span>
+              <span className="text-ink dark:text-white text-2xl md:text-3xl font-display">{counter}%</span>
             </span>
           </div>
           

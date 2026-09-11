@@ -10,9 +10,11 @@ const config: Config = {
     extend: {
       colors: {
         ink: {
-          DEFAULT: "#0A0A0A",
-          soft: "#1A1A1A",
+          DEFAULT: "rgb(var(--ink) / <alpha-value>)",
+          soft: "rgb(var(--ink-soft) / <alpha-value>)",
         },
+        paper: "rgb(var(--paper) / <alpha-value>)",
+        mist: "rgb(var(--mist) / <alpha-value>)",
         azure: {
           DEFAULT: "#1E7FE8",
           light: "#5CA8F5",
@@ -28,8 +30,6 @@ const config: Config = {
           DEFAULT: "#6FCF3E",
           light: "#9AE85C",
         },
-        mist: "#F5F8FB",
-        paper: "#FCFDFE",
       },
       fontFamily: {
         display: ["var(--font-display)"],
