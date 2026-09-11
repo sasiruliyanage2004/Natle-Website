@@ -4,14 +4,16 @@ import { useEffect, useRef } from "react";
 import * as THREE from "three";
 
 /**
- * Concept B: Cybernetic Architectural Monolith / Quantum Matrix
+ * NATLE Hero 3D — Living Quantum Orb / Neural Nexus
  *
- * - Outer Shell: Faceted crystalline monolith with optical glass transmission and laser-beveled edges.
- * - Inner Lattice: Luminous structural wireframe with brand gradient energy pathways (Azure -> Teal -> Lime).
- * - Emissive Nodes: Pulsing processing junction points firing at lattice intersections.
- * - Singularity Core: Deep quantum dodecahedron radiating energy from within the monolith.
- * - Data Gimbal: 3 concentric gyroscopic rings with orbiting satellite packets.
- * - Particle Field: 1,200 galaxy particles around the core + 38 sparse delicate stars on the left.
+ * A mesmerizing, organically-morphing energy sphere with:
+ * - Custom GLSL vertex shader that drives sinusoidal surface displacement (morphing organic feel)
+ * - Iridescent MeshPhysical outer glass shell with chromatic dispersion
+ * - Inner plasma core with pulsing volumetric glow
+ * - 4 luminous holographic gimbal rings with satellite data packets
+ * - 2,000 galaxy starfield particles (branded Azure/Teal/Lime/Violet palette)
+ * - Dynamic orbiting multi-color point lights
+ * - Cursor parallax + drag-inertia interaction
  */
 export default function Hero3D() {
   const mountRef = useRef<HTMLDivElement>(null);
@@ -23,12 +25,11 @@ export default function Hero3D() {
     let width = mount.clientWidth;
     let height = mount.clientHeight;
 
-    // --- Scene & Camera ---
-    const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 100);
-    camera.position.set(0, 0, 8.4);
+    const isDark = () =>
+      typeof document !== "undefined" &&
+      document.documentElement.classList.contains("dark");
 
-    // --- High-Performance WebGL Renderer ---
+    // ── Renderer ──────────────────────────────────────────────────────────────
     const renderer = new THREE.WebGLRenderer({
       antialias: true,
       alpha: true,
@@ -37,603 +38,520 @@ export default function Hero3D() {
     renderer.setSize(width, height);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    renderer.toneMappingExposure = 1.2;
+    renderer.toneMappingExposure = isDark() ? 1.25 : 1.0;
     mount.appendChild(renderer.domElement);
 
-    const isDarkMode = () =>
-      typeof document !== "undefined" &&
-      document.documentElement.classList.contains("dark");
+    // ── Scene & Camera ────────────────────────────────────────────────────────
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(42, width / height, 0.1, 120);
+    camera.position.set(0, 0, 9.0);
 
-    // --- Monolith Root Group (Responsive Positioning) ---
-    const monolithGroup = new THREE.Group();
-    scene.add(monolithGroup);
+    // ── Root Group (responsive positioning) ──────────────────────────────────
+    const rootGroup = new THREE.Group();
+    scene.add(rootGroup);
 
-    const updateMonolithPosition = () => {
-      const isDesktop = width >= 1024;
-      monolithGroup.position.x = isDesktop ? 1.85 : 0;
-      monolithGroup.position.y = isDesktop ? 0.15 : 0.35;
-      const scale = isDesktop ? 1 : Math.min(1, width / 768);
-      monolithGroup.scale.set(scale, scale, scale);
+    const setRootPos = () => {
+      const desktop = width >= 1024;
+      rootGroup.position.set(desktop ? 1.9 : 0, desktop ? 0.1 : 0.3, 0);
+      const s = desktop ? 1 : Math.min(1, width / 768);
+      rootGroup.scale.setScalar(s);
     };
-    updateMonolithPosition();
+    setRootPos();
 
     // =========================================================================
-    // 1. OUTER FACETED MONOLITH CRYSTAL SHELL (Glass Physical Transmission)
+    // 1.  VERTEX-SHADER MORPHING ORB — the hero object
+    //     High-poly sphere with custom GLSL that undulates the surface using
+    //     overlapping sine waves — produces an organic, living, alien-blob feel.
     // =========================================================================
-    const shellGeo = new THREE.IcosahedronGeometry(1.42, 0);
+    const orbGeo = new THREE.SphereGeometry(1.38, 128, 128);
 
-    const shellMat = new THREE.MeshPhysicalMaterial({
-      roughness: 0.05,
-      transmission: 0.93,
-      thickness: 2.2,
-      ior: 1.54,
+    // We'll store original positions so the shader can displace from rest
+    const orbVerts = orbGeo.getAttribute("position") as THREE.BufferAttribute;
+    const originalPos = new Float32Array(orbVerts.array);
+    orbGeo.setAttribute(
+      "originalPosition",
+      new THREE.BufferAttribute(originalPos, 3)
+    );
+
+    const orbMat = new THREE.ShaderMaterial({
+      uniforms: {
+        uTime: { value: 0 },
+        uMorphAmplitude: { value: isDark() ? 0.18 : 0.13 },
+        uColorA: { value: new THREE.Color(isDark() ? 0x1e7fe8 : 0x2196f3) },
+        uColorB: { value: new THREE.Color(isDark() ? 0x12b8a6 : 0x26c6da) },
+        uColorC: { value: new THREE.Color(isDark() ? 0x6fcf3e : 0x66bb6a) },
+        uColorD: { value: new THREE.Color(isDark() ? 0xa855f7 : 0xab47bc) },
+        uEnvStrength: { value: isDark() ? 1.0 : 0.7 },
+      },
+      vertexShader: /* glsl */ `
+        uniform float uTime;
+        uniform float uMorphAmplitude;
+
+        attribute vec3 originalPosition;
+
+        varying vec3 vNormal;
+        varying vec3 vWorldPos;
+        varying float vDisplace;
+
+        // Fast GLSL simplex-like 3D noise via overlapping sines
+        float wave(vec3 p, float f, float speed) {
+          return sin(p.x * f + uTime * speed)
+               * sin(p.y * f * 0.87 + uTime * speed * 1.13)
+               * sin(p.z * f * 1.3  + uTime * speed * 0.77);
+        }
+
+        void main() {
+          vec3 p = originalPosition;
+
+          float d = wave(p, 2.0, 0.6)  * 1.0
+                  + wave(p, 4.1, 0.45) * 0.55
+                  + wave(p, 7.3, 0.35) * 0.28
+                  + wave(p, 12.7,0.25) * 0.14;
+
+          d *= uMorphAmplitude;
+          vDisplace = d;
+
+          vec3 displaced = p + normalize(p) * d;
+          vNormal = normalMatrix * normalize(p);
+          vWorldPos = (modelMatrix * vec4(displaced, 1.0)).xyz;
+
+          gl_Position = projectionMatrix * modelViewMatrix * vec4(displaced, 1.0);
+        }
+      `,
+      fragmentShader: /* glsl */ `
+        uniform vec3  uColorA;
+        uniform vec3  uColorB;
+        uniform vec3  uColorC;
+        uniform vec3  uColorD;
+        uniform float uEnvStrength;
+        uniform float uTime;
+
+        varying vec3  vNormal;
+        varying vec3  vWorldPos;
+        varying float vDisplace;
+
+        void main() {
+          vec3 N = normalize(vNormal);
+          vec3 V = normalize(cameraPosition - vWorldPos);
+
+          // Fresnel rim
+          float fresnel = pow(1.0 - clamp(dot(N, V), 0.0, 1.0), 3.2);
+
+          // Animated colour banding driven by displacement + time
+          float band = vDisplace * 6.0 + uTime * 0.15;
+
+          // 4-stop gradient
+          float t = fract(band);
+          float seg = mod(floor(band), 4.0);
+
+          vec3 col;
+          if      (seg < 1.0) col = mix(uColorA, uColorB, t);
+          else if (seg < 2.0) col = mix(uColorB, uColorC, t);
+          else if (seg < 3.0) col = mix(uColorC, uColorD, t);
+          else                col = mix(uColorD, uColorA, t);
+
+          // Specular hotspot
+          vec3 L = normalize(vec3(3.0, 5.0, 6.0));
+          float spec = pow(max(dot(reflect(-L, N), V), 0.0), 48.0) * uEnvStrength;
+
+          // Combine
+          vec3 final = mix(col * 0.85, vec3(1.0), fresnel * 0.62);
+          final += vec3(1.0) * spec;
+          final += col * 0.22; // self-illumination
+
+          // Subtle inner glow at displacement peaks
+          float glow = smoothstep(0.04, 0.18, vDisplace) * 0.5;
+          final += col * glow;
+
+          gl_FragColor = vec4(final, 0.88);
+        }
+      `,
       transparent: true,
-      opacity: 0.95,
-      color: new THREE.Color(isDarkMode() ? 0x091426 : 0xffffff),
-      emissive: new THREE.Color(isDarkMode() ? 0x071e3d : 0x1e7fe8),
-      emissiveIntensity: isDarkMode() ? 0.3 : 0.06,
-      reflectivity: 0.98,
+      side: THREE.FrontSide,
+    });
+
+    const orbMesh = new THREE.Mesh(orbGeo, orbMat);
+    rootGroup.add(orbMesh);
+
+    // ── 1b. Glass outer shell (thin, refractive, barely visible) ─────────────
+    const glassGeo = new THREE.SphereGeometry(1.52, 64, 64);
+    const glassMat = new THREE.MeshPhysicalMaterial({
+      color: new THREE.Color(isDark() ? 0x0a1628 : 0xffffff),
+      transmission: 0.92,
+      thickness: 1.1,
+      ior: 1.35,
+      roughness: 0.03,
       clearcoat: 1.0,
-      clearcoatRoughness: 0.04,
-      attenuationColor: new THREE.Color(isDarkMode() ? 0x00d2ff : 0x1e7fe8),
-      attenuationDistance: 3.8,
-    });
-    const shellMesh = new THREE.Mesh(shellGeo, shellMat);
-    shellMesh.scale.set(1.0, 1.18, 1.0); // Architectural vertical elongation
-    monolithGroup.add(shellMesh);
-
-    // Laser-Etched Facet Edges on the Glass Shell
-    const shellEdgesGeo = new THREE.EdgesGeometry(shellGeo);
-    const shellEdgesMat = new THREE.LineBasicMaterial({
-      color: new THREE.Color(isDarkMode() ? 0x00d2ff : 0x1e7fe8),
+      clearcoatRoughness: 0.03,
+      reflectivity: 0.85,
       transparent: true,
-      opacity: isDarkMode() ? 0.8 : 0.45,
-      linewidth: 1.5,
-    });
-    const shellEdges = new THREE.LineSegments(shellEdgesGeo, shellEdgesMat);
-    shellMesh.add(shellEdges);
-
-    // =========================================================================
-    // 2. INNER LUMINOUS WIREFRAME LATTICE (The Quantum Circuitry Matrix)
-    // =========================================================================
-    const innerLatticeGeo = new THREE.OctahedronGeometry(0.96, 1);
-    const latticeEdgesGeo = new THREE.WireframeGeometry(innerLatticeGeo);
-
-    // Assign Brand Palette Vertex Colors along Circuit Edges (Azure -> Teal -> Lime)
-    const edgePositionAttr = latticeEdgesGeo.getAttribute("position");
-    const edgeColors = new Float32Array(edgePositionAttr.count * 3);
-
-    const cAzure = new THREE.Color(0x1e7fe8);
-    const cTeal = new THREE.Color(0x12b8a6);
-    const cLime = new THREE.Color(0x6fcf3e);
-
-    for (let i = 0; i < edgePositionAttr.count; i++) {
-      const y = edgePositionAttr.getY(i);
-      const normalizedY = (y + 0.96) / (0.96 * 2); // 0 at bottom, 1 at top
-
-      const c = new THREE.Color();
-      if (normalizedY < 0.5) {
-        c.copy(cAzure).lerp(cTeal, normalizedY * 2);
-      } else {
-        c.copy(cTeal).lerp(cLime, (normalizedY - 0.5) * 2);
-      }
-
-      edgeColors[i * 3] = c.r;
-      edgeColors[i * 3 + 1] = c.g;
-      edgeColors[i * 3 + 2] = c.b;
-    }
-    latticeEdgesGeo.setAttribute(
-      "color",
-      new THREE.BufferAttribute(edgeColors, 3)
-    );
-
-    const latticeMat = new THREE.LineBasicMaterial({
-      vertexColors: true,
-      transparent: true,
-      opacity: isDarkMode() ? 0.92 : 0.68,
-      blending: isDarkMode() ? THREE.AdditiveBlending : THREE.NormalBlending,
-      linewidth: 1.5,
-    });
-    const innerLattice = new THREE.LineSegments(latticeEdgesGeo, latticeMat);
-    shellMesh.add(innerLattice);
-
-    // =========================================================================
-    // 3. EMISSIVE JUNCTION NODES (Pulsing Processing Cores)
-    // =========================================================================
-    // Extract unique vertex coordinates from the inner lattice
-    const rawPos = innerLatticeGeo.getAttribute("position");
-    const uniqueMap = new Map<string, THREE.Vector3>();
-    for (let i = 0; i < rawPos.count; i++) {
-      const v = new THREE.Vector3(rawPos.getX(i), rawPos.getY(i), rawPos.getZ(i));
-      const key = `${v.x.toFixed(3)},${v.y.toFixed(3)},${v.z.toFixed(3)}`;
-      if (!uniqueMap.has(key)) {
-        uniqueMap.set(key, v);
-      }
-    }
-    const junctionPoints = Array.from(uniqueMap.values());
-    const nodeCount = junctionPoints.length;
-
-    const nodeGeo = new THREE.SphereGeometry(0.038, 14, 14);
-    const nodeMat = new THREE.MeshStandardMaterial({
-      color: new THREE.Color(0x00ffff),
-      emissive: new THREE.Color(isDarkMode() ? 0x12b8a6 : 0x1e7fe8),
-      emissiveIntensity: isDarkMode() ? 2.6 : 1.4,
-      roughness: 0.1,
-      metalness: 0.9,
-    });
-    const instancedNodes = new THREE.InstancedMesh(nodeGeo, nodeMat, nodeCount);
-
-    const dummy = new THREE.Object3D();
-    junctionPoints.forEach((pt, idx) => {
-      dummy.position.copy(pt);
-      dummy.scale.set(1, 1, 1);
-      dummy.updateMatrix();
-      instancedNodes.setMatrixAt(idx, dummy.matrix);
-    });
-    instancedNodes.instanceMatrix.needsUpdate = true;
-    innerLattice.add(instancedNodes);
-
-    // =========================================================================
-    // 4. DEEP QUANTUM SINGULARITY CORE (Radiating Power from Within)
-    // =========================================================================
-    const coreGeo = new THREE.DodecahedronGeometry(0.44, 0);
-    const coreMat = new THREE.MeshStandardMaterial({
-      color: new THREE.Color(0x12b8a6),
-      emissive: new THREE.Color(isDarkMode() ? 0x6fcf3e : 0x12b8a6),
-      emissiveIntensity: isDarkMode() ? 1.4 : 0.8,
-      roughness: 0.15,
-      metalness: 0.9,
-      wireframe: true,
-    });
-    const singularityCore = new THREE.Mesh(coreGeo, coreMat);
-    shellMesh.add(singularityCore);
-
-    // =========================================================================
-    // 5. CONCENTRIC CYBERNETIC GIMBAL RINGS
-    // =========================================================================
-    // Ring 1 (Azure Orbit)
-    const ring1Geo = new THREE.TorusGeometry(2.38, 0.018, 16, 120);
-    const ring1Mat = new THREE.MeshStandardMaterial({
-      color: new THREE.Color(0x1e7fe8),
-      emissive: new THREE.Color(0x00d2ff),
-      emissiveIntensity: isDarkMode() ? 0.95 : 0.5,
-      roughness: 0.1,
-      metalness: 0.9,
-    });
-    const ring1 = new THREE.Mesh(ring1Geo, ring1Mat);
-    ring1.rotation.x = Math.PI / 3;
-    ring1.rotation.y = Math.PI / 6;
-    monolithGroup.add(ring1);
-
-    const sat1Geo = new THREE.SphereGeometry(0.08, 16, 16);
-    const sat1Mat = new THREE.MeshBasicMaterial({ color: 0x00ffff });
-    const sat1 = new THREE.Mesh(sat1Geo, sat1Mat);
-    ring1.add(sat1);
-
-    // Ring 2 (Emerald / Mint Orbit)
-    const ring2Geo = new THREE.TorusGeometry(2.8, 0.015, 16, 140);
-    const ring2Mat = new THREE.MeshStandardMaterial({
-      color: new THREE.Color(0x12b8a6),
-      emissive: new THREE.Color(0x6fcf3e),
-      emissiveIntensity: isDarkMode() ? 0.88 : 0.45,
-      roughness: 0.1,
-      metalness: 0.9,
-    });
-    const ring2 = new THREE.Mesh(ring2Geo, ring2Mat);
-    ring2.rotation.x = -Math.PI / 4;
-    ring2.rotation.z = Math.PI / 5;
-    monolithGroup.add(ring2);
-
-    const sat2Geo = new THREE.SphereGeometry(0.075, 16, 16);
-    const sat2Mat = new THREE.MeshBasicMaterial({ color: 0x6fcf3e });
-    const sat2 = new THREE.Mesh(sat2Geo, sat2Mat);
-    ring2.add(sat2);
-
-    // Ring 3 (Deep Indigo Polar Orbit)
-    const ring3Geo = new THREE.TorusGeometry(3.18, 0.012, 16, 160);
-    const ring3Mat = new THREE.MeshStandardMaterial({
-      color: new THREE.Color(0x6366f1),
-      emissive: new THREE.Color(0x818cf8),
-      emissiveIntensity: isDarkMode() ? 0.8 : 0.35,
-      roughness: 0.2,
-      metalness: 0.85,
-    });
-    const ring3 = new THREE.Mesh(ring3Geo, ring3Mat);
-    ring3.rotation.y = Math.PI / 2.3;
-    monolithGroup.add(ring3);
-
-    // =========================================================================
-    // 6. PRESERVED STARFIELD: 1,200 Dense Core Stars + Exactly 38 Left Area Dots
-    // =========================================================================
-    const coreParticleCount = 1200;
-    const leftParticleCount = 38;
-    const totalParticles = coreParticleCount + leftParticleCount;
-
-    const particleGeo = new THREE.BufferGeometry();
-    const positions = new Float32Array(totalParticles * 3);
-    const colors = new Float32Array(totalParticles * 3);
-
-    const colorPalette = [
-      new THREE.Color(0x1e7fe8), // Azure
-      new THREE.Color(0x00d2ff), // Cyan
-      new THREE.Color(0x12b8a6), // Teal
-      new THREE.Color(0x6fcf3e), // Lime
-      new THREE.Color(0xa855f7), // Purple
-      new THREE.Color(0xffffff), // White spark
-    ];
-
-    const coreX = monolithGroup.position.x;
-
-    // 1. Main Core Galaxy (1,200 rich particles around the 3D crystal core)
-    for (let i = 0; i < coreParticleCount; i++) {
-      const radius = 2.2 + Math.random() * 5.6;
-      const theta = Math.random() * Math.PI * 2;
-      const phi = Math.acos(2 * Math.random() - 1);
-
-      positions[i * 3] = coreX + radius * Math.sin(phi) * Math.cos(theta);
-      positions[i * 3 + 1] = radius * Math.sin(phi) * Math.sin(theta);
-      positions[i * 3 + 2] = radius * Math.cos(phi);
-
-      const chosenColor =
-        colorPalette[Math.floor(Math.random() * colorPalette.length)];
-      colors[i * 3] = chosenColor.r;
-      colors[i * 3 + 1] = chosenColor.g;
-      colors[i * 3 + 2] = chosenColor.b;
-    }
-
-    // 2. Left Area: Exclusively 38 sparse, delicate dots
-    for (let i = coreParticleCount; i < totalParticles; i++) {
-      positions[i * 3] = -6.2 + Math.random() * 5.8;
-      positions[i * 3 + 1] = -3.2 + Math.random() * 6.4;
-      positions[i * 3 + 2] = -2.5 + Math.random() * 4.0;
-
-      const chosenColor =
-        colorPalette[Math.floor(Math.random() * colorPalette.length)];
-      colors[i * 3] = chosenColor.r;
-      colors[i * 3 + 1] = chosenColor.g;
-      colors[i * 3 + 2] = chosenColor.b;
-    }
-
-    particleGeo.setAttribute(
-      "position",
-      new THREE.BufferAttribute(positions, 3)
-    );
-    particleGeo.setAttribute("color", new THREE.BufferAttribute(colors, 3));
-
-    // Custom circular soft glow texture for particles
-    const canvas = document.createElement("canvas");
-    canvas.width = 32;
-    canvas.height = 32;
-    const ctx = canvas.getContext("2d");
-    if (ctx) {
-      const gradient = ctx.createRadialGradient(16, 16, 0, 16, 16, 16);
-      gradient.addColorStop(0, "rgba(255,255,255,1)");
-      gradient.addColorStop(0.35, "rgba(255,255,255,0.85)");
-      gradient.addColorStop(0.7, "rgba(255,255,255,0.2)");
-      gradient.addColorStop(1, "rgba(255,255,255,0)");
-      ctx.fillStyle = gradient;
-      ctx.fillRect(0, 0, 32, 32);
-    }
-    const particleTexture = new THREE.CanvasTexture(canvas);
-
-    const particleMat = new THREE.PointsMaterial({
-      size: 0.085,
-      vertexColors: true,
-      map: particleTexture,
-      transparent: true,
-      opacity: isDarkMode() ? 0.75 : 0.45,
-      blending: isDarkMode() ? THREE.AdditiveBlending : THREE.NormalBlending,
+      opacity: isDark() ? 0.55 : 0.35,
+      side: THREE.FrontSide,
       depthWrite: false,
     });
-    const particles = new THREE.Points(particleGeo, particleMat);
-    scene.add(particles);
+    const glassMesh = new THREE.Mesh(glassGeo, glassMat);
+    rootGroup.add(glassMesh);
+
+    // ── 1c. Inner plasma core ─────────────────────────────────────────────────
+    const coreGeo = new THREE.SphereGeometry(0.72, 48, 48);
+    const coreMat = new THREE.MeshStandardMaterial({
+      color: new THREE.Color(0x1e7fe8),
+      emissive: new THREE.Color(isDark() ? 0x1e7fe8 : 0x12b8a6),
+      emissiveIntensity: isDark() ? 3.2 : 2.0,
+      roughness: 0.0,
+      metalness: 1.0,
+    });
+    const coreMesh = new THREE.Mesh(coreGeo, coreMat);
+    rootGroup.add(coreMesh);
 
     // =========================================================================
-    // 7. DYNAMIC SPATIAL LIGHTING
+    // 2.  HOLOGRAPHIC GIMBAL RINGS (4 rings, varied angles)
     // =========================================================================
-    const ambientLight = new THREE.AmbientLight(
-      isDarkMode() ? 0x081022 : 0xf0f4f8,
-      isDarkMode() ? 2.0 : 2.6
-    );
-    scene.add(ambientLight);
+    const makeRing = (
+      radius: number,
+      tube: number,
+      colorHex: number,
+      emissHex: number,
+      emissI: number,
+      rotX: number,
+      rotY: number,
+      rotZ: number
+    ) => {
+      const geo = new THREE.TorusGeometry(radius, tube, 20, 180);
+      const mat = new THREE.MeshStandardMaterial({
+        color: new THREE.Color(colorHex),
+        emissive: new THREE.Color(emissHex),
+        emissiveIntensity: isDark() ? emissI : emissI * 0.55,
+        roughness: 0.08,
+        metalness: 0.95,
+        transparent: true,
+        opacity: isDark() ? 0.9 : 0.75,
+      });
+      const mesh = new THREE.Mesh(geo, mat);
+      mesh.rotation.set(rotX, rotY, rotZ);
+      rootGroup.add(mesh);
 
-    const light1 = new THREE.PointLight(0x1e7fe8, isDarkMode() ? 5.0 : 3.2, 15);
-    scene.add(light1);
+      // Satellite data packet
+      const satG = new THREE.SphereGeometry(0.07, 16, 16);
+      const satM = new THREE.MeshStandardMaterial({
+        color: new THREE.Color(emissHex),
+        emissive: new THREE.Color(emissHex),
+        emissiveIntensity: isDark() ? 3.5 : 2.0,
+        roughness: 0.0,
+        metalness: 1.0,
+      });
+      const sat = new THREE.Mesh(satG, satM);
+      mesh.add(sat);
 
-    const light2 = new THREE.PointLight(0x00d2ff, isDarkMode() ? 4.2 : 2.8, 15);
-    scene.add(light2);
-
-    const light3 = new THREE.PointLight(0x12b8a6, isDarkMode() ? 3.5 : 2.2, 13);
-    scene.add(light3);
-
-    const dirLight = new THREE.DirectionalLight(0xffffff, isDarkMode() ? 1.9 : 2.3);
-    dirLight.position.set(4, 5, 6);
-    scene.add(dirLight);
-
-    // =========================================================================
-    // 8. INTERACTIVE DRAG & PARALLAX PHYSICS
-    // =========================================================================
-    let targetRotX = 0;
-    let targetRotY = 0;
-    let currentRotX = 0;
-    let currentRotY = 0;
-    let isDragging = false;
-    let previousMouseX = 0;
-    let previousMouseY = 0;
-    let dragVelocityX = 0;
-    let dragVelocityY = 0;
-
-    const onPointerDown = (e: PointerEvent) => {
-      isDragging = true;
-      previousMouseX = e.clientX;
-      previousMouseY = e.clientY;
-      dragVelocityX = 0;
-      dragVelocityY = 0;
+      return { mesh, mat, sat, radius, geo, satG, satM };
     };
 
-    const onPointerMove = (e: PointerEvent) => {
-      if (isDragging) {
-        const deltaX = e.clientX - previousMouseX;
-        const deltaY = e.clientY - previousMouseY;
-        previousMouseX = e.clientX;
-        previousMouseY = e.clientY;
+    const ring1 = makeRing(2.4,  0.016, 0x1e7fe8, 0x00d2ff, 1.1, Math.PI/3,   Math.PI/6,   0);
+    const ring2 = makeRing(2.85, 0.013, 0x12b8a6, 0x6fcf3e, 1.0, -Math.PI/4,  0,           Math.PI/5);
+    const ring3 = makeRing(3.25, 0.011, 0x6366f1, 0xa855f7, 0.95, 0,           Math.PI/2.4, Math.PI/8);
+    const ring4 = makeRing(3.7,  0.009, 0xe879f9, 0xf0abfc, 0.85, Math.PI/2,  Math.PI/3,   -Math.PI/6);
 
-        targetRotY += deltaX * 0.005;
-        targetRotX += deltaY * 0.005;
-        dragVelocityX = deltaX * 0.005;
-        dragVelocityY = deltaY * 0.005;
+    // =========================================================================
+    // 3.  STARFIELD — 2,000 galaxy + 42 left-side subtle stars
+    // =========================================================================
+    const CORE_N  = 2000;
+    const LEFT_N  = 42;
+    const TOTAL   = CORE_N + LEFT_N;
+
+    const sfGeo  = new THREE.BufferGeometry();
+    const sfPos  = new Float32Array(TOTAL * 3);
+    const sfCol  = new Float32Array(TOTAL * 3);
+    const sfSize = new Float32Array(TOTAL);
+
+    const pal = [
+      new THREE.Color(0x1e7fe8),
+      new THREE.Color(0x00d2ff),
+      new THREE.Color(0x12b8a6),
+      new THREE.Color(0x6fcf3e),
+      new THREE.Color(0xa855f7),
+      new THREE.Color(0xf0abfc),
+      new THREE.Color(0xffffff),
+    ];
+
+    const cx = rootGroup.position.x;
+
+    for (let i = 0; i < CORE_N; i++) {
+      const r = 2.4 + Math.random() * 6.0;
+      const th = Math.random() * Math.PI * 2;
+      const ph = Math.acos(2 * Math.random() - 1);
+      sfPos[i * 3]     = cx + r * Math.sin(ph) * Math.cos(th);
+      sfPos[i * 3 + 1] = r * Math.sin(ph) * Math.sin(th);
+      sfPos[i * 3 + 2] = r * Math.cos(ph);
+      const c = pal[Math.floor(Math.random() * pal.length)];
+      sfCol[i * 3] = c.r; sfCol[i * 3 + 1] = c.g; sfCol[i * 3 + 2] = c.b;
+      sfSize[i] = 0.055 + Math.random() * 0.07;
+    }
+
+    for (let i = CORE_N; i < TOTAL; i++) {
+      sfPos[i * 3]     = -6.5 + Math.random() * 5.8;
+      sfPos[i * 3 + 1] = -3.5 + Math.random() * 7.0;
+      sfPos[i * 3 + 2] = -3.0 + Math.random() * 4.5;
+      const c = pal[Math.floor(Math.random() * pal.length)];
+      sfCol[i * 3] = c.r; sfCol[i * 3 + 1] = c.g; sfCol[i * 3 + 2] = c.b;
+      sfSize[i] = 0.04 + Math.random() * 0.045;
+    }
+
+    sfGeo.setAttribute("position", new THREE.BufferAttribute(sfPos, 3));
+    sfGeo.setAttribute("color",    new THREE.BufferAttribute(sfCol, 3));
+    sfGeo.setAttribute("size",     new THREE.BufferAttribute(sfSize, 1));
+
+    // Soft glow sprite texture
+    const spriteCanvas = document.createElement("canvas");
+    spriteCanvas.width = spriteCanvas.height = 64;
+    const sCtx = spriteCanvas.getContext("2d")!;
+    const sg = sCtx.createRadialGradient(32, 32, 0, 32, 32, 32);
+    sg.addColorStop(0,    "rgba(255,255,255,1)");
+    sg.addColorStop(0.3,  "rgba(255,255,255,0.8)");
+    sg.addColorStop(0.65, "rgba(255,255,255,0.15)");
+    sg.addColorStop(1,    "rgba(255,255,255,0)");
+    sCtx.fillStyle = sg;
+    sCtx.fillRect(0, 0, 64, 64);
+    const spriteTex = new THREE.CanvasTexture(spriteCanvas);
+
+    const sfMat = new THREE.PointsMaterial({
+      size: 0.1,
+      sizeAttenuation: true,
+      vertexColors: true,
+      map: spriteTex,
+      transparent: true,
+      opacity: isDark() ? 0.82 : 0.48,
+      blending: isDark() ? THREE.AdditiveBlending : THREE.NormalBlending,
+      depthWrite: false,
+    });
+    const stars = new THREE.Points(sfGeo, sfMat);
+    scene.add(stars);
+
+    // =========================================================================
+    // 4.  LIGHTING — theatrical multi-light setup
+    // =========================================================================
+    const ambient = new THREE.AmbientLight(
+      isDark() ? 0x080c18 : 0xf0f4fc,
+      isDark() ? 1.8 : 3.0
+    );
+    scene.add(ambient);
+
+    const lA = new THREE.PointLight(0x1e7fe8, isDark() ? 5.5 : 3.5, 18); scene.add(lA);
+    const lB = new THREE.PointLight(0x00d2ff, isDark() ? 4.5 : 3.0, 18); scene.add(lB);
+    const lC = new THREE.PointLight(0x12b8a6, isDark() ? 3.8 : 2.5, 14); scene.add(lC);
+    const lD = new THREE.PointLight(0xa855f7, isDark() ? 3.0 : 1.8, 12); scene.add(lD);
+
+    const dir = new THREE.DirectionalLight(0xffffff, isDark() ? 2.0 : 2.6);
+    dir.position.set(5, 6, 7);
+    scene.add(dir);
+
+    // =========================================================================
+    // 5.  INTERACTION — drag inertia + parallax
+    // =========================================================================
+    let tarX = 0, tarY = 0, curX = 0, curY = 0;
+    let dragging = false, prevMX = 0, prevMY = 0, velX = 0, velY = 0;
+
+    const onDown = (e: PointerEvent) => {
+      dragging = true;
+      prevMX = e.clientX; prevMY = e.clientY;
+      velX = velY = 0;
+    };
+    const onUp = () => { dragging = false; };
+    const onMove = (e: PointerEvent) => {
+      if (dragging) {
+        const dx = e.clientX - prevMX, dy = e.clientY - prevMY;
+        prevMX = e.clientX; prevMY = e.clientY;
+        tarY += dx * 0.005; tarX += dy * 0.005;
+        velX = dx * 0.005; velY = dy * 0.005;
       } else {
-        // Subtle mouse parallax
-        const halfW = window.innerWidth / 2;
-        const halfH = window.innerHeight / 2;
-        targetRotY = ((e.clientX - halfW) / halfW) * 0.28;
-        targetRotX = ((e.clientY - halfH) / halfH) * 0.28;
+        const hw = window.innerWidth / 2, hh = window.innerHeight / 2;
+        tarY = ((e.clientX - hw) / hw) * 0.3;
+        tarX = ((e.clientY - hh) / hh) * 0.3;
       }
     };
 
-    const onPointerUp = () => {
-      isDragging = false;
-    };
-
-    window.addEventListener("pointermove", onPointerMove, { passive: true });
-    mount.addEventListener("pointerdown", onPointerDown);
-    window.addEventListener("pointerup", onPointerUp);
+    window.addEventListener("pointermove", onMove, { passive: true });
+    mount.addEventListener("pointerdown", onDown);
+    window.addEventListener("pointerup", onUp);
 
     // =========================================================================
-    // 9. THEME SYNCHRONIZER (Dynamic Mutation Observer)
+    // 6.  THEME SYNC
     // =========================================================================
-    const updateThemeMaterials = () => {
-      const dark = isDarkMode();
-      shellMat.color.setHex(dark ? 0x091426 : 0xffffff);
-      shellMat.emissive.setHex(dark ? 0x071e3d : 0x1e7fe8);
-      shellMat.emissiveIntensity = dark ? 0.3 : 0.06;
-      shellMat.attenuationColor.setHex(dark ? 0x00d2ff : 0x1e7fe8);
+    const syncTheme = () => {
+      const d = isDark();
+      renderer.toneMappingExposure = d ? 1.25 : 1.0;
 
-      shellEdgesMat.color.setHex(dark ? 0x00d2ff : 0x1e7fe8);
-      shellEdgesMat.opacity = dark ? 0.8 : 0.45;
+      (orbMat.uniforms.uMorphAmplitude.value) = d ? 0.18 : 0.13;
+      (orbMat.uniforms.uEnvStrength.value) = d ? 1.0 : 0.7;
+      (orbMat.uniforms.uColorA.value as THREE.Color).setHex(d ? 0x1e7fe8 : 0x2196f3);
+      (orbMat.uniforms.uColorB.value as THREE.Color).setHex(d ? 0x12b8a6 : 0x26c6da);
+      (orbMat.uniforms.uColorC.value as THREE.Color).setHex(d ? 0x6fcf3e : 0x66bb6a);
+      (orbMat.uniforms.uColorD.value as THREE.Color).setHex(d ? 0xa855f7 : 0xab47bc);
 
-      latticeMat.opacity = dark ? 0.92 : 0.68;
-      latticeMat.blending = dark ? THREE.AdditiveBlending : THREE.NormalBlending;
-      latticeMat.needsUpdate = true;
+      glassMat.color.setHex(d ? 0x0a1628 : 0xffffff);
+      glassMat.opacity = d ? 0.55 : 0.35;
 
-      nodeMat.emissive.setHex(dark ? 0x12b8a6 : 0x1e7fe8);
-      nodeMat.emissiveIntensity = dark ? 2.6 : 1.4;
+      coreMat.emissive.setHex(d ? 0x1e7fe8 : 0x12b8a6);
+      coreMat.emissiveIntensity = d ? 3.2 : 2.0;
 
-      coreMat.emissive.setHex(dark ? 0x6fcf3e : 0x12b8a6);
-      coreMat.emissiveIntensity = dark ? 1.4 : 0.8;
+      for (const r of [ring1, ring2, ring3, ring4]) {
+        r.mat.emissiveIntensity = d ? (r === ring1 ? 1.1 : r === ring2 ? 1.0 : r === ring3 ? 0.95 : 0.85)
+                                    : (r === ring1 ? 0.6 : r === ring2 ? 0.55 : r === ring3 ? 0.52 : 0.47);
+      }
 
-      ring1Mat.emissiveIntensity = dark ? 0.95 : 0.5;
-      ring2Mat.emissiveIntensity = dark ? 0.88 : 0.45;
-      ring3Mat.emissiveIntensity = dark ? 0.8 : 0.35;
+      sfMat.opacity = d ? 0.82 : 0.48;
+      sfMat.blending = d ? THREE.AdditiveBlending : THREE.NormalBlending;
+      sfMat.needsUpdate = true;
 
-      particleMat.opacity = dark ? 0.75 : 0.45;
-      particleMat.blending = dark ? THREE.AdditiveBlending : THREE.NormalBlending;
-      particleMat.needsUpdate = true;
-
-      ambientLight.color.setHex(dark ? 0x081022 : 0xf0f4f8);
-      ambientLight.intensity = dark ? 2.0 : 2.6;
-
-      light1.intensity = dark ? 5.0 : 3.2;
-      light2.intensity = dark ? 4.2 : 2.8;
-      light3.intensity = dark ? 3.5 : 2.2;
-      dirLight.intensity = dark ? 1.9 : 2.3;
+      ambient.color.setHex(d ? 0x080c18 : 0xf0f4fc);
+      ambient.intensity = d ? 1.8 : 3.0;
+      lA.intensity = d ? 5.5 : 3.5;
+      lB.intensity = d ? 4.5 : 3.0;
+      lC.intensity = d ? 3.8 : 2.5;
+      lD.intensity = d ? 3.0 : 1.8;
+      dir.intensity = d ? 2.0 : 2.6;
     };
 
-    const themeObserver = new MutationObserver(updateThemeMaterials);
-    themeObserver.observe(document.documentElement, {
+    const themeObs = new MutationObserver(syncTheme);
+    themeObs.observe(document.documentElement, {
       attributes: true,
       attributeFilter: ["class"],
     });
 
     // =========================================================================
-    // 10. ANIMATION & RENDER LOOP (60fps with Energy Pulse)
+    // 7.  ANIMATION LOOP
     // =========================================================================
     const clock = new THREE.Clock();
-    let raf = 0;
-    let isIntersecting = true;
-    let isTabVisible = !document.hidden;
+    let raf = 0, visible = true, tabVisible = !document.hidden;
 
     const animate = () => {
-      if (!isIntersecting || !isTabVisible) {
-        raf = 0;
-        return;
-      }
+      if (!visible || !tabVisible) { raf = 0; return; }
+      const t = clock.getElapsedTime();
 
-      const elapsed = clock.getElapsedTime();
+      // Shader time
+      orbMat.uniforms.uTime.value = t;
 
-      // Damping & inertia
-      if (!isDragging) {
-        targetRotY += dragVelocityX;
-        targetRotX += dragVelocityY;
-        dragVelocityX *= 0.94;
-        dragVelocityY *= 0.94;
-      }
+      // Drag inertia
+      if (!dragging) { tarX += velY; tarY += velX; velX *= 0.93; velY *= 0.93; }
+      curX += (tarX - curX) * 0.055;
+      curY += (tarY - curY) * 0.055;
 
-      currentRotX += (targetRotX - currentRotX) * 0.06;
-      currentRotY += (targetRotY - currentRotY) * 0.06;
+      // Root group — slow auto-spin + user control
+      rootGroup.rotation.x = curX + Math.sin(t * 0.42) * 0.045;
+      rootGroup.rotation.y = curY + t * 0.10;
 
-      // Monolith core rotation
-      monolithGroup.rotation.x = currentRotX + Math.sin(elapsed * 0.45) * 0.04;
-      monolithGroup.rotation.y = currentRotY + elapsed * 0.11;
+      // Orb mesh subtle breathing scale
+      const breathS = 1.0 + Math.sin(t * 1.9) * 0.025;
+      orbMesh.scale.setScalar(breathS);
 
-      // Inner Matrix counter-orbit and breathing
-      innerLattice.rotation.x = -elapsed * 0.25;
-      innerLattice.rotation.y = elapsed * 0.32;
-      const latticeBreath = 1.0 + Math.sin(elapsed * 2.4) * 0.035;
-      innerLattice.scale.set(latticeBreath, latticeBreath, latticeBreath);
+      // Glass shell slight counter-rotate for dispersion illusion
+      glassMesh.rotation.y = t * -0.04;
+      glassMesh.rotation.z = t * 0.028;
 
-      // Emissive Node Junctions: Dynamic Energy Pulse
-      for (let i = 0; i < nodeCount; i++) {
-        const pt = junctionPoints[i];
-        const pulse = 1.0 + Math.sin(elapsed * 3.6 + i * 0.7) * 0.35;
-        dummy.position.copy(pt);
-        dummy.scale.set(pulse, pulse, pulse);
-        dummy.updateMatrix();
-        instancedNodes.setMatrixAt(i, dummy.matrix);
-      }
-      instancedNodes.instanceMatrix.needsUpdate = true;
+      // Inner plasma core pulse
+      const cp = 1.0 + Math.sin(t * 2.8) * 0.12;
+      coreMesh.scale.setScalar(cp);
+      coreMat.emissiveIntensity = (isDark() ? 3.2 : 2.0) * (0.85 + Math.sin(t * 2.8) * 0.15);
 
-      // Central Quantum Singularity Core: Dynamic Pulse & Counter-Spin
-      singularityCore.rotation.x = -elapsed * 0.55;
-      singularityCore.rotation.y = elapsed * 0.65;
-      const corePulse = 1.0 + Math.sin(elapsed * 2.8) * 0.1;
-      singularityCore.scale.set(corePulse, corePulse, corePulse);
+      // Ring 1 — Azure equatorial
+      ring1.mesh.rotation.z = t * 0.38;
+      ring1.sat.position.x = Math.cos(t * 1.9) * ring1.radius;
+      ring1.sat.position.y = Math.sin(t * 1.9) * ring1.radius;
 
-      // Gyroscopic Rings Spin
-      ring1.rotation.z = elapsed * 0.38;
-      sat1.position.x = Math.cos(elapsed * 1.9) * 2.38;
-      sat1.position.y = Math.sin(elapsed * 1.9) * 2.38;
+      // Ring 2 — Teal inclined
+      ring2.mesh.rotation.y = -t * 0.28;
+      ring2.sat.position.x = Math.cos(-t * 1.5) * ring2.radius;
+      ring2.sat.position.z = Math.sin(-t * 1.5) * ring2.radius;
 
-      ring2.rotation.y = -elapsed * 0.3;
-      sat2.position.x = Math.cos(-elapsed * 1.45) * 2.8;
-      sat2.position.z = Math.sin(-elapsed * 1.45) * 2.8;
+      // Ring 3 — Indigo polar
+      ring3.mesh.rotation.x = t * 0.22;
+      ring3.sat.position.y = Math.cos(t * 1.3) * ring3.radius;
+      ring3.sat.position.z = Math.sin(t * 1.3) * ring3.radius;
 
-      ring3.rotation.x = elapsed * 0.24;
+      // Ring 4 — Violet wide outer
+      ring4.mesh.rotation.z = -t * 0.17;
+      ring4.mesh.rotation.x = t * 0.12;
+      ring4.sat.position.x = Math.cos(t * 1.1) * ring4.radius;
+      ring4.sat.position.y = Math.sin(t * 1.1) * ring4.radius;
 
-      // Cosmic Starfield Subtle Drift
-      particles.rotation.y = -elapsed * 0.014;
-      particles.rotation.z = Math.sin(elapsed * 0.07) * 0.02;
+      // Starfield subtle drift
+      stars.rotation.y = -t * 0.012;
+      stars.rotation.z =  Math.sin(t * 0.06) * 0.015;
 
-      // Orbiting Dynamic Lights
-      const mx = monolithGroup.position.x;
-      light1.position.x = mx + Math.sin(elapsed * 1.2) * 4.4;
-      light1.position.z = Math.cos(elapsed * 1.2) * 4.4;
-      light1.position.y = Math.sin(elapsed * 0.8) * 2.2;
-
-      light2.position.x = mx + Math.cos(-elapsed * 0.95) * 4.8;
-      light2.position.y = Math.sin(-elapsed * 1.1) * 3.6;
-      light2.position.z = Math.sin(elapsed * 0.7) * 3.2;
-
-      light3.position.x = mx + Math.sin(elapsed * 0.65) * 3.6;
-      light3.position.y = -Math.cos(elapsed * 0.85) * 3.4;
-      light3.position.z = Math.cos(elapsed * 1.1) * 4.2;
+      // Orbiting dynamic lights
+      const mx = rootGroup.position.x;
+      lA.position.set(mx + Math.sin(t * 1.15) * 4.5, Math.sin(t * 0.82) * 2.4, Math.cos(t * 1.15) * 4.5);
+      lB.position.set(mx + Math.cos(-t * 0.9) * 5.0, Math.sin(-t * 1.1)  * 3.8, Math.sin(t * 0.72) * 3.4);
+      lC.position.set(mx + Math.sin(t * 0.65) * 3.8, -Math.cos(t * 0.85) * 3.5, Math.cos(t * 1.1)  * 4.4);
+      lD.position.set(mx + Math.cos(t * 0.5)  * 5.5,  Math.sin(t * 0.6)  * 4.2, -Math.sin(t * 0.9) * 3.8);
 
       renderer.render(scene, camera);
       raf = requestAnimationFrame(animate);
     };
 
-    const startAnimate = () => {
-      if (!raf && isIntersecting && isTabVisible) {
-        clock.start();
-        raf = requestAnimationFrame(animate);
-      }
+    const start = () => {
+      if (!raf && visible && tabVisible) { clock.start(); raf = requestAnimationFrame(animate); }
     };
 
-    const io = new IntersectionObserver(
-      ([entry]) => {
-        isIntersecting = entry.isIntersecting;
-        if (isIntersecting) {
-          startAnimate();
-        } else if (raf) {
-          cancelAnimationFrame(raf);
-          raf = 0;
-        }
-      },
-      { threshold: 0.05 }
-    );
+    const io = new IntersectionObserver(([e]) => {
+      visible = e.isIntersecting;
+      if (visible) start(); else if (raf) { cancelAnimationFrame(raf); raf = 0; }
+    }, { threshold: 0.05 });
     io.observe(mount);
 
-    const handleVisibilityChange = () => {
-      isTabVisible = !document.hidden;
-      if (isTabVisible) {
-        startAnimate();
-      } else if (raf) {
-        cancelAnimationFrame(raf);
-        raf = 0;
-      }
+    const onVis = () => {
+      tabVisible = !document.hidden;
+      if (tabVisible) start(); else if (raf) { cancelAnimationFrame(raf); raf = 0; }
     };
-    document.addEventListener("visibilitychange", handleVisibilityChange);
+    document.addEventListener("visibilitychange", onVis);
+    start();
 
-    startAnimate();
-
-    // =========================================================================
-    // 11. RESPONSIVE RESIZE HANDLER
-    // =========================================================================
+    // ── Resize ────────────────────────────────────────────────────────────────
     const onResize = () => {
       if (!mount) return;
-      width = mount.clientWidth;
-      height = mount.clientHeight;
+      width = mount.clientWidth; height = mount.clientHeight;
       if (!width || !height) return;
-
       camera.aspect = width / height;
       camera.updateProjectionMatrix();
       renderer.setSize(width, height);
-      updateMonolithPosition();
+      setRootPos();
     };
-
     window.addEventListener("resize", onResize);
     onResize();
 
-    // =========================================================================
-    // 12. CLEANUP & RESOURCE DISPOSAL
-    // =========================================================================
+    // ── Cleanup ───────────────────────────────────────────────────────────────
     return () => {
       if (raf) cancelAnimationFrame(raf);
       io.disconnect();
-      themeObserver.disconnect();
-      document.removeEventListener("visibilitychange", handleVisibilityChange);
+      themeObs.disconnect();
+      document.removeEventListener("visibilitychange", onVis);
       window.removeEventListener("resize", onResize);
-      window.removeEventListener("pointermove", onPointerMove);
-      mount.removeEventListener("pointerdown", onPointerDown);
-      window.removeEventListener("pointerup", onPointerUp);
+      window.removeEventListener("pointermove", onMove);
+      mount.removeEventListener("pointerdown", onDown);
+      window.removeEventListener("pointerup", onUp);
 
-      shellGeo.dispose();
-      shellMat.dispose();
-      shellEdgesGeo.dispose();
-      shellEdgesMat.dispose();
-      innerLatticeGeo.dispose();
-      latticeEdgesGeo.dispose();
-      latticeMat.dispose();
-      nodeGeo.dispose();
-      nodeMat.dispose();
-      coreGeo.dispose();
-      coreMat.dispose();
-      ring1Geo.dispose();
-      ring1Mat.dispose();
-      sat1Geo.dispose();
-      sat1Mat.dispose();
-      ring2Geo.dispose();
-      ring2Mat.dispose();
-      sat2Geo.dispose();
-      sat2Mat.dispose();
-      ring3Geo.dispose();
-      ring3Mat.dispose();
-      particleGeo.dispose();
-      particleMat.dispose();
-      particleTexture.dispose();
+      [orbGeo, glassGeo, coreGeo,
+       ring1.geo, ring1.satG, ring2.geo, ring2.satG,
+       ring3.geo, ring3.satG, ring4.geo, ring4.satG,
+       sfGeo
+      ].forEach(g => g.dispose());
+
+      [orbMat, glassMat, coreMat,
+       ring1.mat, ring1.satM, ring2.mat, ring2.satM,
+       ring3.mat, ring3.satM, ring4.mat, ring4.satM,
+       sfMat
+      ].forEach(m => m.dispose());
+
+      spriteTex.dispose();
       renderer.dispose();
-
-      if (mount.contains(renderer.domElement)) {
-        mount.removeChild(renderer.domElement);
-      }
+      if (mount.contains(renderer.domElement)) mount.removeChild(renderer.domElement);
     };
   }, []);
 
   return (
     <div
       ref={mountRef}
-      className="absolute inset-0 w-full h-full pointer-events-auto cursor-grab active:cursor-grabbing opacity-95 transition-opacity duration-300 select-none z-[1]"
-      aria-label="Interactive 3D Cybernetic Monolith - Click and drag to rotate in 3D"
+      className="absolute inset-0 w-full h-full pointer-events-auto cursor-grab active:cursor-grabbing select-none z-[1]"
+      aria-label="Interactive 3D Living Quantum Orb — drag to rotate"
       role="region"
     />
   );
