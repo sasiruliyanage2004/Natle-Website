@@ -30,18 +30,26 @@ export default function Hero3D() {
     renderer.toneMappingExposure = 1.15;
     mount.appendChild(renderer.domElement);
 
-    // --- Main 3D Interactive Group ---
-    const mainGroup = new THREE.Group();
-    scene.add(mainGroup);
-
     const isDarkMode = () =>
       typeof document !== "undefined" &&
       document.documentElement.classList.contains("dark");
 
+    // --- Interactive 3D Core Group (Positioned on the right on desktop) ---
+    const coreGroup = new THREE.Group();
+    scene.add(coreGroup);
+
+    const updateCorePosition = () => {
+      const isDesktop = width >= 1024;
+      coreGroup.position.x = isDesktop ? 1.85 : 0;
+      coreGroup.position.y = isDesktop ? 0 : 0.35;
+      const scale = isDesktop ? 1 : Math.min(1, width / 768);
+      coreGroup.scale.set(scale, scale, scale);
+    };
+    updateCorePosition();
+
     // --- 1. Central Translucent Quantum Crystal (Icosahedron) ---
     const crystalGeo = new THREE.IcosahedronGeometry(1.35, 0);
 
-    // Faceted Crystal Material
     const crystalMat = new THREE.MeshPhysicalMaterial({
       roughness: 0.08,
       transmission: 0.88,
@@ -57,7 +65,7 @@ export default function Hero3D() {
       clearcoatRoughness: 0.1,
     });
     const crystalMesh = new THREE.Mesh(crystalGeo, crystalMat);
-    mainGroup.add(crystalMesh);
+    coreGroup.add(crystalMesh);
 
     // Glowing Wireframe Cage for the Crystal
     const wireframeGeo = new THREE.WireframeGeometry(crystalGeo);
@@ -83,7 +91,7 @@ export default function Hero3D() {
     const innerCore = new THREE.Mesh(innerCoreGeo, innerCoreMat);
     crystalMesh.add(innerCore);
 
-    // --- 3. Dual Concentric Holographic Orbital Gimbal Rings ---
+    // --- 3. Concentric Holographic Orbital Gimbal Rings ---
     // Ring 1 (Azure Cyan Orbit)
     const ring1Geo = new THREE.TorusGeometry(2.35, 0.02, 16, 120);
     const ring1Mat = new THREE.MeshStandardMaterial({
@@ -96,7 +104,7 @@ export default function Hero3D() {
     const ring1 = new THREE.Mesh(ring1Geo, ring1Mat);
     ring1.rotation.x = Math.PI / 3;
     ring1.rotation.y = Math.PI / 6;
-    mainGroup.add(ring1);
+    coreGroup.add(ring1);
 
     // Ring 1 Satellite Orb
     const sat1Geo = new THREE.SphereGeometry(0.09, 16, 16);
@@ -116,7 +124,7 @@ export default function Hero3D() {
     const ring2 = new THREE.Mesh(ring2Geo, ring2Mat);
     ring2.rotation.x = -Math.PI / 4;
     ring2.rotation.z = Math.PI / 5;
-    mainGroup.add(ring2);
+    coreGroup.add(ring2);
 
     // Ring 2 Satellite Orb
     const sat2Geo = new THREE.SphereGeometry(0.08, 16, 16);
@@ -124,7 +132,7 @@ export default function Hero3D() {
     const sat2 = new THREE.Mesh(sat2Geo, sat2Mat);
     ring2.add(sat2);
 
-    // Ring 3 (Deep Purple / Violet Orbit)
+    // Ring 3 (Deep Violet Orbit)
     const ring3Geo = new THREE.TorusGeometry(3.1, 0.012, 16, 160);
     const ring3Mat = new THREE.MeshStandardMaterial({
       color: new THREE.Color(0x8b5cf6),
@@ -135,31 +143,52 @@ export default function Hero3D() {
     });
     const ring3 = new THREE.Mesh(ring3Geo, ring3Mat);
     ring3.rotation.y = Math.PI / 2.5;
-    mainGroup.add(ring3);
+    coreGroup.add(ring3);
 
-    // --- 4. 3D Depth Particle Constellation Galaxy (1,200 Star Vertices) ---
-    const particleCount = 1200;
+    // --- 4. Cosmic Particle Starfield ---
+    // Main Core Galaxy: Full 1,200 dense, sparkling stars around the crystal
+    // Left Area: Exclusively 38 sparse, delicate dots to eliminate the hard cutoff without clutter
+    const coreParticleCount = 1200;
+    const leftParticleCount = 38;
+    const totalParticles = coreParticleCount + leftParticleCount;
+
     const particleGeo = new THREE.BufferGeometry();
-    const positions = new Float32Array(particleCount * 3);
-    const colors = new Float32Array(particleCount * 3);
+    const positions = new Float32Array(totalParticles * 3);
+    const colors = new Float32Array(totalParticles * 3);
 
     const colorPalette = [
       new THREE.Color(0x1e7fe8), // Azure
       new THREE.Color(0x00d2ff), // Cyan
       new THREE.Color(0x12b8a6), // Teal
-      new THREE.Color(0x6fcf3e), // Lime
+      new THREE.Color(0x6fcf3e), // Mint
       new THREE.Color(0xa855f7), // Purple
     ];
 
-    for (let i = 0; i < particleCount; i++) {
-      // Golden spiral spherical distribution with depth
-      const radius = 2.4 + Math.random() * 5.8;
+    const isDesktop = width >= 1024;
+    const coreX = isDesktop ? 1.85 : 0;
+
+    // 1. Main Core Galaxy (1,200 rich particles around the 3D crystal core)
+    for (let i = 0; i < coreParticleCount; i++) {
+      const radius = 2.2 + Math.random() * 5.6;
       const theta = Math.random() * Math.PI * 2;
       const phi = Math.acos(2 * Math.random() - 1);
 
-      positions[i * 3] = radius * Math.sin(phi) * Math.cos(theta);
+      positions[i * 3] = coreX + radius * Math.sin(phi) * Math.cos(theta);
       positions[i * 3 + 1] = radius * Math.sin(phi) * Math.sin(theta);
       positions[i * 3 + 2] = radius * Math.cos(phi);
+
+      const chosenColor =
+        colorPalette[Math.floor(Math.random() * colorPalette.length)];
+      colors[i * 3] = chosenColor.r;
+      colors[i * 3 + 1] = chosenColor.g;
+      colors[i * 3 + 2] = chosenColor.b;
+    }
+
+    // 2. Only in the left area (where they previously cut off): just 38 sparse dots
+    for (let i = coreParticleCount; i < totalParticles; i++) {
+      positions[i * 3] = -6.2 + Math.random() * 5.8;
+      positions[i * 3 + 1] = -3.2 + Math.random() * 6.4;
+      positions[i * 3 + 2] = -2.5 + Math.random() * 4.0;
 
       const chosenColor =
         colorPalette[Math.floor(Math.random() * colorPalette.length)];
@@ -191,16 +220,16 @@ export default function Hero3D() {
     const particleTexture = new THREE.CanvasTexture(canvas);
 
     const particleMat = new THREE.PointsMaterial({
-      size: 0.09,
+      size: 0.085,
       vertexColors: true,
       map: particleTexture,
       transparent: true,
-      opacity: isDarkMode() ? 0.75 : 0.45,
+      opacity: isDarkMode() ? 0.72 : 0.42,
       blending: isDarkMode() ? THREE.AdditiveBlending : THREE.NormalBlending,
       depthWrite: false,
     });
     const particles = new THREE.Points(particleGeo, particleMat);
-    mainGroup.add(particles);
+    scene.add(particles);
 
     // --- 5. Dynamic Spatial Lighting System ---
     const ambientLight = new THREE.AmbientLight(
@@ -209,24 +238,20 @@ export default function Hero3D() {
     );
     scene.add(ambientLight);
 
-    // Light 1: Electric Azure Point Light
     const light1 = new THREE.PointLight(0x1e7fe8, isDarkMode() ? 4.5 : 3.0, 14);
     scene.add(light1);
 
-    // Light 2: Radiant Cyan Point Light
     const light2 = new THREE.PointLight(0x00d2ff, isDarkMode() ? 3.8 : 2.5, 14);
     scene.add(light2);
 
-    // Light 3: Emerald Glow Point Light
     const light3 = new THREE.PointLight(0x12b8a6, isDarkMode() ? 3.0 : 2.0, 12);
     scene.add(light3);
 
-    // Directional specular kicker
     const dirLight = new THREE.DirectionalLight(0xffffff, isDarkMode() ? 1.8 : 2.2);
     dirLight.position.set(4, 5, 6);
     scene.add(dirLight);
 
-    // --- 6. Interactive Mouse Tracking & Free Drag Physics ---
+    // --- 6. Interactive Drag Physics ---
     let targetRotX = 0;
     let targetRotY = 0;
     let currentRotX = 0;
@@ -249,21 +274,19 @@ export default function Hero3D() {
       if (isDragging) {
         const deltaX = e.clientX - previousMouseX;
         const deltaY = e.clientY - previousMouseY;
-
-        dragVelocityX = deltaX * 0.005;
-        dragVelocityY = deltaY * 0.005;
-
-        targetRotY += dragVelocityX;
-        targetRotX += dragVelocityY;
-
         previousMouseX = e.clientX;
         previousMouseY = e.clientY;
+
+        targetRotY += deltaX * 0.005;
+        targetRotX += deltaY * 0.005;
+        dragVelocityX = deltaX * 0.005;
+        dragVelocityY = deltaY * 0.005;
       } else {
-        // Subtle mouse parallax tilt when not dragging
+        // Subtle mouse parallax
         const halfW = window.innerWidth / 2;
         const halfH = window.innerHeight / 2;
-        targetRotY = ((e.clientX - halfW) / halfW) * 0.45;
-        targetRotX = ((e.clientY - halfH) / halfH) * 0.35;
+        targetRotY = ((e.clientX - halfW) / halfW) * 0.25;
+        targetRotX = ((e.clientY - halfH) / halfH) * 0.25;
       }
     };
 
@@ -272,10 +295,8 @@ export default function Hero3D() {
     };
 
     window.addEventListener("pointermove", onPointerMove, { passive: true });
-    if (mount) {
-      mount.addEventListener("pointerdown", onPointerDown);
-      window.addEventListener("pointerup", onPointerUp);
-    }
+    mount.addEventListener("pointerdown", onPointerDown);
+    window.addEventListener("pointerup", onPointerUp);
 
     // --- 7. Theme Synchronizer ---
     const updateThemeMaterials = () => {
@@ -292,7 +313,7 @@ export default function Hero3D() {
       ring2Mat.emissiveIntensity = dark ? 0.85 : 0.45;
       ring3Mat.emissiveIntensity = dark ? 0.75 : 0.35;
 
-      particleMat.opacity = dark ? 0.75 : 0.45;
+      particleMat.opacity = dark ? 0.72 : 0.42;
       particleMat.blending = dark ? THREE.AdditiveBlending : THREE.NormalBlending;
       particleMat.needsUpdate = true;
 
@@ -336,9 +357,9 @@ export default function Hero3D() {
       currentRotX += (targetRotX - currentRotX) * 0.06;
       currentRotY += (targetRotY - currentRotY) * 0.06;
 
-      // Group rotation from user drag and subtle organic float
-      mainGroup.rotation.x = currentRotX + Math.sin(elapsed * 0.5) * 0.05;
-      mainGroup.rotation.y = currentRotY + elapsed * 0.15;
+      // Rotate core group with user interaction
+      coreGroup.rotation.x = currentRotX + Math.sin(elapsed * 0.5) * 0.04;
+      coreGroup.rotation.y = currentRotY + elapsed * 0.12;
 
       // Inner Core Counter-Rotation & Organic Breathing
       innerCore.rotation.x = -elapsed * 0.4;
@@ -357,20 +378,21 @@ export default function Hero3D() {
 
       ring3.rotation.x = elapsed * 0.22;
 
-      // Particles Constellation Drift
-      particles.rotation.y = -elapsed * 0.035;
-      particles.rotation.z = Math.sin(elapsed * 0.1) * 0.05;
+      // Background Starfield Organic Drift
+      particles.rotation.y = -elapsed * 0.015;
+      particles.rotation.z = Math.sin(elapsed * 0.08) * 0.02;
 
-      // Dynamic Orbiting Point Lights
-      light1.position.x = Math.sin(elapsed * 1.2) * 4.2;
+      // Orbiting Point Lights around core position
+      const cx = coreGroup.position.x;
+      light1.position.x = cx + Math.sin(elapsed * 1.2) * 4.2;
       light1.position.z = Math.cos(elapsed * 1.2) * 4.2;
       light1.position.y = Math.sin(elapsed * 0.8) * 2.0;
 
-      light2.position.x = Math.cos(-elapsed * 0.9) * 4.6;
+      light2.position.x = cx + Math.cos(-elapsed * 0.9) * 4.6;
       light2.position.y = Math.sin(-elapsed * 1.1) * 3.5;
       light2.position.z = Math.sin(elapsed * 0.7) * 3.0;
 
-      light3.position.x = Math.sin(elapsed * 0.6) * 3.5;
+      light3.position.x = cx + Math.sin(elapsed * 0.6) * 3.5;
       light3.position.y = -Math.cos(elapsed * 0.8) * 3.2;
       light3.position.z = Math.cos(elapsed * 1.1) * 4.0;
 
@@ -385,7 +407,6 @@ export default function Hero3D() {
       }
     };
 
-    // IntersectionObserver to sleep WebGL loop when hero is scrolled past
     const io = new IntersectionObserver(
       ([entry]) => {
         isIntersecting = entry.isIntersecting;
@@ -400,7 +421,6 @@ export default function Hero3D() {
     );
     io.observe(mount);
 
-    // Tab visibility handling
     const handleVisibilityChange = () => {
       isTabVisible = !document.hidden;
       if (isTabVisible) {
@@ -424,6 +444,7 @@ export default function Hero3D() {
       camera.aspect = width / height;
       camera.updateProjectionMatrix();
       renderer.setSize(width, height);
+      updateCorePosition();
     };
 
     window.addEventListener("resize", onResize);
@@ -437,12 +458,9 @@ export default function Hero3D() {
       document.removeEventListener("visibilitychange", handleVisibilityChange);
       window.removeEventListener("resize", onResize);
       window.removeEventListener("pointermove", onPointerMove);
-      if (mount) {
-        mount.removeEventListener("pointerdown", onPointerDown);
-        window.removeEventListener("pointerup", onPointerUp);
-      }
+      mount.removeEventListener("pointerdown", onPointerDown);
+      window.removeEventListener("pointerup", onPointerUp);
 
-      // Dispose all 3D geometries and materials
       crystalGeo.dispose();
       crystalMat.dispose();
       wireframeGeo.dispose();
@@ -473,7 +491,7 @@ export default function Hero3D() {
   return (
     <div
       ref={mountRef}
-      className="absolute right-0 top-0 w-full lg:w-3/4 h-full pointer-events-auto cursor-grab active:cursor-grabbing opacity-90 transition-opacity duration-300 select-none z-[1]"
+      className="absolute inset-0 w-full h-full pointer-events-auto cursor-grab active:cursor-grabbing opacity-90 transition-opacity duration-300 select-none z-[1]"
       aria-label="Interactive 3D Quantum Prism Scene - Click and drag to rotate in 3D"
       role="region"
     />
