@@ -75,13 +75,10 @@ export default function Hero3D() {
 
     const orbMat = new THREE.ShaderMaterial({
       uniforms: {
-        uTime: { value: 0 },
-        uMorphAmplitude: { value: isDark() ? 0.18 : 0.13 },
-        uColorA: { value: new THREE.Color(isDark() ? 0x1e7fe8 : 0x2196f3) },
-        uColorB: { value: new THREE.Color(isDark() ? 0x12b8a6 : 0x26c6da) },
-        uColorC: { value: new THREE.Color(isDark() ? 0x6fcf3e : 0x66bb6a) },
-        uColorD: { value: new THREE.Color(isDark() ? 0xa855f7 : 0xab47bc) },
-        uEnvStrength: { value: isDark() ? 1.0 : 0.7 },
+        uTime:          { value: 0 },
+        uMorphAmplitude:{ value: isDark() ? 0.18 : 0.13 },
+        uEnvStrength:   { value: isDark() ? 1.0 : 0.7 },
+        uBrightness:    { value: isDark() ? 1.0 : 0.82 },
       },
       vertexShader: /* glsl */ `
         uniform float uTime;
@@ -93,7 +90,6 @@ export default function Hero3D() {
         varying vec3 vWorldPos;
         varying float vDisplace;
 
-        // Fast GLSL simplex-like 3D noise via overlapping sines
         float wave(vec3 p, float f, float speed) {
           return sin(p.x * f + uTime * speed)
                * sin(p.y * f * 0.87 + uTime * speed * 1.13)
@@ -119,16 +115,36 @@ export default function Hero3D() {
         }
       `,
       fragmentShader: /* glsl */ `
-        uniform vec3  uColorA;
-        uniform vec3  uColorB;
-        uniform vec3  uColorC;
-        uniform vec3  uColorD;
         uniform float uEnvStrength;
+        uniform float uBrightness;
         uniform float uTime;
 
         varying vec3  vNormal;
         varying vec3  vWorldPos;
         varying float vDisplace;
+
+        // ── NATLE brand palette (Azure, Teal, Lime, Violet, Cyan, Magenta) ──
+        vec3 palette(float t) {
+          // Smooth cyclic blend through 6 brand hues
+          vec3 azure   = vec3(0.118, 0.498, 0.910); // #1E7FE8
+          vec3 teal    = vec3(0.071, 0.722, 0.651); // #12B8A6
+          vec3 lime    = vec3(0.435, 0.812, 0.243); // #6FCF3E
+          vec3 violet  = vec3(0.545, 0.361, 0.965); // #8B5CF6
+          vec3 cyan    = vec3(0.000, 0.824, 1.000); // #00D2FF
+          vec3 magenta = vec3(0.910, 0.475, 0.980); // #E879F9
+
+          // 6-stop smooth cycle  (t goes 0..1 -> loops)
+          float f  = fract(t) * 6.0;
+          int   i  = int(f);
+          float s  = fract(f);
+
+          if      (i == 0) return mix(azure,   teal,    s);
+          else if (i == 1) return mix(teal,    lime,    s);
+          else if (i == 2) return mix(lime,    violet,  s);
+          else if (i == 3) return mix(violet,  cyan,    s);
+          else if (i == 4) return mix(cyan,    magenta, s);
+          else             return mix(magenta, azure,   s);
+        }
 
         void main() {
           vec3 N = normalize(vNormal);
@@ -137,33 +153,30 @@ export default function Hero3D() {
           // Fresnel rim
           float fresnel = pow(1.0 - clamp(dot(N, V), 0.0, 1.0), 3.2);
 
-          // Animated colour banding driven by displacement + time
-          float band = vDisplace * 6.0 + uTime * 0.15;
+          // Global hue shift (slow cycle across the whole orb)
+          float globalShift = uTime * 0.065;
 
-          // 4-stop gradient
-          float t = fract(band);
-          float seg = mod(floor(band), 4.0);
+          // Surface hue: varies with displacement + vertical position + time
+          float surfaceT = vDisplace * 4.5 + vWorldPos.y * 0.28 + globalShift;
+          vec3 col = palette(surfaceT);
 
-          vec3 col;
-          if      (seg < 1.0) col = mix(uColorA, uColorB, t);
-          else if (seg < 2.0) col = mix(uColorB, uColorC, t);
-          else if (seg < 3.0) col = mix(uColorC, uColorD, t);
-          else                col = mix(uColorD, uColorA, t);
+          // Rim colour slightly offset hue for iridescence
+          vec3 rimCol = palette(surfaceT + 0.25);
 
           // Specular hotspot
           vec3 L = normalize(vec3(3.0, 5.0, 6.0));
-          float spec = pow(max(dot(reflect(-L, N), V), 0.0), 48.0) * uEnvStrength;
+          float spec = pow(max(dot(reflect(-L, N), V), 0.0), 52.0) * uEnvStrength;
 
-          // Combine
-          vec3 final = mix(col * 0.85, vec3(1.0), fresnel * 0.62);
-          final += vec3(1.0) * spec;
-          final += col * 0.22; // self-illumination
+          // Combine: base colour + fresnel rim blend + specular
+          vec3 final = mix(col * 0.88, rimCol, fresnel * 0.68);
+          final += vec3(1.0) * spec * 0.9;
+          final += col * 0.25; // self-illumination
 
-          // Subtle inner glow at displacement peaks
-          float glow = smoothstep(0.04, 0.18, vDisplace) * 0.5;
-          final += col * glow;
+          // Displacement glow peaks
+          float glow = smoothstep(0.04, 0.20, vDisplace) * 0.55;
+          final += palette(surfaceT + 0.5) * glow;
 
-          gl_FragColor = vec4(final, 0.88);
+          gl_FragColor = vec4(final * uBrightness, 0.90);
         }
       `,
       transparent: true,
@@ -205,7 +218,9 @@ export default function Hero3D() {
     rootGroup.add(coreMesh);
 
     // =========================================================================
-    // 2.  HOLOGRAPHIC GIMBAL RINGS (4 rings, varied angles)
+    // 2.  HOLOGRAPHIC GIMBAL RINGS — clean atomic orbital model
+    //     3 rings, each tilted 60° from the next = perfect gyroscope geometry.
+    //     Thicker tubes, stronger glow, no visual chaos.
     // =========================================================================
     const makeRing = (
       radius: number,
@@ -214,29 +229,28 @@ export default function Hero3D() {
       emissHex: number,
       emissI: number,
       rotX: number,
-      rotY: number,
       rotZ: number
     ) => {
-      const geo = new THREE.TorusGeometry(radius, tube, 20, 180);
+      const geo = new THREE.TorusGeometry(radius, tube, 24, 200);
       const mat = new THREE.MeshStandardMaterial({
         color: new THREE.Color(colorHex),
         emissive: new THREE.Color(emissHex),
-        emissiveIntensity: isDark() ? emissI : emissI * 0.55,
-        roughness: 0.08,
-        metalness: 0.95,
+        emissiveIntensity: isDark() ? emissI : emissI * 0.45,
+        roughness: 0.05,
+        metalness: 0.9,
         transparent: true,
-        opacity: isDark() ? 0.9 : 0.75,
+        opacity: isDark() ? 0.95 : 0.72,
       });
       const mesh = new THREE.Mesh(geo, mat);
-      mesh.rotation.set(rotX, rotY, rotZ);
+      mesh.rotation.set(rotX, 0, rotZ);
       rootGroup.add(mesh);
 
-      // Satellite data packet
-      const satG = new THREE.SphereGeometry(0.07, 16, 16);
+      // Satellite data packet (glowing orb on the ring)
+      const satG = new THREE.SphereGeometry(0.09, 16, 16);
       const satM = new THREE.MeshStandardMaterial({
         color: new THREE.Color(emissHex),
         emissive: new THREE.Color(emissHex),
-        emissiveIntensity: isDark() ? 3.5 : 2.0,
+        emissiveIntensity: isDark() ? 4.0 : 2.5,
         roughness: 0.0,
         metalness: 1.0,
       });
@@ -246,10 +260,12 @@ export default function Hero3D() {
       return { mesh, mat, sat, radius, geo, satG, satM };
     };
 
-    const ring1 = makeRing(2.4,  0.016, 0x1e7fe8, 0x00d2ff, 1.1, Math.PI/3,   Math.PI/6,   0);
-    const ring2 = makeRing(2.85, 0.013, 0x12b8a6, 0x6fcf3e, 1.0, -Math.PI/4,  0,           Math.PI/5);
-    const ring3 = makeRing(3.25, 0.011, 0x6366f1, 0xa855f7, 0.95, 0,           Math.PI/2.4, Math.PI/8);
-    const ring4 = makeRing(3.7,  0.009, 0xe879f9, 0xf0abfc, 0.85, Math.PI/2,  Math.PI/3,   -Math.PI/6);
+    // Ring 1 — Azure equatorial (flat, no tilt) — most visible anchor ring
+    const ring1 = makeRing(2.45, 0.022, 0x1e7fe8, 0x00d2ff, 1.3, 0,              0);
+    // Ring 2 — Teal-Lime — tilted 60° on X
+    const ring2 = makeRing(2.45, 0.018, 0x12b8a6, 0x5effd8, 1.15, Math.PI / 3,   0);
+    // Ring 3 — Violet-Purple — tilted 120° on X (= -60° the other way)
+    const ring3 = makeRing(2.45, 0.015, 0x8b5cf6, 0xe879f9, 1.0, -Math.PI / 3,  0);
 
     // =========================================================================
     // 3.  STARFIELD — 2,000 galaxy + 42 left-side subtle stars
@@ -380,12 +396,9 @@ export default function Hero3D() {
       const d = isDark();
       renderer.toneMappingExposure = d ? 1.25 : 1.0;
 
-      (orbMat.uniforms.uMorphAmplitude.value) = d ? 0.18 : 0.13;
-      (orbMat.uniforms.uEnvStrength.value) = d ? 1.0 : 0.7;
-      (orbMat.uniforms.uColorA.value as THREE.Color).setHex(d ? 0x1e7fe8 : 0x2196f3);
-      (orbMat.uniforms.uColorB.value as THREE.Color).setHex(d ? 0x12b8a6 : 0x26c6da);
-      (orbMat.uniforms.uColorC.value as THREE.Color).setHex(d ? 0x6fcf3e : 0x66bb6a);
-      (orbMat.uniforms.uColorD.value as THREE.Color).setHex(d ? 0xa855f7 : 0xab47bc);
+      orbMat.uniforms.uMorphAmplitude.value = d ? 0.18 : 0.13;
+      orbMat.uniforms.uEnvStrength.value    = d ? 1.0  : 0.7;
+      orbMat.uniforms.uBrightness.value     = d ? 1.0  : 0.82;
 
       glassMat.color.setHex(d ? 0x0a1628 : 0xffffff);
       glassMat.opacity = d ? 0.55 : 0.35;
@@ -393,9 +406,12 @@ export default function Hero3D() {
       coreMat.emissive.setHex(d ? 0x1e7fe8 : 0x12b8a6);
       coreMat.emissiveIntensity = d ? 3.2 : 2.0;
 
-      for (const r of [ring1, ring2, ring3, ring4]) {
-        r.mat.emissiveIntensity = d ? (r === ring1 ? 1.1 : r === ring2 ? 1.0 : r === ring3 ? 0.95 : 0.85)
-                                    : (r === ring1 ? 0.6 : r === ring2 ? 0.55 : r === ring3 ? 0.52 : 0.47);
+      for (const [r, dI, lI] of [
+        [ring1, 1.3, 0.58] as const,
+        [ring2, 1.15, 0.52] as const,
+        [ring3, 1.0, 0.45] as const,
+      ]) {
+        r.mat.emissiveIntensity = d ? dI : lI;
       }
 
       sfMat.opacity = d ? 0.82 : 0.48;
@@ -439,6 +455,21 @@ export default function Hero3D() {
       rootGroup.rotation.x = curX + Math.sin(t * 0.42) * 0.045;
       rootGroup.rotation.y = curY + t * 0.10;
 
+      // ── JS-side brand colour cycler (matches GLSL palette) ─────────────────
+      // 6-stop palette matching the shader
+      const pal6 = [0x1e7fe8, 0x12b8a6, 0x6fcf3e, 0x8b5cf6, 0x00d2ff, 0xe879f9];
+      const colAt = (phase: number) => {
+        const f = ((phase % 1) + 1) % 1; // ensure 0..1
+        const fi = f * 6;
+        const i = Math.floor(fi) % 6;
+        const j = (i + 1) % 6;
+        const s = fi - Math.floor(fi);
+        const ca = new THREE.Color(pal6[i]);
+        const cb = new THREE.Color(pal6[j]);
+        return ca.lerp(cb, s);
+      };
+      const globalPhase = t * 0.065;
+
       // Orb mesh subtle breathing scale
       const breathS = 1.0 + Math.sin(t * 1.9) * 0.025;
       orbMesh.scale.setScalar(breathS);
@@ -447,31 +478,43 @@ export default function Hero3D() {
       glassMesh.rotation.y = t * -0.04;
       glassMesh.rotation.z = t * 0.028;
 
-      // Inner plasma core pulse
+      // Inner plasma core — colour-cycle + pulse
       const cp = 1.0 + Math.sin(t * 2.8) * 0.12;
       coreMesh.scale.setScalar(cp);
+      const coreCol = colAt(globalPhase + 0.1);
+      coreMat.emissive.copy(coreCol);
+      coreMat.color.copy(coreCol);
       coreMat.emissiveIntensity = (isDark() ? 3.2 : 2.0) * (0.85 + Math.sin(t * 2.8) * 0.15);
 
-      // Ring 1 — Azure equatorial
-      ring1.mesh.rotation.z = t * 0.38;
-      ring1.sat.position.x = Math.cos(t * 1.9) * ring1.radius;
-      ring1.sat.position.y = Math.sin(t * 1.9) * ring1.radius;
+      // Ring 1 — spins on Y; colour-cycles with offset
+      ring1.mesh.rotation.y = t * 0.42;
+      ring1.sat.position.x = Math.cos(t * 2.1) * ring1.radius;
+      ring1.sat.position.y = Math.sin(t * 2.1) * ring1.radius;
+      const r1col = colAt(globalPhase + 0.0);
+      ring1.mat.emissive.copy(r1col);
+      ring1.mat.color.copy(r1col);
+      ring1.satM.emissive.copy(r1col);
+      ring1.satM.color.copy(r1col);
 
-      // Ring 2 — Teal inclined
-      ring2.mesh.rotation.y = -t * 0.28;
-      ring2.sat.position.x = Math.cos(-t * 1.5) * ring2.radius;
-      ring2.sat.position.z = Math.sin(-t * 1.5) * ring2.radius;
+      // Ring 2 — Teal 60° tilt: spins on its own Y axis
+      ring2.mesh.rotation.y = -t * 0.31;
+      ring2.sat.position.x = Math.cos(-t * 1.7) * ring2.radius;
+      ring2.sat.position.z = Math.sin(-t * 1.7) * ring2.radius;
+      const r2col = colAt(globalPhase + 0.33);
+      ring2.mat.emissive.copy(r2col);
+      ring2.mat.color.copy(r2col);
+      ring2.satM.emissive.copy(r2col);
+      ring2.satM.color.copy(r2col);
 
-      // Ring 3 — Indigo polar
-      ring3.mesh.rotation.x = t * 0.22;
-      ring3.sat.position.y = Math.cos(t * 1.3) * ring3.radius;
-      ring3.sat.position.z = Math.sin(t * 1.3) * ring3.radius;
-
-      // Ring 4 — Violet wide outer
-      ring4.mesh.rotation.z = -t * 0.17;
-      ring4.mesh.rotation.x = t * 0.12;
-      ring4.sat.position.x = Math.cos(t * 1.1) * ring4.radius;
-      ring4.sat.position.y = Math.sin(t * 1.1) * ring4.radius;
+      // Ring 3 — Violet -60° tilt: spins the other way
+      ring3.mesh.rotation.y = t * 0.24;
+      ring3.sat.position.y = Math.cos(t * 1.4) * ring3.radius;
+      ring3.sat.position.z = Math.sin(t * 1.4) * ring3.radius;
+      const r3col = colAt(globalPhase + 0.67);
+      ring3.mat.emissive.copy(r3col);
+      ring3.mat.color.copy(r3col);
+      ring3.satM.emissive.copy(r3col);
+      ring3.satM.color.copy(r3col);
 
       // Starfield subtle drift
       stars.rotation.y = -t * 0.012;
@@ -530,14 +573,16 @@ export default function Hero3D() {
       window.removeEventListener("pointerup", onUp);
 
       [orbGeo, glassGeo, coreGeo,
-       ring1.geo, ring1.satG, ring2.geo, ring2.satG,
-       ring3.geo, ring3.satG, ring4.geo, ring4.satG,
+       ring1.geo, ring1.satG,
+       ring2.geo, ring2.satG,
+       ring3.geo, ring3.satG,
        sfGeo
       ].forEach(g => g.dispose());
 
       [orbMat, glassMat, coreMat,
-       ring1.mat, ring1.satM, ring2.mat, ring2.satM,
-       ring3.mat, ring3.satM, ring4.mat, ring4.satM,
+       ring1.mat, ring1.satM,
+       ring2.mat, ring2.satM,
+       ring3.mat, ring3.satM,
        sfMat
       ].forEach(m => m.dispose());
 

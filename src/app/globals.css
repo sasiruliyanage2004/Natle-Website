@@ -59,6 +59,49 @@ body {
   }
 }
 
+/* ========================================================================= */
+/* HERO AURORA GRADIENT BACKGROUND                                            */
+/* ========================================================================= */
+@keyframes hero-aurora {
+  0%   { background-position: 0% 50%; }
+  25%  { background-position: 50% 0%; }
+  50%  { background-position: 100% 50%; }
+  75%  { background-position: 50% 100%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Light mode — soft Azure/Teal washes */
+.hero-aurora-bg {
+  background: linear-gradient(
+    135deg,
+    #dff0fd 0%,
+    #cef8f3 18%,
+    #f0fbff 34%,
+    #e4f4fd 50%,
+    #ccf5ef 66%,
+    #edf8ff 82%,
+    #d9f0fc 100%
+  );
+  background-size: 400% 400%;
+  animation: hero-aurora 14s ease-in-out infinite;
+}
+
+/* Dark mode — deep midnight with subtle teal/indigo cast */
+.dark .hero-aurora-bg {
+  background: linear-gradient(
+    135deg,
+    #04080f 0%,
+    #060d17 18%,
+    #07090e 34%,
+    #050e1b 50%,
+    #060f13 66%,
+    #07090e 82%,
+    #04091a 100%
+  );
+  background-size: 400% 400%;
+  animation: hero-aurora 14s ease-in-out infinite;
+}
+
 .text-gradient {
   background-image: linear-gradient(100deg, #1E7FE8 0%, #12B8A6 55%, #6FCF3E 100%);
   -webkit-background-clip: text;
