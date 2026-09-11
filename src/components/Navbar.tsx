@@ -49,8 +49,8 @@ export default function Navbar() {
         visible ? "translate-y-0 opacity-100" : "-translate-y-full opacity-0 pointer-events-none"
       } ${
         scrolled
-          ? "bg-paper/90 dark:bg-[#07090E]/90 backdrop-blur-md shadow-[0_1px_0_rgba(11,30,61,0.08)] dark:shadow-[0_1px_0_rgba(255,255,255,0.08)]"
-          : "bg-transparent"
+          ? "bg-white/60 dark:bg-[#07090E]/60 backdrop-blur-2xl border-b border-slate-900/[0.06] dark:border-white/[0.08] shadow-[0_8px_32px_rgba(0,0,0,0.04)] dark:shadow-[0_8px_32px_rgba(0,0,0,0.4)]"
+          : "bg-white/25 dark:bg-[#07090E]/25 backdrop-blur-xl border-b border-slate-900/[0.04] dark:border-white/[0.05]"
       }`}
     >
       <div className="container-content flex items-center justify-between h-[76px]">
@@ -58,7 +58,8 @@ export default function Navbar() {
           <NatleLogo className="h-9 w-auto" showTagline={false} />
         </Link>
 
-        <nav className="hidden lg:flex items-center gap-1">
+        {/* Floating Glass Capsule Navigation */}
+        <nav className="hidden lg:flex items-center gap-1 bg-white/40 dark:bg-white/[0.04] backdrop-blur-md px-3 py-1.5 rounded-full border border-black/[0.05] dark:border-white/[0.08] shadow-[inset_0_1px_1px_rgba(255,255,255,0.4)] dark:shadow-[inset_0_1px_1px_rgba(255,255,255,0.06)]">
           {NAV_LINKS.map((item) => {
             const active = pathname === item.href;
             return (
@@ -66,13 +67,15 @@ export default function Navbar() {
                 key={item.href}
                 href={item.href}
                 prefetch={true}
-                className={`relative px-4 py-2 text-[15px] font-medium rounded-full transition-colors ${
-                  active ? "text-ink" : "text-ink/60 hover:text-ink"
+                className={`relative px-4 py-1.5 text-[14px] font-medium rounded-full transition-all duration-200 ${
+                  active
+                    ? "text-ink dark:text-white bg-white/80 dark:bg-white/[0.12] shadow-sm"
+                    : "text-ink/70 dark:text-slate-300 hover:text-ink dark:hover:text-white hover:bg-white/50 dark:hover:bg-white/[0.06]"
                 }`}
               >
                 {item.label}
                 {active && (
-                  <span className="absolute left-4 right-4 -bottom-[2px] h-[2px] bg-brand-gradient rounded-full" />
+                  <span className="absolute left-3 right-3 -bottom-[1px] h-[2px] bg-brand-gradient rounded-full" />
                 )}
               </Link>
             );
@@ -95,20 +98,21 @@ export default function Navbar() {
         <div className="lg:hidden flex items-center gap-2">
           <ThemeToggle />
           <button
-            className="relative w-10 h-10 flex flex-col items-center justify-center gap-[5px]"
+            className="relative w-10 h-10 flex flex-col items-center justify-center gap-[5px] rounded-full bg-white/40 dark:bg-white/[0.06] backdrop-blur-md border border-black/[0.04] dark:border-white/[0.08]"
             onClick={() => setOpen((v) => !v)}
             aria-label="Toggle menu"
             aria-expanded={open}
           >
-            <span className={`block h-[2px] w-6 bg-ink dark:bg-white transition-transform ${open ? "translate-y-[7px] rotate-45" : ""}`} />
-            <span className={`block h-[2px] w-6 bg-ink dark:bg-white transition-opacity ${open ? "opacity-0" : ""}`} />
-            <span className={`block h-[2px] w-6 bg-ink dark:bg-white transition-transform ${open ? "-translate-y-[7px] -rotate-45" : ""}`} />
+            <span className={`block h-[2px] w-5 bg-ink dark:bg-white transition-transform ${open ? "translate-y-[7px] rotate-45" : ""}`} />
+            <span className={`block h-[2px] w-5 bg-ink dark:bg-white transition-opacity ${open ? "opacity-0" : ""}`} />
+            <span className={`block h-[2px] w-5 bg-ink dark:bg-white transition-transform ${open ? "-translate-y-[7px] -rotate-45" : ""}`} />
           </button>
         </div>
       </div>
 
+      {/* Translucent Frosted Glass Mobile Menu */}
       <div
-        className={`lg:hidden overflow-hidden transition-[max-height,opacity] duration-300 ease-in-out bg-paper dark:bg-[#0B0E14] border-t border-ink/5 dark:border-white/10 ${
+        className={`lg:hidden overflow-hidden transition-[max-height,opacity] duration-300 ease-in-out bg-white/75 dark:bg-[#07090E]/80 backdrop-blur-2xl border-t border-b border-black/[0.05] dark:border-white/[0.08] shadow-2xl ${
           open ? "max-h-[520px] opacity-100" : "max-h-0 opacity-0"
         }`}
       >
@@ -119,7 +123,7 @@ export default function Navbar() {
               href={item.href}
               prefetch={true}
               className={`py-3 text-base font-medium border-b border-ink/5 dark:border-white/10 last:border-0 ${
-                pathname === item.href ? "text-azure" : "text-ink/80"
+                pathname === item.href ? "text-azure font-semibold" : "text-ink/80 dark:text-slate-200"
               }`}
             >
               {item.label}
