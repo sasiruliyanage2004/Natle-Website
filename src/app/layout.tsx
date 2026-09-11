@@ -65,8 +65,23 @@ export default function RootLayout({
                   } else {
                     document.documentElement.classList.remove('dark');
                   }
+                  if (sessionStorage.getItem('natle_preloader_seen')) {
+                    document.documentElement.classList.add('preloader-seen');
+                  }
                 } catch(e) {}
               })();
+            `,
+          }}
+        />
+        <style
+          dangerouslySetInnerHTML={{
+            __html: `
+              /* Critical Anti-FOUC Styles */
+              html.dark { background-color: #07090E; color: #F8FAFC; color-scheme: dark; }
+              html:not(.dark) { background-color: #FCFDFE; color: #0A0A0A; color-scheme: light; }
+              html.preloader-seen #preloader-wrapper { display: none !important; }
+              .sr-only { position: absolute !important; width: 1px !important; height: 1px !important; padding: 0 !important; margin: -1px !important; overflow: hidden !important; clip: rect(0, 0, 0, 0) !important; white-space: nowrap !important; border-width: 0 !important; }
+              #preloader-wrapper { position: fixed; inset: 0; z-index: 99999; }
             `,
           }}
         />

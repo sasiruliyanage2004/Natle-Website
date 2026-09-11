@@ -67,11 +67,13 @@ export default function Preloader() {
     <AnimatePresence>
       {isLoading && (
         <motion.div
+          id="preloader-wrapper"
           key="preloader"
           initial={{ y: 0 }}
           exit={{ y: "-100%" }}
           transition={{ duration: 0.9, ease: [0.76, 0, 0.24, 1] }}
           className="fixed inset-0 z-[99999] flex flex-col items-center justify-center bg-paper dark:bg-[#07090E] text-ink dark:text-white overflow-hidden"
+          style={{ position: "fixed", inset: 0, zIndex: 99999 }}
         >
           
           {/* Centered Animated Logo */}

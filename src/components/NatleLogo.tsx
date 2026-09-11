@@ -29,6 +29,7 @@ export default function NatleLogo({
       <motion.svg
         viewBox="0 0 460 160"
         className="h-9 sm:h-10 md:h-11 lg:h-12 w-auto overflow-visible"
+        style={{ maxHeight: "100%", maxWidth: "100%", width: "auto" }}
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
         animate={{
