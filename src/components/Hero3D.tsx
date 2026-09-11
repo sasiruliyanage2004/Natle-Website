@@ -41,7 +41,7 @@ export default function Hero3D() {
     const updateCorePosition = () => {
       const isDesktop = width >= 1024;
       coreGroup.position.x = isDesktop ? 1.85 : 0;
-      coreGroup.position.y = isDesktop ? 0 : 0.35;
+      coreGroup.position.y = isDesktop ? 0.2 : 0.4;
       const scale = isDesktop ? 1 : Math.min(1, width / 768);
       coreGroup.scale.set(scale, scale, scale);
     };

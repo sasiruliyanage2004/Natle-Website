@@ -31,7 +31,7 @@ export default function HeroContent() {
     <div ref={rootRef} className="relative z-10 pointer-events-none">
       <p
         data-hero="eyebrow"
-        className="text-azure font-semibold text-sm tracking-wide mb-5"
+        className="text-azure font-semibold text-sm tracking-wide mb-3 sm:mb-4"
       >
         Software engineering studio
       </p>
@@ -43,30 +43,43 @@ export default function HeroContent() {
           into growth.
         </span>
       </h1>
-      <p data-hero="sub" className="mt-7 text-lg text-ink/60 max-w-xl leading-relaxed">
+      <p data-hero="sub" className="mt-5 text-base sm:text-lg text-ink/65 dark:text-white/70 max-w-xl leading-relaxed">
         NATLE partners with founders and enterprise teams to design, build, and
         scale software that actually moves the business — from first prototype
         to production at scale.
       </p>
 
-      <div className="mt-9 flex flex-wrap items-center gap-4">
+      <div className="mt-7 flex flex-wrap items-center gap-4">
         <Link
           data-hero="cta"
           href="/contact"
-          className="pointer-events-auto inline-flex items-center justify-center rounded-full bg-ink text-white px-7 py-3.5 text-[15px] font-semibold hover:bg-ink-soft dark:bg-white dark:text-ink dark:hover:bg-slate-100 dark:shadow-[0_0_24px_rgba(255,255,255,0.14)] transition-all"
+          className="pointer-events-auto inline-flex items-center justify-center gap-2 rounded-full bg-azure hover:bg-primary-hover text-white px-7 py-3.5 text-[15px] font-semibold shadow-lg shadow-azure/25 dark:shadow-[0_0_24px_rgba(30,127,232,0.45)] hover:scale-[1.02] active:scale-[0.98] transition-all duration-200"
         >
-          Start a project
+          <span>Start a project</span>
+          <svg
+            className="w-4 h-4"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            aria-hidden="true"
+          >
+            <line x1="5" y1="12" x2="19" y2="12" />
+            <polyline points="12 5 19 12 12 19" />
+          </svg>
         </Link>
         <Link
           data-hero="cta"
           href="/projects"
-          className="pointer-events-auto inline-flex items-center justify-center rounded-full border border-ink/15 text-ink px-7 py-3.5 text-[15px] font-semibold hover:border-ink/30 dark:border-white/20 dark:text-white dark:hover:border-white/40 dark:hover:bg-white/5 transition-colors"
+          className="pointer-events-auto inline-flex items-center justify-center rounded-full border border-ink/15 text-ink dark:border-white/20 dark:text-white px-7 py-3.5 text-[15px] font-semibold hover:border-ink/30 dark:hover:border-white/40 hover:bg-ink/[0.04] dark:hover:bg-white/[0.06] hover:scale-[1.02] active:scale-[0.98] transition-all duration-200"
         >
           See our work
         </Link>
       </div>
 
-      <div className="mt-16 flex flex-wrap gap-x-12 gap-y-6">
+      <div className="mt-12 flex flex-wrap gap-x-12 gap-y-6">
         <div data-hero="stat">
           <div className="font-display text-3xl text-ink">120+</div>
           <div className="text-sm text-ink/50 mt-1">Products shipped</div>
