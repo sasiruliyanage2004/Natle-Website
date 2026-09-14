@@ -86,11 +86,11 @@ function useTypewriterLogs(logs: string[], speed = 14) {
       return;
     }
 
-    setDisplayed(() => [...logs.slice(0, -1), ""]);
+    setDisplayed((prev) => [...logs.slice(0, -1), ""]);
     let i = 0;
     const interval = setInterval(() => {
       i++;
-      setDisplayed(() => [...logs.slice(0, -1), lastLog.slice(0, i)]);
+      setDisplayed((prev) => [...logs.slice(0, -1), lastLog.slice(0, i)]);
       if (i >= lastLog.length) clearInterval(interval);
     }, speed);
     return () => clearInterval(interval);
@@ -326,7 +326,7 @@ export default function LivingCodeTerminal() {
     setDragX(Math.max(-DRAG_THRESHOLD, Math.min(DRAG_THRESHOLD, delta)));
   };
 
-  const onSwitchPointerUp = () => {
+  const onSwitchPointerUp = (e: React.PointerEvent<HTMLButtonElement>) => {
     if (!dragging) return;
     setDragging(false);
     const dragged = Math.abs(dragX) >= DRAG_THRESHOLD - 4;
@@ -334,12 +334,15 @@ export default function LivingCodeTerminal() {
     if (dragged) {
       toggleLights();
     } else {
+      // Treat as a click if it wasn't a real drag
       toggleLights();
     }
   };
 
   /* ---- Derived copy ------------------------------------------------------*/
   const uptimeDays = useMemo(() => {
+    // Deterministic-ish "days since incident" counter seeded off the date,
+    // purely cosmetic — replace with a real value wired to your status page.
     return 214;
   }, []);
 
