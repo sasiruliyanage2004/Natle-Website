@@ -3,21 +3,22 @@
 import { useEffect, useState, useRef, useCallback } from "react";
 
 /**
- * Living Code Terminal — Time-Aware Interactive Code Switch
+ * Living Code Terminal — Production Masterpiece
  *
- * Features:
- * - Real-world local time detection (detects day vs night automatically)
- * - Clean, beginner-friendly syntax-highlighted TypeScript code
- * - Interactive tactile [ ☀️ DAYLIGHT | 🌙 NIGHT ] switch embedded directly inside the code line
- * - Interactive 3D glass card tilt following mouse cursor (gyroscope/parallax)
- * - Integrated mechanical keyboard "thock" sound via Web Audio API
- * - Mini live compiler log drawer at bottom (> [NATLE] Lights turned ON // 0.8ms)
- * - Synchronous site-wide theme switching (dark/light)
- * - Glowing SVG energy conduit wires branching out to DOM elements
+ * SOTD-Grade Features:
+ * - Real-world local time with live ticking seconds & automatic Day/Night awareness
+ * - Interactive multi-tab IDE: [⚡ natle-engine.ts] [📊 architecture.json] [🚀 deploy.sh]
+ * - Tactile [ ☀️ DAYLIGHT | 🌙 NIGHT_OPS ] switch embedded directly inside the code
+ * - Mechanical keyboard "thock" sound synthesis (with sound mute toggle)
+ * - Keyboard shortcut support: Press Space or 'T' to toggle lights
+ * - Live compiler log drawer with real-time latency & memory telemetry
+ * - 3D Gyroscope/Mouse Parallax tilt with prismatic glass reflection
+ * - Dynamic SVG glowing circuit conduits snaking across to the DOM headline
  */
 
 // Synthesize a crisp mechanical keyboard switch sound ("thock")
-function playKeystrokeSound(isDarkTarget: boolean) {
+function playKeystrokeSound(isDarkTarget: boolean, soundEnabled: boolean) {
+  if (!soundEnabled) return;
   try {
     const AudioCtx =
       window.AudioContext ||
@@ -58,11 +59,15 @@ function playKeystrokeSound(isDarkTarget: boolean) {
   }
 }
 
+type TabType = "engine" | "architecture" | "deploy";
+
 export default function LivingCodeTerminal() {
   const cardRef = useRef<HTMLDivElement>(null);
+  const [activeTab, setActiveTab] = useState<TabType>("engine");
   const [isDark, setIsDark] = useState(true);
   const [localTime, setLocalTime] = useState("");
   const [isNightTime, setIsNightTime] = useState(false);
+  const [soundEnabled, setSoundEnabled] = useState(true);
   const [logs, setLogs] = useState<string[]>([
     "System ready. Grid connected.",
     "Awaiting developer command...",
@@ -75,17 +80,18 @@ export default function LivingCodeTerminal() {
     setMounted(true);
     const updateTime = () => {
       const now = new Date();
-      const hrs = now.getHours();
+      const hrs = String(now.getHours()).padStart(2, "0");
       const mins = String(now.getMinutes()).padStart(2, "0");
-      setLocalTime(`${hrs}:${mins}`);
+      const secs = String(now.getSeconds()).padStart(2, "0");
+      setLocalTime(`${hrs}:${mins}:${secs}`);
 
       // Evening (18:00 - 06:00) is night
-      const night = hrs >= 18 || hrs < 6;
-      setIsNightTime(night);
+      const h = now.getHours();
+      setIsNightTime(h >= 18 || h < 6);
     };
 
     updateTime();
-    const timer = setInterval(updateTime, 30000);
+    const timer = setInterval(updateTime, 1000);
 
     const checkDark = document.documentElement.classList.contains("dark");
     setIsDark(checkDark);
@@ -119,8 +125,8 @@ export default function LivingCodeTerminal() {
       const dx = (e.clientX - cx) / (window.innerWidth / 2);
       const dy = (e.clientY - cy) / (window.innerHeight / 2);
 
-      targetRotY = dx * 10; // max 10 deg yaw
-      targetRotX = -dy * 8; // max 8 deg pitch
+      targetRotY = dx * 8; // max 8 deg yaw
+      targetRotX = -dy * 6; // max 6 deg pitch
     };
 
     const animateTilt = () => {
@@ -147,7 +153,7 @@ export default function LivingCodeTerminal() {
     setIsDark(nextDark);
     setIsCompiling(true);
 
-    playKeystrokeSound(nextDark);
+    playKeystrokeSound(nextDark, soundEnabled);
 
     // Update site-wide theme
     if (nextDark) {
@@ -183,170 +189,292 @@ export default function LivingCodeTerminal() {
     }
 
     setTimeout(() => setIsCompiling(false), 600);
-  }, [isDark]);
+  }, [isDark, soundEnabled]);
+
+  // 4. Keyboard Shortcut Listener (Press Space or T)
+  useEffect(() => {
+    const onKeyDown = (e: KeyboardEvent) => {
+      // Don't trigger if user is in an input or textarea
+      const target = e.target as HTMLElement;
+      if (target.tagName === "INPUT" || target.tagName === "TEXTAREA" || target.isContentEditable) {
+        return;
+      }
+      if (e.code === "Space" || e.key.toLowerCase() === "t") {
+        e.preventDefault();
+        toggleLights();
+      }
+    };
+
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [toggleLights]);
 
   if (!mounted) return null;
 
   return (
-    <div className="relative w-full max-w-[540px] select-none mx-auto lg:mx-0">
+    <div className="relative w-full max-w-[530px] select-none mx-auto lg:mx-0">
+      {/* Dynamic Ambient Aura Glow behind the terminal */}
+      <div
+        className={`absolute -inset-1 rounded-3xl blur-2xl transition-all duration-700 pointer-events-none opacity-40 dark:opacity-50 ${
+          isDark
+            ? "bg-gradient-to-r from-cyan-500/30 via-azure/30 to-purple-600/30"
+            : "bg-gradient-to-r from-amber-400/30 via-teal-400/30 to-sky-400/30"
+        }`}
+        aria-hidden="true"
+      />
+
       {/* 3D Floating Glass IDE Window */}
       <div
         ref={cardRef}
-        className="transition-shadow duration-300 rounded-2xl bg-white/75 dark:bg-[#07090E]/85 backdrop-blur-2xl border border-slate-900/[0.08] dark:border-white/[0.14] shadow-[0_20px_60px_-15px_rgba(0,0,0,0.1)] dark:shadow-[0_25px_70px_-15px_rgba(0,229,255,0.15)] overflow-hidden"
+        className="relative transition-all duration-300 rounded-2xl bg-white/80 dark:bg-[#07090E]/90 backdrop-blur-2xl border border-slate-900/[0.08] dark:border-white/[0.14] shadow-[0_25px_70px_-15px_rgba(0,0,0,0.12)] dark:shadow-[0_30px_90px_-20px_rgba(0,229,255,0.18)] overflow-hidden"
         style={{ transformStyle: "preserve-3d" }}
       >
-        {/* Editor Window Header (macOS dots + tab + local time) */}
-        <div className="flex items-center justify-between px-4 py-3 border-b border-slate-900/[0.06] dark:border-white/[0.08] bg-slate-100/50 dark:bg-white/[0.02]">
-          <div className="flex items-center gap-2">
-            <span className="w-3 h-3 rounded-full bg-[#FF5F56] border border-[#E0443E]/50" />
-            <span className="w-3 h-3 rounded-full bg-[#FFBD2E] border border-[#DEA123]/50" />
-            <span className="w-3 h-3 rounded-full bg-[#27C93F] border border-[#1AAB29]/50" />
-            <span className="ml-2 font-mono text-xs text-slate-500 dark:text-slate-400 flex items-center gap-1.5">
-              <span className="text-[#1E7FE8]">⚡</span>
-              <span>natle-engine.ts</span>
-            </span>
-          </div>
+        {/* Editor Window Header (macOS dots + tabs + local time + sound toggle) */}
+        <div className="flex items-center justify-between px-3.5 py-2.5 border-b border-slate-900/[0.06] dark:border-white/[0.08] bg-slate-100/60 dark:bg-white/[0.02]">
+          {/* macOS window dots + tabs */}
+          <div className="flex items-center gap-3 overflow-x-auto no-scrollbar">
+            <div className="flex items-center gap-1.5 shrink-0">
+              <span className="w-3 h-3 rounded-full bg-[#FF5F56] border border-[#E0443E]/50" />
+              <span className="w-3 h-3 rounded-full bg-[#FFBD2E] border border-[#DEA123]/50" />
+              <span className="w-3 h-3 rounded-full bg-[#27C93F] border border-[#1AAB29]/50" />
+            </div>
 
-          {/* Real-time local time detection badge */}
-          <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-slate-200/60 dark:bg-white/[0.06] border border-slate-300/50 dark:border-white/10 text-[11px] font-mono text-slate-600 dark:text-slate-300">
-            <span>{isNightTime ? "🌙" : "☀️"}</span>
-            <span>{localTime} LOCAL</span>
-            <span className="text-slate-400 dark:text-slate-500">•</span>
-            <span className={isNightTime ? "text-cyan-500 dark:text-cyan-400" : "text-amber-500 font-semibold"}>
-              {isNightTime ? "NIGHT" : "DAY"}
-            </span>
-          </div>
-        </div>
-
-        {/* Code Content Area */}
-        <div className="p-4 sm:p-5 font-mono text-xs sm:text-[13px] leading-relaxed overflow-x-auto text-slate-800 dark:text-slate-200">
-          {/* Line 1 */}
-          <div className="flex items-center gap-4">
-            <span className="text-slate-400 dark:text-slate-600 w-4 text-right shrink-0 select-none">1</span>
-            <p>
-              <span className="text-purple-600 dark:text-purple-400">import</span>{" "}
-              <span className="text-slate-800 dark:text-slate-100">{"{ NatleStudio }"}</span>{" "}
-              <span className="text-purple-600 dark:text-purple-400">from</span>{" "}
-              <span className="text-emerald-600 dark:text-emerald-400">&quot;@natle/core&quot;</span>;
-            </p>
-          </div>
-
-          {/* Line 2 */}
-          <div className="flex items-center gap-4 opacity-50">
-            <span className="text-slate-400 dark:text-slate-600 w-4 text-right shrink-0 select-none">2</span>
-            <p className="text-slate-400 dark:text-slate-500 italic">
-              {"// ⏰ System synced to local time: "}{localTime} ({isNightTime ? "Night time" : "Day time"})
-            </p>
-          </div>
-
-          {/* Line 3 */}
-          <div className="flex items-center gap-4">
-            <span className="text-slate-400 dark:text-slate-600 w-4 text-right shrink-0 select-none">3</span>
-            <p>
-              <span className="text-blue-600 dark:text-blue-400">export const</span>{" "}
-              <span className="text-amber-600 dark:text-amber-300 font-semibold">studio</span> ={" "}
-              <span className="text-purple-600 dark:text-purple-400">new</span>{" "}
-              <span className="text-teal-600 dark:text-teal-300">NatleStudio</span>({"{"}
-            </p>
-          </div>
-
-          {/* Line 4 */}
-          <div className="flex items-center gap-4 pl-4">
-            <span className="text-slate-400 dark:text-slate-600 w-4 text-right shrink-0 select-none">4</span>
-            <p>
-              <span className="text-slate-600 dark:text-slate-400">client:</span>{" "}
-              <span className="text-emerald-600 dark:text-emerald-400">&quot;Founders & Enterprise&quot;</span>,
-            </p>
-          </div>
-
-          {/* Line 5 */}
-          <div className="flex items-center gap-4 pl-4">
-            <span className="text-slate-400 dark:text-slate-600 w-4 text-right shrink-0 select-none">5</span>
-            <p>
-              <span className="text-slate-600 dark:text-slate-400">throughput:</span>{" "}
-              <span className="text-emerald-600 dark:text-emerald-400">&quot;99.99% SLA&quot;</span>,
-            </p>
-          </div>
-
-          {/* Line 6 — THE MAGIC INTERACTIVE SWITCH LINE */}
-          <div className="flex items-center gap-4 pl-4 my-1.5 py-1.5 px-2 -mx-2 rounded-xl bg-blue-500/10 dark:bg-[#00E5FF]/10 border border-blue-500/20 dark:border-[#00E5FF]/30 transition-all duration-200">
-            <span className="text-slate-400 dark:text-slate-600 w-4 text-right shrink-0 select-none">6</span>
-            <div className="flex flex-wrap items-center gap-2">
-              <span className="text-blue-700 dark:text-cyan-300 font-semibold">lights:</span>
-
-              {/* The Tactile Toggle Switch Widget inside the code */}
+            {/* Interactive Tabs */}
+            <div className="flex items-center gap-1">
               <button
                 type="button"
-                onClick={toggleLights}
-                className={`group relative inline-flex items-center gap-2 px-3 py-1.5 rounded-full border transition-all duration-300 cursor-pointer shadow-md hover:scale-[1.03] active:scale-[0.97] ${
-                  isDark
-                    ? "bg-[#0A1220] border-cyan-400/50 shadow-[0_0_15px_rgba(0,229,255,0.3)] text-cyan-300"
-                    : "bg-amber-50 border-amber-400/80 shadow-[0_0_15px_rgba(245,158,11,0.3)] text-amber-900"
+                onClick={() => setActiveTab("engine")}
+                className={`px-2.5 py-1 rounded-md text-[11px] font-mono flex items-center gap-1.5 transition-all ${
+                  activeTab === "engine"
+                    ? "bg-white dark:bg-white/[0.10] text-slate-900 dark:text-white shadow-xs font-semibold"
+                    : "text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-200"
                 }`}
-                title="Click to toggle website lights (Dark / Light mode)"
               >
-                {/* Knob */}
-                <span
-                  className={`flex items-center justify-center w-5 h-5 rounded-full text-xs transition-transform duration-300 shadow-sm ${
-                    isDark
-                      ? "bg-cyan-400 text-slate-950 translate-x-0"
-                      : "bg-amber-400 text-slate-950 translate-x-0"
-                  }`}
-                >
-                  {isDark ? "🌙" : "☀️"}
-                </span>
+                <span className="text-[#1E7FE8]">⚡</span>
+                <span>engine.ts</span>
+              </button>
 
-                <span className="font-bold tracking-wide text-xs">
-                  {isDark ? '"NIGHT_OPS"' : '"DAYLIGHT"'}
-                </span>
+              <button
+                type="button"
+                onClick={() => setActiveTab("architecture")}
+                className={`px-2.5 py-1 rounded-md text-[11px] font-mono flex items-center gap-1.5 transition-all ${
+                  activeTab === "architecture"
+                    ? "bg-white dark:bg-white/[0.10] text-slate-900 dark:text-white shadow-xs font-semibold"
+                    : "text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-200"
+                }`}
+              >
+                <span className="text-teal-500">📊</span>
+                <span className="hidden sm:inline">arch.json</span>
+              </button>
 
-                <span
-                  className={`h-2 w-2 rounded-full animate-ping ${
-                    isDark ? "bg-cyan-400" : "bg-amber-500"
-                  }`}
-                />
-
-                <span className="text-[10px] text-slate-400 group-hover:text-slate-600 dark:group-hover:text-white transition-colors">
-                  [CLICK TO SWITCH]
-                </span>
+              <button
+                type="button"
+                onClick={() => setActiveTab("deploy")}
+                className={`px-2.5 py-1 rounded-md text-[11px] font-mono flex items-center gap-1.5 transition-all ${
+                  activeTab === "deploy"
+                    ? "bg-white dark:bg-white/[0.10] text-slate-900 dark:text-white shadow-xs font-semibold"
+                    : "text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-200"
+                }`}
+              >
+                <span className="text-purple-500">🚀</span>
+                <span className="hidden sm:inline">deploy.sh</span>
               </button>
             </div>
           </div>
 
-          {/* Line 7 */}
-          <div className="flex items-center gap-4 pl-4">
-            <span className="text-slate-400 dark:text-slate-600 w-4 text-right shrink-0 select-none">7</span>
-            <p>
-              <span className="text-slate-600 dark:text-slate-400">status:</span>{" "}
-              <span className="text-emerald-600 dark:text-emerald-400">&quot;ACTIVE_GRID&quot;</span>
-            </p>
-          </div>
+          {/* Right Controls: Real-time clock & sound toggle */}
+          <div className="flex items-center gap-2 shrink-0">
+            {/* Real-time local time detection badge */}
+            <div className="flex items-center gap-1 px-2.5 py-1 rounded-full bg-slate-200/60 dark:bg-white/[0.06] border border-slate-300/50 dark:border-white/10 text-[11px] font-mono text-slate-600 dark:text-slate-300">
+              <span>{isNightTime ? "🌙" : "☀️"}</span>
+              <span className="font-semibold">{localTime}</span>
+            </div>
 
-          {/* Line 8 */}
-          <div className="flex items-center gap-4">
-            <span className="text-slate-400 dark:text-slate-600 w-4 text-right shrink-0 select-none">8</span>
-            <p>
-              {"});"}
-            </p>
-          </div>
-
-          {/* Line 9 */}
-          <div className="flex items-center gap-4">
-            <span className="text-slate-400 dark:text-slate-600 w-4 text-right shrink-0 select-none">9</span>
-            <p>
-              <span className="text-amber-600 dark:text-amber-300">studio</span>.
-              <span className="text-blue-600 dark:text-blue-400">deploy</span>();
-            </p>
+            {/* Sound Toggle */}
+            <button
+              type="button"
+              onClick={() => setSoundEnabled((v) => !v)}
+              className="p-1 rounded hover:bg-slate-200 dark:hover:bg-white/10 text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 transition-colors"
+              title={soundEnabled ? "Mute keystroke audio" : "Enable keystroke audio"}
+              aria-label="Toggle audio feedback"
+            >
+              {soundEnabled ? "🔊" : "🔇"}
+            </button>
           </div>
         </div>
+
+        {/* Tab 1: engine.ts (Main Interactive Code Editor) */}
+        {activeTab === "engine" && (
+          <div className="p-4 sm:p-5 font-mono text-xs sm:text-[13px] leading-relaxed overflow-x-auto text-slate-800 dark:text-slate-200">
+            {/* Line 1 */}
+            <div className="flex items-center gap-3 sm:gap-4">
+              <span className="text-slate-400 dark:text-slate-600 w-4 text-right shrink-0 select-none">1</span>
+              <p>
+                <span className="text-purple-600 dark:text-purple-400">import</span>{" "}
+                <span className="text-slate-800 dark:text-slate-100 font-semibold">{"{ NatleStudio }"}</span>{" "}
+                <span className="text-purple-600 dark:text-purple-400">from</span>{" "}
+                <span className="text-emerald-600 dark:text-emerald-400">&quot;@natle/core&quot;</span>;
+              </p>
+            </div>
+
+            {/* Line 2 */}
+            <div className="flex items-center gap-3 sm:gap-4 opacity-60">
+              <span className="text-slate-400 dark:text-slate-600 w-4 text-right shrink-0 select-none">2</span>
+              <p className="text-slate-400 dark:text-slate-500 italic">
+                {"// ⏰ Time-synced environment: "}{localTime} ({isNightTime ? "Night time detected" : "Daylight detected"})
+              </p>
+            </div>
+
+            {/* Line 3 */}
+            <div className="flex items-center gap-3 sm:gap-4">
+              <span className="text-slate-400 dark:text-slate-600 w-4 text-right shrink-0 select-none">3</span>
+              <p>
+                <span className="text-blue-600 dark:text-blue-400">export const</span>{" "}
+                <span className="text-amber-600 dark:text-amber-300 font-semibold">studio</span> ={" "}
+                <span className="text-purple-600 dark:text-purple-400">new</span>{" "}
+                <span className="text-teal-600 dark:text-teal-300 font-semibold">NatleStudio</span>({"{"}
+              </p>
+            </div>
+
+            {/* Line 4 */}
+            <div className="flex items-center gap-3 sm:gap-4 pl-4">
+              <span className="text-slate-400 dark:text-slate-600 w-4 text-right shrink-0 select-none">4</span>
+              <p>
+                <span className="text-slate-600 dark:text-slate-400">client:</span>{" "}
+                <span className="text-emerald-600 dark:text-emerald-400">&quot;Founders & Enterprise&quot;</span>,
+              </p>
+            </div>
+
+            {/* Line 5 */}
+            <div className="flex items-center gap-3 sm:gap-4 pl-4">
+              <span className="text-slate-400 dark:text-slate-600 w-4 text-right shrink-0 select-none">5</span>
+              <p>
+                <span className="text-slate-600 dark:text-slate-400">throughput:</span>{" "}
+                <span className="text-emerald-600 dark:text-emerald-400">&quot;99.99% SLA&quot;</span>,
+              </p>
+            </div>
+
+            {/* Line 6 — THE MAGIC INTERACTIVE SWITCH LINE */}
+            <div className="flex items-center gap-3 sm:gap-4 pl-4 my-2 py-2 px-2.5 -mx-2.5 rounded-xl bg-blue-500/10 dark:bg-[#00E5FF]/10 border border-blue-500/25 dark:border-[#00E5FF]/35 shadow-xs transition-all duration-200">
+              <span className="text-slate-400 dark:text-slate-600 w-4 text-right shrink-0 select-none">6</span>
+              <div className="flex flex-wrap items-center gap-2.5">
+                <span className="text-blue-700 dark:text-cyan-300 font-bold">lights:</span>
+
+                {/* The Tactile Toggle Switch Widget inside the code */}
+                <button
+                  type="button"
+                  onClick={toggleLights}
+                  className={`group relative inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border transition-all duration-300 cursor-pointer shadow-md hover:scale-[1.03] active:scale-[0.96] ${
+                    isDark
+                      ? "bg-[#08101E] border-cyan-400/60 shadow-[0_0_20px_rgba(0,229,255,0.35)] text-cyan-300"
+                      : "bg-amber-50 border-amber-500/80 shadow-[0_0_20px_rgba(245,158,11,0.35)] text-amber-900"
+                  }`}
+                  title="Click to toggle website lights (Dark / Light mode)"
+                >
+                  {/* Sliding Knob */}
+                  <span
+                    className={`flex items-center justify-center w-5 h-5 rounded-full text-xs transition-transform duration-300 shadow-sm ${
+                      isDark
+                        ? "bg-cyan-400 text-slate-950"
+                        : "bg-amber-400 text-slate-950"
+                    }`}
+                  >
+                    {isDark ? "🌙" : "☀️"}
+                  </span>
+
+                  <span className="font-bold tracking-wide text-xs">
+                    {isDark ? '"NIGHT_OPS"' : '"DAYLIGHT"'}
+                  </span>
+
+                  <span
+                    className={`h-2 w-2 rounded-full animate-ping ${
+                      isDark ? "bg-cyan-400" : "bg-amber-500"
+                    }`}
+                  />
+
+                  <span className="text-[10px] text-slate-400 group-hover:text-slate-600 dark:group-hover:text-white transition-colors">
+                    [TOGGLE]
+                  </span>
+                </button>
+              </div>
+            </div>
+
+            {/* Line 7 */}
+            <div className="flex items-center gap-3 sm:gap-4 pl-4">
+              <span className="text-slate-400 dark:text-slate-600 w-4 text-right shrink-0 select-none">7</span>
+              <p>
+                <span className="text-slate-600 dark:text-slate-400">status:</span>{" "}
+                <span className="text-emerald-600 dark:text-emerald-400 font-semibold">&quot;ACTIVE_GRID&quot;</span>
+              </p>
+            </div>
+
+            {/* Line 8 */}
+            <div className="flex items-center gap-3 sm:gap-4">
+              <span className="text-slate-400 dark:text-slate-600 w-4 text-right shrink-0 select-none">8</span>
+              <p>
+                {"});"}
+              </p>
+            </div>
+
+            {/* Line 9 */}
+            <div className="flex items-center gap-3 sm:gap-4">
+              <span className="text-slate-400 dark:text-slate-600 w-4 text-right shrink-0 select-none">9</span>
+              <p>
+                <span className="text-amber-600 dark:text-amber-300 font-semibold">studio</span>.
+                <span className="text-blue-600 dark:text-blue-400 font-semibold">deploy</span>();
+              </p>
+            </div>
+          </div>
+        )}
+
+        {/* Tab 2: architecture.json (Micro-dashboard) */}
+        {activeTab === "architecture" && (
+          <div className="p-4 sm:p-5 font-mono text-xs sm:text-[13px] leading-relaxed text-slate-800 dark:text-slate-200">
+            <p className="text-slate-400 dark:text-slate-500 italic mb-2">{"// Production Cluster Telemetry"}</p>
+            <div className="grid grid-cols-2 gap-3 mb-2">
+              <div className="p-2.5 rounded-lg bg-slate-100 dark:bg-white/[0.04] border border-black/[0.04] dark:border-white/[0.06]">
+                <span className="text-[10px] text-slate-400 block">LATENCY (P99)</span>
+                <span className="text-emerald-500 font-bold text-sm">0.8 ms</span>
+              </div>
+              <div className="p-2.5 rounded-lg bg-slate-100 dark:bg-white/[0.04] border border-black/[0.04] dark:border-white/[0.06]">
+                <span className="text-[10px] text-slate-400 block">AVAILABILITY</span>
+                <span className="text-cyan-500 font-bold text-sm">99.999%</span>
+              </div>
+              <div className="p-2.5 rounded-lg bg-slate-100 dark:bg-white/[0.04] border border-black/[0.04] dark:border-white/[0.06]">
+                <span className="text-[10px] text-slate-400 block">MICROSERVICES</span>
+                <span className="text-purple-400 font-bold text-sm">128 Online</span>
+              </div>
+              <div className="p-2.5 rounded-lg bg-slate-100 dark:bg-white/[0.04] border border-black/[0.04] dark:border-white/[0.06]">
+                <span className="text-[10px] text-slate-400 block">ENCRYPTION</span>
+                <span className="text-blue-400 font-bold text-sm">Quantum-Safe</span>
+              </div>
+            </div>
+            <p className="text-xs text-slate-500">Auto-scaling edge nodes: 42 regions active</p>
+          </div>
+        )}
+
+        {/* Tab 3: deploy.sh */}
+        {activeTab === "deploy" && (
+          <div className="p-4 sm:p-5 font-mono text-xs sm:text-[13px] leading-relaxed text-slate-800 dark:text-slate-200">
+            <p className="text-emerald-500 font-semibold mb-2">#!/usr/bin/env bash</p>
+            <p className="text-slate-400">$ natle deploy --env=production</p>
+            <p className="text-slate-600 dark:text-slate-300">✔ Validating AST & dependencies... [PASSED]</p>
+            <p className="text-slate-600 dark:text-slate-300">✔ Compiling edge workers... [0.4s]</p>
+            <p className="text-cyan-500">✔ Zero-downtime deployment active across all nodes.</p>
+          </div>
+        )}
 
         {/* Mini Compiler Terminal Log Drawer */}
         <div className="px-4 py-2.5 border-t border-slate-900/[0.06] dark:border-white/[0.08] bg-slate-900 text-slate-300 font-mono text-[11px] flex flex-col gap-1">
           <div className="flex items-center justify-between text-slate-400 text-[10px] uppercase tracking-wider pb-0.5">
-            <span>TERMINAL OUTPUT</span>
+            <span className="flex items-center gap-1.5">
+              <span>TERMINAL OUTPUT</span>
+              <span className="text-slate-600">•</span>
+              <span className="text-[9px] text-slate-500">HOT RELOAD READY</span>
+            </span>
             <span className="flex items-center gap-1.5 text-emerald-400">
               <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
-              <span>LIVE COMPILER</span>
+              <span>LIVE</span>
             </span>
           </div>
           {logs.map((log, i) => (
@@ -366,20 +494,35 @@ export default function LivingCodeTerminal() {
         </div>
       </div>
 
-      {/* SVG Circuit Wires connecting from code terminal towards the website */}
+      {/* Helper Keyboard Shortcut Pill */}
+      <div className="mt-2.5 flex items-center justify-between px-2 text-[11px] font-mono text-slate-500 dark:text-slate-400">
+        <span className="flex items-center gap-1.5">
+          <kbd className="px-1.5 py-0.5 rounded bg-slate-200 dark:bg-white/10 border border-slate-300 dark:border-white/15 text-[10px]">
+            Space
+          </kbd>
+          <span>or click switch to toggle</span>
+        </span>
+        <span className="text-emerald-600 dark:text-emerald-400 flex items-center gap-1">
+          <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
+          <span>99.99% SLA</span>
+        </span>
+      </div>
+
+      {/* SVG Circuit Wires connecting from code terminal towards the website headline */}
       <svg
-        className="pointer-events-none absolute -bottom-10 -left-20 w-48 h-32 overflow-visible hidden lg:block opacity-70"
-        viewBox="0 0 200 120"
+        className="pointer-events-none absolute -bottom-12 -left-28 w-56 h-36 overflow-visible hidden lg:block opacity-75"
+        viewBox="0 0 240 140"
       >
         <path
-          d="M 180 10 C 120 40, 60 80, 0 110"
+          d="M 220 15 C 150 45, 80 95, 0 130"
           fill="none"
           stroke={isDark ? "#00E5FF" : "#1E7FE8"}
           strokeWidth="2.5"
           strokeDasharray="6 4"
           className="animate-pulse"
         />
-        <circle cx="0" cy="110" r="4" fill={isDark ? "#00E5FF" : "#1E7FE8"} />
+        <circle cx="0" cy="130" r="4.5" fill={isDark ? "#00E5FF" : "#1E7FE8"} />
+        <circle cx="220" cy="15" r="3.5" fill={isDark ? "#00E5FF" : "#1E7FE8"} />
       </svg>
     </div>
   );

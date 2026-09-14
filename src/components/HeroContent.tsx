@@ -49,19 +49,23 @@ export default function HeroContent() {
 
   return (
     <div ref={rootRef} className="relative z-10 pointer-events-none">
-      <p
+      <div
         data-hero="eyebrow"
-        className="text-azure font-semibold text-sm tracking-wide mb-3 sm:mb-4"
+        className="pointer-events-auto inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-azure/10 dark:bg-azure/15 border border-azure/20 dark:border-azure/30 mb-4 sm:mb-5 backdrop-blur-md"
       >
-        Software engineering studio
-      </p>
-      <h1 className="font-display text-[13vw] leading-[0.98] sm:text-6xl md:text-7xl lg:text-[5.2rem] font-medium text-ink max-w-4xl">
+        <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
+        <span className="text-azure dark:text-cyan-400 text-xs font-semibold tracking-wider uppercase font-mono">
+          Software Engineering Studio
+        </span>
+      </div>
+
+      <h1 className="font-display text-4xl sm:text-5xl md:text-6xl lg:text-[3.9rem] xl:text-[4.5rem] leading-[1.04] font-medium text-ink max-w-2xl">
         <span data-hero="line" className="block overflow-hidden">
-          <span data-anchor="headline-word" className="inline-block mr-3">Ideas,</span>
+          <span data-anchor="headline-word" className="inline-block mr-2.5">Ideas,</span>
           <span data-anchor="headline-word" className="inline-block">engineered</span>
         </span>
         <span data-hero="line" className="block overflow-hidden text-gradient">
-          <span data-anchor="headline-word" className="inline-block mr-3">into</span>
+          <span data-anchor="headline-word" className="inline-block mr-2.5">into</span>
           <span data-anchor="headline-word" className="inline-block">growth.</span>
         </span>
       </h1>
