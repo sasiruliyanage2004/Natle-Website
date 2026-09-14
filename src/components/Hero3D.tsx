@@ -2,113 +2,106 @@
 
 import { useEffect, useRef, useState, useCallback } from "react";
 import * as THREE from "three";
-import { EffectComposer } from "three/examples/jsm/postprocessing/EffectComposer.js";
-import { RenderPass } from "three/examples/jsm/postprocessing/RenderPass.js";
-import { UnrealBloomPass } from "three/examples/jsm/postprocessing/UnrealBloomPass.js";
-import { OutputPass } from "three/examples/jsm/postprocessing/OutputPass.js";
 
-// ─────────────────────────────────────────────────────────────────────────────
-// Scene IDs
-// ─────────────────────────────────────────────────────────────────────────────
-export type SceneId = "neural" | "earth" | "orb";
+/**
+ * NATLE Hero 3D — Cyber Smart Device & Wired Grid Controller
+ *
+ * An interactive 3D Smart Device / Phone Terminal running a custom environment control app:
+ * - 3D Smartphone chassis with beveled metallic frame, glass display & camera island.
+ * - Dynamic 2D Canvas OS interface ("NATLE OS // GRID CONTROLLER") rendered to high-res texture.
+ * - Interactive tactile Theme Switch on the phone screen that toggles Dark / Light mode site-wide.
+ * - Glowing 3D braided cyber cables (wires) physically emerging from phone ports and
+ *   connecting across 3D space into the website's Navbar, Headline, and Stats sections.
+ * - Real-time electrical energy sparks / packets pulsing continuously along the cables.
+ * - Power Surge wave effect on toggle: energetic light pulse races down all cables into the site.
+ * - Synthesized sci-fi relay click audio feedback via Web Audio API (no external assets needed).
+ * - Drag-to-rotate + responsive mouse parallax tilt.
+ */
 
-const SCENES: { id: SceneId; label: string; icon: string; desc: string }[] = [
-  { id: "neural", label: "Neural Net",  icon: "🧠", desc: "AI / Neural Network Sphere" },
-  { id: "earth",  label: "Earth",       icon: "🌍", desc: "Photorealistic Living Earth" },
-  { id: "orb",    label: "Quantum Orb", icon: "⚡", desc: "Living Quantum Orb" },
-];
+// Synthesize a clean, subtle sci-fi relay click sound
+function playRelayClickSound(isDarkTarget: boolean) {
+  try {
+    const AudioCtx = window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
+    if (!AudioCtx) return;
+    const ctx = new AudioCtx();
+    if (ctx.state === "suspended") {
+      ctx.resume();
+    }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// Scene Switcher Panel (floating control panel)
-// ─────────────────────────────────────────────────────────────────────────────
-function SceneSwitcher({ current, onChange }: { current: SceneId; onChange: (id: SceneId) => void }) {
-  const [open, setOpen] = useState(false);
+    const now = ctx.currentTime;
 
-  return (
-    <div className="absolute bottom-6 right-5 z-20 flex flex-col items-end gap-2 select-none">
-      {/* Expanded Panel */}
-      <div
-        className={`transition-all duration-300 overflow-hidden ${open ? "max-h-64 opacity-100" : "max-h-0 opacity-0 pointer-events-none"}`}
-      >
-        <div className="mb-2 flex flex-col gap-1.5 bg-white/70 dark:bg-[#07090E]/80 backdrop-blur-xl rounded-2xl border border-black/[0.06] dark:border-white/[0.10] shadow-xl p-3 min-w-[190px]">
-          <p className="text-[10px] font-mono font-semibold text-ink/40 dark:text-slate-400 uppercase tracking-widest px-1 pb-1">
-            3D Scene
-          </p>
-          {SCENES.map((s) => {
-            const active = s.id === current;
-            return (
-              <button
-                key={s.id}
-                onClick={() => { onChange(s.id); setOpen(false); }}
-                className={`flex items-center gap-2.5 px-3 py-2 rounded-xl text-left transition-all duration-150 text-sm font-medium ${
-                  active
-                    ? "bg-ink text-white dark:bg-white dark:text-slate-950 shadow-sm"
-                    : "text-ink/70 dark:text-slate-300 hover:bg-black/[0.04] dark:hover:bg-white/[0.08]"
-                }`}
-              >
-                <span className="text-base leading-none">{s.icon}</span>
-                <span>{s.label}</span>
-                {active && (
-                  <span className="ml-auto h-1.5 w-1.5 rounded-full bg-teal-400 animate-pulse" />
-                )}
-              </button>
-            );
-          })}
-        </div>
-      </div>
+    // Transient click
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.type = "sine";
+    osc.frequency.setValueAtTime(isDarkTarget ? 880 : 1320, now);
+    osc.frequency.exponentialRampToValueAtTime(220, now + 0.06);
+    gain.gain.setValueAtTime(0.12, now);
+    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.06);
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    osc.start(now);
+    osc.stop(now + 0.07);
 
-      {/* Toggle Button */}
-      <button
-        onClick={() => setOpen((v) => !v)}
-        aria-label="Switch 3D scene"
-        className="flex items-center gap-2 px-3.5 py-2 rounded-full bg-white/70 dark:bg-[#07090E]/80 backdrop-blur-xl border border-black/[0.06] dark:border-white/[0.10] shadow-lg hover:shadow-xl transition-all duration-200 text-sm font-medium text-ink/70 dark:text-slate-300 hover:text-ink dark:hover:text-white"
-      >
-        <span className="text-base leading-none">
-          {SCENES.find((s) => s.id === current)?.icon ?? "🧠"}
-        </span>
-        <span className="hidden sm:inline">
-          {SCENES.find((s) => s.id === current)?.label}
-        </span>
-        <svg
-          className={`w-3.5 h-3.5 opacity-50 transition-transform duration-200 ${open ? "rotate-180" : ""}`}
-          viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"
-        >
-          <polyline points="6 9 12 15 18 9" />
-        </svg>
-      </button>
-    </div>
-  );
+    // Warm power-surge hum
+    const hum = ctx.createOscillator();
+    const humGain = ctx.createGain();
+    hum.type = "triangle";
+    hum.frequency.setValueAtTime(isDarkTarget ? 110 : 220, now + 0.02);
+    hum.frequency.exponentialRampToValueAtTime(isDarkTarget ? 220 : 440, now + 0.22);
+    humGain.gain.setValueAtTime(0.08, now + 0.02);
+    humGain.gain.exponentialRampToValueAtTime(0.001, now + 0.24);
+    hum.connect(humGain);
+    humGain.connect(ctx.destination);
+    hum.start(now + 0.02);
+    hum.stop(now + 0.25);
+  } catch {
+    // AudioContext blocked or not supported — silent fallback
+  }
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// Main export — mounts the selected scene + switcher
-// ─────────────────────────────────────────────────────────────────────────────
 export default function Hero3D() {
-  const [scene, setScene] = useState<SceneId>("neural");
   const mountRef = useRef<HTMLDivElement>(null);
+  const [isDarkState, setIsDarkState] = useState(false);
+  const [pulseActive, setPulseActive] = useState(false);
 
-  const handleChange = useCallback((id: SceneId) => {
-    setScene(id);
+  // Sync state with DOM dark class
+  useEffect(() => {
+    const checkDark = () => document.documentElement.classList.contains("dark");
+    setIsDarkState(checkDark());
+
+    const obs = new MutationObserver(() => {
+      setIsDarkState(checkDark());
+    });
+    obs.observe(document.documentElement, { attributes: true, attributeFilter: ["class"] });
+    return () => obs.disconnect();
   }, []);
 
-  return (
-    <div className="absolute inset-0 w-full h-full z-[1]">
-      <SceneSwitcher current={scene} onChange={handleChange} />
-      {scene === "neural" && <NeuralNetScene mountRef={mountRef} key="neural" />}
-      {scene === "earth"  && <EarthScene  key="earth" />}
-      {scene === "orb"    && <QuantumOrbScene key="orb" />}
-    </div>
-  );
-}
+  // Master function to toggle theme site-wide
+  const triggerThemeToggle = useCallback(() => {
+    const isCurrentlyDark = document.documentElement.classList.contains("dark");
+    const nextDark = !isCurrentlyDark;
 
-// ─────────────────────────────────────────────────────────────────────────────
-// SCENE 1 — Neural Network Sphere (main, bloom post-processing)
-// ─────────────────────────────────────────────────────────────────────────────
-function NeuralNetScene({ mountRef }: { mountRef: React.RefObject<HTMLDivElement> }) {
-  const localRef = useRef<HTMLDivElement>(null);
+    playRelayClickSound(nextDark);
+
+    if (nextDark) {
+      document.documentElement.classList.add("dark");
+      localStorage.setItem("natle_theme", "dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+      localStorage.setItem("natle_theme", "light");
+    }
+
+    setIsDarkState(nextDark);
+    setPulseActive(true);
+    setTimeout(() => setPulseActive(false), 900);
+
+    // Dispatch global event for sync
+    window.dispatchEvent(new Event("themechange"));
+  }, []);
 
   useEffect(() => {
-    const mount = localRef.current;
+    const mount = mountRef.current;
     if (!mount) return;
 
     let width = mount.clientWidth;
@@ -118,764 +111,864 @@ function NeuralNetScene({ mountRef }: { mountRef: React.RefObject<HTMLDivElement
       typeof document !== "undefined" &&
       document.documentElement.classList.contains("dark");
 
-    // Renderer
-    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: "high-performance" });
+    // ─────────────────────────────────────────────────────────────────────────
+    // 1. RENDERER & SCENE SETUP
+    // ─────────────────────────────────────────────────────────────────────────
+    const renderer = new THREE.WebGLRenderer({
+      antialias: true,
+      alpha: true,
+      powerPreference: "high-performance",
+    });
     renderer.setSize(width, height);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    renderer.toneMappingExposure = isDark() ? 1.1 : 0.92;
+    renderer.toneMappingExposure = isDark() ? 1.15 : 1.0;
     renderer.setClearColor(0x000000, 0);
     mount.appendChild(renderer.domElement);
 
-    const scene3 = new THREE.Scene();
+    const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(40, width / height, 0.1, 100);
-    camera.position.set(0, 0, 9.0);
+    camera.position.set(0, 0, 8.6);
 
-    // Bloom composer
-    const renderTarget = new THREE.WebGLRenderTarget(width, height, { type: THREE.HalfFloatType });
-    const composer = new EffectComposer(renderer, renderTarget);
-    const renderPass = new RenderPass(scene3, camera);
-    renderPass.clearColor = new THREE.Color(0, 0, 0);
-    renderPass.clearAlpha = 0;
-    composer.addPass(renderPass);
-
-    const bloomPass = new UnrealBloomPass(
-      new THREE.Vector2(width, height),
-      isDark() ? 0.55 : 0.20,  // strength — tight, only bright tips glow
-      0.28,                     // radius
-      0.36                      // threshold — only genuinely bright elements bloom
-    );
-    composer.addPass(bloomPass);
-    composer.addPass(new OutputPass());
-
-    // Root
     const rootGroup = new THREE.Group();
-    scene3.add(rootGroup);
+    scene.add(rootGroup);
+
     const setRootPos = () => {
       const desktop = width >= 1024;
-      rootGroup.position.set(desktop ? 2.1 : 0, desktop ? 0.05 : 0.3, 0);
-      rootGroup.scale.setScalar(desktop ? 1.0 : Math.min(0.88, width / 768));
+      // Position phone gracefully on the right half on desktop, centered on mobile
+      rootGroup.position.set(desktop ? 2.15 : 0, desktop ? 0.05 : 0.4, 0);
+      rootGroup.scale.setScalar(desktop ? 1.0 : Math.min(0.85, width / 768));
     };
     setRootPos();
 
-    const neuralGroup = new THREE.Group();
-    rootGroup.add(neuralGroup);
+    // Phone assembly group (rotates with drag & parallax)
+    const phoneRig = new THREE.Group();
+    phoneRig.rotation.y = -0.22; // slight angle towards camera
+    phoneRig.rotation.x = 0.08;
+    rootGroup.add(phoneRig);
 
-    // Fibonacci node distribution
-    const SPHERE_R = 1.52;
-    const PHI = Math.PI * (3 - Math.sqrt(5));
+    // ─────────────────────────────────────────────────────────────────────────
+    // 2. PROCEDURAL 3D SMARTPHONE CHASSIS
+    // ─────────────────────────────────────────────────────────────────────────
+    const PHONE_W = 1.62;
+    const PHONE_H = 3.32;
+    const PHONE_R = 0.22;
+    const PHONE_D = 0.13;
 
-    const fibSphere = (count: number, radius: number): THREE.Vector3[] => {
-      const pts: THREE.Vector3[] = [];
-      for (let i = 0; i < count; i++) {
-        const y = 1 - (i / (count - 1)) * 2;
-        const r = Math.sqrt(Math.max(0, 1 - y * y));
-        const theta = PHI * i;
-        pts.push(new THREE.Vector3(Math.cos(theta) * r * radius, y * radius, Math.sin(theta) * r * radius));
-      }
-      return pts;
+    // Rounded rectangle shape for phone body
+    const phoneShape = new THREE.Shape();
+    const x0 = -PHONE_W / 2;
+    const y0 = -PHONE_H / 2;
+    phoneShape.moveTo(x0 + PHONE_R, y0);
+    phoneShape.lineTo(x0 + PHONE_W - PHONE_R, y0);
+    phoneShape.quadraticCurveTo(x0 + PHONE_W, y0, x0 + PHONE_W, y0 + PHONE_R);
+    phoneShape.lineTo(x0 + PHONE_W, y0 + PHONE_H - PHONE_R);
+    phoneShape.quadraticCurveTo(x0 + PHONE_W, y0 + PHONE_H, x0 + PHONE_W - PHONE_R, y0 + PHONE_H);
+    phoneShape.lineTo(x0 + PHONE_R, y0 + PHONE_H);
+    phoneShape.quadraticCurveTo(x0, y0 + PHONE_H, x0, y0 + PHONE_H - PHONE_R);
+    phoneShape.lineTo(x0, y0 + PHONE_R);
+    phoneShape.quadraticCurveTo(x0, y0, x0 + PHONE_R, y0);
+
+    const extrudeSettings: THREE.ExtrudeGeometryOptions = {
+      depth: PHONE_D,
+      bevelEnabled: true,
+      bevelSegments: 4,
+      steps: 1,
+      bevelSize: 0.03,
+      bevelThickness: 0.03,
     };
 
-    const outerNodes = fibSphere(120, SPHERE_R);
-    const midNodes   = fibSphere(50,  SPHERE_R * 0.74);
-    const innerNodes = fibSphere(22,  SPHERE_R * 0.48);
-    const allNodes   = [...outerNodes, ...midNodes, ...innerNodes];
-    const NODE_COUNT = allNodes.length;
+    const chassisGeo = new THREE.ExtrudeGeometry(phoneShape, extrudeSettings);
+    chassisGeo.center();
 
-    // Instanced node spheres
-    const layerColors = [
-      new THREE.Color(0x00e5ff), // cyan — outer
-      new THREE.Color(0xffb300), // gold — mid
-      new THREE.Color(0xa855f7), // violet — inner
+    // Phone body material: titanium/ceramic with high-specular chamfer
+    const chassisMat = new THREE.MeshStandardMaterial({
+      color: new THREE.Color(isDark() ? 0x0f172a : 0xe2e8f0),
+      metalness: 0.92,
+      roughness: 0.22,
+      envMapIntensity: 1.5,
+    });
+    const chassisMesh = new THREE.Mesh(chassisGeo, chassisMat);
+    phoneRig.add(chassisMesh);
+
+    // Camera bump on back
+    const camPillGeo = new THREE.CapsuleGeometry(0.18, 0.42, 8, 16);
+    const camPillMat = new THREE.MeshStandardMaterial({
+      color: 0x020617,
+      metalness: 0.95,
+      roughness: 0.1,
+    });
+    const camPill = new THREE.Mesh(camPillGeo, camPillMat);
+    camPill.position.set(-0.45, 1.05, -PHONE_D / 2 - 0.03);
+    phoneRig.add(camPill);
+
+    // ─────────────────────────────────────────────────────────────────────────
+    // 3. DYNAMIC SCREEN OS DISPLAY (CanvasTexture)
+    // ─────────────────────────────────────────────────────────────────────────
+    const SCREEN_W = 1.54;
+    const SCREEN_H = 3.22;
+    const screenGeo = new THREE.PlaneGeometry(SCREEN_W, SCREEN_H);
+
+    const cv = document.createElement("canvas");
+    cv.width = 512;
+    cv.height = 1024;
+    const ctx = cv.getContext("2d")!;
+
+    const screenTexture = new THREE.CanvasTexture(cv);
+    screenTexture.colorSpace = THREE.SRGBColorSpace;
+
+    const screenMat = new THREE.MeshBasicMaterial({
+      map: screenTexture,
+      transparent: true,
+    });
+    const screenMesh = new THREE.Mesh(screenGeo, screenMat);
+    screenMesh.position.z = PHONE_D / 2 + 0.036;
+    phoneRig.add(screenMesh);
+
+    // Front protective glass cover (subtle reflection & clearcoat)
+    const glassCoverGeo = new THREE.PlaneGeometry(SCREEN_W, SCREEN_H);
+    const glassCoverMat = new THREE.MeshPhysicalMaterial({
+      color: 0xffffff,
+      transmission: 0.92,
+      opacity: 0.35,
+      transparent: true,
+      roughness: 0.05,
+      metalness: 0.1,
+      clearcoat: 1.0,
+      depthWrite: false,
+    });
+    const glassCover = new THREE.Mesh(glassCoverGeo, glassCoverMat);
+    glassCover.position.z = PHONE_D / 2 + 0.039;
+    phoneRig.add(glassCover);
+
+    // Dynamic Island pill at top
+    const islandGeo = new THREE.CapsuleGeometry(0.045, 0.22, 6, 12);
+    const islandMat = new THREE.MeshBasicMaterial({ color: 0x000000 });
+    const islandMesh = new THREE.Mesh(islandGeo, islandMat);
+    islandMesh.rotation.z = Math.PI / 2;
+    islandMesh.position.set(0, 1.45, PHONE_D / 2 + 0.041);
+    phoneRig.add(islandMesh);
+
+    // Tiny green camera indicator LED inside island
+    const ledGeo = new THREE.CircleGeometry(0.015, 8);
+    const ledMat = new THREE.MeshBasicMaterial({ color: 0x10b981 });
+    const ledMesh = new THREE.Mesh(ledGeo, ledMat);
+    ledMesh.position.set(0.12, 1.45, PHONE_D / 2 + 0.042);
+    phoneRig.add(ledMesh);
+
+    // Switch animation progress: 0 = Light Mode, 1 = Dark Mode
+    let switchAnimProgress = isDark() ? 1.0 : 0.0;
+    let switchTarget = isDark() ? 1.0 : 0.0;
+
+    // Draw the high-tech mobile UI on the 2D canvas
+    const drawScreenUI = (time: number, powerSurge: number) => {
+      const dark = isDark();
+
+      // Background gradient
+      if (dark) {
+        const bgGrad = ctx.createLinearGradient(0, 0, 0, 1024);
+        bgGrad.addColorStop(0, "#070B14");
+        bgGrad.addColorStop(0.5, "#0A1224");
+        bgGrad.addColorStop(1, "#03060D");
+        ctx.fillStyle = bgGrad;
+      } else {
+        const bgGrad = ctx.createLinearGradient(0, 0, 0, 1024);
+        bgGrad.addColorStop(0, "#F1F5F9");
+        bgGrad.addColorStop(0.5, "#E2E8F0");
+        bgGrad.addColorStop(1, "#CBD5E1");
+        ctx.fillStyle = bgGrad;
+      }
+      ctx.fillRect(0, 0, 512, 1024);
+
+      // Subtle cyber grid pattern on screen
+      ctx.strokeStyle = dark ? "rgba(30, 127, 232, 0.07)" : "rgba(0, 0, 0, 0.04)";
+      ctx.lineWidth = 1;
+      for (let x = 0; x <= 512; x += 32) {
+        ctx.beginPath();
+        ctx.moveTo(x, 0);
+        ctx.lineTo(x, 1024);
+        ctx.stroke();
+      }
+      for (let y = 0; y <= 1024; y += 32) {
+        ctx.beginPath();
+        ctx.moveTo(0, y);
+        ctx.lineTo(512, y);
+        ctx.stroke();
+      }
+
+      // 1. Status Bar (Time, 5G, Battery)
+      const now = new Date();
+      const hrs = String(now.getHours()).padStart(2, "0");
+      const mins = String(now.getMinutes()).padStart(2, "0");
+
+      ctx.fillStyle = dark ? "#F8FAFC" : "#0F172A";
+      ctx.font = "bold 22px -apple-system, BlinkMacSystemFont, sans-serif";
+      ctx.textAlign = "left";
+      ctx.fillText(`${hrs}:${mins}`, 42, 60);
+
+      // 5G & Battery icon on right
+      ctx.textAlign = "right";
+      ctx.font = "bold 16px monospace";
+      ctx.fillText("5G  100%", 470, 60);
+
+      // Battery outline
+      ctx.strokeStyle = dark ? "#94A3B8" : "#475569";
+      ctx.lineWidth = 2;
+      ctx.strokeRect(476, 46, 26, 14);
+      ctx.fillStyle = "#10B981";
+      ctx.fillRect(478, 48, 22, 10);
+
+      // 2. OS Header & Logo Badge
+      ctx.textAlign = "center";
+      ctx.fillStyle = dark ? "rgba(30, 127, 232, 0.15)" : "rgba(30, 127, 232, 0.10)";
+      ctx.beginPath();
+      ctx.roundRect(136, 100, 240, 36, 18);
+      ctx.fill();
+      ctx.strokeStyle = "#1E7FE8";
+      ctx.lineWidth = 1.5;
+      ctx.stroke();
+
+      ctx.fillStyle = "#1E7FE8";
+      ctx.font = "bold 13px monospace";
+      ctx.fillText("● NATLE OS // v3.4", 256, 123);
+
+      // Title
+      ctx.fillStyle = dark ? "#FFFFFF" : "#0F172A";
+      ctx.font = "bold 32px -apple-system, BlinkMacSystemFont, sans-serif";
+      ctx.fillText("GRID CONTROLLER", 256, 180);
+
+      ctx.fillStyle = dark ? "#64748B" : "#475569";
+      ctx.font = "14px monospace";
+      ctx.fillText("ENVIRONMENT POWER & THEME", 256, 206);
+
+      // 3. THE MASTER THEME TOGGLE SWITCH CARD (The Hero Element)
+      const cardY = 240;
+      const cardH = 340;
+
+      // Card background
+      ctx.fillStyle = dark ? "rgba(15, 23, 42, 0.85)" : "rgba(255, 255, 255, 0.90)";
+      ctx.beginPath();
+      ctx.roundRect(32, cardY, 448, cardH, 24);
+      ctx.fill();
+
+      // Card border with glow
+      ctx.strokeStyle = dark
+        ? "rgba(0, 229, 255, " + (0.4 + powerSurge * 0.5) + ")"
+        : "rgba(30, 127, 232, " + (0.3 + powerSurge * 0.5) + ")";
+      ctx.lineWidth = 2.5;
+      ctx.shadowColor = dark ? "#00E5FF" : "#1E7FE8";
+      ctx.shadowBlur = 12 * (1 + powerSurge * 2);
+      ctx.stroke();
+      ctx.shadowBlur = 0;
+
+      // Card Header
+      ctx.fillStyle = dark ? "#38BDF8" : "#0284C7";
+      ctx.font = "bold 15px monospace";
+      ctx.textAlign = "left";
+      ctx.fillText("MASTER POWER SWITCH", 60, cardY + 45);
+
+      ctx.fillStyle = dark ? "#94A3B8" : "#64748B";
+      ctx.font = "13px -apple-system, BlinkMacSystemFont, sans-serif";
+      ctx.fillText("Tap phone to toggle website theme", 60, cardY + 70);
+
+      // THE INTERACTIVE SWITCH TRACK
+      const switchTrackY = cardY + 105;
+      const switchTrackW = 392;
+      const switchTrackH = 110;
+      const switchTrackX = 60;
+
+      // Switch track background gradient based on switchAnimProgress
+      const trackGrad = ctx.createLinearGradient(switchTrackX, 0, switchTrackX + switchTrackW, 0);
+      if (dark) {
+        trackGrad.addColorStop(0, "#08162e");
+        trackGrad.addColorStop(1, "#034078");
+      } else {
+        trackGrad.addColorStop(0, "#bae6fd");
+        trackGrad.addColorStop(1, "#fef08a");
+      }
+      ctx.fillStyle = trackGrad;
+      ctx.beginPath();
+      ctx.roundRect(switchTrackX, switchTrackY, switchTrackW, switchTrackH, 55);
+      ctx.fill();
+
+      // Track border
+      ctx.strokeStyle = dark ? "rgba(0, 229, 255, 0.6)" : "rgba(234, 179, 8, 0.8)";
+      ctx.lineWidth = 3;
+      ctx.stroke();
+
+      // Labels inside track
+      ctx.font = "bold 16px monospace";
+      ctx.fillStyle = dark ? "rgba(255,255,255,0.45)" : "rgba(15,23,42,0.45)";
+      ctx.textAlign = "left";
+      ctx.fillText("☀️ LIGHT", switchTrackX + 32, switchTrackY + 62);
+      ctx.textAlign = "right";
+      ctx.fillText("🌙 DARK", switchTrackX + switchTrackW - 32, switchTrackY + 62);
+
+      // THE SLIDING KNOB
+      const knobR = 46;
+      const knobMinX = switchTrackX + 55;
+      const knobMaxX = switchTrackX + switchTrackW - 55;
+      const knobCurX = knobMinX + (knobMaxX - knobMinX) * switchAnimProgress;
+      const knobCurY = switchTrackY + switchTrackH / 2;
+
+      // Knob glow shadow
+      ctx.shadowColor = dark ? "#00E5FF" : "#F59E0B";
+      ctx.shadowBlur = 18;
+
+      ctx.fillStyle = dark ? "#00E5FF" : "#FFFFFF";
+      ctx.beginPath();
+      ctx.arc(knobCurX, knobCurY, knobR, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.shadowBlur = 0;
+
+      // Icon inside knob
+      ctx.textAlign = "center";
+      ctx.font = "32px sans-serif";
+      ctx.fillText(dark ? "🌙" : "☀️", knobCurX, knobCurY + 11);
+
+      // Status pill under switch
+      const statusPillY = cardY + 250;
+      ctx.fillStyle = dark ? "rgba(16, 185, 129, 0.15)" : "rgba(30, 127, 232, 0.12)";
+      ctx.beginPath();
+      ctx.roundRect(60, statusPillY, switchTrackW, 52, 14);
+      ctx.fill();
+
+      ctx.fillStyle = dark ? "#10B981" : "#1E7FE8";
+      ctx.font = "bold 14px monospace";
+      ctx.textAlign = "center";
+      const statusText = dark
+        ? "⚡ NIGHT OPS ACTIVE // WIRED TO SITE"
+        : "☀️ DAYLIGHT GRID ACTIVE // WIRED TO SITE";
+      ctx.fillText(statusText, 256, statusPillY + 32);
+
+      // 4. TELEMETRY CARDS (Active Wires & Grid Output)
+      const statY = 610;
+
+      // Left sub-card
+      ctx.fillStyle = dark ? "rgba(15, 23, 42, 0.7)" : "rgba(255, 255, 255, 0.8)";
+      ctx.beginPath();
+      ctx.roundRect(32, statY, 216, 110, 16);
+      ctx.fill();
+      ctx.strokeStyle = dark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.06)";
+      ctx.lineWidth = 1;
+      ctx.stroke();
+
+      ctx.textAlign = "left";
+      ctx.fillStyle = dark ? "#94A3B8" : "#64748B";
+      ctx.font = "12px monospace";
+      ctx.fillText("ACTIVE CONDUITS", 50, statY + 34);
+
+      ctx.fillStyle = "#10B981";
+      ctx.font = "bold 24px -apple-system, BlinkMacSystemFont, sans-serif";
+      ctx.fillText("4 / 4 ONLINE", 50, statY + 68);
+
+      ctx.fillStyle = dark ? "#64748B" : "#94A3B8";
+      ctx.font = "11px monospace";
+      ctx.fillText("● 100% FLOW STABLE", 50, statY + 92);
+
+      // Right sub-card
+      ctx.fillStyle = dark ? "rgba(15, 23, 42, 0.7)" : "rgba(255, 255, 255, 0.8)";
+      ctx.beginPath();
+      ctx.roundRect(264, statY, 216, 110, 16);
+      ctx.fill();
+      ctx.strokeStyle = dark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.06)";
+      ctx.stroke();
+
+      ctx.fillStyle = dark ? "#94A3B8" : "#64748B";
+      ctx.font = "12px monospace";
+      ctx.fillText("GRID VOLTAGE", 282, statY + 34);
+
+      ctx.fillStyle = "#1E7FE8";
+      ctx.font = "bold 24px -apple-system, BlinkMacSystemFont, sans-serif";
+      ctx.fillText("1.21 GW", 282, statY + 68);
+
+      ctx.fillStyle = dark ? "#64748B" : "#94A3B8";
+      ctx.font = "11px monospace";
+      ctx.fillText("LATENCY: 1.2ms", 282, statY + 92);
+
+      // 5. LIVE SINE WAVE OSCILLOSCOPE (Bottom of phone screen)
+      const waveBoxY = 744;
+      const waveBoxH = 140;
+      ctx.fillStyle = dark ? "rgba(15, 23, 42, 0.7)" : "rgba(255, 255, 255, 0.8)";
+      ctx.beginPath();
+      ctx.roundRect(32, waveBoxY, 448, waveBoxH, 16);
+      ctx.fill();
+      ctx.strokeStyle = dark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.06)";
+      ctx.stroke();
+
+      ctx.fillStyle = dark ? "#38BDF8" : "#0284C7";
+      ctx.font = "bold 12px monospace";
+      ctx.fillText("LIVE ENERGY CONDUIT PULSE", 50, waveBoxY + 30);
+
+      // Draw sine wave
+      ctx.beginPath();
+      ctx.strokeStyle = dark ? "#00E5FF" : "#1E7FE8";
+      ctx.lineWidth = 2.5;
+      const waveCenterY = waveBoxY + 85;
+      for (let x = 50; x <= 462; x += 4) {
+        const rad = (x * 0.035) + time * 4.0;
+        const y = waveCenterY + Math.sin(rad) * 22 * (1 + powerSurge * 0.8);
+        if (x === 50) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+      }
+      ctx.stroke();
+
+      // 6. Home Indicator Bar
+      ctx.fillStyle = dark ? "rgba(255,255,255,0.3)" : "rgba(0,0,0,0.3)";
+      ctx.beginPath();
+      ctx.roundRect(176, 985, 160, 6, 3);
+      ctx.fill();
+
+      screenTexture.needsUpdate = true;
+    };
+
+    // Initial draw
+    drawScreenUI(0, 0);
+
+    // ─────────────────────────────────────────────────────────────────────────
+    // 4. PHYSICAL 3D WIRES / CONDUITS CONNECTING TO WEBSITE ("wires magin sambanda")
+    // ─────────────────────────────────────────────────────────────────────────
+    // We define 4 3D Spline Curves emerging from the phone and branching into the site:
+    // Cable 1: Towards top-left (Navbar & NATLE logo)
+    // Cable 2: Towards center-left (Hero headline "Ideas, engineered into growth")
+    // Cable 3: Towards bottom-left (CTA Buttons & Metrics 120+ Products)
+    // Cable 4: Loops downward into a grounding holographic base ring
+
+    const CABLE_CURVES = [
+      // Cable 1: To Navbar / Top-Left
+      new THREE.CatmullRomCurve3([
+        new THREE.Vector3(0.0, -PHONE_H / 2, 0.0),
+        new THREE.Vector3(-0.3, -1.9, 0.15),
+        new THREE.Vector3(-1.0, -1.4, 0.45),
+        new THREE.Vector3(-2.2, 0.4, 0.35),
+        new THREE.Vector3(-3.4, 1.8, 0.1),
+        new THREE.Vector3(-4.8, 2.8, -0.2),
+      ]),
+      // Cable 2: To Hero Text / Center-Left
+      new THREE.CatmullRomCurve3([
+        new THREE.Vector3(-PHONE_W / 2 + 0.1, -1.2, 0.0),
+        new THREE.Vector3(-1.2, -1.0, 0.35),
+        new THREE.Vector3(-2.4, -0.4, 0.25),
+        new THREE.Vector3(-3.6, -0.2, 0.15),
+        new THREE.Vector3(-5.2, -0.25, -0.1),
+      ]),
+      // Cable 3: To CTA Buttons & Stats / Bottom-Left
+      new THREE.CatmullRomCurve3([
+        new THREE.Vector3(0.18, -PHONE_H / 2, 0.0),
+        new THREE.Vector3(-0.1, -2.1, 0.2),
+        new THREE.Vector3(-1.2, -2.3, 0.3),
+        new THREE.Vector3(-2.8, -2.0, 0.15),
+        new THREE.Vector3(-4.6, -2.1, -0.1),
+      ]),
+      // Cable 4: To Ground Power Ring / Downward
+      new THREE.CatmullRomCurve3([
+        new THREE.Vector3(PHONE_W / 2 - 0.1, -1.0, 0.0),
+        new THREE.Vector3(1.2, -1.5, 0.2),
+        new THREE.Vector3(1.0, -2.4, 0.1),
+        new THREE.Vector3(0.2, -2.6, -0.1),
+        new THREE.Vector3(-0.4, -2.5, -0.2),
+      ]),
     ];
 
-    const nodeGeo = new THREE.SphereGeometry(0.036, 12, 12);
-    const nodeMat = new THREE.MeshStandardMaterial({
-      color: 0xffffff, emissive: 0xffffff,
-      emissiveIntensity: isDark() ? 1.8 : 1.1,
-      roughness: 0.1, metalness: 0.9,
-    });
-    const nodeInstanced = new THREE.InstancedMesh(nodeGeo, nodeMat, NODE_COUNT);
-    const dummy = new THREE.Object3D();
-    const baseNodeColors = new Float32Array(NODE_COUNT * 3);
-    allNodes.forEach((pos, idx) => {
-      dummy.position.copy(pos);
-      dummy.updateMatrix();
-      nodeInstanced.setMatrixAt(idx, dummy.matrix);
-      const layer = idx < 120 ? 0 : idx < 170 ? 1 : 2;
-      const c = layerColors[layer];
-      nodeInstanced.setColorAt(idx, c);
-      baseNodeColors[idx*3] = c.r; baseNodeColors[idx*3+1] = c.g; baseNodeColors[idx*3+2] = c.b;
-    });
-    nodeInstanced.instanceMatrix.needsUpdate = true;
-    if (nodeInstanced.instanceColor) nodeInstanced.instanceColor.needsUpdate = true;
-    neuralGroup.add(nodeInstanced);
+    const cableColors = [
+      0x00e5ff, // Cyan conduit (to Navbar)
+      0x1e7fe8, // Azure conduit (to Headline)
+      0x10b981, // Emerald conduit (to Stats/CTA)
+      0xffb300, // Gold conduit (grounding)
+    ];
 
-    // Neural connection web
-    interface NEdge { a: number; b: number }
-    const edges: NEdge[] = [];
-    const edgePoints: THREE.Vector3[] = [];
-    const pushEdge = (i: number, j: number, thresh: number) => {
-      if (allNodes[i].distanceTo(allNodes[j]) < thresh) {
-        edges.push({ a: i, b: j });
-        edgePoints.push(allNodes[i], allNodes[j]);
+    const cableGroup = new THREE.Group();
+    rootGroup.add(cableGroup);
+
+    const cableMeshes: THREE.Mesh[] = [];
+    const cableMaterials: THREE.MeshStandardMaterial[] = [];
+
+    CABLE_CURVES.forEach((curve, i) => {
+      // 3D Tube geometry for physical cable
+      const tubeGeo = new THREE.TubeGeometry(curve, 64, 0.038, 12, false);
+      const tubeMat = new THREE.MeshStandardMaterial({
+        color: new THREE.Color(cableColors[i]),
+        emissive: new THREE.Color(cableColors[i]),
+        emissiveIntensity: isDark() ? 0.7 : 0.35,
+        roughness: 0.25,
+        metalness: 0.8,
+      });
+      const tubeMesh = new THREE.Mesh(tubeGeo, tubeMat);
+      cableGroup.add(tubeMesh);
+      cableMeshes.push(tubeMesh);
+      cableMaterials.push(tubeMat);
+
+      // Port collar plug where cable inserts into the phone
+      const startPt = curve.getPoint(0);
+      const collarGeo = new THREE.CylinderGeometry(0.065, 0.065, 0.12, 16);
+      const collarMat = new THREE.MeshStandardMaterial({
+        color: 0x334155,
+        metalness: 0.95,
+        roughness: 0.1,
+      });
+      const collar = new THREE.Mesh(collarGeo, collarMat);
+      collar.position.copy(startPt);
+      phoneRig.add(collar);
+    });
+
+    // ─────────────────────────────────────────────────────────────────────────
+    // 5. ENERGY PACKETS / SPARKS TRAVELING CONTINUOUSLY ALONG THE WIRES
+    // ─────────────────────────────────────────────────────────────────────────
+    // Multiple luminous energy pulses gliding down the cables into the website
+    const PACKETS_PER_CABLE = 6;
+    interface EnergyPacket {
+      mesh: THREE.Mesh;
+      cableIdx: number;
+      t: number;
+      speed: number;
+    }
+
+    const packetGeo = new THREE.SphereGeometry(0.062, 10, 10);
+    const energyPackets: EnergyPacket[] = [];
+
+    CABLE_CURVES.forEach((curve, cableIdx) => {
+      for (let p = 0; p < PACKETS_PER_CABLE; p++) {
+        const pMat = new THREE.MeshBasicMaterial({
+          color: 0xffffff,
+        });
+        const pMesh = new THREE.Mesh(packetGeo, pMat);
+        cableGroup.add(pMesh);
+        energyPackets.push({
+          mesh: pMesh,
+          cableIdx,
+          t: p / PACKETS_PER_CABLE,
+          speed: 0.25 + Math.random() * 0.15,
+        });
       }
-    };
-    for (let i = 0; i < 120; i++)   for (let j = i+1; j < 120; j++) pushEdge(i, j, 0.75);
-    for (let i = 120; i < 170; i++) for (let j = i+1; j < 170; j++) pushEdge(i, j, 1.1);
-    for (let i = 170; i < NODE_COUNT; i++) for (let j = i+1; j < NODE_COUNT; j++) pushEdge(i, j, 1.5);
-    for (let i = 0; i < 120; i++)   for (let j = 120; j < 170; j++) pushEdge(i, j, 0.95);
-    for (let i = 120; i < 170; i++) for (let j = 170; j < NODE_COUNT; j++) pushEdge(i, j, 1.2);
-
-    const webGeo = new THREE.BufferGeometry().setFromPoints(edgePoints);
-    const webMat = new THREE.LineBasicMaterial({ color: 0x00d2ff, transparent: true, opacity: isDark() ? 0.28 : 0.17, blending: THREE.AdditiveBlending, depthWrite: false });
-    neuralGroup.add(new THREE.LineSegments(webGeo, webMat));
-
-    // Impulse packets
-    const IMPULSE_COUNT = 45;
-    const impulseColors = [new THREE.Color(0x00ffff), new THREE.Color(0xffd54f), new THREE.Color(0xd8b4fe), new THREE.Color(0x6fcf3e), new THREE.Color(0xffffff)];
-    interface Impulse { mesh: THREE.Mesh; mat: THREE.MeshBasicMaterial; edgeIdx: number; t: number; speed: number }
-    const impGeo = new THREE.SphereGeometry(0.045, 10, 10);
-    const impulses: Impulse[] = [];
-    for (let i = 0; i < IMPULSE_COUNT; i++) {
-      const col = impulseColors[i % impulseColors.length];
-      const mat = new THREE.MeshBasicMaterial({ color: col });
-      const mesh = new THREE.Mesh(impGeo, mat);
-      neuralGroup.add(mesh);
-      impulses.push({ mesh, mat, edgeIdx: Math.floor(Math.random() * edges.length), t: Math.random(), speed: 0.18 + Math.random() * 0.22 });
-    }
-
-    // Glass sphere
-    const glassGeo = new THREE.SphereGeometry(SPHERE_R, 72, 72);
-    const glassMat = new THREE.MeshPhysicalMaterial({
-      color: new THREE.Color(isDark() ? 0x061428 : 0xffffff),
-      transmission: 0.93, thickness: 1.3, ior: 1.45, roughness: 0.03, metalness: 0.04,
-      clearcoat: 1.0, clearcoatRoughness: 0.02, transparent: true, opacity: isDark() ? 0.82 : 0.68, depthWrite: false,
     });
-    neuralGroup.add(new THREE.Mesh(glassGeo, glassMat));
 
-    // Halo
-    const haloGeo = new THREE.SphereGeometry(SPHERE_R * 1.06, 48, 48);
-    const haloMat = new THREE.ShaderMaterial({
-      uniforms: { uTime: { value: 0 } },
-      vertexShader: `varying vec3 vN,vW; void main(){vN=normalize(normalMatrix*normal);vW=(modelMatrix*vec4(position,1.0)).xyz;gl_Position=projectionMatrix*viewMatrix*modelMatrix*vec4(position,1.0);}`,
-      fragmentShader: `uniform float uTime;varying vec3 vN,vW;void main(){vec3 N=normalize(vN);vec3 V=normalize(cameraPosition-vW);float rim=pow(1.0-max(dot(N,V),0.0),2.6);float p=sin(uTime*1.8)*0.12+0.88;gl_FragColor=vec4(0.0,0.82*p,1.0,rim*0.68);}`,
-      side: THREE.BackSide, blending: THREE.AdditiveBlending, transparent: true, depthWrite: false,
+    // ─────────────────────────────────────────────────────────────────────────
+    // 6. HOLOGRAPHIC GROUND RING & DOCKING BASE
+    // ─────────────────────────────────────────────────────────────────────────
+    const baseGroup = new THREE.Group();
+    baseGroup.position.set(0, -2.6, 0);
+    rootGroup.add(baseGroup);
+
+    [0.6, 1.1, 1.6].forEach((r, idx) => {
+      const g = new THREE.TorusGeometry(r, 0.016, 16, 64);
+      const m = new THREE.MeshBasicMaterial({
+        color: idx === 0 ? 0x00e5ff : 0x1e7fe8,
+        transparent: true,
+        opacity: isDark() ? 0.6 : 0.35,
+      });
+      const mesh = new THREE.Mesh(g, m);
+      mesh.rotation.x = Math.PI / 2;
+      baseGroup.add(mesh);
     });
-    rootGroup.add(new THREE.Mesh(haloGeo, haloMat));
 
-    // Core
-    const plasmaSphereGeo = new THREE.SphereGeometry(0.32, 32, 32);
-    const plasmaSphereMat = new THREE.MeshStandardMaterial({ color: 0xfff9e0, emissive: new THREE.Color(0xffcc00), emissiveIntensity: isDark() ? 3.2 : 2.0, roughness: 0.0, metalness: 1.0 });
-    const plasmaSphere = new THREE.Mesh(plasmaSphereGeo, plasmaSphereMat);
-    const coreGroup = new THREE.Group();
-    neuralGroup.add(coreGroup);
-    coreGroup.add(plasmaSphere);
-
-    const cageGeo1 = new THREE.IcosahedronGeometry(0.62, 1);
-    const cageMat1 = new THREE.MeshBasicMaterial({ color: 0x00e5ff, wireframe: true, transparent: true, opacity: isDark() ? 0.65 : 0.4 });
-    const cageMesh1 = new THREE.Mesh(cageGeo1, cageMat1);
-    coreGroup.add(cageMesh1);
-
-    const cageGeo2 = new THREE.OctahedronGeometry(0.42);
-    const cageMat2 = new THREE.MeshBasicMaterial({ color: 0xffd54f, wireframe: true, transparent: true, opacity: isDark() ? 0.58 : 0.36 });
-    const cageMesh2 = new THREE.Mesh(cageGeo2, cageMat2);
-    coreGroup.add(cageMesh2);
-
-    // Stardust
-    const STAR_N = 1642;
-    const sfPos = new Float32Array(STAR_N * 3);
-    const sfCol = new Float32Array(STAR_N * 3);
-    const starPal = [new THREE.Color(0x00d2ff), new THREE.Color(0x1e7fe8), new THREE.Color(0xffd54f), new THREE.Color(0x12b8a6), new THREE.Color(0xffffff)];
-    const rcx = rootGroup.position.x;
-    for (let i = 0; i < 1600; i++) {
-      const r = 2.6 + Math.random() * 6.5, th = Math.random() * Math.PI * 2, ph = Math.acos(2 * Math.random() - 1);
-      sfPos[i*3] = rcx + r*Math.sin(ph)*Math.cos(th); sfPos[i*3+1] = r*Math.sin(ph)*Math.sin(th); sfPos[i*3+2] = r*Math.cos(ph);
-      const c = starPal[i % starPal.length]; sfCol[i*3] = c.r; sfCol[i*3+1] = c.g; sfCol[i*3+2] = c.b;
+    // Upward holographic floating dust particles
+    const DUST_N = 180;
+    const dustPos = new Float32Array(DUST_N * 3);
+    const dustV = new Float32Array(DUST_N);
+    for (let i = 0; i < DUST_N; i++) {
+      dustPos[i * 3] = -2.5 + Math.random() * 5.0;
+      dustPos[i * 3 + 1] = -2.5 + Math.random() * 5.0;
+      dustPos[i * 3 + 2] = -1.5 + Math.random() * 3.0;
+      dustV[i] = 0.2 + Math.random() * 0.4;
     }
-    for (let i = 1600; i < STAR_N; i++) {
-      sfPos[i*3] = -6.5 + Math.random()*5.8; sfPos[i*3+1] = -3.5 + Math.random()*7.0; sfPos[i*3+2] = -3.0 + Math.random()*4.5;
-      const c = starPal[i % starPal.length]; sfCol[i*3] = c.r; sfCol[i*3+1] = c.g; sfCol[i*3+2] = c.b;
-    }
-    const sfGeo = new THREE.BufferGeometry();
-    sfGeo.setAttribute("position", new THREE.BufferAttribute(sfPos, 3));
-    sfGeo.setAttribute("color", new THREE.BufferAttribute(sfCol, 3));
-    const sfMat = new THREE.PointsMaterial({ size: 0.085, sizeAttenuation: true, vertexColors: true, transparent: true, opacity: isDark() ? 0.82 : 0.40, blending: isDark() ? THREE.AdditiveBlending : THREE.NormalBlending, depthWrite: false });
-    const starfield = new THREE.Points(sfGeo, sfMat);
-    scene3.add(starfield);
+    const dustGeo = new THREE.BufferGeometry();
+    dustGeo.setAttribute("position", new THREE.BufferAttribute(dustPos, 3));
+    const dustMat = new THREE.PointsMaterial({
+      color: 0x00e5ff,
+      size: 0.042,
+      transparent: true,
+      opacity: isDark() ? 0.65 : 0.35,
+      blending: THREE.AdditiveBlending,
+      depthWrite: false,
+    });
+    rootGroup.add(new THREE.Points(dustGeo, dustMat));
 
-    // Lights
-    const ambientLight = new THREE.AmbientLight(isDark() ? 0x081020 : 0xf0f8ff, isDark() ? 2.0 : 3.5);
-    scene3.add(ambientLight);
-    const keyLight = new THREE.DirectionalLight(0xffffff, isDark() ? 2.5 : 3.0);
-    keyLight.position.set(5, 6, 8); scene3.add(keyLight);
-    const lA = new THREE.PointLight(0x00d2ff, isDark() ? 5.5 : 3.8, 16);
-    const lB = new THREE.PointLight(0xffb300, isDark() ? 4.8 : 3.2, 14);
-    const lC = new THREE.PointLight(0xa855f7, isDark() ? 4.2 : 2.6, 13);
-    const lD = new THREE.PointLight(0x12b8a6, isDark() ? 3.8 : 2.4, 13);
-    scene3.add(lA, lB, lC, lD);
+    // ─────────────────────────────────────────────────────────────────────────
+    // 7. LIGHTING SETUP
+    // ─────────────────────────────────────────────────────────────────────────
+    const ambientLight = new THREE.AmbientLight(isDark() ? 0x0f172a : 0xf8fafc, isDark() ? 1.8 : 3.0);
+    scene.add(ambientLight);
 
-    // Interaction
+    const keyLight = new THREE.DirectionalLight(0xffffff, isDark() ? 2.8 : 3.2);
+    keyLight.position.set(4, 5, 6);
+    scene.add(keyLight);
+
+    // Colored accent point lights reflecting off the phone chassis
+    const cyanLight = new THREE.PointLight(0x00e5ff, isDark() ? 3.5 : 2.2, 12);
+    cyanLight.position.set(2, 2, 4);
+    const azureLight = new THREE.PointLight(0x1e7fe8, isDark() ? 3.0 : 2.0, 10);
+    azureLight.position.set(-2, -1, 3);
+    scene.add(cyanLight, azureLight);
+
+    // ─────────────────────────────────────────────────────────────────────────
+    // 8. INTERACTION (Raycaster for click + Drag rotation & Parallax)
+    // ─────────────────────────────────────────────────────────────────────────
+    const raycaster = new THREE.Raycaster();
+    const mouseCoord = new THREE.Vector2();
+
     let tarX = 0, tarY = 0, curX = 0, curY = 0;
     let dragging = false, pMX = 0, pMY = 0, velX = 0, velY = 0;
-    const onDown = (e: PointerEvent) => { dragging = true; pMX = e.clientX; pMY = e.clientY; velX = velY = 0; };
-    const onUp   = () => { dragging = false; };
+    let powerSurgeIntensity = 0.0;
+
+    const onDown = (e: PointerEvent) => {
+      dragging = true;
+      pMX = e.clientX;
+      pMY = e.clientY;
+      velX = velY = 0;
+    };
+
+    const onUp = (e: PointerEvent) => {
+      // Check if this was a click (not a long drag)
+      const dist = Math.hypot(e.clientX - pMX, e.clientY - pMY);
+      if (dist < 8) {
+        // Raycast against the phone screen
+        const rect = mount.getBoundingClientRect();
+        mouseCoord.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+        mouseCoord.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
+        raycaster.setFromCamera(mouseCoord, camera);
+
+        const hits = raycaster.intersectObjects([screenMesh, glassCover, chassisMesh], true);
+        if (hits.length > 0) {
+          // User clicked the phone! Toggle theme!
+          triggerThemeToggle();
+        }
+      }
+      dragging = false;
+    };
+
     const onMove = (e: PointerEvent) => {
       if (dragging) {
-        const dx = e.clientX - pMX, dy = e.clientY - pMY;
-        pMX = e.clientX; pMY = e.clientY;
-        tarY += dx * 0.005; tarX += dy * 0.005; velX = dx * 0.005; velY = dy * 0.005;
+        const dx = e.clientX - pMX;
+        const dy = e.clientY - pMY;
+        pMX = e.clientX;
+        pMY = e.clientY;
+        tarY += dx * 0.005;
+        tarX += dy * 0.005;
+        velX = dx * 0.005;
+        velY = dy * 0.005;
       } else {
-        tarY = ((e.clientX - window.innerWidth/2) / (window.innerWidth/2)) * 0.24;
-        tarX = ((e.clientY - window.innerHeight/2) / (window.innerHeight/2)) * 0.24;
+        // Subtle mouse parallax tilt
+        const hw = window.innerWidth / 2;
+        const hh = window.innerHeight / 2;
+        tarY = ((e.clientX - hw) / hw) * 0.22;
+        tarX = ((e.clientY - hh) / hh) * 0.18;
       }
     };
+
     window.addEventListener("pointermove", onMove, { passive: true });
     mount.addEventListener("pointerdown", onDown);
     window.addEventListener("pointerup", onUp);
 
-    // Theme sync
-    const syncTheme = () => {
+    // ─────────────────────────────────────────────────────────────────────────
+    // 9. THEME SYNC LISTENER
+    // ─────────────────────────────────────────────────────────────────────────
+    const syncThemeColors = () => {
       const d = isDark();
-      renderer.toneMappingExposure = d ? 1.1 : 0.92;
-      bloomPass.strength = d ? 0.55 : 0.20;
-      glassMat.color.setHex(d ? 0x061428 : 0xffffff);
-      glassMat.opacity = d ? 0.82 : 0.68;
-      nodeMat.emissiveIntensity = d ? 1.8 : 1.1;
-      plasmaSphereMat.emissiveIntensity = d ? 3.2 : 2.0;
-      webMat.opacity = d ? 0.28 : 0.17;
-      sfMat.opacity = d ? 0.82 : 0.40;
-      sfMat.blending = d ? THREE.AdditiveBlending : THREE.NormalBlending;
-      sfMat.needsUpdate = true;
-      ambientLight.color.setHex(d ? 0x081020 : 0xf0f8ff);
-      ambientLight.intensity = d ? 2.0 : 3.5;
-      keyLight.intensity = d ? 2.5 : 3.0;
-      lA.intensity = d ? 5.5 : 3.8; lB.intensity = d ? 4.8 : 3.2;
-      lC.intensity = d ? 4.2 : 2.6; lD.intensity = d ? 3.8 : 2.4;
-    };
-    const themeObs = new MutationObserver(syncTheme);
-    themeObs.observe(document.documentElement, { attributes: true, attributeFilter: ["class"] });
+      switchTarget = d ? 1.0 : 0.0;
+      powerSurgeIntensity = 1.0; // trigger power surge down wires
 
-    // Animation
+      renderer.toneMappingExposure = d ? 1.15 : 1.0;
+      chassisMat.color.setHex(d ? 0x0f172a : 0xe2e8f0);
+      ambientLight.color.setHex(d ? 0x0f172a : 0xf8fafc);
+      ambientLight.intensity = d ? 1.8 : 3.0;
+      keyLight.intensity = d ? 2.8 : 3.2;
+
+      cableMaterials.forEach((mat) => {
+        mat.emissiveIntensity = d ? 1.4 : 0.6; // surge
+      });
+    };
+
+    const themeObs = new MutationObserver(syncThemeColors);
+    themeObs.observe(document.documentElement, { attributes: true, attributeFilter: ["class"] });
+    window.addEventListener("themechange", syncThemeColors);
+
+    // ─────────────────────────────────────────────────────────────────────────
+    // 10. ANIMATION LOOP
+    // ─────────────────────────────────────────────────────────────────────────
     const clock = new THREE.Clock();
     let raf = 0, visible = true, tabVisible = !document.hidden;
-    const tmpVec = new THREE.Vector3();
-    const nodeActivity = new Float32Array(NODE_COUNT);
-    const activeColor = new THREE.Color(0xffffff);
-    const tmpColor = new THREE.Color();
 
     const animate = () => {
-      if (!visible || !tabVisible) { raf = 0; return; }
-      const t = clock.getElapsedTime();
-      haloMat.uniforms.uTime.value = t;
-      if (!dragging) { tarX += velY; tarY += velX; velX *= 0.93; velY *= 0.93; }
-      curX += (tarX - curX) * 0.055;
-      curY += (tarY - curY) * 0.055;
-      rootGroup.rotation.x = curX; rootGroup.rotation.y = curY;
-      neuralGroup.rotation.y = t * 0.11;
-      const pulse = 1.0 + Math.sin(t * 2.5) * 0.09;
-      plasmaSphere.scale.setScalar(pulse);
-      plasmaSphereMat.emissiveIntensity = (isDark() ? 3.2 : 2.0) * (0.9 + Math.sin(t * 2.5) * 0.1);
-      cageMesh1.rotation.x = t * 0.38; cageMesh1.rotation.y = -t * 0.28;
-      cageMesh2.rotation.x = -t * 0.48; cageMesh2.rotation.z = t * 0.34;
-      for (let i = 0; i < NODE_COUNT; i++) nodeActivity[i] *= 0.96;
-      const waveIdx = Math.floor(t * 8) % NODE_COUNT;
-      nodeActivity[waveIdx] = 1.0;
-      for (let i = 0; i < NODE_COUNT; i++) {
-        const a = nodeActivity[i];
-        if (a > 0.02) {
-          tmpColor.r = baseNodeColors[i*3]   + (activeColor.r - baseNodeColors[i*3])   * a;
-          tmpColor.g = baseNodeColors[i*3+1] + (activeColor.g - baseNodeColors[i*3+1]) * a;
-          tmpColor.b = baseNodeColors[i*3+2] + (activeColor.b - baseNodeColors[i*3+2]) * a;
-          nodeInstanced.setColorAt(i, tmpColor);
-        }
+      if (!visible || !tabVisible) {
+        raf = 0;
+        return;
       }
-      if (nodeInstanced.instanceColor) nodeInstanced.instanceColor.needsUpdate = true;
-      impulses.forEach((imp) => {
-        imp.t += imp.speed * 0.016;
-        if (imp.t >= 1.0) { imp.t = 0; imp.edgeIdx = Math.floor(Math.random() * edges.length); nodeActivity[edges[imp.edgeIdx].b] = 1.0; }
-        tmpVec.lerpVectors(allNodes[edges[imp.edgeIdx].a], allNodes[edges[imp.edgeIdx].b], imp.t);
-        imp.mesh.position.copy(tmpVec);
+      const t = clock.getElapsedTime();
+
+      // Inertia & parallax tilt
+      if (!dragging) {
+        tarX += velY;
+        tarY += velX;
+        velX *= 0.94;
+        velY *= 0.94;
+      }
+      curX += (tarX - curX) * 0.06;
+      curY += (tarY - curY) * 0.06;
+
+      // Phone gentle floating levitation
+      phoneRig.position.y = Math.sin(t * 1.5) * 0.08;
+      phoneRig.rotation.x = 0.08 + curX;
+      phoneRig.rotation.y = -0.22 + curY;
+
+      // Smooth interpolation of switch knob
+      switchAnimProgress += (switchTarget - switchAnimProgress) * 0.12;
+
+      // Decay power surge
+      if (powerSurgeIntensity > 0.01) {
+        powerSurgeIntensity *= 0.94;
+      } else {
+        powerSurgeIntensity = 0.0;
+      }
+
+      // Redraw phone screen UI (throttled to smooth updates)
+      drawScreenUI(t, powerSurgeIntensity);
+
+      // Advance energy packets along the 3D cables
+      const surgeMultiplier = 1.0 + powerSurgeIntensity * 2.5;
+      energyPackets.forEach((p) => {
+        p.t += (p.speed * 0.016 * surgeMultiplier);
+        if (p.t >= 1.0) {
+          p.t = 0.0;
+        }
+        const curve = CABLE_CURVES[p.cableIdx];
+        const pt = curve.getPoint(p.t);
+        p.mesh.position.copy(pt);
+
+        // Scale spark up during surge
+        p.mesh.scale.setScalar(1.0 + powerSurgeIntensity * 0.8);
       });
-      const lx = rootGroup.position.x;
-      lA.position.set(lx + Math.sin(t * 1.1) * 4.0, Math.cos(t * 0.8) * 2.8, Math.cos(t * 1.1) * 4.0);
-      lB.position.set(lx + Math.cos(-t * 0.9) * 4.5, Math.sin(-t * 1.1) * 3.2, Math.sin(t * 0.75) * 3.6);
-      lC.position.set(lx + Math.sin(t * 0.75) * 3.8, -Math.cos(t * 0.9) * 3.0, Math.cos(t * 1.15) * 3.8);
-      lD.position.set(lx + Math.cos(t * 0.65) * 4.8, Math.sin(t * 0.55) * 3.6, -Math.sin(t * 0.85) * 3.4);
-      starfield.rotation.y = -t * 0.008;
-      composer.render();
+
+      // Cable emission pulse
+      cableMaterials.forEach((mat) => {
+        const baseEmissive = isDark() ? 0.7 : 0.35;
+        mat.emissiveIntensity = baseEmissive + powerSurgeIntensity * 1.8;
+      });
+
+      // Ground rings rotation
+      baseGroup.rotation.y = t * 0.05;
+
+      // Dust particles rise
+      const dp = dustGeo.attributes.position.array as Float32Array;
+      for (let i = 0; i < DUST_N; i++) {
+        dp[i * 3 + 1] += dustV[i] * 0.015;
+        if (dp[i * 3 + 1] > 2.5) dp[i * 3 + 1] = -2.5;
+      }
+      dustGeo.attributes.position.needsUpdate = true;
+
+      renderer.render(scene, camera);
       raf = requestAnimationFrame(animate);
     };
 
-    const start = () => { if (!raf && visible && tabVisible) { clock.start(); raf = requestAnimationFrame(animate); } };
-    const io = new IntersectionObserver(([e]) => { visible = e.isIntersecting; if (visible) start(); else if (raf) { cancelAnimationFrame(raf); raf = 0; } }, { threshold: 0.05 });
+    const start = () => {
+      if (!raf && visible && tabVisible) {
+        clock.start();
+        raf = requestAnimationFrame(animate);
+      }
+    };
+
+    const io = new IntersectionObserver(([e]) => {
+      visible = e.isIntersecting;
+      if (visible) start();
+      else if (raf) {
+        cancelAnimationFrame(raf);
+        raf = 0;
+      }
+    }, { threshold: 0.05 });
     io.observe(mount);
-    const onVis = () => { tabVisible = !document.hidden; if (tabVisible) start(); else if (raf) { cancelAnimationFrame(raf); raf = 0; } };
+
+    const onVis = () => {
+      tabVisible = !document.hidden;
+      if (tabVisible) start();
+      else if (raf) {
+        cancelAnimationFrame(raf);
+        raf = 0;
+      }
+    };
     document.addEventListener("visibilitychange", onVis);
     start();
 
+    // ─────────────────────────────────────────────────────────────────────────
+    // 11. RESIZE HANDLER
+    // ─────────────────────────────────────────────────────────────────────────
     const onResize = () => {
       if (!mount) return;
-      width = mount.clientWidth; height = mount.clientHeight;
+      width = mount.clientWidth;
+      height = mount.clientHeight;
       if (!width || !height) return;
-      camera.aspect = width / height; camera.updateProjectionMatrix();
-      renderer.setSize(width, height); composer.setSize(width, height);
-      bloomPass.resolution.set(width, height);
+      camera.aspect = width / height;
+      camera.updateProjectionMatrix();
+      renderer.setSize(width, height);
       setRootPos();
     };
     window.addEventListener("resize", onResize);
     onResize();
 
+    // ─────────────────────────────────────────────────────────────────────────
+    // 12. CLEANUP
+    // ─────────────────────────────────────────────────────────────────────────
     return () => {
       if (raf) cancelAnimationFrame(raf);
-      io.disconnect(); themeObs.disconnect();
+      io.disconnect();
+      themeObs.disconnect();
       document.removeEventListener("visibilitychange", onVis);
       window.removeEventListener("resize", onResize);
       window.removeEventListener("pointermove", onMove);
+      window.removeEventListener("themechange", syncThemeColors);
       mount.removeEventListener("pointerdown", onDown);
       window.removeEventListener("pointerup", onUp);
-      [nodeGeo, glassGeo, haloGeo, plasmaSphereGeo, cageGeo1, cageGeo2, impGeo, webGeo, sfGeo].forEach(g => g.dispose());
-      [nodeMat, glassMat, haloMat, plasmaSphereMat, cageMat1, cageMat2, sfMat, webMat].forEach(m => m.dispose());
-      impulses.forEach(i => i.mat.dispose());
-      composer.dispose(); renderTarget.dispose(); renderer.dispose();
-      if (mount.contains(renderer.domElement)) mount.removeChild(renderer.domElement);
-    };
-  }, []);
 
-  return (
-    <div
-      ref={localRef}
-      className="absolute inset-0 w-full h-full pointer-events-auto cursor-grab active:cursor-grabbing select-none"
-      aria-label="3D AI Neural Network Sphere — drag to rotate"
-      role="region"
-    />
-  );
-}
+      chassisGeo.dispose();
+      chassisMat.dispose();
+      screenGeo.dispose();
+      screenMat.dispose();
+      screenTexture.dispose();
+      glassCoverGeo.dispose();
+      glassCoverMat.dispose();
+      islandGeo.dispose();
+      islandMat.dispose();
+      ledGeo.dispose();
+      ledMat.dispose();
+      camPillGeo.dispose();
+      camPillMat.dispose();
+      packetGeo.dispose();
+      dustGeo.dispose();
+      dustMat.dispose();
 
-// ─────────────────────────────────────────────────────────────────────────────
-// SCENE 2 — Photorealistic Living Earth
-// ─────────────────────────────────────────────────────────────────────────────
-function EarthScene() {
-  const localRef = useRef<HTMLDivElement>(null);
+      cableMeshes.forEach((m) => m.geometry.dispose());
+      cableMaterials.forEach((m) => m.dispose());
+      energyPackets.forEach((p) => (p.mesh.material as THREE.Material).dispose());
 
-  useEffect(() => {
-    const mount = localRef.current;
-    if (!mount) return;
-
-    let width = mount.clientWidth;
-    let height = mount.clientHeight;
-
-    const isDark = () =>
-      typeof document !== "undefined" &&
-      document.documentElement.classList.contains("dark");
-
-    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: "high-performance" });
-    renderer.setSize(width, height);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    renderer.toneMappingExposure = isDark() ? 1.25 : 1.1;
-    mount.appendChild(renderer.domElement);
-
-    const scene3 = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(40, width / height, 0.1, 100);
-    camera.position.set(0, 0, 8.8);
-
-    const rootGroup = new THREE.Group();
-    scene3.add(rootGroup);
-
-    const setRootPos = () => {
-      const desktop = width >= 1024;
-      rootGroup.position.set(desktop ? 2.1 : 0, desktop ? 0.05 : 0.25, 0);
-      rootGroup.scale.setScalar(desktop ? 1.0 : Math.min(1.0, width / 768));
-    };
-    setRootPos();
-
-    const earthTiltGroup = new THREE.Group();
-    earthTiltGroup.rotation.z = -23.4 * (Math.PI / 180);
-    rootGroup.add(earthTiltGroup);
-    const earthSpinGroup = new THREE.Group();
-    earthTiltGroup.add(earthSpinGroup);
-
-    const textureLoader = new THREE.TextureLoader();
-    const dayTexture    = textureLoader.load("/textures/earth/earth_atmos_2048.jpg");
-    dayTexture.colorSpace = THREE.SRGBColorSpace;
-    const nightTexture  = textureLoader.load("/textures/earth/earth_lights_2048.png");
-    nightTexture.colorSpace = THREE.SRGBColorSpace;
-    const normalTexture = textureLoader.load("/textures/earth/earth_normal_2048.jpg");
-    const specTexture   = textureLoader.load("/textures/earth/earth_specular_2048.jpg");
-    const cloudsTexture = textureLoader.load("/textures/earth/earth_clouds_1024.png");
-    cloudsTexture.colorSpace = THREE.SRGBColorSpace;
-    const moonTexture   = textureLoader.load("/textures/earth/moon_1024.jpg");
-    moonTexture.colorSpace = THREE.SRGBColorSpace;
-
-    const EARTH_RADIUS = 1.88;
-    const earthGeo = new THREE.SphereGeometry(EARTH_RADIUS, 64, 64);
-    const sunDirection = new THREE.Vector3(4.5, 2.5, 5.0).normalize();
-
-    const earthMat = new THREE.ShaderMaterial({
-      uniforms: {
-        uDayMap:      { value: dayTexture },
-        uNightMap:    { value: nightTexture },
-        uNormalMap:   { value: normalTexture },
-        uSpecularMap: { value: specTexture },
-        uSunDirection:{ value: sunDirection },
-        uTime:        { value: 0 },
-        uDarkMode:    { value: isDark() ? 1.0 : 0.0 },
-      },
-      vertexShader: `
-        varying vec2 vUv; varying vec3 vNormal; varying vec3 vWorldPosition;
-        void main(){vUv=uv;vec4 w=modelMatrix*vec4(position,1.0);vWorldPosition=w.xyz;vNormal=normalize((modelMatrix*vec4(normal,0.0)).xyz);gl_Position=projectionMatrix*viewMatrix*w;}
-      `,
-      fragmentShader: `
-        uniform sampler2D uDayMap,uNightMap,uNormalMap,uSpecularMap;
-        uniform vec3 uSunDirection; uniform float uTime,uDarkMode;
-        varying vec2 vUv; varying vec3 vNormal; varying vec3 vWorldPosition;
-        vec3 brandPalette(float t){
-          vec3 c0=vec3(0.118,0.498,0.910),c1=vec3(0.071,0.722,0.651),c2=vec3(0.435,0.812,0.243),c3=vec3(0.545,0.361,0.965),c4=vec3(0.0,0.824,1.0),c5=vec3(0.910,0.475,0.980);
-          float f=fract(t)*6.0; int i=int(f); float s=fract(f);
-          if(i==0)return mix(c0,c1,s); if(i==1)return mix(c1,c2,s); if(i==2)return mix(c2,c3,s); if(i==3)return mix(c3,c4,s); if(i==4)return mix(c4,c5,s); return mix(c5,c0,s);
-        }
-        void main(){
-          vec3 N=normalize(vNormal); vec3 L=normalize(uSunDirection); vec3 V=normalize(cameraPosition-vWorldPosition);
-          vec3 nMap=texture2D(uNormalMap,vUv).xyz*2.0-1.0;
-          vec3 bumpN=normalize(N+vec3(nMap.x,nMap.y,0.0)*0.25);
-          float sunDot=dot(bumpN,L); float dayMix=smoothstep(-0.15,0.25,sunDot);
-          vec4 dayColor=texture2D(uDayMap,vUv); vec4 nightColor=texture2D(uNightMap,vUv); vec4 specColor=texture2D(uSpecularMap,vUv);
-          vec3 H=normalize(L+V); float specAmount=pow(max(dot(bumpN,H),0.0),32.0)*specColor.r;
-          vec3 specularGlint=vec3(1.0,0.95,0.85)*specAmount*1.6*max(sunDot,0.0);
-          vec3 dayLit=dayColor.rgb*(max(sunDot,0.0)*0.95+0.22)+specularGlint;
-          float nightFactor=1.0-dayMix;
-          vec3 cityLights=nightColor.rgb*vec3(2.2,1.6,0.9)*2.8*nightFactor;
-          vec3 nightLit=dayColor.rgb*0.04+cityLights;
-          vec3 baseEarth=mix(nightLit,dayLit,dayMix);
-          float fresnel=pow(1.0-max(dot(N,V),0.0),3.2);
-          baseEarth+=vec3(0.12,0.65,1.0)*fresnel*0.65*max(sunDot+0.35,0.12);
-          float waveTime=uTime*0.15;
-          float wl=sin(vUv.x*6.28318*2.0-waveTime*2.5)*0.5+0.5;
-          float wlt=sin(vUv.y*3.14159*3.0+waveTime*1.5)*0.5+0.5;
-          float wavePulse=wl*wlt;
-          vec3 waveColor=brandPalette(uTime*0.06+vUv.x*0.4+vUv.y*0.2);
-          float grid=step(0.975,fract(vUv.x*36.0))*0.3+step(0.975,fract(vUv.y*18.0))*0.3;
-          float pulseBreath=sin(uTime*0.9)*0.5+0.5;
-          vec3 colorSynthesis=waveColor*(wavePulse*0.4+grid)*(0.25+0.35*pulseBreath);
-          baseEarth+=colorSynthesis;
-          gl_FragColor=vec4(baseEarth,1.0);
-        }
-      `,
-    });
-
-    const earthMesh = new THREE.Mesh(earthGeo, earthMat);
-    earthSpinGroup.add(earthMesh);
-
-    const cloudsGeo = new THREE.SphereGeometry(EARTH_RADIUS * 1.012, 64, 64);
-    const cloudsMat = new THREE.MeshStandardMaterial({ map: cloudsTexture, transparent: true, opacity: 0.7, blending: THREE.NormalBlending, depthWrite: false, roughness: 0.9 });
-    const cloudsMesh = new THREE.Mesh(cloudsGeo, cloudsMat);
-    earthSpinGroup.add(cloudsMesh);
-
-    const atmosGeo = new THREE.SphereGeometry(EARTH_RADIUS * 1.12, 48, 48);
-    const atmosMat = new THREE.ShaderMaterial({
-      uniforms: { uColor: { value: new THREE.Color(0x00d2ff) }, uTime: { value: 0 } },
-      vertexShader: `varying vec3 vN,vW;void main(){vN=normalize(normalMatrix*normal);vec4 wp=modelMatrix*vec4(position,1.0);vW=wp.xyz;gl_Position=projectionMatrix*viewMatrix*wp;}`,
-      fragmentShader: `uniform vec3 uColor;varying vec3 vN,vW;void main(){vec3 N=normalize(vN);vec3 V=normalize(cameraPosition-vW);float rim=pow(1.0-max(dot(N,V),0.0),3.0);vec3 glow=mix(vec3(0.08,0.45,0.95),uColor,rim*0.85);gl_FragColor=vec4(glow,rim*0.72);}`,
-      side: THREE.BackSide, blending: THREE.AdditiveBlending, transparent: true, depthWrite: false,
-    });
-    rootGroup.add(new THREE.Mesh(atmosGeo, atmosMat));
-
-    const moonGeo = new THREE.SphereGeometry(0.38, 32, 32);
-    const moonMat = new THREE.MeshStandardMaterial({ map: moonTexture, roughness: 0.9, metalness: 0.05 });
-    const moonMesh = new THREE.Mesh(moonGeo, moonMat);
-    const moonOrbit = new THREE.Group();
-    moonOrbit.rotation.x = 0.35; moonOrbit.rotation.z = 0.25;
-    rootGroup.add(moonOrbit);
-    moonMesh.position.set(3.38, 2.73, -1.645);
-    moonOrbit.add(moonMesh);
-
-    // Stars
-    const STAR_N = 2042;
-    const sfp = new Float32Array(STAR_N*3), sfc = new Float32Array(STAR_N*3);
-    const spal = [new THREE.Color(0xffffff), new THREE.Color(0x99ccff), new THREE.Color(0x00d2ff), new THREE.Color(0x12b8a6)];
-    const ecx = rootGroup.position.x;
-    for (let i = 0; i < 2000; i++) {
-      const r = 2.8 + Math.random()*6.5, th = Math.random()*Math.PI*2, ph = Math.acos(2*Math.random()-1);
-      sfp[i*3]=ecx+r*Math.sin(ph)*Math.cos(th); sfp[i*3+1]=r*Math.sin(ph)*Math.sin(th); sfp[i*3+2]=r*Math.cos(ph);
-      const c=spal[i%spal.length]; sfc[i*3]=c.r; sfc[i*3+1]=c.g; sfc[i*3+2]=c.b;
-    }
-    for (let i=2000;i<STAR_N;i++){sfp[i*3]=-6.5+Math.random()*5.8;sfp[i*3+1]=-3.5+Math.random()*7.0;sfp[i*3+2]=-3.0+Math.random()*4.5;const c=spal[i%spal.length];sfc[i*3]=c.r;sfc[i*3+1]=c.g;sfc[i*3+2]=c.b;}
-    const sfGeo=new THREE.BufferGeometry();
-    sfGeo.setAttribute("position",new THREE.BufferAttribute(sfp,3));
-    sfGeo.setAttribute("color",new THREE.BufferAttribute(sfc,3));
-    const sfMat=new THREE.PointsMaterial({size:0.09,sizeAttenuation:true,vertexColors:true,transparent:true,opacity:isDark()?0.85:0.45,blending:isDark()?THREE.AdditiveBlending:THREE.NormalBlending,depthWrite:false});
-    const starfield=new THREE.Points(sfGeo,sfMat); scene3.add(starfield);
-
-    // Lights
-    scene3.add(new THREE.AmbientLight(isDark()?0x141828:0xf0f5ff, isDark()?1.4:2.6));
-    const sunLight = new THREE.DirectionalLight(0xffffff, isDark()?3.0:3.4);
-    sunLight.position.copy(sunDirection.clone().multiplyScalar(10)); scene3.add(sunLight);
-    scene3.add(new THREE.DirectionalLight(0x00d2ff, isDark()?1.2:0.8).position.set(-6,-3,-4) && new THREE.DirectionalLight(0x00d2ff, isDark()?1.2:0.8));
-
-    // Interaction
-    let tarX=0,tarY=0,curX=0,curY=0,dragging=false,pMX=0,pMY=0,velX=0,velY=0;
-    const onDown=(e:PointerEvent)=>{dragging=true;pMX=e.clientX;pMY=e.clientY;velX=velY=0;};
-    const onUp=()=>{dragging=false;};
-    const onMove=(e:PointerEvent)=>{
-      if(dragging){const dx=e.clientX-pMX,dy=e.clientY-pMY;pMX=e.clientX;pMY=e.clientY;tarY+=dx*0.005;tarX+=dy*0.005;velX=dx*0.005;velY=dy*0.005;}
-      else{tarY=((e.clientX-window.innerWidth/2)/(window.innerWidth/2))*0.25;tarX=((e.clientY-window.innerHeight/2)/(window.innerHeight/2))*0.25;}
-    };
-    window.addEventListener("pointermove",onMove,{passive:true});
-    mount.addEventListener("pointerdown",onDown);
-    window.addEventListener("pointerup",onUp);
-
-    const clock=new THREE.Clock(); let raf=0,visible=true,tabVisible=!document.hidden;
-    const animate=()=>{
-      if(!visible||!tabVisible){raf=0;return;}
-      const t=clock.getElapsedTime();
-      earthMat.uniforms.uTime.value=t;
-      atmosMat.uniforms.uTime.value=t;
-      if(!dragging){tarX+=velY;tarY+=velX;velX*=0.94;velY*=0.94;}
-      curX+=(tarX-curX)*0.05; curY+=(tarY-curY)*0.05;
-      rootGroup.rotation.x=curX; rootGroup.rotation.y=curY;
-      earthSpinGroup.rotation.y=t*0.05;
-      cloudsMesh.rotation.y=t*0.065;
-      moonOrbit.rotation.y=t*0.025; moonMesh.rotation.y=t*0.04;
-      starfield.rotation.y=-t*0.008;
-      renderer.render(scene3,camera); raf=requestAnimationFrame(animate);
-    };
-    const start=()=>{if(!raf&&visible&&tabVisible){clock.start();raf=requestAnimationFrame(animate);}};
-    const io=new IntersectionObserver(([e])=>{visible=e.isIntersecting;if(visible)start();else if(raf){cancelAnimationFrame(raf);raf=0;}},{threshold:0.05});
-    io.observe(mount);
-    const onVis=()=>{tabVisible=!document.hidden;if(tabVisible)start();else if(raf){cancelAnimationFrame(raf);raf=0;}};
-    document.addEventListener("visibilitychange",onVis);
-    start();
-
-    const onResize=()=>{if(!mount)return;width=mount.clientWidth;height=mount.clientHeight;if(!width||!height)return;camera.aspect=width/height;camera.updateProjectionMatrix();renderer.setSize(width,height);setRootPos();};
-    window.addEventListener("resize",onResize); onResize();
-
-    return ()=>{
-      if(raf)cancelAnimationFrame(raf); io.disconnect();
-      document.removeEventListener("visibilitychange",onVis);
-      window.removeEventListener("resize",onResize);
-      window.removeEventListener("pointermove",onMove);
-      mount.removeEventListener("pointerdown",onDown);
-      window.removeEventListener("pointerup",onUp);
-      [earthGeo,cloudsGeo,atmosGeo,moonGeo,sfGeo].forEach(g=>g.dispose());
-      [earthMat,cloudsMat,atmosMat,moonMat,sfMat].forEach(m=>m.dispose());
-      [dayTexture,nightTexture,normalTexture,specTexture,cloudsTexture,moonTexture].forEach(t=>t.dispose());
       renderer.dispose();
-      if(mount.contains(renderer.domElement))mount.removeChild(renderer.domElement);
+      if (mount.contains(renderer.domElement)) {
+        mount.removeChild(renderer.domElement);
+      }
     };
-  }, []);
+  }, [triggerThemeToggle]);
 
   return (
-    <div ref={localRef} className="absolute inset-0 w-full h-full pointer-events-auto cursor-grab active:cursor-grabbing select-none" aria-label="Photorealistic Living Earth" role="region" />
-  );
-}
+    <div className="absolute inset-0 w-full h-full pointer-events-auto select-none z-[1]">
+      {/* 3D WebGL Canvas */}
+      <div
+        ref={mountRef}
+        className="w-full h-full cursor-pointer active:cursor-grabbing"
+        aria-label="Interactive 3D Smart Device — Tap to toggle website theme"
+        role="button"
+        tabIndex={0}
+      />
 
-// ─────────────────────────────────────────────────────────────────────────────
-// SCENE 3 — Living Quantum Orb (GLSL vertex morph + 3-ring gimbal)
-// ─────────────────────────────────────────────────────────────────────────────
-function QuantumOrbScene() {
-  const localRef = useRef<HTMLDivElement>(null);
+      {/* Floating Interactive Badge Hint */}
+      <div className="absolute bottom-6 right-6 z-20 pointer-events-none hidden sm:flex items-center gap-2.5 px-4 py-2 rounded-full bg-white/70 dark:bg-[#07090E]/80 backdrop-blur-xl border border-black/[0.08] dark:border-white/[0.12] shadow-xl text-xs font-mono text-ink/80 dark:text-slate-200 animate-pulse">
+        <span className="h-2 w-2 rounded-full bg-[#10b981] animate-ping" />
+        <span>⚡ TAP PHONE SWITCH TO TOGGLE THEME</span>
+      </div>
 
-  useEffect(() => {
-    const mount = localRef.current;
-    if (!mount) return;
-
-    let width = mount.clientWidth;
-    let height = mount.clientHeight;
-
-    const isDark = () =>
-      typeof document !== "undefined" &&
-      document.documentElement.classList.contains("dark");
-
-    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: "high-performance" });
-    renderer.setSize(width, height);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    renderer.toneMappingExposure = isDark() ? 1.3 : 0.95;
-    mount.appendChild(renderer.domElement);
-
-    const scene3 = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(42, width / height, 0.1, 120);
-    camera.position.set(0, 0, 9.0);
-
-    const rootGroup = new THREE.Group();
-    scene3.add(rootGroup);
-
-    const setRootPos = () => {
-      const desktop = width >= 1024;
-      rootGroup.position.set(desktop ? 1.9 : 0, desktop ? 0.1 : 0.3, 0);
-      rootGroup.scale.setScalar(desktop ? 1 : Math.min(1, width / 768));
-    };
-    setRootPos();
-
-    // ── Orb ShaderMaterial (morphing sphere) ──────────────────────────────
-    const orbGeo = new THREE.SphereGeometry(1.38, 128, 128);
-    const orbMat = new THREE.ShaderMaterial({
-      uniforms: { uTime: { value: 0 }, uMorphAmplitude: { value: 0.18 }, uBrightness: { value: isDark() ? 1.0 : 0.72 } },
-      vertexShader: `
-        uniform float uTime; uniform float uMorphAmplitude;
-        varying vec3 vDisplace; varying vec3 vWorldPos; varying vec3 vNormal;
-        float hash(vec3 p){p=fract(p*vec3(443.8,441.4,437.2));p+=dot(p,p.yxz+19.19);return fract((p.x+p.y)*p.z);}
-        float noise(vec3 p){vec3 i=floor(p),f=fract(p);vec3 u=f*f*(3.0-2.0*f);return mix(mix(mix(hash(i),hash(i+vec3(1,0,0)),u.x),mix(hash(i+vec3(0,1,0)),hash(i+vec3(1,1,0)),u.x),u.y),mix(mix(hash(i+vec3(0,0,1)),hash(i+vec3(1,0,1)),u.x),mix(hash(i+vec3(0,1,1)),hash(i+vec3(1,1,1)),u.x),u.y),u.z);}
-        float fbm(vec3 p){float v=0.0,a=0.5;for(int i=0;i<5;i++){v+=a*noise(p);p=p*2.1+vec3(1.7,9.2,3.4);a*=0.5;}return v;}
-        void main(){
-          vec3 p=normalize(position);
-          float d=fbm(p*2.8+uTime*0.18)*uMorphAmplitude;
-          float d2=fbm(p*5.2-uTime*0.12)*uMorphAmplitude*0.45;
-          vec3 displaced=position+normal*(d+d2);
-          vDisplace=vec3(d+d2); vWorldPos=(modelMatrix*vec4(displaced,1.0)).xyz;
-          vNormal=normalMatrix*normal;
-          gl_Position=projectionMatrix*modelViewMatrix*vec4(displaced,1.0);
-        }
-      `,
-      fragmentShader: `
-        uniform float uTime; uniform float uBrightness;
-        varying vec3 vDisplace; varying vec3 vWorldPos; varying vec3 vNormal;
-        #define PI 3.14159265
-        vec3 palette(float t){
-          vec3 c0=vec3(0.118,0.498,0.910),c1=vec3(0.071,0.722,0.651),c2=vec3(0.435,0.812,0.243),c3=vec3(0.545,0.361,0.965),c4=vec3(0.0,0.824,1.0),c5=vec3(0.910,0.475,0.980);
-          float f=fract(t)*6.0; int i=int(f); float s=fract(f);
-          if(i==0)return mix(c0,c1,s); if(i==1)return mix(c1,c2,s); if(i==2)return mix(c2,c3,s); if(i==3)return mix(c3,c4,s); if(i==4)return mix(c4,c5,s); return mix(c5,c0,s);
-        }
-        void main(){
-          vec3 N=normalize(vNormal); vec3 V=normalize(cameraPosition-vWorldPos);
-          float t=vDisplace.x*4.5+vWorldPos.y*0.28+uTime*0.065;
-          vec3 surfaceColor=palette(t)*uBrightness;
-          vec3 rimColor=palette(t+0.25)*uBrightness;
-          float fresnel=pow(1.0-max(dot(N,V),0.0),2.8);
-          float dispGlow=smoothstep(0.06,0.18,vDisplace.x)*0.6;
-          vec3 glowColor=palette(t+0.5)*uBrightness;
-          vec3 finalColor=surfaceColor+rimColor*fresnel*1.4+glowColor*dispGlow;
-          finalColor=pow(finalColor,vec3(0.88));
-          gl_FragColor=vec4(finalColor,1.0);
-        }
-      `,
-    });
-    const orbMesh = new THREE.Mesh(orbGeo, orbMat);
-
-    // ── Glass outer shell ──────────────────────────────────────────────────
-    const glassGeo = new THREE.SphereGeometry(1.52, 64, 64);
-    const glassMat2 = new THREE.MeshPhysicalMaterial({ transmission: 0.88, thickness: 1.0, ior: 1.46, roughness: 0.06, metalness: 0.04, clearcoat: 1.0, clearcoatRoughness: 0.04, transparent: true, opacity: 0.22, depthWrite: false });
-    const glassMesh = new THREE.Mesh(glassGeo, glassMat2);
-
-    // ── Core pulse ─────────────────────────────────────────────────────────
-    const coreGeo = new THREE.SphereGeometry(0.72, 32, 32);
-    const coreMat = new THREE.MeshStandardMaterial({ color: 0xffffff, emissive: new THREE.Color(0x00d2ff), emissiveIntensity: isDark() ? 2.2 : 1.4, roughness: 0.1, metalness: 0.9 });
-    const coreMesh = new THREE.Mesh(coreGeo, coreMat);
-
-    const orbGroup = new THREE.Group();
-    orbGroup.add(orbMesh, glassMesh, coreMesh);
-    rootGroup.add(orbGroup);
-
-    // ── 3 Atomic orbital rings (clean, at 0°, +60°, -60°) ─────────────────
-    const makeRing = (tubeR: number, angle: number, colorHex: number) => {
-      const geo = new THREE.TorusGeometry(2.45, tubeR, 200, 200);
-      const mat = new THREE.MeshStandardMaterial({ color: new THREE.Color(colorHex), emissive: new THREE.Color(colorHex), emissiveIntensity: isDark() ? 2.2 : 1.3, roughness: 0.1, metalness: 0.9 });
-      const mesh = new THREE.Mesh(geo, mat);
-      mesh.rotation.x = angle * (Math.PI / 180);
-      const satGeo = new THREE.SphereGeometry(0.09, 16, 16);
-      const satM = new THREE.MeshStandardMaterial({ color: new THREE.Color(colorHex), emissive: new THREE.Color(colorHex), emissiveIntensity: isDark() ? 2.8 : 1.8, roughness: 0.1, metalness: 0.9 });
-      const sat = new THREE.Mesh(satGeo, satM);
-      const ringGroup = new THREE.Group();
-      ringGroup.add(mesh, sat);
-      rootGroup.add(ringGroup);
-      return { mesh, mat, sat, satM, geo, satGeo, radius: 2.45, ringGroup };
-    };
-    const ring1 = makeRing(0.022, 0,   0x1e7fe8);
-    const ring2 = makeRing(0.018, 60,  0x12b8a6);
-    const ring3 = makeRing(0.015, -60, 0x8b5cf6);
-
-    // ── Stars ──────────────────────────────────────────────────────────────
-    const STAR_N = 2042;
-    const sfp2 = new Float32Array(STAR_N*3), sfc2 = new Float32Array(STAR_N*3);
-    const spal2 = [new THREE.Color(0xffffff), new THREE.Color(0x99ccff), new THREE.Color(0x00d2ff), new THREE.Color(0x12b8a6)];
-    const ocx = rootGroup.position.x;
-    for(let i=0;i<2000;i++){const r=2.8+Math.random()*6.5,th=Math.random()*Math.PI*2,ph=Math.acos(2*Math.random()-1);sfp2[i*3]=ocx+r*Math.sin(ph)*Math.cos(th);sfp2[i*3+1]=r*Math.sin(ph)*Math.sin(th);sfp2[i*3+2]=r*Math.cos(ph);const c=spal2[i%spal2.length];sfc2[i*3]=c.r;sfc2[i*3+1]=c.g;sfc2[i*3+2]=c.b;}
-    for(let i=2000;i<STAR_N;i++){sfp2[i*3]=-6.5+Math.random()*5.8;sfp2[i*3+1]=-3.5+Math.random()*7.0;sfp2[i*3+2]=-3.0+Math.random()*4.5;const c=spal2[i%spal2.length];sfc2[i*3]=c.r;sfc2[i*3+1]=c.g;sfc2[i*3+2]=c.b;}
-    const sfGeo2=new THREE.BufferGeometry();
-    sfGeo2.setAttribute("position",new THREE.BufferAttribute(sfp2,3));
-    sfGeo2.setAttribute("color",new THREE.BufferAttribute(sfc2,3));
-    const sfMat2=new THREE.PointsMaterial({size:0.09,sizeAttenuation:true,vertexColors:true,transparent:true,opacity:isDark()?0.85:0.45,blending:isDark()?THREE.AdditiveBlending:THREE.NormalBlending,depthWrite:false});
-    const starfield2=new THREE.Points(sfGeo2,sfMat2); scene3.add(starfield2);
-
-    // ── Lights ─────────────────────────────────────────────────────────────
-    const ambLight=new THREE.AmbientLight(isDark()?0x0a0f1e:0xf0f5ff,isDark()?1.4:2.6);
-    scene3.add(ambLight);
-    const lA2=new THREE.PointLight(0x1e7fe8,isDark()?5.5:3.5,14);
-    const lB2=new THREE.PointLight(0x00d2ff,isDark()?5.0:3.2,14);
-    const lC2=new THREE.PointLight(0x12b8a6,isDark()?4.2:2.8,12);
-    const lD2=new THREE.PointLight(0x8b5cf6,isDark()?4.5:3.0,12);
-    const dirLight=new THREE.DirectionalLight(0xffffff,isDark()?2.5:3.0);
-    dirLight.position.set(5,6,8); scene3.add(ambLight,lA2,lB2,lC2,lD2,dirLight);
-
-    // ── Interaction ────────────────────────────────────────────────────────
-    let tarX=0,tarY=0,curX=0,curY=0,dragging=false,pMX=0,pMY=0,velX=0,velY=0;
-    const onDown=(e:PointerEvent)=>{dragging=true;pMX=e.clientX;pMY=e.clientY;velX=velY=0;};
-    const onUp=()=>{dragging=false;};
-    const onMove=(e:PointerEvent)=>{
-      if(dragging){const dx=e.clientX-pMX,dy=e.clientY-pMY;pMX=e.clientX;pMY=e.clientY;tarY+=dx*0.005;tarX+=dy*0.005;velX=dx*0.005;velY=dy*0.005;}
-      else{tarY=((e.clientX-window.innerWidth/2)/(window.innerWidth/2))*0.25;tarX=((e.clientY-window.innerHeight/2)/(window.innerHeight/2))*0.25;}
-    };
-    window.addEventListener("pointermove",onMove,{passive:true});
-    mount.addEventListener("pointerdown",onDown);
-    window.addEventListener("pointerup",onUp);
-
-    const pal6=[0x1e7fe8,0x12b8a6,0x6fcf3e,0x8b5cf6,0x00d2ff,0xe879f9];
-    const colAt=(phase:number)=>{const f=((phase%1)+1)%1,fi=f*6,i=Math.floor(fi)%6,j=(i+1)%6,s=fi-Math.floor(fi);const ca=new THREE.Color(pal6[i]),cb=new THREE.Color(pal6[j]);return ca.lerp(cb,s);};
-
-    const clock=new THREE.Clock(); let raf=0,visible=true,tabVisible=!document.hidden;
-    const animate=()=>{
-      if(!visible||!tabVisible){raf=0;return;}
-      const t=clock.getElapsedTime();
-      orbMat.uniforms.uTime.value=t;
-      if(!dragging){tarX+=velY;tarY+=velX;velX*=0.94;velY*=0.94;}
-      curX+=(tarX-curX)*0.05; curY+=(tarY-curY)*0.05;
-      rootGroup.rotation.x=curX+Math.sin(t*0.42)*0.045;
-      rootGroup.rotation.y=curY+t*0.10;
-      const breathS=1.0+Math.sin(t*1.9)*0.025;
-      orbMesh.scale.setScalar(breathS);
-      glassMesh.rotation.y=-t*0.04; glassMesh.rotation.z=t*0.028;
-      const cp=1.0+Math.sin(t*2.8)*0.12; coreMesh.scale.setScalar(cp);
-      const globalPhase=t*0.065;
-      const r1col=colAt(globalPhase); ring1.mat.emissive.copy(r1col); ring1.mat.color.copy(r1col); ring1.satM.emissive.copy(r1col); ring1.satM.color.copy(r1col);
-      const r2col=colAt(globalPhase+0.33); ring2.mat.emissive.copy(r2col); ring2.mat.color.copy(r2col); ring2.satM.emissive.copy(r2col); ring2.satM.color.copy(r2col);
-      const r3col=colAt(globalPhase+0.67); ring3.mat.emissive.copy(r3col); ring3.mat.color.copy(r3col); ring3.satM.emissive.copy(r3col); ring3.satM.color.copy(r3col);
-      ring1.mesh.rotation.y=t*0.42; ring1.sat.position.x=Math.cos(t*2.1)*ring1.radius; ring1.sat.position.y=Math.sin(t*2.1)*ring1.radius;
-      ring2.mesh.rotation.y=-t*0.31; ring2.sat.position.x=Math.cos(-t*1.7)*ring2.radius; ring2.sat.position.z=Math.sin(-t*1.7)*ring2.radius;
-      ring3.mesh.rotation.y=t*0.24; ring3.sat.position.y=Math.cos(t*1.4)*ring3.radius; ring3.sat.position.z=Math.sin(t*1.4)*ring3.radius;
-      const lx=rootGroup.position.x;
-      lA2.position.set(lx+Math.sin(t*0.8)*4,Math.cos(t*0.6)*3,Math.cos(t*0.8)*4);
-      lB2.position.set(lx+Math.cos(-t*0.7)*4.5,Math.sin(-t*0.9)*3.5,Math.sin(t*0.65)*3.8);
-      lC2.position.set(lx+Math.sin(t*0.6)*3.8,-Math.cos(t*0.75)*3,Math.cos(t*0.9)*4);
-      lD2.position.set(lx+Math.cos(t*0.5)*5,Math.sin(t*0.45)*3.8,-Math.sin(t*0.7)*3.6);
-      starfield2.rotation.y=-t*0.012;
-      renderer.render(scene3,camera); raf=requestAnimationFrame(animate);
-    };
-    const start=()=>{if(!raf&&visible&&tabVisible){clock.start();raf=requestAnimationFrame(animate);}};
-    const io=new IntersectionObserver(([e])=>{visible=e.isIntersecting;if(visible)start();else if(raf){cancelAnimationFrame(raf);raf=0;}},{threshold:0.05});
-    io.observe(mount);
-    const onVis=()=>{tabVisible=!document.hidden;if(tabVisible)start();else if(raf){cancelAnimationFrame(raf);raf=0;}};
-    document.addEventListener("visibilitychange",onVis);
-    start();
-
-    const onResize=()=>{if(!mount)return;width=mount.clientWidth;height=mount.clientHeight;if(!width||!height)return;camera.aspect=width/height;camera.updateProjectionMatrix();renderer.setSize(width,height);setRootPos();};
-    window.addEventListener("resize",onResize); onResize();
-
-    return ()=>{
-      if(raf)cancelAnimationFrame(raf); io.disconnect();
-      document.removeEventListener("visibilitychange",onVis);
-      window.removeEventListener("resize",onResize);
-      window.removeEventListener("pointermove",onMove);
-      mount.removeEventListener("pointerdown",onDown);
-      window.removeEventListener("pointerup",onUp);
-      [orbGeo,glassGeo,coreGeo,ring1.geo,ring1.satGeo,ring2.geo,ring2.satGeo,ring3.geo,ring3.satGeo,sfGeo2].forEach(g=>g.dispose());
-      [orbMat,glassMat2,coreMat,ring1.mat,ring1.satM,ring2.mat,ring2.satM,ring3.mat,ring3.satM,sfMat2].forEach(m=>m.dispose());
-      renderer.dispose();
-      if(mount.contains(renderer.domElement))mount.removeChild(renderer.domElement);
-    };
-  }, []);
-
-  return (
-    <div ref={localRef} className="absolute inset-0 w-full h-full pointer-events-auto cursor-grab active:cursor-grabbing select-none" aria-label="Living Quantum Orb" role="region" />
+      {/* Pulse surge flash overlay when switch is flipped */}
+      {pulseActive && (
+        <div
+          className="pointer-events-none absolute inset-0 bg-[#00e5ff]/10 dark:bg-[#1e7fe8]/15 transition-opacity duration-700 animate-pulse"
+          aria-hidden="true"
+        />
+      )}
+    </div>
   );
 }
