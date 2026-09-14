@@ -1,0 +1,44 @@
+/* NATLE Quantum Power Breaker — Theme & Conduit Styling */
+
+:root {
+  --breaker-glow: rgba(30, 127, 232, 0.4);
+  --conduit-energy: #1E7FE8;
+  --radial-wipe-origin-x: 75vw;
+  --radial-wipe-origin-y: 65vh;
+  --radial-wipe-radius: 0%;
+}
+
+.dark {
+  --breaker-glow: rgba(0, 229, 255, 0.6);
+  --conduit-energy: #00E5FF;
+}
+
+/* Ignite effects for DOM anchors when hit by conduit pulse */
+[data-anchor="headline-word"] {
+  display: inline-block;
+  transition: text-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1), transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+[data-anchor="headline-word"].ignited {
+  text-shadow: 0 0 24px var(--conduit-energy), 0 0 48px var(--conduit-energy);
+  transform: translateY(-2px);
+}
+
+[data-anchor="cta-btn"] {
+  position: relative;
+  transition: box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.4s ease;
+}
+
+[data-anchor="cta-btn"].ignited {
+  box-shadow: 0 0 32px var(--conduit-energy), inset 0 0 16px var(--conduit-energy);
+}
+
+[data-anchor="nav-logo"].ignited {
+  filter: drop-shadow(0 0 16px var(--conduit-energy));
+  transition: filter 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Radial Wipe Transition Canvas / Mask */
+.radial-wipe-mask {
+  clip-path: circle(var(--radial-wipe-radius) at var(--radial-wipe-origin-x) var(--radial-wipe-origin-y));
+}

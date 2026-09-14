@@ -57,10 +57,12 @@ export default function HeroContent() {
       </p>
       <h1 className="font-display text-[13vw] leading-[0.98] sm:text-6xl md:text-7xl lg:text-[5.2rem] font-medium text-ink max-w-4xl">
         <span data-hero="line" className="block overflow-hidden">
-          Ideas, engineered
+          <span data-anchor="headline-word" className="inline-block mr-3">Ideas,</span>
+          <span data-anchor="headline-word" className="inline-block">engineered</span>
         </span>
         <span data-hero="line" className="block overflow-hidden text-gradient">
-          into growth.
+          <span data-anchor="headline-word" className="inline-block mr-3">into</span>
+          <span data-anchor="headline-word" className="inline-block">growth.</span>
         </span>
       </h1>
       <p data-hero="sub" className="mt-5 text-base sm:text-lg text-ink/65 dark:text-white/70 max-w-xl leading-relaxed">
@@ -72,6 +74,7 @@ export default function HeroContent() {
       <div className="mt-7 flex flex-wrap items-center gap-4">
         <Link
           data-hero="cta"
+          data-anchor="cta-btn"
           href="/contact"
           className="pointer-events-auto inline-flex items-center justify-center gap-2.5 rounded-full bg-[#1E7FE8] hover:bg-[#1565C0] text-white px-7 py-3.5 text-[15px] font-semibold shadow-lg shadow-[#1E7FE8]/30 dark:shadow-[0_0_24px_rgba(30,127,232,0.5)] hover:scale-[1.02] active:scale-[0.98] transition-all duration-200"
         >
@@ -99,7 +102,7 @@ export default function HeroContent() {
         </Link>
       </div>
 
-      <div className="mt-12 flex flex-wrap gap-x-12 gap-y-6">
+      <div data-anchor="stats" className="mt-12 flex flex-wrap gap-x-12 gap-y-6">
         <div data-hero="stat">
           <div className="font-display text-3xl text-ink">120+</div>
           <div className="text-sm text-ink/50 mt-1">Products shipped</div>

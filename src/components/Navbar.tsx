@@ -54,7 +54,7 @@ export default function Navbar() {
       }`}
     >
       <div className="container-content flex items-center justify-between h-[76px]">
-        <Link href="/" className="flex items-center gap-2 shrink-0" aria-label="NATLE home">
+        <Link href="/" data-anchor="nav-logo" className="flex items-center gap-2 shrink-0 transition-all duration-300" aria-label="NATLE home">
           <NatleLogo className="h-9 w-auto" showTagline={false} />
         </Link>
 
