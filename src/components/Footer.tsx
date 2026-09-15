@@ -126,38 +126,38 @@ export default function Footer() {
         className="relative lg:fixed bottom-0 left-0 flex min-h-screen lg:h-screen w-full flex-col justify-between overflow-hidden bg-[#FCFDFE] dark:bg-[#07090E] text-slate-900 dark:text-white transition-colors duration-500"
       >
         {/* ───────────────────────────────────────────────────────────────── */}
-        {/* 1. PANORAMIC ARTWORK MURAL AS FULL-SCREEN FOOTER BACKGROUND       */}
-        {/*    Misty Mountains, Bonsai Pines, Flying Cranes — Full View      */}
+        {/* 1. PANORAMIC ARTWORK MURAL (Subtle, Soft & Shifted Lower Down)    */}
+        {/*    Misty Mountains, Bonsai Pines, Flying Cranes                   */}
         {/* ───────────────────────────────────────────────────────────────── */}
         <div
           ref={landscapeRef}
-          className="absolute inset-0 w-full h-full pointer-events-none overflow-hidden select-none z-0"
+          className="absolute inset-x-0 bottom-0 h-[58%] sm:h-[62%] lg:h-[64%] pointer-events-none overflow-hidden select-none z-0"
         >
-          {/* Light Mode Sumi-e Landscape Mural */}
+          {/* Light Mode Sumi-e Landscape Mural (Soft 35% opacity) */}
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src="/images/footer-landscape-light.jpg"
             alt="Traditional Sumi-e Ink Wash Landscape"
-            className="w-full h-full object-cover object-bottom dark:hidden opacity-95 transition-opacity duration-700"
+            className="w-full h-full object-cover object-[center_70%] dark:hidden opacity-35 transition-opacity duration-700"
           />
 
-          {/* Dark Mode Cyber-Zen Luminous Landscape Mural */}
+          {/* Dark Mode Cyber-Zen Landscape Mural (Soft 40% subtle glow, no harsh glare) */}
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src="/images/footer-landscape-dark.jpg"
             alt="Cyber Zen Glowing Night Landscape"
-            className="w-full h-full object-cover object-bottom hidden dark:block opacity-95 filter brightness-110 contrast-105 transition-opacity duration-700"
+            className="w-full h-full object-cover object-[center_70%] hidden dark:block opacity-40 transition-opacity duration-700"
           />
 
-          {/* Soft atmospheric mist blend over top text area for perfect contrast */}
-          <div className="absolute inset-x-0 top-0 h-52 bg-gradient-to-b from-[#FCFDFE]/90 via-[#FCFDFE]/50 to-transparent dark:from-[#07090E]/90 dark:via-[#07090E]/50 pointer-events-none" />
+          {/* Soft atmospheric mist blend at the top transition */}
+          <div className="absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-[#FCFDFE] dark:from-[#07090E] to-transparent pointer-events-none" />
 
           {/* Bottom subtle mist blend into copyright bar */}
-          <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-[#FCFDFE]/90 dark:from-[#07090E]/90 to-transparent pointer-events-none" />
+          <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-[#FCFDFE] dark:from-[#07090E] to-transparent pointer-events-none" />
         </div>
 
         {/* Ambient Aurora Glow */}
-        <div className="absolute left-1/2 top-1/3 h-[400px] w-[800px] -translate-x-1/2 -translate-y-1/2 bg-[radial-gradient(circle_at_50%_50%,rgba(30,127,232,0.10)_0%,rgba(18,184,166,0.06)_40%,transparent_70%)] rounded-full blur-[100px] pointer-events-none z-0" />
+        <div className="absolute left-1/2 top-1/3 h-[400px] w-[800px] -translate-x-1/2 -translate-y-1/2 bg-[radial-gradient(circle_at_50%_50%,rgba(30,127,232,0.08)_0%,rgba(18,184,166,0.05)_40%,transparent_70%)] rounded-full blur-[100px] pointer-events-none z-0" />
 
         {/* ───────────────────────────────────────────────────────────────── */}
         {/* 2. GIANT WATERMARK "NATLE" TYPOGRAPHY (Layered Behind Artwork)    */}
@@ -171,7 +171,7 @@ export default function Footer() {
           }}
           aria-hidden="true"
         >
-          <span className="text-slate-900/[0.12] dark:text-cyan-200/[0.20] drop-shadow-md transition-colors duration-500">
+          <span className="text-slate-900/[0.08] dark:text-cyan-200/[0.14] drop-shadow-md transition-colors duration-500">
             NATLE
           </span>
         </div>
