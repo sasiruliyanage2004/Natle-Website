@@ -313,32 +313,32 @@ export default function Footer() {
         </div>
 
         {/* ───────────────────────────────────────────────────────────────── */}
-        {/* 3. PROMINENT PANORAMIC ARTWORK MURAL (100% Clear & Visible)       */}
+        {/* 3. PROMINENT PANORAMIC ARTWORK MURAL (Vibrant, Clear & Radiant)   */}
         {/*    Misty Mountains, Bonsai Pines, Flying Cranes — Full Width     */}
         {/* ───────────────────────────────────────────────────────────────── */}
         <div
           ref={landscapeRef}
-          className="relative w-full h-[360px] sm:h-[440px] lg:h-[500px] overflow-hidden select-none"
+          className="relative w-full h-[380px] sm:h-[460px] lg:h-[540px] overflow-hidden select-none"
         >
           {/* Light Mode Sumi-e Landscape Mural */}
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src="/images/footer-landscape-light.jpg"
             alt="Traditional Sumi-e Ink Wash Landscape"
-            className="w-full h-full object-cover object-[center_40%] dark:hidden opacity-100 transition-opacity duration-700"
+            className="w-full h-full object-cover object-[center_50%] dark:hidden opacity-100 transition-opacity duration-700"
           />
 
-          {/* Dark Mode Cyber-Zen Landscape Mural */}
+          {/* Dark Mode Cyber-Zen Luminous Landscape Mural */}
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src="/images/footer-landscape-dark.jpg"
             alt="Cyber Zen Glowing Night Landscape"
-            className="w-full h-full object-cover object-[center_40%] hidden dark:block opacity-100 transition-opacity duration-700"
+            className="w-full h-full object-cover object-[center_50%] hidden dark:block opacity-100 filter brightness-110 contrast-105 transition-opacity duration-700"
           />
 
-          {/* Soft atmospheric mist blend at top and bottom */}
-          <div className="absolute inset-x-0 top-0 h-16 bg-gradient-to-b from-[#FCFDFE] dark:from-[#07090E] to-transparent pointer-events-none" />
-          <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-[#FCFDFE] dark:from-[#07090E] to-transparent pointer-events-none" />
+          {/* Minimal soft atmospheric mist blend at top and bottom */}
+          <div className="absolute inset-x-0 top-0 h-10 bg-gradient-to-b from-[#FCFDFE] dark:from-[#07090E] to-transparent pointer-events-none" />
+          <div className="absolute inset-x-0 bottom-0 h-10 bg-gradient-to-t from-[#FCFDFE] dark:from-[#07090E] to-transparent pointer-events-none" />
 
           {/* ─────────────────────────────────────────────────────────────── */}
           {/* GIANT WATERMARK "NATLE" TYPOGRAPHY INTEGRATED IN MURAL          */}
@@ -352,7 +352,7 @@ export default function Footer() {
             }}
             aria-hidden="true"
           >
-            <span className="text-slate-900/[0.14] dark:text-cyan-300/[0.25] drop-shadow-md transition-colors duration-500">
+            <span className="text-slate-900/[0.14] dark:text-cyan-200/[0.30] drop-shadow-md transition-colors duration-500">
               NATLE
             </span>
           </div>
