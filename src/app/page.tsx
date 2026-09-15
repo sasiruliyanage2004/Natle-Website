@@ -1,7 +1,6 @@
 import Link from "next/link";
 import Hero3D from "@/components/Hero3D";
 import HeroContent from "@/components/HeroContent";
-import LivingCodeTerminal from "@/components/hero/LivingCodeTerminal";
 import TechMarquee from "@/components/TechMarquee";
 import Counter from "@/components/Counter";
 import Reveal from "@/components/Reveal";
@@ -46,14 +45,7 @@ export default function Home() {
         <Hero3D />
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-transparent" />
         <div className="container-content relative">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-8 items-center">
-            <div className="lg:col-span-7">
-              <HeroContent />
-            </div>
-            <div className="lg:col-span-5 flex justify-center lg:justify-end">
-              <LivingCodeTerminal />
-            </div>
-          </div>
+          <HeroContent />
         </div>
       </section>
 

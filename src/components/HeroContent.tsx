@@ -49,24 +49,18 @@ export default function HeroContent() {
 
   return (
     <div ref={rootRef} className="relative z-10 pointer-events-none">
-      <div
+      <p
         data-hero="eyebrow"
-        className="pointer-events-auto inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-azure/10 dark:bg-azure/15 border border-azure/20 dark:border-azure/30 mb-4 sm:mb-5 backdrop-blur-md"
+        className="text-azure font-semibold text-sm tracking-wide mb-3 sm:mb-4"
       >
-        <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
-        <span className="text-azure dark:text-cyan-400 text-xs font-semibold tracking-wider uppercase font-mono">
-          Software Engineering Studio
-        </span>
-      </div>
-
-      <h1 className="font-display text-4xl sm:text-5xl md:text-6xl lg:text-[3.9rem] xl:text-[4.5rem] leading-[1.04] font-medium text-ink max-w-2xl">
+        Software engineering studio
+      </p>
+      <h1 className="font-display text-[13vw] leading-[0.98] sm:text-6xl md:text-7xl lg:text-[5.2rem] font-medium text-ink max-w-4xl">
         <span data-hero="line" className="block overflow-hidden">
-          <span data-anchor="headline-word" className="inline-block mr-2.5">Ideas,</span>
-          <span data-anchor="headline-word" className="inline-block">engineered</span>
+          Ideas, engineered
         </span>
         <span data-hero="line" className="block overflow-hidden text-gradient">
-          <span data-anchor="headline-word" className="inline-block mr-2.5">into</span>
-          <span data-anchor="headline-word" className="inline-block">growth.</span>
+          into growth.
         </span>
       </h1>
       <p data-hero="sub" className="mt-5 text-base sm:text-lg text-ink/65 dark:text-white/70 max-w-xl leading-relaxed">
@@ -78,24 +72,10 @@ export default function HeroContent() {
       <div className="mt-7 flex flex-wrap items-center gap-4">
         <Link
           data-hero="cta"
-          data-anchor="cta-btn"
           href="/contact"
-          className="pointer-events-auto inline-flex items-center justify-center gap-2.5 rounded-full bg-[#1E7FE8] hover:bg-[#1565C0] text-white px-7 py-3.5 text-[15px] font-semibold shadow-lg shadow-[#1E7FE8]/30 dark:shadow-[0_0_24px_rgba(30,127,232,0.5)] hover:scale-[1.02] active:scale-[0.98] transition-all duration-200"
+          className="pointer-events-auto inline-flex items-center justify-center rounded-full bg-ink text-white px-7 py-3.5 text-[15px] font-semibold hover:bg-ink-soft dark:bg-white dark:text-slate-950 dark:hover:bg-slate-100 transition-colors shadow-sm"
         >
-          <span>Start a project</span>
-          <svg
-            className="w-4 h-4"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            aria-hidden="true"
-          >
-            <line x1="5" y1="12" x2="19" y2="12" />
-            <polyline points="12 5 19 12 12 19" />
-          </svg>
+          Start a project
         </Link>
         <Link
           data-hero="cta"
@@ -106,7 +86,7 @@ export default function HeroContent() {
         </Link>
       </div>
 
-      <div data-anchor="stats" className="mt-12 flex flex-wrap gap-x-12 gap-y-6">
+      <div className="mt-12 flex flex-wrap gap-x-12 gap-y-6">
         <div data-hero="stat">
           <div className="font-display text-3xl text-ink">120+</div>
           <div className="text-sm text-ink/50 mt-1">Products shipped</div>
