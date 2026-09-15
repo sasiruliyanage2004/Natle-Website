@@ -126,34 +126,34 @@ export default function Footer() {
         className="relative lg:fixed bottom-0 left-0 flex min-h-screen lg:h-screen w-full flex-col justify-between overflow-hidden bg-[#FCFDFE] dark:bg-[#07090E] text-slate-900 dark:text-white transition-colors duration-500"
       >
         {/* ───────────────────────────────────────────────────────────────── */}
-        {/* 1. PANORAMIC ARTWORK MURAL (Subtle, Soft & Shifted Lower Down)    */}
+        {/* 1. PANORAMIC ARTWORK MURAL (Aligned right below directory line)   */}
         {/*    Misty Mountains, Bonsai Pines, Flying Cranes                   */}
         {/* ───────────────────────────────────────────────────────────────── */}
         <div
           ref={landscapeRef}
-          className="absolute inset-x-0 bottom-0 h-[58%] sm:h-[62%] lg:h-[64%] pointer-events-none overflow-hidden select-none z-0"
+          className="absolute inset-x-0 bottom-0 h-[68%] sm:h-[70%] lg:h-[72%] pointer-events-none overflow-hidden select-none z-0"
         >
-          {/* Light Mode Sumi-e Landscape Mural (Soft 35% opacity) */}
+          {/* Light Mode Sumi-e Landscape Mural */}
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src="/images/footer-landscape-light.jpg"
             alt="Traditional Sumi-e Ink Wash Landscape"
-            className="w-full h-full object-cover object-[center_70%] dark:hidden opacity-35 transition-opacity duration-700"
+            className="w-full h-full object-cover object-[center_52%] dark:hidden opacity-40 transition-opacity duration-700"
           />
 
-          {/* Dark Mode Cyber-Zen Landscape Mural (Soft 40% subtle glow, no harsh glare) */}
+          {/* Dark Mode Cyber-Zen Landscape Mural */}
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src="/images/footer-landscape-dark.jpg"
             alt="Cyber Zen Glowing Night Landscape"
-            className="w-full h-full object-cover object-[center_70%] hidden dark:block opacity-40 transition-opacity duration-700"
+            className="w-full h-full object-cover object-[center_52%] hidden dark:block opacity-45 transition-opacity duration-700"
           />
 
           {/* Soft atmospheric mist blend at the top transition */}
-          <div className="absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-[#FCFDFE] dark:from-[#07090E] to-transparent pointer-events-none" />
+          <div className="absolute inset-x-0 top-0 h-16 bg-gradient-to-b from-[#FCFDFE] dark:from-[#07090E] to-transparent pointer-events-none" />
 
           {/* Bottom subtle mist blend into copyright bar */}
-          <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-[#FCFDFE] dark:from-[#07090E] to-transparent pointer-events-none" />
+          <div className="absolute inset-x-0 bottom-0 h-14 bg-gradient-to-t from-[#FCFDFE] dark:from-[#07090E] to-transparent pointer-events-none" />
         </div>
 
         {/* Ambient Aurora Glow */}
