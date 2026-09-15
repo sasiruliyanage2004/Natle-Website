@@ -13,36 +13,90 @@ if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
 }
 
+const MarqueeItem = () => (
+  <div className="flex items-center space-x-12 px-6">
+    <span>Enterprise Architecture</span> <span className="text-lime">✦</span>
+    <span>Web3 & Blockchain</span> <span className="text-teal">✦</span>
+    <span>Custom Software</span> <span className="text-lime">✦</span>
+    <span>AI Integration</span> <span className="text-azure">✦</span>
+    <span>Scalable Infrastructure</span> <span className="text-teal">✦</span>
+  </div>
+);
+
 export default function Footer() {
   const wrapperRef = useRef<HTMLDivElement>(null);
   const footerRef = useRef<HTMLElement>(null);
   const giantTextRef = useRef<HTMLDivElement>(null);
+  const directoryRef = useRef<HTMLDivElement>(null);
+  const landscapeRef = useRef<HTMLDivElement>(null);
 
   const [subscribed, setSubscribed] = useState(false);
   const [email, setEmail] = useState("");
 
-  // GSAP Parallax Animation for the giant NATLE watermark
+  // GSAP Cinematic Curtain & Parallax Scroll Animations
   useEffect(() => {
     if (typeof window === "undefined" || !wrapperRef.current) return;
 
     const ctx = gsap.context(() => {
-      if (window.innerWidth >= 1024 && giantTextRef.current) {
-        gsap.fromTo(
-          giantTextRef.current,
-          { y: 50, scale: 0.95, opacity: 0.1 },
-          {
-            y: 0,
-            scale: 1,
-            opacity: 0.35,
-            ease: "power2.out",
-            scrollTrigger: {
-              trigger: wrapperRef.current,
-              start: "top 80%",
-              end: "bottom bottom",
-              scrub: 1.2,
-            },
-          }
-        );
+      // Desktop Cinematic Curtain & Parallax Animations
+      if (window.innerWidth >= 1024) {
+        // 1. Parallax upward float for the wide NATLE watermark
+        if (giantTextRef.current) {
+          gsap.fromTo(
+            giantTextRef.current,
+            { y: 90, scale: 0.92, opacity: 0.05 },
+            {
+              y: 0,
+              scale: 1,
+              opacity: 0.38,
+              ease: "power2.out",
+              scrollTrigger: {
+                trigger: wrapperRef.current,
+                start: "top 85%",
+                end: "bottom bottom",
+                scrub: 1,
+              },
+            }
+          );
+        }
+
+        // 2. Staggered upward emergence for directory content
+        if (directoryRef.current) {
+          gsap.fromTo(
+            directoryRef.current,
+            { y: 50, opacity: 0 },
+            {
+              y: 0,
+              opacity: 1,
+              ease: "power3.out",
+              scrollTrigger: {
+                trigger: wrapperRef.current,
+                start: "top 60%",
+                end: "bottom bottom",
+                scrub: 1,
+              },
+            }
+          );
+        }
+
+        // 3. Subtle depth parallax on the panoramic landscape mural
+        if (landscapeRef.current) {
+          gsap.fromTo(
+            landscapeRef.current,
+            { y: 35, scale: 1.04 },
+            {
+              y: 0,
+              scale: 1,
+              ease: "power2.out",
+              scrollTrigger: {
+                trigger: wrapperRef.current,
+                start: "top 85%",
+                end: "bottom bottom",
+                scrub: 1,
+              },
+            }
+          );
+        }
       }
     }, wrapperRef);
 
@@ -66,21 +120,35 @@ export default function Footer() {
   return (
     <div
       ref={wrapperRef}
-      className="relative min-h-screen w-full"
+      className="relative min-h-screen lg:h-screen w-full"
       style={{ clipPath: "polygon(0% 0, 100% 0%, 100% 100%, 0 100%)" }}
     >
       <footer
         ref={footerRef}
-        className="relative flex min-h-screen w-full flex-col justify-between overflow-hidden bg-[#FCFDFE] dark:bg-[#07090E] text-slate-900 dark:text-white transition-colors duration-500"
+        className="relative lg:fixed bottom-0 left-0 flex min-h-screen lg:h-screen w-full flex-col justify-between overflow-hidden bg-[#FCFDFE] dark:bg-[#07090E] text-slate-900 dark:text-white transition-colors duration-500"
       >
         {/* Ambient Aurora Glow */}
-        <div className="absolute left-1/2 top-1/4 h-[500px] w-[900px] -translate-x-1/2 -translate-y-1/2 bg-[radial-gradient(circle_at_50%_50%,rgba(30,127,232,0.10)_0%,rgba(18,184,166,0.06)_40%,transparent_70%)] rounded-full blur-[110px] pointer-events-none z-0" />
+        <div className="absolute left-1/2 top-1/3 h-[500px] w-[900px] -translate-x-1/2 -translate-y-1/2 bg-[radial-gradient(circle_at_50%_50%,rgba(30,127,232,0.12)_0%,rgba(18,184,166,0.08)_40%,transparent_70%)] rounded-full blur-[110px] pointer-events-none z-0" />
 
         {/* ───────────────────────────────────────────────────────────────── */}
-        {/* 1. PANORAMIC JAPANESE / SUMI-E LANDSCAPE ARTWORK (Image 1)        */}
+        {/* 1. DIAGONAL KINETIC MARQUEE RIBBON (Signature Natle Animation)     */}
+        {/* ───────────────────────────────────────────────────────────────── */}
+        <div className="relative lg:absolute top-0 lg:top-4 left-0 w-full overflow-hidden border-y border-slate-900/[0.08] dark:border-white/10 bg-white/70 dark:bg-[#07090E]/80 backdrop-blur-md py-2.5 sm:py-3 z-20 lg:-rotate-1 scale-105 shadow-md">
+          <div className="flex w-max animate-marquee-fast text-xs font-bold tracking-[0.25em] text-slate-500 dark:text-white/50 uppercase">
+            <MarqueeItem />
+            <MarqueeItem />
+            <MarqueeItem />
+          </div>
+        </div>
+
+        {/* ───────────────────────────────────────────────────────────────── */}
+        {/* 2. PANORAMIC JAPANESE / SUMI-E LANDSCAPE ARTWORK (Image 1)        */}
         {/*    Misty Mountains, Bonsai Pines, Flying Cranes — Full Width     */}
         {/* ───────────────────────────────────────────────────────────────── */}
-        <div className="absolute inset-x-0 bottom-0 h-[50%] sm:h-[56%] lg:h-[62%] pointer-events-none overflow-hidden z-0 select-none">
+        <div
+          ref={landscapeRef}
+          className="absolute inset-x-0 bottom-0 h-[48%] sm:h-[54%] lg:h-[60%] pointer-events-none overflow-hidden z-0 select-none"
+        >
           {/* Light Mode Sumi-e Landscape Mural */}
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
@@ -98,36 +166,37 @@ export default function Footer() {
           />
 
           {/* Top Gradient Fade to blend seamlessly with the footer background */}
-          <div className="absolute inset-x-0 top-0 h-44 bg-gradient-to-b from-[#FCFDFE] via-[#FCFDFE]/75 to-transparent dark:from-[#07090E] dark:via-[#07090E]/75 pointer-events-none" />
+          <div className="absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-[#FCFDFE] via-[#FCFDFE]/70 to-transparent dark:from-[#07090E] dark:via-[#07090E]/70 pointer-events-none" />
 
           {/* Bottom Mist Wash blending into copyright bar */}
           <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-[#FCFDFE] via-[#FCFDFE]/80 to-transparent dark:from-[#07090E] dark:via-[#07090E]/80 pointer-events-none" />
         </div>
 
         {/* ───────────────────────────────────────────────────────────────── */}
-        {/* 2. GIANT WATERMARK "NATLE" TYPOGRAPHY (Image 2)                   */}
-        {/*    Expansive, bold, clean editorial watermark                     */}
+        {/* 3. GIANT WATERMARK "NATLE" TYPOGRAPHY WITH PARALLAX               */}
         {/* ───────────────────────────────────────────────────────────────── */}
         <div
           ref={giantTextRef}
-          className="absolute bottom-16 sm:bottom-20 lg:bottom-24 left-1/2 -translate-x-1/2 whitespace-nowrap z-[1] pointer-events-none select-none text-[20vw] sm:text-[22vw] lg:text-[24vw] tracking-[0.14em] font-black leading-none text-center w-full"
+          className="absolute bottom-16 sm:bottom-20 lg:bottom-24 left-1/2 -translate-x-1/2 whitespace-nowrap z-[1] pointer-events-none select-none text-[18vw] sm:text-[20vw] lg:text-[22vw] tracking-[0.14em] font-black leading-none text-center w-full"
           style={{
             color: "transparent",
             WebkitTextStroke: "1.5px currentColor",
           }}
           aria-hidden="true"
         >
-          <span className="text-slate-900/[0.12] dark:text-cyan-400/[0.18] transition-colors duration-500">
+          <span className="text-slate-900/[0.14] dark:text-cyan-400/[0.20] transition-colors duration-500">
             NATLE
           </span>
         </div>
 
         {/* ───────────────────────────────────────────────────────────────── */}
-        {/* 3. DIRECTORY GRID — NO BOXES (Clean, natural layout like img 1)   */}
-        {/*    Brand & Contact + Capabilities + Studio + The Letter          */}
+        {/* 4. DIRECTORY GRID — CLEAN, NO BOXES (Emergence animation)         */}
         {/* ───────────────────────────────────────────────────────────────── */}
-        <div className="relative z-10 w-full max-w-7xl mx-auto px-6 pt-16 lg:pt-20 pb-10">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 lg:gap-10 items-start pb-12 border-b border-slate-900/[0.08] dark:border-white/[0.08]">
+        <div
+          ref={directoryRef}
+          className="relative z-10 w-full max-w-7xl mx-auto px-6 pt-20 lg:pt-24 pb-8"
+        >
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 lg:gap-10 items-start pb-10 border-b border-slate-900/[0.08] dark:border-white/[0.08]">
             
             {/* Column 1: Brand & Contact Info (lg:col-span-4) */}
             <div className="lg:col-span-4 flex flex-col justify-between">
@@ -142,7 +211,7 @@ export default function Footer() {
 
               <div>
                 {/* Contact information */}
-                <div className="space-y-2 text-xs sm:text-[13px] font-mono text-slate-700 dark:text-slate-300 pb-4 mb-4">
+                <div className="space-y-2 text-xs sm:text-[13px] font-mono text-slate-700 dark:text-slate-300 pb-3 mb-3">
                   <p className="flex items-center gap-2">
                     <span className="text-azure font-bold">✉</span>
                     <a
@@ -294,7 +363,7 @@ export default function Footer() {
         </div>
 
         {/* ───────────────────────────────────────────────────────────────── */}
-        {/* 4. BOTTOM COPYRIGHT BAR                                           */}
+        {/* 5. BOTTOM COPYRIGHT BAR                                           */}
         {/* ───────────────────────────────────────────────────────────────── */}
         <div className="relative z-20 w-full py-4 px-6 lg:px-12 flex flex-col sm:flex-row items-center justify-between gap-4 border-t border-slate-900/[0.08] dark:border-white/[0.10] bg-white/70 dark:bg-[#07090E]/80 backdrop-blur-md">
           <div className="text-slate-500 dark:text-white/50 text-xs font-mono tracking-wider uppercase order-2 sm:order-1">
