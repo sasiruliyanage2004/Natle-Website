@@ -33,7 +33,7 @@ export default function Footer() {
   const [subscribed, setSubscribed] = useState(false);
   const [email, setEmail] = useState("");
 
-  // GSAP Parallax Scroll Animations
+  // GSAP Cinematic Curtain & Parallax Scroll Animations
   useEffect(() => {
     if (typeof window === "undefined" || !wrapperRef.current) return;
 
@@ -43,15 +43,15 @@ export default function Footer() {
         if (giantTextRef.current) {
           gsap.fromTo(
             giantTextRef.current,
-            { y: 60, scale: 0.94, opacity: 0.08 },
+            { y: 70, scale: 0.94, opacity: 0.08 },
             {
               y: 0,
               scale: 1,
-              opacity: 0.4,
+              opacity: 0.35,
               ease: "power2.out",
               scrollTrigger: {
                 trigger: wrapperRef.current,
-                start: "top 80%",
+                start: "top 85%",
                 end: "bottom bottom",
                 scrub: 1.2,
               },
@@ -63,7 +63,7 @@ export default function Footer() {
         if (directoryRef.current) {
           gsap.fromTo(
             directoryRef.current,
-            { y: 40, opacity: 0 },
+            { y: 35, opacity: 0 },
             {
               y: 0,
               opacity: 1,
@@ -82,9 +82,9 @@ export default function Footer() {
         if (landscapeRef.current) {
           gsap.fromTo(
             landscapeRef.current,
-            { scale: 1.05 },
+            { y: 30 },
             {
-              scale: 1,
+              y: 0,
               ease: "power2.out",
               scrollTrigger: {
                 trigger: wrapperRef.current,
@@ -118,19 +118,68 @@ export default function Footer() {
   return (
     <div
       ref={wrapperRef}
-      className="relative w-full bg-[#FCFDFE] dark:bg-[#07090E] text-slate-900 dark:text-white transition-colors duration-500 overflow-hidden"
+      className="relative min-h-screen lg:h-screen w-full"
+      style={{ clipPath: "polygon(0% 0, 100% 0%, 100% 100%, 0 100%)" }}
     >
       <footer
         ref={footerRef}
-        className="relative w-full flex flex-col justify-between pt-4 sm:pt-6 pb-0"
+        className="relative lg:fixed bottom-0 left-0 flex min-h-screen lg:h-screen w-full flex-col justify-between overflow-hidden bg-[#FCFDFE] dark:bg-[#07090E] text-slate-900 dark:text-white transition-colors duration-500"
       >
+        {/* ───────────────────────────────────────────────────────────────── */}
+        {/* 1. PANORAMIC ARTWORK MURAL AS FULL-SCREEN FOOTER BACKGROUND       */}
+        {/*    Misty Mountains, Bonsai Pines, Flying Cranes — Full View      */}
+        {/* ───────────────────────────────────────────────────────────────── */}
+        <div
+          ref={landscapeRef}
+          className="absolute inset-0 w-full h-full pointer-events-none overflow-hidden select-none z-0"
+        >
+          {/* Light Mode Sumi-e Landscape Mural */}
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/images/footer-landscape-light.jpg"
+            alt="Traditional Sumi-e Ink Wash Landscape"
+            className="w-full h-full object-cover object-bottom dark:hidden opacity-95 transition-opacity duration-700"
+          />
+
+          {/* Dark Mode Cyber-Zen Luminous Landscape Mural */}
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/images/footer-landscape-dark.jpg"
+            alt="Cyber Zen Glowing Night Landscape"
+            className="w-full h-full object-cover object-bottom hidden dark:block opacity-95 filter brightness-110 contrast-105 transition-opacity duration-700"
+          />
+
+          {/* Soft atmospheric mist blend over top text area for perfect contrast */}
+          <div className="absolute inset-x-0 top-0 h-52 bg-gradient-to-b from-[#FCFDFE]/90 via-[#FCFDFE]/50 to-transparent dark:from-[#07090E]/90 dark:via-[#07090E]/50 pointer-events-none" />
+
+          {/* Bottom subtle mist blend into copyright bar */}
+          <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-[#FCFDFE]/90 dark:from-[#07090E]/90 to-transparent pointer-events-none" />
+        </div>
+
         {/* Ambient Aurora Glow */}
-        <div className="absolute left-1/2 top-1/3 h-[500px] w-[900px] -translate-x-1/2 -translate-y-1/2 bg-[radial-gradient(circle_at_50%_50%,rgba(30,127,232,0.12)_0%,rgba(18,184,166,0.08)_40%,transparent_70%)] rounded-full blur-[110px] pointer-events-none z-0" />
+        <div className="absolute left-1/2 top-1/3 h-[400px] w-[800px] -translate-x-1/2 -translate-y-1/2 bg-[radial-gradient(circle_at_50%_50%,rgba(30,127,232,0.10)_0%,rgba(18,184,166,0.06)_40%,transparent_70%)] rounded-full blur-[100px] pointer-events-none z-0" />
 
         {/* ───────────────────────────────────────────────────────────────── */}
-        {/* 1. DIAGONAL KINETIC MARQUEE RIBBON (Signature Natle Animation)     */}
+        {/* 2. GIANT WATERMARK "NATLE" TYPOGRAPHY (Layered Behind Artwork)    */}
         {/* ───────────────────────────────────────────────────────────────── */}
-        <div className="w-full overflow-hidden border-y border-slate-900/[0.08] dark:border-white/10 bg-white/70 dark:bg-[#07090E]/80 backdrop-blur-md py-2.5 sm:py-3 z-20 mb-8 sm:mb-12 shadow-sm">
+        <div
+          ref={giantTextRef}
+          className="absolute bottom-16 sm:bottom-20 lg:bottom-24 left-1/2 -translate-x-1/2 whitespace-nowrap z-[1] pointer-events-none select-none text-[18vw] sm:text-[20vw] lg:text-[22vw] tracking-[0.14em] font-black leading-none text-center w-full"
+          style={{
+            color: "transparent",
+            WebkitTextStroke: "1.5px currentColor",
+          }}
+          aria-hidden="true"
+        >
+          <span className="text-slate-900/[0.12] dark:text-cyan-200/[0.20] drop-shadow-md transition-colors duration-500">
+            NATLE
+          </span>
+        </div>
+
+        {/* ───────────────────────────────────────────────────────────────── */}
+        {/* 3. DIAGONAL KINETIC MARQUEE RIBBON                                */}
+        {/* ───────────────────────────────────────────────────────────────── */}
+        <div className="relative lg:absolute top-0 lg:top-2 left-0 w-full overflow-hidden border-y border-slate-900/[0.08] dark:border-white/10 bg-white/70 dark:bg-[#07090E]/80 backdrop-blur-md py-2 z-20 shadow-xs">
           <div className="flex w-max animate-marquee-fast text-xs font-bold tracking-[0.25em] text-slate-500 dark:text-white/50 uppercase">
             <MarqueeItem />
             <MarqueeItem />
@@ -139,29 +188,29 @@ export default function Footer() {
         </div>
 
         {/* ───────────────────────────────────────────────────────────────── */}
-        {/* 2. DIRECTORY GRID — CLEAN, NO BOXES (Directly on canvas)          */}
+        {/* 4. DIRECTORY GRID (Clean, visible, sitting over upper mist)       */}
         {/*    Brand & Contact + Capabilities + Studio + The Letter          */}
         {/* ───────────────────────────────────────────────────────────────── */}
         <div
           ref={directoryRef}
-          className="relative z-10 w-full max-w-7xl mx-auto px-6 pb-12 sm:pb-16"
+          className="relative z-10 w-full max-w-7xl mx-auto px-6 pt-16 sm:pt-20 lg:pt-16 pb-2"
         >
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 lg:gap-10 items-start pb-10 border-b border-slate-900/[0.08] dark:border-white/[0.08]">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8 lg:gap-8 items-start pb-6 border-b border-slate-900/[0.08] dark:border-white/[0.10]">
             
             {/* Column 1: Brand & Contact Info (lg:col-span-4) */}
             <div className="lg:col-span-4 flex flex-col justify-between">
               <div>
-                <div className="inline-block mb-4">
+                <div className="inline-block mb-3">
                   <NatleLogo className="h-7 w-auto" showTagline={false} />
                 </div>
-                <p className="text-slate-600 dark:text-slate-300 text-sm leading-relaxed max-w-sm mb-6">
+                <p className="text-slate-600 dark:text-slate-300 text-xs sm:text-sm leading-relaxed max-w-sm mb-4">
                   Empowering ambitious founders and enterprise teams with scalable, production-ready software systems, high-velocity cloud architecture, and AI infrastructure.
                 </p>
               </div>
 
               <div>
                 {/* Contact information */}
-                <div className="space-y-2 text-xs sm:text-[13px] font-mono text-slate-700 dark:text-slate-300 pb-3 mb-3">
+                <div className="space-y-1.5 text-xs font-mono text-slate-700 dark:text-slate-300 pb-2 mb-2">
                   <p className="flex items-center gap-2">
                     <span className="text-azure font-bold">✉</span>
                     <a
@@ -187,7 +236,7 @@ export default function Footer() {
                       +94 70 465 9847
                     </a>
                   </p>
-                  <p className="flex items-start gap-2 text-slate-600 dark:text-slate-400">
+                  <p className="flex items-start gap-2 text-slate-600 dark:text-slate-400 text-[11px]">
                     <span className="text-lime font-bold">📍</span>
                     <span>No. 283 1/1, Ruwan Mawatha, Colombo 05, Sri Lanka</span>
                   </p>
@@ -199,10 +248,10 @@ export default function Footer() {
                     href="https://twitter.com"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="p-1.5 rounded-lg hover:bg-slate-100 dark:hover:bg-white/10 hover:text-azure transition-colors"
+                    className="p-1 rounded-lg hover:bg-slate-100 dark:hover:bg-white/10 hover:text-azure transition-colors"
                     aria-label="Twitter"
                   >
-                    <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                    <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24">
                       <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
                     </svg>
                   </a>
@@ -210,10 +259,10 @@ export default function Footer() {
                     href="https://linkedin.com"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="p-1.5 rounded-lg hover:bg-slate-100 dark:hover:bg-white/10 hover:text-azure transition-colors"
+                    className="p-1 rounded-lg hover:bg-slate-100 dark:hover:bg-white/10 hover:text-azure transition-colors"
                     aria-label="LinkedIn"
                   >
-                    <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                    <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24">
                       <path d="M20.5 2h-17A1.5 1.5 0 002 3.5v17A1.5 1.5 0 003.5 22h17a1.5 1.5 0 001.5-1.5v-17A1.5 1.5 0 0020.5 2zM8 19H5v-9h3zM6.5 8.25A1.75 1.75 0 118.3 6.5a1.78 1.78 0 01-1.8 1.75zM19 19h-3v-4.74c0-1.42-.6-1.93-1.38-1.93A1.74 1.74 0 0013 14.19a.66.66 0 000 .14V19h-3v-9h2.9v1.3a3.11 3.11 0 012.7-1.4c1.55 0 3.36.86 3.4 3.66z" />
                     </svg>
                   </a>
@@ -221,10 +270,10 @@ export default function Footer() {
                     href="https://github.com"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="p-1.5 rounded-lg hover:bg-slate-100 dark:hover:bg-white/10 hover:text-azure transition-colors"
+                    className="p-1 rounded-lg hover:bg-slate-100 dark:hover:bg-white/10 hover:text-azure transition-colors"
                     aria-label="GitHub"
                   >
-                    <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                    <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24">
                       <path fillRule="evenodd" clipRule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" />
                     </svg>
                   </a>
@@ -234,15 +283,15 @@ export default function Footer() {
 
             {/* Column 2: Capabilities (lg:col-span-3) */}
             <div className="lg:col-span-3">
-              <h4 className="text-xs font-mono font-bold tracking-widest uppercase text-slate-400 dark:text-slate-500 mb-4">
+              <h4 className="text-xs font-mono font-bold tracking-widest uppercase text-slate-400 dark:text-slate-400 mb-3">
                 Capabilities
               </h4>
-              <ul className="space-y-3">
+              <ul className="space-y-2">
                 {FOOTER_SERVICES.map((item) => (
                   <li key={item.href}>
                     <Link
                       href={item.href}
-                      className="text-sm text-slate-700 dark:text-slate-300 hover:text-azure dark:hover:text-cyan-300 transition-colors inline-flex items-center gap-2 group"
+                      className="text-xs sm:text-sm text-slate-700 dark:text-slate-200 hover:text-azure dark:hover:text-cyan-300 transition-colors inline-flex items-center gap-1.5 group"
                     >
                       <span className="text-xs text-azure opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200">
                         ›
@@ -256,15 +305,15 @@ export default function Footer() {
 
             {/* Column 3: Studio (lg:col-span-2) */}
             <div className="lg:col-span-2">
-              <h4 className="text-xs font-mono font-bold tracking-widest uppercase text-slate-400 dark:text-slate-500 mb-4">
+              <h4 className="text-xs font-mono font-bold tracking-widest uppercase text-slate-400 dark:text-slate-400 mb-3">
                 Studio
               </h4>
-              <ul className="space-y-3">
+              <ul className="space-y-2">
                 {FOOTER_COMPANY.map((item) => (
                   <li key={item.href}>
                     <Link
                       href={item.href}
-                      className="text-sm text-slate-700 dark:text-slate-300 hover:text-azure dark:hover:text-cyan-300 transition-colors inline-flex items-center gap-2 group"
+                      className="text-xs sm:text-sm text-slate-700 dark:text-slate-200 hover:text-azure dark:hover:text-cyan-300 transition-colors inline-flex items-center gap-1.5 group"
                     >
                       <span className="text-xs text-azure opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200">
                         ›
@@ -278,11 +327,11 @@ export default function Footer() {
 
             {/* Column 4: The Letter / Newsletter (lg:col-span-3) */}
             <div className="lg:col-span-3">
-              <h4 className="text-xs font-mono font-bold tracking-widest uppercase text-slate-400 dark:text-slate-500 mb-4">
+              <h4 className="text-xs font-mono font-bold tracking-widest uppercase text-slate-400 dark:text-slate-400 mb-3">
                 The Letter
               </h4>
-              <p className="text-slate-600 dark:text-slate-300 text-xs sm:text-[13px] leading-relaxed mb-4">
-                Sign up for monthly technical briefings on AI systems, scalable infrastructure, and product strategy.
+              <p className="text-slate-600 dark:text-slate-300 text-xs leading-relaxed mb-3">
+                Monthly technical briefings on AI systems, scalable infrastructure, and product engineering.
               </p>
 
               <form onSubmit={handleSubscribe} className="flex items-center gap-2">
@@ -292,19 +341,19 @@ export default function Footer() {
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="Enter your email"
                   required
-                  className="w-full px-4 py-2.5 rounded-full text-xs font-mono bg-slate-900/[0.04] dark:bg-white/[0.06] border border-slate-900/10 dark:border-white/15 text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus:border-azure transition-colors"
+                  className="w-full px-3.5 py-2 rounded-full text-xs font-mono bg-slate-900/[0.05] dark:bg-white/[0.08] border border-slate-900/10 dark:border-white/15 text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus:border-azure transition-colors"
                 />
                 <button
                   type="submit"
-                  className="px-5 py-2.5 rounded-full bg-slate-900 text-white dark:bg-white dark:text-slate-950 font-bold text-xs hover:opacity-90 transition-opacity shrink-0 shadow-sm"
+                  className="px-4 py-2 rounded-full bg-slate-900 text-white dark:bg-white dark:text-slate-950 font-bold text-xs hover:opacity-90 transition-opacity shrink-0 shadow-sm"
                 >
                   {subscribed ? "Joined ✓" : "Join"}
                 </button>
               </form>
 
               {/* Status pill indicator */}
-              <div className="mt-5 flex items-center gap-2 text-[11px] font-mono text-emerald-600 dark:text-emerald-400">
-                <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
+              <div className="mt-3 flex items-center gap-2 text-[11px] font-mono text-emerald-600 dark:text-emerald-400">
+                <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
                 <span>ENGINEERING ADVISORY OPEN FOR Q4</span>
               </div>
             </div>
@@ -313,55 +362,9 @@ export default function Footer() {
         </div>
 
         {/* ───────────────────────────────────────────────────────────────── */}
-        {/* 3. PROMINENT PANORAMIC ARTWORK MURAL (Vibrant, Clear & Radiant)   */}
-        {/*    Misty Mountains, Bonsai Pines, Flying Cranes — Full Width     */}
+        {/* 5. BOTTOM COPYRIGHT BAR                                           */}
         {/* ───────────────────────────────────────────────────────────────── */}
-        <div
-          ref={landscapeRef}
-          className="relative w-full h-[380px] sm:h-[460px] lg:h-[540px] overflow-hidden select-none"
-        >
-          {/* Light Mode Sumi-e Landscape Mural */}
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src="/images/footer-landscape-light.jpg"
-            alt="Traditional Sumi-e Ink Wash Landscape"
-            className="w-full h-full object-cover object-[center_50%] dark:hidden opacity-100 transition-opacity duration-700"
-          />
-
-          {/* Dark Mode Cyber-Zen Luminous Landscape Mural */}
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src="/images/footer-landscape-dark.jpg"
-            alt="Cyber Zen Glowing Night Landscape"
-            className="w-full h-full object-cover object-[center_50%] hidden dark:block opacity-100 filter brightness-110 contrast-105 transition-opacity duration-700"
-          />
-
-          {/* Minimal soft atmospheric mist blend at top and bottom */}
-          <div className="absolute inset-x-0 top-0 h-10 bg-gradient-to-b from-[#FCFDFE] dark:from-[#07090E] to-transparent pointer-events-none" />
-          <div className="absolute inset-x-0 bottom-0 h-10 bg-gradient-to-t from-[#FCFDFE] dark:from-[#07090E] to-transparent pointer-events-none" />
-
-          {/* ─────────────────────────────────────────────────────────────── */}
-          {/* GIANT WATERMARK "NATLE" TYPOGRAPHY INTEGRATED IN MURAL          */}
-          {/* ─────────────────────────────────────────────────────────────── */}
-          <div
-            ref={giantTextRef}
-            className="absolute inset-0 flex items-center justify-center pointer-events-none select-none text-[18vw] sm:text-[20vw] lg:text-[22vw] tracking-[0.15em] font-black leading-none text-center w-full z-10"
-            style={{
-              color: "transparent",
-              WebkitTextStroke: "1.5px currentColor",
-            }}
-            aria-hidden="true"
-          >
-            <span className="text-slate-900/[0.14] dark:text-cyan-200/[0.30] drop-shadow-md transition-colors duration-500">
-              NATLE
-            </span>
-          </div>
-        </div>
-
-        {/* ───────────────────────────────────────────────────────────────── */}
-        {/* 4. BOTTOM COPYRIGHT BAR                                           */}
-        {/* ───────────────────────────────────────────────────────────────── */}
-        <div className="relative z-20 w-full py-5 px-6 lg:px-12 flex flex-col sm:flex-row items-center justify-between gap-4 border-t border-slate-900/[0.08] dark:border-white/[0.10] bg-white/80 dark:bg-[#07090E]/90 backdrop-blur-md">
+        <div className="relative z-20 w-full py-4 px-6 lg:px-12 flex flex-col sm:flex-row items-center justify-between gap-4 border-t border-slate-900/[0.08] dark:border-white/[0.10] bg-white/70 dark:bg-[#07090E]/80 backdrop-blur-md">
           <div className="text-slate-500 dark:text-white/50 text-xs font-mono tracking-wider uppercase order-2 sm:order-1">
             © {new Date().getFullYear()} NATLE. All rights reserved.
           </div>
