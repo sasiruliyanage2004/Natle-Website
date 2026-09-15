@@ -29,11 +29,11 @@ export default function Footer() {
       if (window.innerWidth >= 1024 && giantTextRef.current) {
         gsap.fromTo(
           giantTextRef.current,
-          { y: 70, scale: 0.94, opacity: 0.15 },
+          { y: 50, scale: 0.95, opacity: 0.1 },
           {
             y: 0,
             scale: 1,
-            opacity: 0.45,
+            opacity: 0.35,
             ease: "power2.out",
             scrollTrigger: {
               trigger: wrapperRef.current,
@@ -74,13 +74,13 @@ export default function Footer() {
         className="relative flex min-h-screen w-full flex-col justify-between overflow-hidden bg-[#FCFDFE] dark:bg-[#07090E] text-slate-900 dark:text-white transition-colors duration-500"
       >
         {/* Ambient Aurora Glow */}
-        <div className="absolute left-1/2 top-1/4 h-[500px] w-[900px] -translate-x-1/2 -translate-y-1/2 bg-[radial-gradient(circle_at_50%_50%,rgba(30,127,232,0.12)_0%,rgba(18,184,166,0.08)_40%,transparent_70%)] rounded-full blur-[110px] pointer-events-none z-0" />
+        <div className="absolute left-1/2 top-1/4 h-[500px] w-[900px] -translate-x-1/2 -translate-y-1/2 bg-[radial-gradient(circle_at_50%_50%,rgba(30,127,232,0.10)_0%,rgba(18,184,166,0.06)_40%,transparent_70%)] rounded-full blur-[110px] pointer-events-none z-0" />
 
         {/* ───────────────────────────────────────────────────────────────── */}
         {/* 1. PANORAMIC JAPANESE / SUMI-E LANDSCAPE ARTWORK (Image 1)        */}
         {/*    Misty Mountains, Bonsai Pines, Flying Cranes — Full Width     */}
         {/* ───────────────────────────────────────────────────────────────── */}
-        <div className="absolute inset-x-0 bottom-0 h-[52%] sm:h-[58%] lg:h-[64%] pointer-events-none overflow-hidden z-0 select-none">
+        <div className="absolute inset-x-0 bottom-0 h-[50%] sm:h-[56%] lg:h-[62%] pointer-events-none overflow-hidden z-0 select-none">
           {/* Light Mode Sumi-e Landscape Mural */}
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
@@ -98,7 +98,7 @@ export default function Footer() {
           />
 
           {/* Top Gradient Fade to blend seamlessly with the footer background */}
-          <div className="absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-[#FCFDFE] via-[#FCFDFE]/70 to-transparent dark:from-[#07090E] dark:via-[#07090E]/70 pointer-events-none" />
+          <div className="absolute inset-x-0 top-0 h-44 bg-gradient-to-b from-[#FCFDFE] via-[#FCFDFE]/75 to-transparent dark:from-[#07090E] dark:via-[#07090E]/75 pointer-events-none" />
 
           {/* Bottom Mist Wash blending into copyright bar */}
           <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-[#FCFDFE] via-[#FCFDFE]/80 to-transparent dark:from-[#07090E] dark:via-[#07090E]/80 pointer-events-none" />
@@ -106,43 +106,43 @@ export default function Footer() {
 
         {/* ───────────────────────────────────────────────────────────────── */}
         {/* 2. GIANT WATERMARK "NATLE" TYPOGRAPHY (Image 2)                   */}
-        {/*    Expansive, bold, passing behind the frosted glass directory    */}
+        {/*    Expansive, bold, clean editorial watermark                     */}
         {/* ───────────────────────────────────────────────────────────────── */}
         <div
           ref={giantTextRef}
-          className="absolute bottom-16 sm:bottom-24 lg:bottom-28 left-1/2 -translate-x-1/2 whitespace-nowrap z-[1] pointer-events-none select-none text-[20vw] sm:text-[22vw] lg:text-[24vw] tracking-[0.14em] font-black leading-none text-center w-full"
+          className="absolute bottom-16 sm:bottom-20 lg:bottom-24 left-1/2 -translate-x-1/2 whitespace-nowrap z-[1] pointer-events-none select-none text-[20vw] sm:text-[22vw] lg:text-[24vw] tracking-[0.14em] font-black leading-none text-center w-full"
           style={{
             color: "transparent",
             WebkitTextStroke: "1.5px currentColor",
           }}
           aria-hidden="true"
         >
-          <span className="text-slate-900/30 dark:text-cyan-400/35 transition-colors duration-500">
+          <span className="text-slate-900/[0.12] dark:text-cyan-400/[0.18] transition-colors duration-500">
             NATLE
           </span>
         </div>
 
         {/* ───────────────────────────────────────────────────────────────── */}
-        {/* 3. DIRECTORY GRID WITH FROSTED GLASS CARDS (Image 1 + Image 2)    */}
+        {/* 3. DIRECTORY GRID — NO BOXES (Clean, natural layout like img 1)   */}
         {/*    Brand & Contact + Capabilities + Studio + The Letter          */}
         {/* ───────────────────────────────────────────────────────────────── */}
-        <div className="relative z-10 w-full max-w-7xl mx-auto px-6 pt-16 lg:pt-20 pb-8">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-6 lg:gap-6 items-stretch">
+        <div className="relative z-10 w-full max-w-7xl mx-auto px-6 pt-16 lg:pt-20 pb-10">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 lg:gap-10 items-start pb-12 border-b border-slate-900/[0.08] dark:border-white/[0.08]">
             
             {/* Column 1: Brand & Contact Info (lg:col-span-4) */}
-            <div className="lg:col-span-4 rounded-2xl backdrop-blur-xl bg-white/75 dark:bg-[#080D18]/75 border border-slate-200/80 dark:border-white/[0.10] shadow-xl shadow-slate-900/5 dark:shadow-cyan-950/20 p-6 sm:p-7 flex flex-col justify-between">
+            <div className="lg:col-span-4 flex flex-col justify-between">
               <div>
                 <div className="inline-block mb-4">
                   <NatleLogo className="h-7 w-auto" showTagline={false} />
                 </div>
-                <p className="text-slate-600 dark:text-slate-300 text-sm leading-relaxed mb-6">
+                <p className="text-slate-600 dark:text-slate-300 text-sm leading-relaxed max-w-sm mb-6">
                   Empowering ambitious founders and enterprise teams with scalable, production-ready software systems, high-velocity cloud architecture, and AI infrastructure.
                 </p>
               </div>
 
               <div>
                 {/* Contact information */}
-                <div className="space-y-2.5 text-xs sm:text-[13px] font-mono text-slate-700 dark:text-slate-300 pb-4 mb-4 border-b border-slate-200/80 dark:border-white/[0.08]">
+                <div className="space-y-2 text-xs sm:text-[13px] font-mono text-slate-700 dark:text-slate-300 pb-4 mb-4">
                   <p className="flex items-center gap-2">
                     <span className="text-azure font-bold">✉</span>
                     <a
@@ -214,94 +214,77 @@ export default function Footer() {
             </div>
 
             {/* Column 2: Capabilities (lg:col-span-3) */}
-            <div className="lg:col-span-3 rounded-2xl backdrop-blur-xl bg-white/75 dark:bg-[#080D18]/75 border border-slate-200/80 dark:border-white/[0.10] shadow-xl shadow-slate-900/5 dark:shadow-cyan-950/20 p-6 sm:p-7 flex flex-col justify-between">
-              <div>
-                <h4 className="text-xs font-mono font-bold tracking-widest uppercase text-slate-500 dark:text-cyan-400 mb-5 flex items-center gap-2">
-                  <span className="h-1.5 w-1.5 rounded-full bg-azure" />
-                  Capabilities
-                </h4>
-                <ul className="space-y-3">
-                  {FOOTER_SERVICES.map((item) => (
-                    <li key={item.href}>
-                      <Link
-                        href={item.href}
-                        className="text-sm text-slate-700 dark:text-slate-300 hover:text-azure dark:hover:text-cyan-300 transition-colors inline-flex items-center gap-2 group font-medium"
-                      >
-                        <span className="text-xs text-azure opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200">
-                          ›
-                        </span>
-                        <span>{item.label}</span>
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-              <div className="pt-6 mt-6 border-t border-slate-200/80 dark:border-white/[0.08] text-[11px] font-mono text-slate-500 dark:text-slate-400">
-                PROD-READY ARCHITECTURE
-              </div>
+            <div className="lg:col-span-3">
+              <h4 className="text-xs font-mono font-bold tracking-widest uppercase text-slate-400 dark:text-slate-500 mb-4">
+                Capabilities
+              </h4>
+              <ul className="space-y-3">
+                {FOOTER_SERVICES.map((item) => (
+                  <li key={item.href}>
+                    <Link
+                      href={item.href}
+                      className="text-sm text-slate-700 dark:text-slate-300 hover:text-azure dark:hover:text-cyan-300 transition-colors inline-flex items-center gap-2 group"
+                    >
+                      <span className="text-xs text-azure opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200">
+                        ›
+                      </span>
+                      <span>{item.label}</span>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
             </div>
 
             {/* Column 3: Studio (lg:col-span-2) */}
-            <div className="lg:col-span-2 rounded-2xl backdrop-blur-xl bg-white/75 dark:bg-[#080D18]/75 border border-slate-200/80 dark:border-white/[0.10] shadow-xl shadow-slate-900/5 dark:shadow-cyan-950/20 p-6 sm:p-7 flex flex-col justify-between">
-              <div>
-                <h4 className="text-xs font-mono font-bold tracking-widest uppercase text-slate-500 dark:text-teal mb-5 flex items-center gap-2">
-                  <span className="h-1.5 w-1.5 rounded-full bg-teal" />
-                  Studio
-                </h4>
-                <ul className="space-y-3">
-                  {FOOTER_COMPANY.map((item) => (
-                    <li key={item.href}>
-                      <Link
-                        href={item.href}
-                        className="text-sm text-slate-700 dark:text-slate-300 hover:text-azure dark:hover:text-cyan-300 transition-colors inline-flex items-center gap-2 group font-medium"
-                      >
-                        <span className="text-xs text-azure opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200">
-                          ›
-                        </span>
-                        <span>{item.label}</span>
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-              <div className="pt-6 mt-6 border-t border-slate-200/80 dark:border-white/[0.08] text-[11px] font-mono text-slate-500 dark:text-slate-400">
-                GLOBAL REACH
-              </div>
+            <div className="lg:col-span-2">
+              <h4 className="text-xs font-mono font-bold tracking-widest uppercase text-slate-400 dark:text-slate-500 mb-4">
+                Studio
+              </h4>
+              <ul className="space-y-3">
+                {FOOTER_COMPANY.map((item) => (
+                  <li key={item.href}>
+                    <Link
+                      href={item.href}
+                      className="text-sm text-slate-700 dark:text-slate-300 hover:text-azure dark:hover:text-cyan-300 transition-colors inline-flex items-center gap-2 group"
+                    >
+                      <span className="text-xs text-azure opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200">
+                        ›
+                      </span>
+                      <span>{item.label}</span>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
             </div>
 
             {/* Column 4: The Letter / Newsletter (lg:col-span-3) */}
-            <div className="lg:col-span-3 rounded-2xl backdrop-blur-xl bg-white/75 dark:bg-[#080D18]/75 border border-slate-200/80 dark:border-white/[0.10] shadow-xl shadow-slate-900/5 dark:shadow-cyan-950/20 p-6 sm:p-7 flex flex-col justify-between">
-              <div>
-                <h4 className="text-xs font-mono font-bold tracking-widest uppercase text-slate-500 dark:text-lime mb-5 flex items-center gap-2">
-                  <span className="h-1.5 w-1.5 rounded-full bg-lime" />
-                  The Letter
-                </h4>
-                <p className="text-slate-600 dark:text-slate-300 text-xs sm:text-[13px] leading-relaxed mb-5">
-                  Sign up for monthly technical briefings on AI systems, scalable infrastructure, and product strategy.
-                </p>
+            <div className="lg:col-span-3">
+              <h4 className="text-xs font-mono font-bold tracking-widest uppercase text-slate-400 dark:text-slate-500 mb-4">
+                The Letter
+              </h4>
+              <p className="text-slate-600 dark:text-slate-300 text-xs sm:text-[13px] leading-relaxed mb-4">
+                Sign up for monthly technical briefings on AI systems, scalable infrastructure, and product strategy.
+              </p>
 
-                <form onSubmit={handleSubscribe} className="flex items-center gap-2">
-                  <input
-                    type="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    placeholder="Enter your email"
-                    required
-                    className="w-full px-3.5 py-2.5 rounded-xl text-xs font-mono bg-slate-100 dark:bg-white/[0.07] border border-slate-200 dark:border-white/10 text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus:border-azure transition-colors"
-                  />
-                  <button
-                    type="submit"
-                    className="px-4 py-2.5 rounded-xl bg-slate-900 text-white dark:bg-white dark:text-slate-950 font-bold text-xs hover:opacity-90 transition-opacity shrink-0 shadow-sm"
-                  >
-                    {subscribed ? "Joined ✓" : "Join"}
-                  </button>
-                </form>
-              </div>
+              <form onSubmit={handleSubscribe} className="flex items-center gap-2">
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="Enter your email"
+                  required
+                  className="w-full px-4 py-2.5 rounded-full text-xs font-mono bg-slate-900/[0.04] dark:bg-white/[0.06] border border-slate-900/10 dark:border-white/15 text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus:border-azure transition-colors"
+                />
+                <button
+                  type="submit"
+                  className="px-5 py-2.5 rounded-full bg-slate-900 text-white dark:bg-white dark:text-slate-950 font-bold text-xs hover:opacity-90 transition-opacity shrink-0 shadow-sm"
+                >
+                  {subscribed ? "Joined ✓" : "Join"}
+                </button>
+              </form>
 
               {/* Status pill indicator */}
-              <div className="pt-6 mt-6 border-t border-slate-200/80 dark:border-white/[0.08] flex items-center gap-2 text-[11px] font-mono text-emerald-600 dark:text-emerald-400">
+              <div className="mt-5 flex items-center gap-2 text-[11px] font-mono text-emerald-600 dark:text-emerald-400">
                 <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
                 <span>ENGINEERING ADVISORY OPEN FOR Q4</span>
               </div>
@@ -313,7 +296,7 @@ export default function Footer() {
         {/* ───────────────────────────────────────────────────────────────── */}
         {/* 4. BOTTOM COPYRIGHT BAR                                           */}
         {/* ───────────────────────────────────────────────────────────────── */}
-        <div className="relative z-20 w-full py-4 px-6 lg:px-12 flex flex-col sm:flex-row items-center justify-between gap-4 border-t border-slate-900/[0.08] dark:border-white/[0.10] bg-white/80 dark:bg-[#07090E]/85 backdrop-blur-md">
+        <div className="relative z-20 w-full py-4 px-6 lg:px-12 flex flex-col sm:flex-row items-center justify-between gap-4 border-t border-slate-900/[0.08] dark:border-white/[0.10] bg-white/70 dark:bg-[#07090E]/80 backdrop-blur-md">
           <div className="text-slate-500 dark:text-white/50 text-xs font-mono tracking-wider uppercase order-2 sm:order-1">
             © {new Date().getFullYear()} NATLE. All rights reserved.
           </div>
