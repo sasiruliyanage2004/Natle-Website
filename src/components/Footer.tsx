@@ -27,7 +27,6 @@ const MarqueeItem = () => (
 
 export default function Footer() {
   const pathname = usePathname();
-  const wrapperRef = useRef<HTMLDivElement>(null);
   const footerRef = useRef<HTMLElement>(null);
   const giantTextRef = useRef<HTMLDivElement>(null);
   const directoryRef = useRef<HTMLDivElement>(null);
@@ -38,7 +37,7 @@ export default function Footer() {
 
   // GSAP Parallax Scroll Animations with Route-Aware Lifecycle
   useEffect(() => {
-    if (typeof window === "undefined" || !wrapperRef.current) return;
+    if (typeof window === "undefined" || !footerRef.current) return;
 
     // Small delay to let the DOM settle on page navigation
     const refreshTimer = setTimeout(() => {
@@ -57,7 +56,7 @@ export default function Footer() {
               scale: 1,
               ease: "power2.out",
               scrollTrigger: {
-                trigger: wrapperRef.current,
+                trigger: footerRef.current,
                 start: "top 95%",
                 end: "bottom bottom",
                 scrub: 1.2,
@@ -66,7 +65,7 @@ export default function Footer() {
           );
         }
 
-        // 2. Upward float for directory content (NO opacity: 0 so links are always visible & readable!)
+        // 2. Upward float for directory content
         if (directoryRef.current) {
           gsap.fromTo(
             directoryRef.current,
@@ -75,7 +74,7 @@ export default function Footer() {
               y: 0,
               ease: "power3.out",
               scrollTrigger: {
-                trigger: wrapperRef.current,
+                trigger: footerRef.current,
                 start: "top 95%",
                 end: "bottom bottom",
                 scrub: 1,
@@ -93,7 +92,7 @@ export default function Footer() {
               y: 0,
               ease: "power2.out",
               scrollTrigger: {
-                trigger: wrapperRef.current,
+                trigger: footerRef.current,
                 start: "top 95%",
                 end: "bottom bottom",
                 scrub: 1,
@@ -102,7 +101,7 @@ export default function Footer() {
           );
         }
       }
-    }, wrapperRef);
+    }, footerRef);
 
     return () => {
       clearTimeout(refreshTimer);
@@ -125,15 +124,10 @@ export default function Footer() {
   };
 
   return (
-    <div
-      ref={wrapperRef}
-      className="relative min-h-screen lg:h-screen w-full"
-      style={{ clipPath: "polygon(0% 0, 100% 0%, 100% 100%, 0 100%)" }}
+    <footer
+      ref={footerRef}
+      className="relative z-20 w-full flex flex-col justify-between overflow-hidden bg-[#FCFDFE] dark:bg-[#07090E] text-slate-900 dark:text-white transition-colors duration-500 border-t border-slate-900/[0.06] dark:border-white/[0.08]"
     >
-      <footer
-        ref={footerRef}
-        className="relative lg:fixed bottom-0 left-0 flex min-h-screen lg:h-screen w-full flex-col justify-between overflow-hidden bg-[#FCFDFE] dark:bg-[#07090E] text-slate-900 dark:text-white transition-colors duration-500"
-      >
         {/* ───────────────────────────────────────────────────────────────── */}
         {/* 1. PANORAMIC ARTWORK MURAL (Subtle, Soft & Shifted Lower Down)    */}
         {/*    Misty Mountains, Bonsai Pines, Flying Cranes                   */}
@@ -188,7 +182,7 @@ export default function Footer() {
         {/* ───────────────────────────────────────────────────────────────── */}
         {/* 3. DIAGONAL KINETIC MARQUEE RIBBON                                */}
         {/* ───────────────────────────────────────────────────────────────── */}
-        <div className="relative lg:absolute top-0 lg:top-2 left-0 w-full overflow-hidden border-y border-slate-900/[0.08] dark:border-white/10 bg-white/70 dark:bg-[#07090E]/80 backdrop-blur-md py-2 z-20 shadow-xs">
+        <div className="relative w-full overflow-hidden border-b border-slate-900/[0.08] dark:border-white/10 bg-white/70 dark:bg-[#07090E]/80 backdrop-blur-md py-3 z-20 shadow-xs">
           <div className="flex w-max animate-marquee-fast text-xs font-bold tracking-[0.25em] text-slate-500 dark:text-white/50 uppercase">
             <MarqueeItem />
             <MarqueeItem />
@@ -202,7 +196,7 @@ export default function Footer() {
         {/* ───────────────────────────────────────────────────────────────── */}
         <div
           ref={directoryRef}
-          className="relative z-10 w-full max-w-7xl mx-auto px-6 pt-24 sm:pt-28 lg:pt-32 pb-2"
+          className="relative z-10 w-full max-w-7xl mx-auto px-6 pt-16 sm:pt-20 lg:pt-24 pb-12"
         >
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8 lg:gap-8 items-start pb-6 border-b border-slate-900/[0.08] dark:border-white/[0.10]">
             
@@ -405,6 +399,5 @@ export default function Footer() {
           </Magnetic>
         </div>
       </footer>
-    </div>
   );
 }
