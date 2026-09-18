@@ -125,14 +125,18 @@ export default function Footer() {
   };
 
   return (
-    <div
-      ref={wrapperRef}
-      className="relative min-h-screen lg:h-screen w-full"
-      style={{ clipPath: "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)" }}
-    >
+    <>
+      {/* Scroll track spacer for desktop curtain reveal */}
+      <div
+        ref={wrapperRef}
+        className="hidden lg:block relative h-screen w-full pointer-events-none"
+        aria-hidden="true"
+      />
+
+      {/* Cinematic Full-Page Curtain Reveal Footer */}
       <footer
         ref={footerRef}
-        className="relative lg:fixed bottom-0 left-0 flex min-h-screen lg:h-screen w-full flex-col justify-between overflow-hidden bg-[#FCFDFE] dark:bg-[#07090E] text-slate-900 dark:text-white transition-colors duration-500"
+        className="relative lg:fixed bottom-0 left-0 flex min-h-screen lg:h-screen w-full flex-col justify-between overflow-hidden bg-[#FCFDFE] dark:bg-[#07090E] text-slate-900 dark:text-white transition-colors duration-500 z-0"
       >
         {/* ───────────────────────────────────────────────────────────────── */}
         {/* 1. PANORAMIC ARTWORK MURAL (Subtle, Soft & Shifted Lower Down)    */}
@@ -405,6 +409,6 @@ export default function Footer() {
           </Magnetic>
         </div>
       </footer>
-    </div>
+    </>
   );
 }
