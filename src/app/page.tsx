@@ -186,8 +186,9 @@ export default function Home() {
             {PROJECTS.slice(0, 3).map((p, i) => (
               <Reveal key={p.name} delay={i * 0.08}>
                 <Card3DTilt maxTilt={8} scale={1.02} className="h-full rounded-2xl">
-                  <div
-                    className="h-full rounded-2xl overflow-hidden border border-ink/8 dark:border-white/10 group cursor-pointer transition-transform hover:-translate-y-1 bg-paper dark:bg-[#0D1118]"
+                  <Link
+                    href="/projects"
+                    className="block h-full rounded-2xl overflow-hidden border border-ink/8 dark:border-white/10 group cursor-pointer transition-transform hover:-translate-y-1 bg-paper dark:bg-[#0D1118]"
                     data-cursor="view"
                     data-cursor-text="EXPLORE"
                   >
@@ -201,7 +202,7 @@ export default function Home() {
                       <p className="text-xs font-semibold text-teal mb-2">{p.category}</p>
                       <p className="text-ink/70 dark:text-white/70 text-[15px] leading-relaxed">{p.result}</p>
                     </div>
-                  </div>
+                  </Link>
                 </Card3DTilt>
               </Reveal>
             ))}
