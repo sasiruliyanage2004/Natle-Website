@@ -3,6 +3,7 @@
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import Link from "next/link";
+import SparkleButton from "./SparkleButton";
 
 export default function HeroContent() {
   const rootRef = useRef<HTMLDivElement>(null);
@@ -70,13 +71,11 @@ export default function HeroContent() {
       </p>
 
       <div className="mt-7 flex flex-wrap items-center gap-4">
-        <Link
-          data-hero="cta"
-          href="/contact"
-          className="pointer-events-auto inline-flex items-center justify-center rounded-full bg-ink text-white px-7 py-3.5 text-[15px] font-semibold hover:bg-ink-soft dark:bg-white dark:text-slate-950 dark:hover:bg-slate-100 transition-colors shadow-sm"
-        >
-          Start a project
-        </Link>
+        <div data-hero="cta" className="pointer-events-auto">
+          <SparkleButton href="/contact">
+            Start a project
+          </SparkleButton>
+        </div>
         <Link
           data-hero="cta"
           href="/projects"
