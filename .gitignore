@@ -42,4 +42,5 @@ next-env.d.ts
 .turbo
 
 # Local scripts
-*.bat
+# (start.bat and start-prod.bat are tracked for convenience)
+
