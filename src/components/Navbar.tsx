@@ -75,18 +75,18 @@ export default function Navbar() {
       }`}
     >
       <div
-        className={`flex items-center justify-between h-[60px] rounded-full px-2.5 transition-all duration-300 shadow-2xl backdrop-blur-2xl border ${
+        className={`flex items-center justify-between h-[60px] lg:h-[72px] rounded-full px-2.5 lg:px-3.5 transition-all duration-300 shadow-2xl backdrop-blur-2xl border ${
           scrolled
             ? "bg-white/90 dark:bg-[#0B0D14]/90 border-slate-900/10 dark:border-white/10"
             : "bg-white/60 dark:bg-[#0B0D14]/60 border-slate-900/5 dark:border-white/5"
         }`}
       >
-        <Link href="/" data-anchor="nav-logo" className="flex items-center gap-2 shrink-0 transition-all duration-300 pl-3 pr-6" aria-label="NATLE home">
-          <NatleLogo className="h-5 w-auto" showTagline={false} />
+        <Link href="/" data-anchor="nav-logo" className="flex items-center gap-2 shrink-0 transition-all duration-300 pl-3 pr-6 lg:pl-4 lg:pr-8" aria-label="NATLE home">
+          <NatleLogo className="h-5 lg:h-6 w-auto transition-all duration-300" showTagline={false} />
         </Link>
 
         {/* Navigation Links inside the Pill (Expanding Icons) */}
-        <nav className="hidden lg:flex items-center gap-1.5 px-4 border-l border-slate-900/10 dark:border-white/10">
+        <nav className="hidden lg:flex items-center gap-2 lg:gap-2.5 px-4 lg:px-6 border-l border-slate-900/10 dark:border-white/10">
           {NAV_LINKS.map((item) => {
             const active = pathname === item.href;
             const Icon = getIconForPath(item.href);
@@ -95,33 +95,33 @@ export default function Navbar() {
                 key={item.href}
                 href={item.href}
                 prefetch={true}
-                className={`relative flex items-center justify-center h-[36px] rounded-full transition-all duration-500 ease-[cubic-bezier(0.23,1,0.32,1)] ${
+                className={`relative flex items-center justify-center h-[36px] lg:h-[44px] rounded-full transition-all duration-500 ease-[cubic-bezier(0.23,1,0.32,1)] ${
                   active
-                    ? "px-4 text-ink dark:text-white bg-slate-900/5 dark:bg-white/[0.08]"
-                    : "w-[36px] px-0 text-ink/60 dark:text-slate-400 hover:text-ink dark:hover:text-white hover:bg-slate-900/5 dark:hover:bg-white/[0.04]"
+                    ? "px-4 lg:px-5 text-ink dark:text-white bg-slate-900/5 dark:bg-white/[0.08]"
+                    : "w-[36px] lg:w-[44px] px-0 text-ink/60 dark:text-slate-400 hover:text-ink dark:hover:text-white hover:bg-slate-900/5 dark:hover:bg-white/[0.04]"
                 }`}
                 title={!active ? item.label : undefined}
               >
-                <Icon className="w-4 h-4 shrink-0 transition-transform duration-500" strokeWidth={active ? 2.5 : 2} />
+                <Icon className="w-4 h-4 lg:w-[18px] lg:h-[18px] shrink-0 transition-transform duration-500" strokeWidth={active ? 2.5 : 2} />
                 <div
                   className={`overflow-hidden transition-all duration-500 ease-[cubic-bezier(0.23,1,0.32,1)] flex items-center ${
-                    active ? "max-w-[120px] opacity-100 ml-2" : "max-w-0 opacity-0 ml-0"
+                    active ? "max-w-[120px] lg:max-w-[140px] opacity-100 ml-2 lg:ml-2.5" : "max-w-0 opacity-0 ml-0"
                   }`}
                 >
-                  <span className="whitespace-nowrap text-[13px] font-semibold">{item.label}</span>
+                  <span className="whitespace-nowrap text-[13px] lg:text-[14px] font-semibold">{item.label}</span>
                 </div>
               </Link>
             );
           })}
         </nav>
 
-        <div className="hidden lg:flex items-center gap-2 pl-4 border-l border-slate-900/10 dark:border-white/10">
+        <div className="hidden lg:flex items-center gap-2 lg:gap-3 pl-4 lg:pl-6 border-l border-slate-900/10 dark:border-white/10">
           <ThemeToggle />
           <Magnetic>
             <Link
               href="/contact"
               prefetch={true}
-              className="inline-flex items-center justify-center whitespace-nowrap gap-1.5 rounded-full bg-slate-950 text-white px-5 py-2.5 text-[14px] font-semibold hover:bg-slate-800 dark:bg-white dark:text-slate-950 dark:hover:bg-slate-200 transition-colors shadow-sm ml-1"
+              className="inline-flex items-center justify-center whitespace-nowrap gap-1.5 rounded-full bg-slate-950 text-white px-5 py-2.5 lg:px-7 lg:py-3.5 text-[14px] lg:text-[15px] font-semibold hover:bg-slate-800 dark:bg-white dark:text-slate-950 dark:hover:bg-slate-200 transition-colors shadow-sm ml-1 lg:ml-2"
             >
               Start a project ↗
             </Link>

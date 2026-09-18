@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useEffect, useState } from "react";
 
@@ -43,7 +43,7 @@ export default function ThemeToggle() {
 
   if (!mounted) {
     return (
-      <div className="w-9 h-9 rounded-full border border-ink/10 opacity-0" aria-hidden="true" />
+      <div className="w-9 h-9 lg:w-11 lg:h-11 rounded-full border border-ink/10 opacity-0" aria-hidden="true" />
     );
   }
 
@@ -51,20 +51,20 @@ export default function ThemeToggle() {
     <button
       onClick={toggleTheme}
       aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
-      className="relative w-9 h-9 flex items-center justify-center rounded-full border border-ink/10 dark:border-white/15 bg-white/60 dark:bg-white/[0.08] hover:bg-white dark:hover:bg-white/15 backdrop-blur-sm transition-all duration-200 text-ink dark:text-white"
+      className="relative w-9 h-9 lg:w-11 lg:h-11 flex items-center justify-center rounded-full border border-ink/10 dark:border-white/15 bg-white/60 dark:bg-white/[0.08] hover:bg-white dark:hover:bg-white/15 backdrop-blur-sm transition-all duration-200 text-ink dark:text-white"
     >
       {isDark ? (
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          width="17"
-          height="17"
+          width="20"
+          height="20"
           viewBox="0 0 24 24"
           fill="none"
           stroke="currentColor"
           strokeWidth="2"
           strokeLinecap="round"
           strokeLinejoin="round"
-          className="text-amber-400"
+          className="scale-[0.85] lg:scale-100 transition-transform text-amber-400"
         >
           <circle cx="12" cy="12" r="4" />
           <path d="M12 2v2" />
@@ -79,15 +79,15 @@ export default function ThemeToggle() {
       ) : (
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          width="16"
-          height="16"
+          width="20"
+          height="20"
           viewBox="0 0 24 24"
           fill="none"
           stroke="currentColor"
-          strokeWidth="2"
+          strokeWidth="2.3"
           strokeLinecap="round"
           strokeLinejoin="round"
-          className="text-ink/80"
+          className="scale-[0.85] lg:scale-100 transition-transform text-ink/80 dark:text-white/80"
         >
           <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z" />
         </svg>
