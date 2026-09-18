@@ -1,4 +1,4 @@
-﻿import type { Metadata, Viewport } from "next";
+import type { Metadata, Viewport } from "next";
 import { display, body } from "./fonts";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
@@ -98,7 +98,7 @@ export default function RootLayout({
         <ScrollProgress />
         <SmoothScroll>
           <Navbar />
-          <main id="main-content" tabIndex={-1} className="flex-1 flex flex-col pt-[76px] outline-none">
+          <main id="main-content" tabIndex={-1} className="flex-1 flex flex-col outline-none">
             {children}
           </main>
           <Footer />
