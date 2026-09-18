@@ -248,7 +248,7 @@ export default function Home() {
       <Testimonials />
 
       {/* CTA */}
-      <section className="py-28 bg-transparent relative z-10">
+      <section className="pt-24 pb-12 bg-transparent relative z-10">
         <div className="container-content">
           <Reveal className="rounded-3xl bg-brand-gradient px-8 py-16 lg:px-16 lg:py-20 text-center relative overflow-hidden">
             <h2 className="font-display text-3xl md:text-5xl text-white max-w-2xl mx-auto leading-tight">
