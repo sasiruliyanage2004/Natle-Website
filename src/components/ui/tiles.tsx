@@ -31,7 +31,7 @@ export function Tiles({
   return (
     <div 
       className={cn(
-        "relative z-0 flex w-full h-full justify-center overflow-hidden pointer-events-auto",
+        "relative z-0 flex w-full h-full justify-center",
         className
       )}
     >
@@ -40,14 +40,14 @@ export function Tiles({
           key={`row-${i}`}
           className={cn(
             tileSizes[tileSize],
-            "border-l dark:border-neutral-900/50 border-neutral-200/50 relative",
+            "border-l border-slate-900/5 dark:border-white/5 relative",
             tileClassName
           )}
         >
           {colsArray.map((_, j) => (
             <motion.div
               whileHover={{
-                backgroundColor: `var(--tile, rgba(0,210,255,0.1))`,
+                backgroundColor: `var(--tile)`,
                 transition: { duration: 0 }
               }}
               animate={{
@@ -56,7 +56,7 @@ export function Tiles({
               key={`col-${j}`}
               className={cn(
                 tileSizes[tileSize],
-                "border-r border-t dark:border-neutral-900/50 border-neutral-200/50 relative",
+                "border-r border-t border-slate-900/5 dark:border-white/5 relative",
                 tileClassName
               )}
             />

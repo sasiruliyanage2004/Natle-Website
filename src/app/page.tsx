@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Hero3D from "@/components/Hero3D";
 import HeroContent from "@/components/HeroContent";
 import TechMarquee from "@/components/TechMarquee";
 import Counter from "@/components/Counter";
@@ -42,23 +43,21 @@ export default function Home() {
 
       {/* Hero */}
       <section className="relative min-h-[100dvh] flex items-center pt-24 pb-16 lg:pt-28 lg:pb-24 overflow-hidden hero-aurora-bg">
-        <div className="absolute inset-0 z-0">
-          <Tiles 
-            rows={50} 
-            cols={30}
-            tileSize="md"
-            className="opacity-40 mix-blend-multiply dark:mix-blend-screen dark:opacity-20"
-          />
-        </div>
-        <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-transparent z-0" />
-        <div className="container-content relative z-10 w-full pointer-events-none">
+        <Hero3D />
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-transparent" />
+        <div className="container-content relative w-full">
           <HeroContent />
         </div>
       </section>
 
       {/* Tech Stack Marquee */}
-      <section className="py-12 bg-transparent relative">
-        <div className="container-content mb-6">
+      <section className="py-16 md:py-20 bg-transparent relative overflow-hidden">
+        {/* Animated Tiles Background */}
+        <div className="absolute inset-0 z-0 opacity-50 dark:opacity-40" style={{ maskImage: "linear-gradient(to bottom, transparent, black 15%, black 85%, transparent)" }}>
+          <Tiles rows={20} cols={40} tileSize="lg" />
+        </div>
+
+        <div className="container-content mb-8 relative z-20">
           <div className="flex flex-col items-center justify-center text-center">
             <span className="text-xs font-mono tracking-widest uppercase text-azure font-semibold mb-2">
               Technology Stack
@@ -68,7 +67,9 @@ export default function Home() {
             </p>
           </div>
         </div>
-        <TechMarquee />
+        <div className="relative z-20">
+          <TechMarquee />
+        </div>
       </section>
 
       {/* Services - Spotlight Bento */}
