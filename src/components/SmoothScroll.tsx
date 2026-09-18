@@ -1,11 +1,14 @@
 "use client";
 
 import { useEffect } from "react";
+import { usePathname } from "next/navigation";
 import Lenis from "lenis";
 import gsap from "gsap";
 import ScrollTrigger from "gsap/dist/ScrollTrigger";
 
 export default function SmoothScroll({ children }: { children: React.ReactNode }) {
+  const pathname = usePathname();
+
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
 
@@ -50,6 +53,22 @@ export default function SmoothScroll({ children }: { children: React.ReactNode }
       delete (window as any).__lenis;
     };
   }, []);
+
+  // Handle route changes: scroll to top and refresh layout dimensions
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    if ((window as any).__lenis) {
+      (window as any).__lenis.scrollTo(0, { immediate: true });
+    }
+    const timer = setTimeout(() => {
+      if ((window as any).__lenis) {
+        (window as any).__lenis.resize();
+      }
+      ScrollTrigger.refresh();
+    }, 120);
+
+    return () => clearTimeout(timer);
+  }, [pathname]);
 
   return <>{children}</>;
 }

@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import Magnetic from "./Magnetic";
 import NatleLogo from "./NatleLogo";
 import { FOOTER_SERVICES, FOOTER_COMPANY } from "@/lib/nav";
@@ -25,6 +26,7 @@ const MarqueeItem = () => (
 );
 
 export default function Footer() {
+  const pathname = usePathname();
   const wrapperRef = useRef<HTMLDivElement>(null);
   const footerRef = useRef<HTMLElement>(null);
   const giantTextRef = useRef<HTMLDivElement>(null);
@@ -34,9 +36,14 @@ export default function Footer() {
   const [subscribed, setSubscribed] = useState(false);
   const [email, setEmail] = useState("");
 
-  // GSAP Cinematic Curtain & Parallax Scroll Animations
+  // GSAP Parallax Scroll Animations with Route-Aware Lifecycle
   useEffect(() => {
     if (typeof window === "undefined" || !wrapperRef.current) return;
+
+    // Small delay to let the DOM settle on page navigation
+    const refreshTimer = setTimeout(() => {
+      ScrollTrigger.refresh();
+    }, 150);
 
     const ctx = gsap.context(() => {
       if (window.innerWidth >= 1024) {
@@ -44,15 +51,14 @@ export default function Footer() {
         if (giantTextRef.current) {
           gsap.fromTo(
             giantTextRef.current,
-            { y: 70, scale: 0.94, opacity: 0.08 },
+            { y: 50, scale: 0.96 },
             {
               y: 0,
               scale: 1,
-              opacity: 0.35,
               ease: "power2.out",
               scrollTrigger: {
                 trigger: wrapperRef.current,
-                start: "top 85%",
+                start: "top 95%",
                 end: "bottom bottom",
                 scrub: 1.2,
               },
@@ -60,18 +66,17 @@ export default function Footer() {
           );
         }
 
-        // 2. Staggered upward emergence for directory content
+        // 2. Upward float for directory content (NO opacity: 0 so links are always visible & readable!)
         if (directoryRef.current) {
           gsap.fromTo(
             directoryRef.current,
-            { y: 35, opacity: 0 },
+            { y: 20 },
             {
               y: 0,
-              opacity: 1,
               ease: "power3.out",
               scrollTrigger: {
                 trigger: wrapperRef.current,
-                start: "top 70%",
+                start: "top 95%",
                 end: "bottom bottom",
                 scrub: 1,
               },
@@ -83,13 +88,13 @@ export default function Footer() {
         if (landscapeRef.current) {
           gsap.fromTo(
             landscapeRef.current,
-            { y: 30 },
+            { y: 25 },
             {
               y: 0,
               ease: "power2.out",
               scrollTrigger: {
                 trigger: wrapperRef.current,
-                start: "top 85%",
+                start: "top 95%",
                 end: "bottom bottom",
                 scrub: 1,
               },
@@ -99,8 +104,11 @@ export default function Footer() {
       }
     }, wrapperRef);
 
-    return () => ctx.revert();
-  }, []);
+    return () => {
+      clearTimeout(refreshTimer);
+      ctx.revert();
+    };
+  }, [pathname]);
 
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
