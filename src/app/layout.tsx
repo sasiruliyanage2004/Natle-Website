@@ -98,6 +98,11 @@ export default function RootLayout({
         <Preloader />
         <ScrollProgress />
 
+        {/* Global Fixed Tiles Background */}
+        <div className="fixed inset-0 z-0 pointer-events-none opacity-80" style={{ maskImage: "linear-gradient(to bottom, transparent, black 15%, black 100%)", WebkitMaskImage: "linear-gradient(to bottom, transparent, black 15%, black 100%)" }}>
+          <Tiles rows={20} cols={40} tileSize="lg" />
+        </div>
+
         <SmoothScroll>
           <Navbar />
           <main id="main-content" tabIndex={-1} className="flex-1 flex flex-col outline-none">

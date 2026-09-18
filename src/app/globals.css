@@ -12,17 +12,19 @@
   --mist: 245 248 251;
   --card: 255 255 255;
   --border: 10 10 10;
-  --tile: rgba(0, 82, 255, 0.05);
+  --tile: rgba(0, 82, 255, 0.12);
 }
 
 .dark {
+  --background: 226 29% 5%;
+  --foreground: 210 40% 98%;
   --ink: 248 250 252;
   --ink-soft: 226 232 240;
   --paper: 7 9 14;
   --mist: 13 17 24;
   --card: 13 17 24;
   --border: 255 255 255;
-  --tile: rgba(255, 255, 255, 0.03);
+  --tile: rgba(0, 210, 255, 0.15);
 }
 
 body {
