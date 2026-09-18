@@ -45,21 +45,23 @@ export default function Navbar() {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        visible ? "translate-y-0 opacity-100" : "-translate-y-full opacity-0 pointer-events-none"
-      } ${
-        scrolled
-          ? "bg-white/60 dark:bg-[#07090E]/60 backdrop-blur-2xl border-b border-slate-900/[0.06] dark:border-white/[0.08] shadow-[0_8px_32px_rgba(0,0,0,0.04)] dark:shadow-[0_8px_32px_rgba(0,0,0,0.4)]"
-          : "bg-white/25 dark:bg-[#07090E]/25 backdrop-blur-xl border-b border-slate-900/[0.04] dark:border-white/[0.05]"
+      className={`fixed top-4 left-4 right-4 lg:left-1/2 lg:right-auto lg:-translate-x-1/2 lg:top-6 z-50 transition-all duration-300 ${
+        visible ? "translate-y-0 opacity-100" : "-translate-y-[150%] opacity-0 pointer-events-none"
       }`}
     >
-      <div className="container-content flex items-center justify-between h-[76px]">
-        <Link href="/" data-anchor="nav-logo" className="flex items-center gap-2 shrink-0 transition-all duration-300" aria-label="NATLE home">
-          <NatleLogo className="h-9 w-auto" showTagline={false} />
+      <div
+        className={`flex items-center justify-between h-[64px] rounded-full px-2.5 transition-all duration-300 shadow-2xl backdrop-blur-2xl border ${
+          scrolled
+            ? "bg-white/90 dark:bg-[#0B0D14]/90 border-slate-900/10 dark:border-white/10"
+            : "bg-white/60 dark:bg-[#0B0D14]/60 border-slate-900/5 dark:border-white/5"
+        }`}
+      >
+        <Link href="/" data-anchor="nav-logo" className="flex items-center gap-2 shrink-0 transition-all duration-300 pl-3 pr-6" aria-label="NATLE home">
+          <NatleLogo className="h-6 w-auto" showTagline={false} />
         </Link>
 
-        {/* Floating Glass Capsule Navigation */}
-        <nav className="hidden lg:flex items-center gap-1 bg-white/40 dark:bg-white/[0.04] backdrop-blur-md px-3 py-1.5 rounded-full border border-black/[0.05] dark:border-white/[0.08] shadow-[inset_0_1px_1px_rgba(255,255,255,0.4)] dark:shadow-[inset_0_1px_1px_rgba(255,255,255,0.06)]">
+        {/* Navigation Links inside the Pill */}
+        <nav className="hidden lg:flex items-center gap-2 px-4 border-l border-slate-900/10 dark:border-white/10">
           {NAV_LINKS.map((item) => {
             const active = pathname === item.href;
             return (
@@ -69,36 +71,33 @@ export default function Navbar() {
                 prefetch={true}
                 className={`relative px-4 py-1.5 text-[14px] font-medium rounded-full transition-all duration-200 ${
                   active
-                    ? "text-ink dark:text-white bg-white/80 dark:bg-white/[0.12] shadow-sm"
-                    : "text-ink/70 dark:text-slate-300 hover:text-ink dark:hover:text-white hover:bg-white/50 dark:hover:bg-white/[0.06]"
+                    ? "text-ink dark:text-white bg-slate-900/5 dark:bg-white/[0.08]"
+                    : "text-ink/60 dark:text-slate-400 hover:text-ink dark:hover:text-white hover:bg-slate-900/5 dark:hover:bg-white/[0.04]"
                 }`}
               >
                 {item.label}
-                {active && (
-                  <span className="absolute left-3 right-3 -bottom-[1px] h-[2px] bg-brand-gradient rounded-full" />
-                )}
               </Link>
             );
           })}
         </nav>
 
-        <div className="hidden lg:flex items-center gap-3">
+        <div className="hidden lg:flex items-center gap-2 pl-4 border-l border-slate-900/10 dark:border-white/10">
           <ThemeToggle />
           <Magnetic>
             <Link
               href="/contact"
               prefetch={true}
-              className="inline-block rounded-full bg-ink text-white px-5 py-2.5 text-sm font-semibold hover:bg-ink-soft dark:bg-white dark:text-slate-950 dark:hover:bg-slate-100 transition-colors shadow-sm"
+              className="inline-flex items-center justify-center gap-1.5 rounded-full bg-slate-950 text-white px-5 py-2.5 text-[14px] font-semibold hover:bg-slate-800 dark:bg-white dark:text-slate-950 dark:hover:bg-slate-200 transition-colors shadow-sm ml-1"
             >
-              Start a project
+              Start a project ↗
             </Link>
           </Magnetic>
         </div>
 
-        <div className="lg:hidden flex items-center gap-2">
+        <div className="lg:hidden flex items-center gap-1 pl-4">
           <ThemeToggle />
           <button
-            className="relative w-10 h-10 flex flex-col items-center justify-center gap-[5px] rounded-full bg-white/40 dark:bg-white/[0.06] backdrop-blur-md border border-black/[0.04] dark:border-white/[0.08]"
+            className="relative w-10 h-10 flex flex-col items-center justify-center gap-[5px] rounded-full hover:bg-slate-900/5 dark:hover:bg-white/5 transition-colors ml-1"
             onClick={() => setOpen((v) => !v)}
             aria-label="Toggle menu"
             aria-expanded={open}
@@ -110,20 +109,20 @@ export default function Navbar() {
         </div>
       </div>
 
-      {/* Translucent Frosted Glass Mobile Menu */}
+      {/* Translucent Frosted Glass Mobile Menu (Dropdown from the pill) */}
       <div
-        className={`lg:hidden overflow-hidden transition-[max-height,opacity] duration-300 ease-in-out bg-white/75 dark:bg-[#07090E]/80 backdrop-blur-2xl border-t border-b border-black/[0.05] dark:border-white/[0.08] shadow-2xl ${
-          open ? "max-h-[520px] opacity-100" : "max-h-0 opacity-0"
+        className={`lg:hidden overflow-hidden transition-[max-height,opacity] duration-300 ease-in-out absolute top-[76px] left-0 right-0 bg-white/95 dark:bg-[#07090E]/95 backdrop-blur-3xl rounded-3xl border border-black/[0.05] dark:border-white/[0.08] shadow-2xl ${
+          open ? "max-h-[520px] opacity-100" : "max-h-0 opacity-0 border-transparent"
         }`}
       >
-        <nav className="container-content flex flex-col py-4">
+        <nav className="flex flex-col py-6 px-6">
           {NAV_LINKS.map((item) => (
             <Link
               key={item.href}
               href={item.href}
               prefetch={true}
-              className={`py-3 text-base font-medium border-b border-ink/5 dark:border-white/10 last:border-0 ${
-                pathname === item.href ? "text-azure font-semibold" : "text-ink/80 dark:text-slate-200"
+              className={`py-3 text-[15px] font-medium border-b border-ink/5 dark:border-white/10 last:border-0 ${
+                pathname === item.href ? "text-brand font-semibold" : "text-ink/70 dark:text-slate-300"
               }`}
             >
               {item.label}
@@ -132,9 +131,9 @@ export default function Navbar() {
           <Link
             href="/contact"
             prefetch={true}
-            className="mt-4 inline-flex items-center justify-center rounded-full bg-ink text-white px-5 py-3 text-sm font-semibold hover:bg-ink-soft dark:bg-white dark:text-slate-950 dark:hover:bg-slate-100 transition-colors shadow-sm"
+            className="mt-6 inline-flex items-center justify-center rounded-full bg-slate-950 text-white px-5 py-3.5 text-[15px] font-semibold hover:bg-slate-800 dark:bg-white dark:text-slate-950 dark:hover:bg-slate-200 transition-colors shadow-sm"
           >
-            Start a project
+            Start a project ↗
           </Link>
         </nav>
       </div>
