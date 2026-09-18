@@ -50,41 +50,44 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Tech Stack Marquee */}
-      <section className="py-16 md:py-20 bg-transparent relative overflow-hidden">
+      {/* --- SHARED BACKGROUND WRAPPER (Tech Stack + Services) --- */}
+      <div className="relative w-full overflow-hidden">
         {/* Animated Tiles Background */}
-        <div className="absolute inset-0 z-0 opacity-50 dark:opacity-40" style={{ maskImage: "linear-gradient(to bottom, transparent, black 15%, black 85%, transparent)" }}>
-          <Tiles rows={20} cols={40} tileSize="lg" />
+        <div className="absolute inset-0 z-0 opacity-50 dark:opacity-40" style={{ maskImage: "linear-gradient(to bottom, transparent, black 10%, black 90%, transparent)" }}>
+          <Tiles rows={45} cols={40} tileSize="lg" />
         </div>
 
-        <div className="container-content mb-8 relative z-20">
-          <div className="flex flex-col items-center justify-center text-center">
-            <span className="text-xs font-mono tracking-widest uppercase text-azure font-semibold mb-2">
-              Technology Stack
-            </span>
-            <p className="text-xs sm:text-sm font-medium text-ink/50 max-w-lg">
-              Powering modern enterprise platforms with industry-leading frameworks &amp; cloud infrastructure
-            </p>
+        {/* Tech Stack Marquee */}
+        <section className="py-16 md:py-20 bg-transparent relative z-10">
+          <div className="container-content mb-8 relative z-20">
+            <div className="flex flex-col items-center justify-center text-center">
+              <span className="text-xs font-mono tracking-widest uppercase text-azure font-semibold mb-2">
+                Technology Stack
+              </span>
+              <p className="text-xs sm:text-sm font-medium text-ink/50 max-w-lg">
+                Powering modern enterprise platforms with industry-leading frameworks &amp; cloud infrastructure
+              </p>
+            </div>
           </div>
-        </div>
-        <div className="relative z-20">
-          <TechMarquee />
-        </div>
-      </section>
+          <div className="relative z-20">
+            <TechMarquee />
+          </div>
+        </section>
 
-      {/* Services - Spotlight Bento */}
-      <section className="py-24 lg:py-28 bg-transparent relative overflow-hidden">
-        <div className="container-content relative z-10">
-          <Reveal className="max-w-2xl mb-14">
-            <p className="text-azure font-semibold text-sm mb-3 tracking-wide">WHAT WE DO</p>
-            <h2 className="font-display text-4xl md:text-5xl text-ink dark:text-white leading-tight">
-              One team, from first sketch to production system.
-            </h2>
-          </Reveal>
+        {/* Services - Spotlight Bento */}
+        <section className="py-24 lg:py-28 bg-transparent relative z-10">
+          <div className="container-content relative z-10">
+            <Reveal className="max-w-2xl mb-14">
+              <p className="text-azure font-semibold text-sm mb-3 tracking-wide">WHAT WE DO</p>
+              <h2 className="font-display text-4xl md:text-5xl text-ink dark:text-white leading-tight">
+                One team, from first sketch to production system.
+              </h2>
+            </Reveal>
 
-          <SpotlightBento />
-        </div>
-      </section>
+            <SpotlightBento />
+          </div>
+        </section>
+      </div>
 
       {/* Scroll-Driven Architecture Pipeline */}
       <ArchitecturePipeline />
