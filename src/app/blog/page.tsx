@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Reveal from "@/components/Reveal";
 import CutoutCard from "@/components/CutoutCard";
+import AmbientBackground from "@/components/AmbientBackground";
 import { BLOG_POSTS } from "@/lib/data";
 
 export const metadata: Metadata = {
@@ -11,10 +12,13 @@ export const metadata: Metadata = {
 export default function BlogPage() {
   return (
     <>
-      <section className="pt-40 pb-20 bg-mist dark:bg-[#07090E]">
-        <div className="container-content">
+      <section className="pt-40 pb-20 bg-mist dark:bg-[#07090E] relative overflow-hidden">
+        <AmbientBackground />
+        <div className="container-content relative">
           <Reveal className="max-w-2xl">
-            <p className="text-azure font-semibold text-sm mb-4">Blog & News</p>
+            <div className="text-azure text-xs font-mono font-semibold tracking-widest uppercase mb-4">
+              BLOG &amp; NEWS
+            </div>
             <h1 className="font-display text-5xl md:text-6xl text-ink dark:text-white leading-[1.05]">
               Notes from the studio floor.
             </h1>
@@ -27,7 +31,7 @@ export default function BlogPage() {
         </div>
       </section>
 
-      <section className="py-20 lg:py-24 bg-paper dark:bg-[#07090E]">
+      <section className="py-20 lg:py-24 bg-paper dark:bg-[#07090E] border-t border-ink/5 dark:border-white/10">
         <div className="container-content grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {BLOG_POSTS.map((post, i) => (
             <Reveal key={post.slug} delay={(i % 3) * 0.06}>
