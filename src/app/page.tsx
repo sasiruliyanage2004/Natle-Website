@@ -1,4 +1,4 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 import Hero3D from "@/components/Hero3D";
 import HeroContent from "@/components/HeroContent";
 import TechMarquee from "@/components/TechMarquee";
@@ -13,6 +13,7 @@ import Testimonials from "@/components/Testimonials";
 import ScrollBackground from "@/components/ScrollBackground";
 import Card3DTilt from "@/components/Card3DTilt";
 import NetworkGlobe3D from "@/components/NetworkGlobe3D";
+import { Tiles } from "@/components/ui/tiles";
 import { PROJECTS, BLOG_POSTS } from "@/lib/data";
 
 const WHY_US = [
@@ -22,7 +23,7 @@ const WHY_US = [
   },
   {
     title: "Fixed communication rhythm",
-    detail: "Weekly demos and a shared board, so you always see real, working software Ã¢â‚¬â€ not slide decks.",
+    detail: "Weekly demos and a shared board, so you always see real, working software ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â not slide decks.",
   },
   {
     title: "Built for handover",
@@ -48,6 +49,12 @@ export default function Home() {
           <HeroContent />
         </div>
       </section>
+
+      {/* --- SHARED BACKGROUND WRAPPER --- */}
+      <div className="relative w-full overflow-x-clip overflow-y-visible">
+        <div className="absolute inset-0 z-[-1] opacity-50 dark:opacity-40" style={{ maskImage: "linear-gradient(to bottom, transparent, black 2%, black 98%, transparent)", WebkitMaskImage: "linear-gradient(to bottom, transparent, black 2%, black 98%, transparent)" }}>
+          <Tiles rows={150} cols={40} tileSize="lg" />
+        </div>
 
       {/* Tech Stack Marquee */}
       <section className="py-16 md:py-20 bg-transparent relative z-10">
@@ -248,6 +255,8 @@ export default function Home() {
 
       {/* Client Testimonials Carousel */}
       <Testimonials />
+
+      </div>
 
       {/* CTA */}
       <section className="pt-24 pb-12 bg-transparent relative z-10">

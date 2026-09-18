@@ -97,11 +97,6 @@ export default function RootLayout({
         <SmoothCursor />
         <Preloader />
         <ScrollProgress />
-        
-        {/* Global Fixed Tiles Background */}
-        <div className="fixed inset-0 z-[-1] pointer-events-none opacity-50 dark:opacity-40" style={{ maskImage: "linear-gradient(to bottom, transparent, black 15%, black 85%, transparent)" }}>
-          <Tiles rows={20} cols={40} tileSize="lg" />
-        </div>
 
         <SmoothScroll>
           <Navbar />
