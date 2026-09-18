@@ -1,4 +1,4 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 import Hero3D from "@/components/Hero3D";
 import HeroContent from "@/components/HeroContent";
 import TechMarquee from "@/components/TechMarquee";
@@ -50,11 +50,11 @@ export default function Home() {
         </div>
       </section>
 
-      {/* --- SHARED BACKGROUND WRAPPER (Tech Stack + Services + Rest of Page) --- */}
+      {/* --- SHARED BACKGROUND WRAPPER (Tech Stack + Services) --- */}
       <div className="relative w-full overflow-hidden">
         {/* Animated Tiles Background */}
-        <div className="absolute inset-0 z-0 opacity-50 dark:opacity-40" style={{ maskImage: "linear-gradient(to bottom, transparent, black 2%, black 98%, transparent)" }}>
-          <Tiles rows={150} cols={40} tileSize="lg" />
+        <div className="absolute inset-0 z-0 opacity-50 dark:opacity-40" style={{ maskImage: "linear-gradient(to bottom, transparent, black 10%, black 90%, transparent)" }}>
+          <Tiles rows={45} cols={40} tileSize="lg" />
         </div>
 
         {/* Tech Stack Marquee */}
@@ -87,6 +87,7 @@ export default function Home() {
             <SpotlightBento />
           </div>
         </section>
+      </div>
 
       {/* Scroll-Driven Architecture Pipeline */}
       <ArchitecturePipeline />
@@ -256,8 +257,6 @@ export default function Home() {
 
       {/* Client Testimonials Carousel */}
       <Testimonials />
-
-      </div>
 
       {/* CTA */}
       <section className="pt-24 pb-12 bg-transparent relative z-10">

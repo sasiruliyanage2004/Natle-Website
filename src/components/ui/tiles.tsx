@@ -1,7 +1,6 @@
 "use client"
 
 import React from "react"
-import { motion } from "framer-motion"
 import { cn } from "@/lib/utils"
 
 interface TilesProps {
@@ -28,6 +27,18 @@ export function Tiles({
   const rowsArray = new Array(rows).fill(1)
   const colsArray = new Array(cols).fill(1)
 
+  const handleMouseEnter = (e: React.MouseEvent<HTMLDivElement>) => {
+    const el = e.currentTarget;
+    el.style.transition = "none";
+    el.style.backgroundColor = "var(--tile)";
+  };
+
+  const handleMouseLeave = (e: React.MouseEvent<HTMLDivElement>) => {
+    const el = e.currentTarget;
+    el.style.transition = "background-color 2s ease-out";
+    el.style.backgroundColor = "transparent";
+  };
+
   return (
     <div 
       className={cn(
@@ -36,7 +47,7 @@ export function Tiles({
       )}
     >
       {rowsArray.map((_, i) => (
-        <motion.div
+        <div
           key={`row-${i}`}
           className={cn(
             tileSizes[tileSize],
@@ -45,14 +56,9 @@ export function Tiles({
           )}
         >
           {colsArray.map((_, j) => (
-            <motion.div
-              whileHover={{
-                backgroundColor: `var(--tile)`,
-                transition: { duration: 0 }
-              }}
-              animate={{
-                transition: { duration: 2 }
-              }}
+            <div
+              onMouseEnter={handleMouseEnter}
+              onMouseLeave={handleMouseLeave}
               key={`col-${j}`}
               className={cn(
                 tileSizes[tileSize],
@@ -61,7 +67,7 @@ export function Tiles({
               )}
             />
           ))}
-        </motion.div>
+        </div>
       ))}
     </div>
   )
