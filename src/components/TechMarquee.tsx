@@ -16,12 +16,12 @@ const TECH_STACK: TechItem[] = [
     brandColor: "#0A0A0A",
     icon: (
       <svg viewBox="0 0 128 128" className="w-5 h-5">
-        <circle cx="64" cy="64" r="64" className="fill-ink dark:fill-white transition-colors duration-300" />
+        <circle cx="64" cy="64" r="64" className="fill-black dark:fill-white transition-colors duration-300" />
         <path
           d="M104.5 108.5L46.2 36H35V92H45.8V49.7L96.8 113.2C99.6 111.9 102.2 110.3 104.5 108.5Z"
-          className="fill-white dark:fill-ink transition-colors duration-300"
+          className="fill-white dark:fill-black transition-colors duration-300"
         />
-        <rect x="82" y="36" width="11" height="56" className="fill-white dark:fill-ink transition-colors duration-300" />
+        <rect x="82" y="36" width="11" height="56" className="fill-white dark:fill-black transition-colors duration-300" />
       </svg>
     ),
   },
