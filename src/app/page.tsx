@@ -13,7 +13,6 @@ import Testimonials from "@/components/Testimonials";
 import ScrollBackground from "@/components/ScrollBackground";
 import Card3DTilt from "@/components/Card3DTilt";
 import NetworkGlobe3D from "@/components/NetworkGlobe3D";
-import { Tiles } from "@/components/ui/tiles";
 import { PROJECTS, BLOG_POSTS } from "@/lib/data";
 
 const WHY_US = [
@@ -23,7 +22,7 @@ const WHY_US = [
   },
   {
     title: "Fixed communication rhythm",
-    detail: "Weekly demos and a shared board, so you always see real, working software â€” not slide decks.",
+    detail: "Weekly demos and a shared board, so you always see real, working software Ã¢â‚¬â€ not slide decks.",
   },
   {
     title: "Built for handover",
@@ -50,29 +49,22 @@ export default function Home() {
         </div>
       </section>
 
-      {/* --- SHARED BACKGROUND WRAPPER (Tech Stack + Services + Rest of Page) --- */}
-      <div className="relative w-full overflow-hidden">
-        {/* Animated Tiles Background */}
-        <div className="absolute inset-0 z-0 opacity-50 dark:opacity-40" style={{ maskImage: "linear-gradient(to bottom, transparent, black 2%, black 98%, transparent)" }}>
-          <Tiles rows={150} cols={40} tileSize="lg" />
+      {/* Tech Stack Marquee */}
+      <section className="py-16 md:py-20 bg-transparent relative z-10">
+        <div className="container-content mb-8 relative z-20">
+          <div className="flex flex-col items-center justify-center text-center">
+            <span className="text-xs font-mono tracking-widest uppercase text-azure font-semibold mb-2">
+              Technology Stack
+            </span>
+            <p className="text-xs sm:text-sm font-medium text-ink/50 max-w-lg">
+              Powering modern enterprise platforms with industry-leading frameworks &amp; cloud infrastructure
+            </p>
+          </div>
         </div>
-
-        {/* Tech Stack Marquee */}
-        <section className="py-16 md:py-20 bg-transparent relative z-10">
-          <div className="container-content mb-8 relative z-20">
-            <div className="flex flex-col items-center justify-center text-center">
-              <span className="text-xs font-mono tracking-widest uppercase text-azure font-semibold mb-2">
-                Technology Stack
-              </span>
-              <p className="text-xs sm:text-sm font-medium text-ink/50 max-w-lg">
-                Powering modern enterprise platforms with industry-leading frameworks &amp; cloud infrastructure
-              </p>
-            </div>
-          </div>
-          <div className="relative z-20">
-            <TechMarquee />
-          </div>
-        </section>
+        <div className="relative z-20">
+          <TechMarquee />
+        </div>
+      </section>
 
         {/* Services - Spotlight Bento */}
         <section className="py-24 lg:py-28 bg-transparent relative z-10">
@@ -256,8 +248,6 @@ export default function Home() {
 
       {/* Client Testimonials Carousel */}
       <Testimonials />
-
-      </div>
 
       {/* CTA */}
       <section className="pt-24 pb-12 bg-transparent relative z-10">

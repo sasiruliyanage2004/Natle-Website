@@ -1,6 +1,6 @@
 "use client"
 
-import React from "react"
+import React, { useEffect, useRef } from "react"
 import { cn } from "@/lib/utils"
 
 interface TilesProps {
@@ -11,63 +11,88 @@ interface TilesProps {
   tileSize?: "sm" | "md" | "lg"
 }
 
-const tileSizes = {
-  sm: "w-8 h-8",
-  md: "w-9 h-9 md:w-12 md:h-12",
-  lg: "w-12 h-12 md:w-16 md:h-16",
-}
-
 export function Tiles({
   className,
-  rows = 100,
-  cols = 10,
+  rows = 150,
+  cols = 40,
   tileClassName,
-  tileSize = "md",
+  tileSize = "lg",
 }: TilesProps) {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const activeTileRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      if (!containerRef.current) return;
+      
+      // Calculate which tile is currently hovered
+      const bounds = containerRef.current.getBoundingClientRect();
+      
+      // Get tile size in pixels based on the prop
+      const sizeMap = { sm: 32, md: 48, lg: 64 };
+      const currentSize = sizeMap[tileSize];
+      
+      const x = e.clientX - bounds.left;
+      const y = e.clientY - bounds.top;
+      
+      if (x < 0 || y < 0 || x > bounds.width || y > bounds.height) return;
+      
+      const col = Math.floor(x / currentSize);
+      const row = Math.floor(y / currentSize);
+      
+      // Calculate 1D index
+      const index = row * cols + col;
+      
+      const tiles = containerRef.current.children as HTMLCollectionOf<HTMLDivElement>;
+      if (index >= 0 && index < tiles.length) {
+        const tile = tiles[index];
+        
+        if (activeTileRef.current !== tile) {
+          if (activeTileRef.current) {
+            activeTileRef.current.style.transition = "background-color 2s ease-out";
+            activeTileRef.current.style.backgroundColor = "transparent";
+          }
+          
+          tile.style.transition = "none";
+          tile.style.backgroundColor = "var(--tile)";
+          activeTileRef.current = tile;
+        }
+      }
+    };
+
+    window.addEventListener("mousemove", handleMouseMove);
+    return () => window.removeEventListener("mousemove", handleMouseMove);
+  }, [cols, tileSize]);
+
   const rowsArray = new Array(rows).fill(1)
   const colsArray = new Array(cols).fill(1)
 
-  const handleMouseEnter = (e: React.MouseEvent<HTMLDivElement>) => {
-    const el = e.currentTarget;
-    el.style.transition = "none";
-    el.style.backgroundColor = "var(--tile)";
-  };
-
-  const handleMouseLeave = (e: React.MouseEvent<HTMLDivElement>) => {
-    const el = e.currentTarget;
-    el.style.transition = "background-color 2s ease-out";
-    el.style.backgroundColor = "transparent";
+  const sizeClasses = {
+    sm: "w-8 h-8 min-w-8 min-h-8",
+    md: "w-12 h-12 min-w-12 min-h-12",
+    lg: "w-16 h-16 min-w-16 min-h-16",
   };
 
   return (
     <div 
+      ref={containerRef}
       className={cn(
-        "relative z-0 flex w-full h-full justify-center",
+        "relative flex flex-wrap justify-start items-start overflow-hidden",
         className
       )}
+      style={{ width: `${cols * 64}px` }}
     >
       {rowsArray.map((_, i) => (
-        <div
-          key={`row-${i}`}
-          className={cn(
-            tileSizes[tileSize],
-            "border-l border-slate-900/5 dark:border-white/5 relative",
-            tileClassName
-          )}
-        >
-          {colsArray.map((_, j) => (
-            <div
-              onMouseEnter={handleMouseEnter}
-              onMouseLeave={handleMouseLeave}
-              key={`col-${j}`}
-              className={cn(
-                tileSizes[tileSize],
-                "border-r border-t border-slate-900/5 dark:border-white/5 relative",
-                tileClassName
-              )}
-            />
-          ))}
-        </div>
+        colsArray.map((_, j) => (
+          <div
+            key={`${i}-${j}`}
+            className={cn(
+              sizeClasses[tileSize],
+              "border-r border-t border-slate-900/5 dark:border-white/5",
+              tileClassName
+            )}
+          />
+        ))
       ))}
     </div>
   )
