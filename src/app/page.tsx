@@ -41,10 +41,10 @@ export default function Home() {
       <ScrollBackground />
 
       {/* Hero */}
-      <section className="relative pt-24 pb-16 lg:pt-28 lg:pb-24 overflow-hidden hero-aurora-bg">
+      <section className="relative min-h-[100dvh] flex items-center pt-24 pb-16 lg:pt-28 lg:pb-24 overflow-hidden hero-aurora-bg">
         <Hero3D />
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-transparent" />
-        <div className="container-content relative">
+        <div className="container-content relative w-full">
           <HeroContent />
         </div>
       </section>
