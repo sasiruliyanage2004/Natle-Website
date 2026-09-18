@@ -471,155 +471,158 @@ export default function LivingCodeTerminal() {
 
         {!minimized && (
           <>
-            {/* Tab 1: engine.ts */}
-            {activeTab === "engine" && (
-              <div className="p-4 sm:p-5 font-mono text-xs sm:text-[13px] leading-relaxed overflow-x-auto text-slate-800 dark:text-slate-200 transition-opacity duration-200">
-                <div className="flex items-center gap-3 sm:gap-4">
-                  <span className="text-slate-400 dark:text-slate-600 w-4 text-right shrink-0 select-none">1</span>
-                  <p>
-                    <span className="text-purple-600 dark:text-purple-400">import</span>{" "}
-                    <span className="text-slate-800 dark:text-slate-100 font-semibold">{"{ NatleStudio }"}</span>{" "}
-                    <span className="text-purple-600 dark:text-purple-400">from</span>{" "}
-                    <span className="text-emerald-600 dark:text-emerald-400">&quot;@natle/core&quot;</span>;
-                  </p>
-                </div>
-                <div className="flex items-center gap-3 sm:gap-4 opacity-60">
-                  <span className="text-slate-400 dark:text-slate-600 w-4 text-right shrink-0 select-none">2</span>
-                  <p className="text-slate-400 dark:text-slate-500 italic">
-                    {"// ⏰ Time-synced environment: "}
-                    {localTime} ({isNightTime ? "Night time detected" : "Daylight detected"})
-                  </p>
-                </div>
-                <div className="flex items-center gap-3 sm:gap-4">
-                  <span className="text-slate-400 dark:text-slate-600 w-4 text-right shrink-0 select-none">3</span>
-                  <p>
-                    <span className="text-blue-600 dark:text-blue-400">export const</span>{" "}
-                    <span className="text-amber-600 dark:text-amber-300 font-semibold">studio</span> ={" "}
-                    <span className="text-purple-600 dark:text-purple-400">new</span>{" "}
-                    <span className="text-teal-600 dark:text-teal-300 font-semibold">NatleStudio</span>({"{"}
-                  </p>
-                </div>
-                <div className="flex items-center gap-3 sm:gap-4 pl-4">
-                  <span className="text-slate-400 dark:text-slate-600 w-4 text-right shrink-0 select-none">4</span>
-                  <p>
-                    <span className="text-slate-600 dark:text-slate-400">client:</span>{" "}
-                    <span className="text-emerald-600 dark:text-emerald-400">&quot;Series B → Enterprise&quot;</span>,
-                  </p>
-                </div>
-                <div className="flex items-center gap-3 sm:gap-4 pl-4">
-                  <span className="text-slate-400 dark:text-slate-600 w-4 text-right shrink-0 select-none">5</span>
-                  <p>
-                    <span className="text-slate-600 dark:text-slate-400">throughput:</span>{" "}
-                    <span className="text-emerald-600 dark:text-emerald-400">&quot;12M req/day @ p99 0.8ms&quot;</span>,
-                  </p>
-                </div>
+            {/* Fixed height wrapper to prevent layout thrashing and backdrop-blur lag spikes on tab switch */}
+            <div className="h-[320px] sm:h-[340px] overflow-y-auto overflow-x-hidden relative">
+              {/* Tab 1: engine.ts */}
+              {activeTab === "engine" && (
+                <div className="p-4 sm:p-5 font-mono text-xs sm:text-[13px] leading-relaxed overflow-x-auto text-slate-800 dark:text-slate-200 transition-opacity duration-200 absolute inset-0">
+                  <div className="flex items-center gap-3 sm:gap-4">
+                    <span className="text-slate-400 dark:text-slate-600 w-4 text-right shrink-0 select-none">1</span>
+                    <p>
+                      <span className="text-purple-600 dark:text-purple-400">import</span>{" "}
+                      <span className="text-slate-800 dark:text-slate-100 font-semibold">{"{ NatleStudio }"}</span>{" "}
+                      <span className="text-purple-600 dark:text-purple-400">from</span>{" "}
+                      <span className="text-emerald-600 dark:text-emerald-400">&quot;@natle/core&quot;</span>;
+                    </p>
+                  </div>
+                  <div className="flex items-center gap-3 sm:gap-4 opacity-60">
+                    <span className="text-slate-400 dark:text-slate-600 w-4 text-right shrink-0 select-none">2</span>
+                    <p className="text-slate-400 dark:text-slate-500 italic">
+                      {"// ⏰ Time-synced environment: "}
+                      {localTime} ({isNightTime ? "Night time detected" : "Daylight detected"})
+                    </p>
+                  </div>
+                  <div className="flex items-center gap-3 sm:gap-4">
+                    <span className="text-slate-400 dark:text-slate-600 w-4 text-right shrink-0 select-none">3</span>
+                    <p>
+                      <span className="text-blue-600 dark:text-blue-400">export const</span>{" "}
+                      <span className="text-amber-600 dark:text-amber-300 font-semibold">studio</span> ={" "}
+                      <span className="text-purple-600 dark:text-purple-400">new</span>{" "}
+                      <span className="text-teal-600 dark:text-teal-300 font-semibold">NatleStudio</span>({"{"}
+                    </p>
+                  </div>
+                  <div className="flex items-center gap-3 sm:gap-4 pl-4">
+                    <span className="text-slate-400 dark:text-slate-600 w-4 text-right shrink-0 select-none">4</span>
+                    <p>
+                      <span className="text-slate-600 dark:text-slate-400">client:</span>{" "}
+                      <span className="text-emerald-600 dark:text-emerald-400">&quot;Series B → Enterprise&quot;</span>,
+                    </p>
+                  </div>
+                  <div className="flex items-center gap-3 sm:gap-4 pl-4">
+                    <span className="text-slate-400 dark:text-slate-600 w-4 text-right shrink-0 select-none">5</span>
+                    <p>
+                      <span className="text-slate-600 dark:text-slate-400">throughput:</span>{" "}
+                      <span className="text-emerald-600 dark:text-emerald-400">&quot;12M req/day @ p99 0.8ms&quot;</span>,
+                    </p>
+                  </div>
 
-                {/* The Switch Line */}
-                <div className="flex items-center gap-3 sm:gap-4 pl-4 my-2 py-2 px-2.5 -mx-2.5 rounded-xl bg-blue-500/10 dark:bg-[#00E5FF]/10 border border-blue-500/25 dark:border-[#00E5FF]/35 shadow-xs transition-all duration-200">
-                  <span className="text-slate-400 dark:text-slate-600 w-4 text-right shrink-0 select-none">6</span>
-                  <div className="flex flex-wrap items-center gap-2.5">
-                    <span className="text-blue-700 dark:text-cyan-300 font-bold">lights:</span>
-                    <button
-                      ref={switchRef}
-                      type="button"
-                      onPointerDown={onSwitchPointerDown}
-                      onPointerMove={onSwitchPointerMove}
-                      onPointerUp={onSwitchPointerUp}
-                      onPointerCancel={() => {
-                        setDragging(false);
-                        setDragX(0);
-                      }}
-                      className={`group relative inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border shadow-md cursor-grab active:cursor-grabbing touch-none ${
-                        dragging ? "" : "transition-all duration-300"
-                      } hover:scale-[1.03] active:scale-[0.96] ${
-                        isDark
-                          ? "bg-[#08101E] border-cyan-400/60 shadow-[0_0_20px_rgba(0,229,255,0.35)] text-cyan-300"
-                          : "bg-amber-50 border-amber-500/80 shadow-[0_0_20px_rgba(245,158,11,0.35)] text-amber-900"
-                      }`}
-                      style={{ transform: `translateX(${dragX}px)` }}
-                    >
-                      <span
-                        className={`flex items-center justify-center w-5 h-5 rounded-full text-xs transition-transform duration-300 shadow-sm ${
-                          isDark ? "bg-cyan-400 text-slate-950" : "bg-amber-400 text-slate-950"
+                  {/* The Switch Line */}
+                  <div className="flex items-center gap-3 sm:gap-4 pl-4 my-2 py-2 px-2.5 -mx-2.5 rounded-xl bg-blue-500/10 dark:bg-[#00E5FF]/10 border border-blue-500/25 dark:border-[#00E5FF]/35 shadow-xs transition-all duration-200">
+                    <span className="text-slate-400 dark:text-slate-600 w-4 text-right shrink-0 select-none">6</span>
+                    <div className="flex flex-wrap items-center gap-2.5">
+                      <span className="text-blue-700 dark:text-cyan-300 font-bold">lights:</span>
+                      <button
+                        ref={switchRef}
+                        type="button"
+                        onPointerDown={onSwitchPointerDown}
+                        onPointerMove={onSwitchPointerMove}
+                        onPointerUp={onSwitchPointerUp}
+                        onPointerCancel={() => {
+                          setDragging(false);
+                          setDragX(0);
+                        }}
+                        className={`group relative inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border shadow-md cursor-grab active:cursor-grabbing touch-none ${
+                          dragging ? "" : "transition-all duration-300"
+                        } hover:scale-[1.03] active:scale-[0.96] ${
+                          isDark
+                            ? "bg-[#08101E] border-cyan-400/60 shadow-[0_0_20px_rgba(0,229,255,0.35)] text-cyan-300"
+                            : "bg-amber-50 border-amber-500/80 shadow-[0_0_20px_rgba(245,158,11,0.35)] text-amber-900"
                         }`}
+                        style={{ transform: `translateX(${dragX}px)` }}
                       >
-                        {isDark ? "🌙" : "☀️"}
+                        <span
+                          className={`flex items-center justify-center w-5 h-5 rounded-full text-xs transition-transform duration-300 shadow-sm ${
+                            isDark ? "bg-cyan-400 text-slate-950" : "bg-amber-400 text-slate-950"
+                          }`}
+                        >
+                          {isDark ? "🌙" : "☀️"}
+                        </span>
+                        <span className="font-bold tracking-wide text-xs">{isDark ? '"NIGHT_OPS"' : '"DAYLIGHT"'}</span>
+                        <span className={`h-2 w-2 rounded-full animate-ping ${isDark ? "bg-cyan-400" : "bg-amber-500"}`} />
+                        <span className="text-[10px] text-slate-400 group-hover:text-slate-600 dark:group-hover:text-white transition-colors">
+                          [DRAG OR CLICK]
+                        </span>
+                      </button>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center gap-3 sm:gap-4 pl-4">
+                    <span className="text-slate-400 dark:text-slate-600 w-4 text-right shrink-0 select-none">7</span>
+                    <p>
+                      <span className="text-slate-600 dark:text-slate-400">status:</span>{" "}
+                      <span className="text-emerald-600 dark:text-emerald-400 font-semibold">
+                        &quot;ACTIVE_GRID // 0 incidents, {uptimeDays}d&quot;
                       </span>
-                      <span className="font-bold tracking-wide text-xs">{isDark ? '"NIGHT_OPS"' : '"DAYLIGHT"'}</span>
-                      <span className={`h-2 w-2 rounded-full animate-ping ${isDark ? "bg-cyan-400" : "bg-amber-500"}`} />
-                      <span className="text-[10px] text-slate-400 group-hover:text-slate-600 dark:group-hover:text-white transition-colors">
-                        [DRAG OR CLICK]
-                      </span>
-                    </button>
+                    </p>
+                  </div>
+                  <div className="flex items-center gap-3 sm:gap-4">
+                    <span className="text-slate-400 dark:text-slate-600 w-4 text-right shrink-0 select-none">8</span>
+                    <p>{"});"}</p>
+                  </div>
+                  <div className="flex items-center gap-3 sm:gap-4">
+                    <span className="text-slate-400 dark:text-slate-600 w-4 text-right shrink-0 select-none">9</span>
+                    <p>
+                      <span className="text-amber-600 dark:text-amber-300 font-semibold">studio</span>.
+                      <span className="text-blue-600 dark:text-blue-400 font-semibold">deploy</span>();
+                    </p>
                   </div>
                 </div>
+              )}
 
-                <div className="flex items-center gap-3 sm:gap-4 pl-4">
-                  <span className="text-slate-400 dark:text-slate-600 w-4 text-right shrink-0 select-none">7</span>
-                  <p>
-                    <span className="text-slate-600 dark:text-slate-400">status:</span>{" "}
-                    <span className="text-emerald-600 dark:text-emerald-400 font-semibold">
-                      &quot;ACTIVE_GRID // 0 incidents, {uptimeDays}d&quot;
-                    </span>
-                  </p>
+              {/* Tab 2: architecture.json */}
+              {activeTab === "architecture" && (
+                <div className="p-4 sm:p-5 font-mono text-xs sm:text-[13px] leading-relaxed text-slate-800 dark:text-slate-200 absolute inset-0 w-full animate-in fade-in duration-200">
+                  <p className="text-slate-400 dark:text-slate-500 italic mb-4">{"// Production cluster telemetry"}</p>
+                  <div className="grid grid-cols-2 gap-3 mb-2">
+                    <div className="p-2.5 rounded-lg bg-slate-100 dark:bg-white/[0.04] border border-black/[0.04] dark:border-white/[0.06]">
+                      <span className="text-[10px] text-slate-400 block">LATENCY (P99)</span>
+                      <span className="text-emerald-500 font-bold text-sm">0.8 ms</span>
+                    </div>
+                    <div className="p-2.5 rounded-lg bg-slate-100 dark:bg-white/[0.04] border border-black/[0.04] dark:border-white/[0.06]">
+                      <span className="text-[10px] text-slate-400 block">AVAILABILITY</span>
+                      <span className="text-cyan-500 font-bold text-sm">99.999%</span>
+                    </div>
+                    <div className="p-2.5 rounded-lg bg-slate-100 dark:bg-white/[0.04] border border-black/[0.04] dark:border-white/[0.06]">
+                      <span className="text-[10px] text-slate-400 block">MICROSERVICES</span>
+                      <span className="text-purple-400 font-bold text-sm">128 Online</span>
+                    </div>
+                    <div className="p-2.5 rounded-lg bg-slate-100 dark:bg-white/[0.04] border border-black/[0.04] dark:border-white/[0.06]">
+                      <span className="text-[10px] text-slate-400 block">ENCRYPTION</span>
+                      <span className="text-blue-400 font-bold text-sm">Quantum-Safe</span>
+                    </div>
+                    <div className="p-2.5 rounded-lg bg-slate-100 dark:bg-white/[0.04] border border-black/[0.04] dark:border-white/[0.06]">
+                      <span className="text-[10px] text-slate-400 block">DEPLOYS / WEEK</span>
+                      <span className="text-amber-400 font-bold text-sm">312</span>
+                    </div>
+                    <div className="p-2.5 rounded-lg bg-slate-100 dark:bg-white/[0.04] border border-black/[0.04] dark:border-white/[0.06]">
+                      <span className="text-[10px] text-slate-400 block">MTTR</span>
+                      <span className="text-rose-400 font-bold text-sm">4m 12s</span>
+                    </div>
+                  </div>
                 </div>
-                <div className="flex items-center gap-3 sm:gap-4">
-                  <span className="text-slate-400 dark:text-slate-600 w-4 text-right shrink-0 select-none">8</span>
-                  <p>{"});"}</p>
-                </div>
-                <div className="flex items-center gap-3 sm:gap-4">
-                  <span className="text-slate-400 dark:text-slate-600 w-4 text-right shrink-0 select-none">9</span>
-                  <p>
-                    <span className="text-amber-600 dark:text-amber-300 font-semibold">studio</span>.
-                    <span className="text-blue-600 dark:text-blue-400 font-semibold">deploy</span>();
-                  </p>
-                </div>
-              </div>
-            )}
+              )}
 
-            {/* Tab 2: architecture.json */}
-            {activeTab === "architecture" && (
-              <div className="p-4 sm:p-5 font-mono text-xs sm:text-[13px] leading-relaxed text-slate-800 dark:text-slate-200">
-                <p className="text-slate-400 dark:text-slate-500 italic mb-2">{"// Production cluster telemetry"}</p>
-                <div className="grid grid-cols-2 gap-3 mb-2">
-                  <div className="p-2.5 rounded-lg bg-slate-100 dark:bg-white/[0.04] border border-black/[0.04] dark:border-white/[0.06]">
-                    <span className="text-[10px] text-slate-400 block">LATENCY (P99)</span>
-                    <span className="text-emerald-500 font-bold text-sm">0.8 ms</span>
-                  </div>
-                  <div className="p-2.5 rounded-lg bg-slate-100 dark:bg-white/[0.04] border border-black/[0.04] dark:border-white/[0.06]">
-                    <span className="text-[10px] text-slate-400 block">AVAILABILITY</span>
-                    <span className="text-cyan-500 font-bold text-sm">99.999%</span>
-                  </div>
-                  <div className="p-2.5 rounded-lg bg-slate-100 dark:bg-white/[0.04] border border-black/[0.04] dark:border-white/[0.06]">
-                    <span className="text-[10px] text-slate-400 block">MICROSERVICES</span>
-                    <span className="text-purple-400 font-bold text-sm">128 Online</span>
-                  </div>
-                  <div className="p-2.5 rounded-lg bg-slate-100 dark:bg-white/[0.04] border border-black/[0.04] dark:border-white/[0.06]">
-                    <span className="text-[10px] text-slate-400 block">ENCRYPTION</span>
-                    <span className="text-blue-400 font-bold text-sm">Quantum-Safe</span>
-                  </div>
-                  <div className="p-2.5 rounded-lg bg-slate-100 dark:bg-white/[0.04] border border-black/[0.04] dark:border-white/[0.06]">
-                    <span className="text-[10px] text-slate-400 block">DEPLOYS / WEEK</span>
-                    <span className="text-amber-400 font-bold text-sm">312</span>
-                  </div>
-                  <div className="p-2.5 rounded-lg bg-slate-100 dark:bg-white/[0.04] border border-black/[0.04] dark:border-white/[0.06]">
-                    <span className="text-[10px] text-slate-400 block">MTTR</span>
-                    <span className="text-rose-400 font-bold text-sm">4m 12s</span>
-                  </div>
+              {/* Tab 3: deploy.sh */}
+              {activeTab === "deploy" && (
+                <div className="p-4 sm:p-5 font-mono text-xs sm:text-[13px] leading-relaxed text-slate-800 dark:text-slate-200 absolute inset-0 w-full animate-in fade-in duration-200">
+                  <p className="text-emerald-500 font-semibold mb-3">#!/usr/bin/env bash</p>
+                  <p className="text-slate-400 mb-2">$ natle deploy --env=production</p>
+                  <p className="text-slate-600 dark:text-slate-300 mb-2">✔ Validating AST & dependencies... [PASSED]</p>
+                  <p className="text-slate-600 dark:text-slate-300 mb-2">✔ Compiling edge workers... [0.4s]</p>
+                  <p className="text-cyan-500 mt-4">✔ Zero-downtime deployment active across all nodes.</p>
                 </div>
-              </div>
-            )}
-
-            {/* Tab 3: deploy.sh */}
-            {activeTab === "deploy" && (
-              <div className="p-4 sm:p-5 font-mono text-xs sm:text-[13px] leading-relaxed text-slate-800 dark:text-slate-200">
-                <p className="text-emerald-500 font-semibold mb-2">#!/usr/bin/env bash</p>
-                <p className="text-slate-400">$ natle deploy --env=production</p>
-                <p className="text-slate-600 dark:text-slate-300">✔ Validating AST & dependencies... [PASSED]</p>
-                <p className="text-slate-600 dark:text-slate-300">✔ Compiling edge workers... [0.4s]</p>
-                <p className="text-cyan-500">✔ Zero-downtime deployment active across all nodes.</p>
-              </div>
-            )}
+              )}
+            </div>
 
             {/* Mini Console Drawer */}
             <div className="relative px-4 py-2.5 border-t border-slate-900/[0.06] dark:border-white/[0.08] bg-slate-900 text-slate-300 font-mono text-[11px] flex flex-col gap-1">
