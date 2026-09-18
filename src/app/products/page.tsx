@@ -20,7 +20,7 @@ export default function ProductsPage() {
         <AmbientBackground variant="reversed" />
         <div className="container-content relative">
           <Reveal className="max-w-2xl">
-            <div className="text-teal text-xs font-mono font-semibold tracking-widest uppercase mb-4">
+            <div className="text-azure text-xs font-mono font-semibold tracking-widest uppercase mb-4">
               PRODUCTS &amp; SOLUTIONS
             </div>
             <h1 className="font-display text-5xl md:text-6xl text-ink dark:text-white leading-[1.05]">

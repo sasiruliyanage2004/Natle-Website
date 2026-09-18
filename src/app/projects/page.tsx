@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import Reveal from "@/components/Reveal";
+import Magnetic from "@/components/Magnetic";
 import SpotlightCard, { SpotlightAccent } from "@/components/SpotlightCard";
 import AmbientBackground from "@/components/AmbientBackground";
 import { PROJECTS } from "@/lib/data";
@@ -55,6 +57,30 @@ export default function ProjectsPage() {
               </SpotlightCard>
             </Reveal>
           ))}
+        </div>
+      </section>
+
+      {/* Bottom CTA */}
+      <section className="py-24 bg-mist dark:bg-[#07090E] border-t border-ink/5 dark:border-white/10">
+        <div className="container-content">
+          <Reveal className="rounded-3xl bg-brand-gradient-soft border border-ink/8 dark:border-white/10 px-8 py-16 lg:px-16 text-center">
+            <h2 className="font-display text-3xl md:text-4xl text-ink dark:text-white max-w-xl mx-auto leading-tight">
+              Have a product idea you want engineered right?
+            </h2>
+            <p className="text-ink/60 dark:text-white/60 mt-4 max-w-md mx-auto">
+              From architecture spikes to full-cycle production engineering, our senior squads are ready to partner with you.
+            </p>
+            <div className="mt-8 flex justify-center">
+              <Magnetic>
+                <Link
+                  href="/contact"
+                  className="inline-flex items-center justify-center rounded-full bg-ink text-white px-8 py-4 text-[15px] font-semibold hover:bg-ink-soft dark:bg-white dark:text-slate-950 dark:hover:bg-slate-100 transition-colors shadow-sm"
+                >
+                  Start a project
+                </Link>
+              </Magnetic>
+            </div>
+          </Reveal>
         </div>
       </section>
     </>
