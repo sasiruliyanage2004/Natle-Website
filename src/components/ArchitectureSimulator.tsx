@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import React, { useState } from "react";
 import Reveal from "./Reveal";
@@ -27,13 +27,13 @@ export default function ArchitectureSimulator() {
         {/* Header */}
         <Reveal className="max-w-2xl mb-12">
           <span className="text-azure font-mono font-semibold text-xs tracking-widest uppercase mb-3 block">
-            LIVE SYSTEM PLAYGROUND
+            CLOUD ECONOMICS &amp; CAPACITY PLAYGROUND
           </span>
           <h2 className="font-display text-3xl md:text-5xl text-ink dark:text-white leading-tight mb-4">
-            Stress-test our architecture under extreme enterprise load.
+            Simulate extreme traffic &amp; measure cost efficiency.
           </h2>
           <p className="text-ink/60 dark:text-white/60 text-base max-w-xl">
-            Dial throughput, toggle global multi-tier caching, and simulate multi-region distribution to observe real-time P99 latency and cluster economics.
+            Stress-test throughput, toggle edge caching layers, and simulate active-active replication to observe real-time latency and bandwidth cost reduction.
           </p>
         </Reveal>
 
@@ -184,7 +184,7 @@ export default function ArchitectureSimulator() {
                 </div>
 
                 {/* Animated Topology Visualization */}
-                <div className="relative p-6 rounded-2xl bg-ink text-white overflow-hidden border border-white/10 shadow-inner">
+                <div className="relative p-6 rounded-2xl bg-[#090A0F] text-white border border-white/10 shadow-inner">
                   <div className="flex items-center justify-between mb-4">
                     <div className="flex items-center gap-2">
                       <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
@@ -193,60 +193,60 @@ export default function ArchitectureSimulator() {
                       </span>
                     </div>
                     <span className="text-xs font-mono text-white/40">
-                      SLA: 99.999%
+                      SLA: 99.99%
                     </span>
                   </div>
 
-                  {/* Nodes diagram */}
-                  <div className="flex items-center justify-between relative py-4">
-                    
-                    {/* SVG Connector line */}
-                    <div className="absolute inset-x-4 top-1/2 -translate-y-1/2 h-[2px] bg-white/10" />
-                    
+                  {/* Nodes diagram — grid so all 4 are always evenly visible */}
+                  <div className="relative py-4">
+                    {/* Connector line behind nodes */}
+                    <div className="absolute inset-x-8 top-1/2 -translate-y-1/2 h-[2px] bg-white/10" />
+
                     {/* Moving pulse light on the connector */}
                     <div
-                      className="absolute top-1/2 -translate-y-1/2 h-[2px] bg-gradient-to-r from-transparent via-cyan-400 to-transparent w-24 animate-marquee-fast"
+                      className="absolute left-8 top-1/2 -translate-y-1/2 h-[2px] bg-gradient-to-r from-transparent via-cyan-400 to-transparent w-24 animate-marquee-fast"
                       style={{
                         animationDuration: `${Math.max(1, 4 - (rps / 500000) * 3)}s`,
                       }}
                     />
 
-                    {/* Node 1: Client */}
-                    <div className="relative z-10 flex flex-col items-center">
-                      <div className="w-10 h-10 rounded-xl bg-white/10 border border-white/20 flex items-center justify-center text-sm font-mono font-bold text-white">
-                        CLI
+                    <div className="grid grid-cols-4 gap-2 relative z-10">
+                      {/* Node 1: Client */}
+                      <div className="flex flex-col items-center">
+                        <div className="w-10 h-10 rounded-xl bg-white/10 border border-white/20 flex items-center justify-center text-sm font-mono font-bold text-white">
+                          CLI
+                        </div>
+                        <span className="text-[10px] font-mono text-white/50 mt-1 text-center">Users</span>
                       </div>
-                      <span className="text-[10px] font-mono text-white/50 mt-1">Users</span>
-                    </div>
 
-                    {/* Node 2: CDN Edge */}
-                    <div className="relative z-10 flex flex-col items-center">
-                      <div className={`w-10 h-10 rounded-xl border flex items-center justify-center text-sm font-mono font-bold transition-colors ${
-                        edgeCache ? "bg-azure/20 border-azure text-azure" : "bg-white/5 border-white/10 text-white/30"
-                      }`}>
-                        CDN
+                      {/* Node 2: CDN Edge */}
+                      <div className="flex flex-col items-center">
+                        <div className={`w-10 h-10 rounded-xl border flex items-center justify-center text-sm font-mono font-bold transition-colors ${
+                          edgeCache ? "bg-azure/20 border-azure text-azure" : "bg-white/5 border-white/10 text-white/30"
+                        }`}>
+                          CDN
+                        </div>
+                        <span className="text-[10px] font-mono text-white/50 mt-1 text-center">Edge Layer</span>
                       </div>
-                      <span className="text-[10px] font-mono text-white/50 mt-1">Edge Layer</span>
-                    </div>
 
-                    {/* Node 3: Gateway */}
-                    <div className="relative z-10 flex flex-col items-center">
-                      <div className="w-10 h-10 rounded-xl bg-white/10 border border-white/20 flex items-center justify-center text-sm font-mono font-bold text-white">
-                        GW
+                      {/* Node 3: Gateway */}
+                      <div className="flex flex-col items-center">
+                        <div className="w-10 h-10 rounded-xl bg-white/10 border border-white/20 flex items-center justify-center text-sm font-mono font-bold text-white">
+                          GW
+                        </div>
+                        <span className="text-[10px] font-mono text-white/50 mt-1 text-center">Mesh Ingress</span>
                       </div>
-                      <span className="text-[10px] font-mono text-white/50 mt-1">Mesh Ingress</span>
-                    </div>
 
-                    {/* Node 4: DB Cluster */}
-                    <div className="relative z-10 flex flex-col items-center">
-                      <div className={`w-10 h-10 rounded-xl border flex items-center justify-center text-sm font-mono font-bold transition-colors ${
-                        multiRegion ? "bg-teal/20 border-teal text-teal" : "bg-white/10 border-white/20 text-white"
-                      }`}>
-                        DB
+                      {/* Node 4: DB Cluster */}
+                      <div className="flex flex-col items-center">
+                        <div className={`w-10 h-10 rounded-xl border flex items-center justify-center text-sm font-mono font-bold transition-colors ${
+                          multiRegion ? "bg-teal/20 border-teal text-teal" : "bg-white/10 border-white/20 text-white"
+                        }`}>
+                          DB
+                        </div>
+                        <span className="text-[10px] font-mono text-white/50 mt-1 text-center">Distributed DB</span>
                       </div>
-                      <span className="text-[10px] font-mono text-white/50 mt-1">Distributed DB</span>
                     </div>
-
                   </div>
 
                   <div className="mt-3 pt-3 border-t border-white/10 flex items-center justify-between text-[11px] font-mono text-white/50">

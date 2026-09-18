@@ -3,15 +3,17 @@ import Reveal from "@/components/Reveal";
 import AmbientBackground from "@/components/AmbientBackground";
 import ContactForm from "@/components/ContactForm";
 
+import { STUDIO_INFO } from "@/lib/data";
+
 export const metadata: Metadata = {
   title: "Contact — NATLE",
   description: "Get in touch with the NATLE team.",
 };
 
 const CONTACT_DETAILS = [
-  { label: "Email", value: "info@natle.dev" },
-  { label: "Phone", value: "+94 70 465 9847 / +94 11 250 7601" },
-  { label: "Studio", value: "No. 283 1/1, Ruwan Mawatha, Thimbirigasyaya Road, Colombo 05, Sri Lanka" },
+  { label: "Email", value: STUDIO_INFO.email },
+  { label: "Phone", value: `${STUDIO_INFO.phonePrimary} / ${STUDIO_INFO.phoneSecondary}` },
+  { label: "Studio", value: STUDIO_INFO.address },
 ];
 
 export default function ContactPage() {

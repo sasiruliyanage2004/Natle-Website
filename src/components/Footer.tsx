@@ -8,6 +8,7 @@ import Link from "next/link";
 import Magnetic from "./Magnetic";
 import NatleLogo from "./NatleLogo";
 import { FOOTER_SERVICES, FOOTER_COMPANY } from "@/lib/nav";
+import { STUDIO_INFO } from "@/lib/data";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
@@ -214,31 +215,31 @@ export default function Footer() {
                   <p className="flex items-center gap-2">
                     <span className="text-azure font-bold">✉</span>
                     <a
-                      href="mailto:info@natle.dev"
+                      href={`mailto:${STUDIO_INFO.email}`}
                       className="hover:text-azure dark:hover:text-cyan-400 transition-colors font-medium"
                     >
-                      info@natle.dev
+                      {STUDIO_INFO.email}
                     </a>
                   </p>
                   <p className="flex items-center gap-2">
                     <span className="text-teal font-bold">☎</span>
                     <a
-                      href="tel:+94112507601"
+                      href={`tel:${STUDIO_INFO.phonePrimary.replace(/\s+/g, "")}`}
                       className="hover:text-teal dark:hover:text-cyan-400 transition-colors"
                     >
-                      +94 11 250 7601
+                      {STUDIO_INFO.phonePrimary}
                     </a>
                     <span className="text-slate-400 dark:text-slate-600">•</span>
                     <a
-                      href="tel:+94704659847"
+                      href={`tel:${STUDIO_INFO.phoneSecondary.replace(/\s+/g, "")}`}
                       className="hover:text-teal dark:hover:text-cyan-400 transition-colors"
                     >
-                      +94 70 465 9847
+                      {STUDIO_INFO.phoneSecondary}
                     </a>
                   </p>
                   <p className="flex items-start gap-2 text-slate-600 dark:text-slate-400 text-[11px]">
                     <span className="text-lime font-bold">📍</span>
-                    <span>No. 283 1/1, Ruwan Mawatha, Colombo 05, Sri Lanka</span>
+                    <span>{STUDIO_INFO.address}</span>
                   </p>
                 </div>
 

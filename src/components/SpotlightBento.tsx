@@ -209,7 +209,7 @@ export default function SpotlightBento() {
                 <div className="rounded-2xl border border-ink/5 dark:border-white/10 bg-mist/80 dark:bg-white/[0.04] p-5 font-mono text-xs space-y-2.5">
                   <div className="flex items-center justify-between text-ink/50 dark:text-white/50 pb-2 border-b border-ink/5 dark:border-white/10">
                     <span>ACTIVE REGIONS</span>
-                    <span className="text-emerald-600 dark:text-emerald-400 font-semibold">99.999% SLA</span>
+                    <span className="text-emerald-600 dark:text-emerald-400 font-semibold">99.99% SLA</span>
                   </div>
                   {[
                     { name: "US-East (N. Virginia)", ping: "12ms" },

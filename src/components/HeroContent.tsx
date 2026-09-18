@@ -88,8 +88,8 @@ export default function HeroContent() {
 
       <div className="mt-12 flex flex-wrap gap-x-12 gap-y-6">
         <div data-hero="stat">
-          <div className="font-display text-3xl text-ink">120+</div>
-          <div className="text-sm text-ink/50 mt-1">Products shipped</div>
+          <div className="font-display text-3xl text-ink">50+</div>
+          <div className="text-sm text-ink/50 mt-1">Global clients</div>
         </div>
         <div data-hero="stat">
           <div className="font-display text-3xl text-ink">40+</div>

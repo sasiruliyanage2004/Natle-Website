@@ -138,9 +138,9 @@ export default function Home() {
                 </div>
                 <div>
                   <div className="font-display text-3xl">
-                    <Counter to={99.9} decimals={1} suffix="%" />
+                    <Counter to={99.99} decimals={2} suffix="%" />
                   </div>
-                  <div className="text-white/50 text-sm mt-1">Platform uptime</div>
+                  <div className="text-white/50 text-sm mt-1">Platform uptime SLA</div>
                 </div>
                 <div>
                   <div className="font-display text-3xl">
@@ -156,8 +156,8 @@ export default function Home() {
                 </div>
               </div>
               <div className="mt-8 pt-8 border-t border-white/10 flex flex-wrap gap-2">
-                {["ISO 27001", "SOC 2", "GDPR ready"].map((b) => (
-                  <span key={b} className="text-xs px-3 py-1.5 rounded-full bg-white/10 text-white/70">
+                {["Zero Tech Debt", "Senior Squads Only", "Daily Production Deploys", "Direct Slack Access"].map((b) => (
+                  <span key={b} className="text-xs px-3 py-1.5 rounded-full bg-white/10 text-white/80 font-mono">
                     {b}
                   </span>
                 ))}
@@ -233,14 +233,8 @@ export default function Home() {
                   tag={post.category.toUpperCase()}
                   title={post.title}
                   description={post.excerpt}
-                  image={
-                    i === 0
-                      ? "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=800&auto=format&fit=crop"
-                      : i === 1
-                      ? "https://images.unsplash.com/photo-1634017839464-5c339ebe3cb4?q=80&w=800&auto=format&fit=crop"
-                      : "https://images.unsplash.com/photo-1618005198919-d3d4b5a92ead?q=80&w=800&auto=format&fit=crop"
-                  }
-                  authorName={i === 0 ? "Ishan Perera" : i === 1 ? "Sarah Chen" : "Devon Vance"}
+                  image={post.image}
+                  authorName={post.author}
                   metaText={post.readTime}
                 />
               </Reveal>

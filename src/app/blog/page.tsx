@@ -8,14 +8,6 @@ export const metadata: Metadata = {
   description: "Notes on engineering, design, and building software from the NATLE team.",
 };
 
-const BLOG_IMAGES = [
-  "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=800&auto=format&fit=crop",
-  "https://images.unsplash.com/photo-1634017839464-5c339ebe3cb4?q=80&w=800&auto=format&fit=crop",
-  "https://images.unsplash.com/photo-1618005198919-d3d4b5a92ead?q=80&w=800&auto=format&fit=crop",
-];
-
-const BLOG_AUTHORS = ["Ishan Perera", "Sarah Chen", "Devon Vance"];
-
 export default function BlogPage() {
   return (
     <>
@@ -45,8 +37,8 @@ export default function BlogPage() {
                 tag={post.category.toUpperCase()}
                 title={post.title}
                 description={post.excerpt}
-                image={BLOG_IMAGES[i % BLOG_IMAGES.length]}
-                authorName={BLOG_AUTHORS[i % BLOG_AUTHORS.length]}
+                image={post.image}
+                authorName={post.author}
                 metaText={post.readTime}
               />
             </Reveal>

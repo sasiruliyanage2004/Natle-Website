@@ -117,6 +117,9 @@ export const BLOG_POSTS = [
     excerpt:
       "The pipeline, feature flags, and rollback habits that let small teams ship daily without breaking production.",
     readTime: "7 min read",
+    author: "Ishan Perera",
+    image:
+      "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=800&auto=format&fit=crop",
   },
   {
     slug: "design-engineering-handoff",
@@ -125,6 +128,9 @@ export const BLOG_POSTS = [
     excerpt:
       "Why we stopped treating design and engineering as separate stages, and started building both at once.",
     readTime: "5 min read",
+    author: "Sarah Chen",
+    image:
+      "https://images.unsplash.com/photo-1634017839464-5c339ebe3cb4?q=80&w=800&auto=format&fit=crop",
   },
   {
     slug: "data-before-ai",
@@ -133,6 +139,9 @@ export const BLOG_POSTS = [
     excerpt:
       "Most 'AI problems' we get called in for are actually data pipeline problems wearing a trench coat.",
     readTime: "6 min read",
+    author: "Devon Vance",
+    image:
+      "https://images.unsplash.com/photo-1618005198919-d3d4b5a92ead?q=80&w=800&auto=format&fit=crop",
   },
 ];
 
@@ -164,3 +173,10 @@ export const BENEFITS = [
   { title: "Health cover", detail: "Comprehensive health insurance for you and your family." },
   { title: "Remote friendly", detail: "Work from our Colombo studio, home, or a mix of both." },
 ];
+
+export const STUDIO_INFO = {
+  address: "No. 283 1/1, Ruwan Mawatha, Colombo 05, Sri Lanka",
+  email: "info@natle.dev",
+  phonePrimary: "+94 11 250 7601",
+  phoneSecondary: "+94 70 465 9847",
+};
