@@ -98,11 +98,11 @@ export default function RootLayout({
         <ScrollProgress />
         <SmoothScroll>
           <Navbar />
-          <main id="main-content" tabIndex={-1} className="flex-1 flex flex-col pt-[76px] outline-none relative z-10 bg-paper dark:bg-[#07090E] shadow-2xl">
+          <main id="main-content" tabIndex={-1} className="flex-1 flex flex-col pt-[76px] outline-none relative z-10 bg-paper dark:bg-[#07090E]">
             {children}
           </main>
+          <Footer />
         </SmoothScroll>
-        <Footer />
       </body>
     </html>
   );
