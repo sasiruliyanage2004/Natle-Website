@@ -1,5 +1,4 @@
 import Link from "next/link";
-import Hero3D from "@/components/Hero3D";
 import HeroContent from "@/components/HeroContent";
 import TechMarquee from "@/components/TechMarquee";
 import Counter from "@/components/Counter";
@@ -13,6 +12,7 @@ import Testimonials from "@/components/Testimonials";
 import ScrollBackground from "@/components/ScrollBackground";
 import Card3DTilt from "@/components/Card3DTilt";
 import NetworkGlobe3D from "@/components/NetworkGlobe3D";
+import { Tiles } from "@/components/ui/tiles";
 import { PROJECTS, BLOG_POSTS } from "@/lib/data";
 
 const WHY_US = [
@@ -42,9 +42,16 @@ export default function Home() {
 
       {/* Hero */}
       <section className="relative min-h-[100dvh] flex items-center pt-24 pb-16 lg:pt-28 lg:pb-24 overflow-hidden hero-aurora-bg">
-        <Hero3D />
-        <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-transparent" />
-        <div className="container-content relative w-full">
+        <div className="absolute inset-0 z-0">
+          <Tiles 
+            rows={50} 
+            cols={30}
+            tileSize="md"
+            className="opacity-40 mix-blend-multiply dark:mix-blend-screen dark:opacity-20"
+          />
+        </div>
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-transparent z-0" />
+        <div className="container-content relative z-10 w-full pointer-events-none">
           <HeroContent />
         </div>
       </section>
