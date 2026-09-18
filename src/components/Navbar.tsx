@@ -121,7 +121,7 @@ export default function Navbar() {
             <Link
               href="/contact"
               prefetch={true}
-              className="inline-flex items-center justify-center gap-1.5 rounded-full bg-slate-950 text-white px-5 py-2.5 text-[14px] font-semibold hover:bg-slate-800 dark:bg-white dark:text-slate-950 dark:hover:bg-slate-200 transition-colors shadow-sm ml-1"
+              className="inline-flex items-center justify-center whitespace-nowrap gap-1.5 rounded-full bg-slate-950 text-white px-5 py-2.5 text-[14px] font-semibold hover:bg-slate-800 dark:bg-white dark:text-slate-950 dark:hover:bg-slate-200 transition-colors shadow-sm ml-1"
             >
               Start a project ↗
             </Link>
@@ -165,7 +165,7 @@ export default function Navbar() {
           <Link
             href="/contact"
             prefetch={true}
-            className="mt-6 inline-flex items-center justify-center rounded-full bg-slate-950 text-white px-5 py-3.5 text-[15px] font-semibold hover:bg-slate-800 dark:bg-white dark:text-slate-950 dark:hover:bg-slate-200 transition-colors shadow-sm"
+            className="mt-6 inline-flex items-center justify-center whitespace-nowrap rounded-full bg-slate-950 text-white px-5 py-3.5 text-[15px] font-semibold hover:bg-slate-800 dark:bg-white dark:text-slate-950 dark:hover:bg-slate-200 transition-colors shadow-sm"
           >
             Start a project ↗
           </Link>
