@@ -9,7 +9,6 @@ import { usePathname } from "next/navigation";
 import Magnetic from "./Magnetic";
 import NatleLogo from "./NatleLogo";
 import { FOOTER_SERVICES, FOOTER_COMPANY } from "@/lib/nav";
-import { STUDIO_INFO } from "@/lib/data";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
@@ -27,6 +26,7 @@ const MarqueeItem = () => (
 
 export default function Footer() {
   const pathname = usePathname();
+  const wrapperRef = useRef<HTMLDivElement>(null);
   const footerRef = useRef<HTMLElement>(null);
   const giantTextRef = useRef<HTMLDivElement>(null);
   const directoryRef = useRef<HTMLDivElement>(null);
@@ -37,7 +37,7 @@ export default function Footer() {
 
   // GSAP Parallax Scroll Animations with Route-Aware Lifecycle
   useEffect(() => {
-    if (typeof window === "undefined" || !footerRef.current) return;
+    if (typeof window === "undefined" || !wrapperRef.current) return;
 
     // Small delay to let the DOM settle on page navigation
     const refreshTimer = setTimeout(() => {
@@ -56,7 +56,7 @@ export default function Footer() {
               scale: 1,
               ease: "power2.out",
               scrollTrigger: {
-                trigger: footerRef.current,
+                trigger: wrapperRef.current,
                 start: "top 95%",
                 end: "bottom bottom",
                 scrub: 1.2,
@@ -74,7 +74,7 @@ export default function Footer() {
               y: 0,
               ease: "power3.out",
               scrollTrigger: {
-                trigger: footerRef.current,
+                trigger: wrapperRef.current,
                 start: "top 95%",
                 end: "bottom bottom",
                 scrub: 1,
@@ -92,7 +92,7 @@ export default function Footer() {
               y: 0,
               ease: "power2.out",
               scrollTrigger: {
-                trigger: footerRef.current,
+                trigger: wrapperRef.current,
                 start: "top 95%",
                 end: "bottom bottom",
                 scrub: 1,
@@ -101,7 +101,7 @@ export default function Footer() {
           );
         }
       }
-    }, footerRef);
+    }, wrapperRef);
 
     return () => {
       clearTimeout(refreshTimer);
@@ -124,11 +124,16 @@ export default function Footer() {
   };
 
   return (
-    <footer
-      ref={footerRef}
-      className="relative flex min-h-screen lg:h-screen w-full flex-col justify-between overflow-hidden bg-[#FCFDFE] dark:bg-[#07090E] text-slate-900 dark:text-white transition-colors duration-500 z-0"
+    <div
+      ref={wrapperRef}
+      className="relative min-h-screen lg:h-screen w-full"
+      style={{ clipPath: "polygon(0% 0, 100% 0%, 100% 100%, 0 100%)" }}
     >
-      {/* ───────────────────────────────────────────────────────────────── */}
+      <footer
+        ref={footerRef}
+        className="relative lg:fixed bottom-0 left-0 flex min-h-screen lg:h-screen w-full flex-col justify-between overflow-hidden bg-[#FCFDFE] dark:bg-[#07090E] text-slate-900 dark:text-white transition-colors duration-500"
+      >
+        {/* ───────────────────────────────────────────────────────────────── */}
         {/* 1. PANORAMIC ARTWORK MURAL (Subtle, Soft & Shifted Lower Down)    */}
         {/*    Misty Mountains, Bonsai Pines, Flying Cranes                   */}
         {/* ───────────────────────────────────────────────────────────────── */}
@@ -196,7 +201,7 @@ export default function Footer() {
         {/* ───────────────────────────────────────────────────────────────── */}
         <div
           ref={directoryRef}
-          className="relative z-10 w-full max-w-7xl mx-auto px-6 pt-20 sm:pt-24 lg:pt-24 pb-2"
+          className="relative z-10 w-full max-w-7xl mx-auto px-6 pt-24 sm:pt-28 lg:pt-32 pb-2"
         >
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8 lg:gap-8 items-start pb-6 border-b border-slate-900/[0.08] dark:border-white/[0.10]">
             
@@ -217,31 +222,31 @@ export default function Footer() {
                   <p className="flex items-center gap-2">
                     <span className="text-azure font-bold">✉</span>
                     <a
-                      href={`mailto:${STUDIO_INFO.email}`}
+                      href="mailto:info@natle.dev"
                       className="hover:text-azure dark:hover:text-cyan-400 transition-colors font-medium"
                     >
-                      {STUDIO_INFO.email}
+                      info@natle.dev
                     </a>
                   </p>
                   <p className="flex items-center gap-2">
                     <span className="text-teal font-bold">☎</span>
                     <a
-                      href={`tel:${STUDIO_INFO.phonePrimary.replace(/\s+/g, "")}`}
+                      href="tel:+94112507601"
                       className="hover:text-teal dark:hover:text-cyan-400 transition-colors"
                     >
-                      {STUDIO_INFO.phonePrimary}
+                      +94 11 250 7601
                     </a>
                     <span className="text-slate-400 dark:text-slate-600">•</span>
                     <a
-                      href={`tel:${STUDIO_INFO.phoneSecondary.replace(/\s+/g, "")}`}
+                      href="tel:+94704659847"
                       className="hover:text-teal dark:hover:text-cyan-400 transition-colors"
                     >
-                      {STUDIO_INFO.phoneSecondary}
+                      +94 70 465 9847
                     </a>
                   </p>
                   <p className="flex items-start gap-2 text-slate-600 dark:text-slate-400 text-[11px]">
                     <span className="text-lime font-bold">📍</span>
-                    <span>{STUDIO_INFO.address}</span>
+                    <span>No. 283 1/1, Ruwan Mawatha, Colombo 05, Sri Lanka</span>
                   </p>
                 </div>
 
@@ -399,5 +404,6 @@ export default function Footer() {
           </Magnetic>
         </div>
       </footer>
+    </div>
   );
 }
