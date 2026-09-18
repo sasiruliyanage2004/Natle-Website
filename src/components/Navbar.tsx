@@ -8,6 +8,31 @@ import NatleLogo from "./NatleLogo";
 import Magnetic from "./Magnetic";
 import ThemeToggle from "./ThemeToggle";
 
+import {
+  Home,
+  Info,
+  Layers,
+  Box,
+  FolderGit2,
+  Newspaper,
+  Users,
+  MessageSquare
+} from "lucide-react";
+
+const getIconForPath = (path: string) => {
+  switch (path) {
+    case "/": return Home;
+    case "/about": return Info;
+    case "/services": return Layers;
+    case "/products": return Box;
+    case "/projects": return FolderGit2;
+    case "/blog": return Newspaper;
+    case "/careers": return Users;
+    case "/contact": return MessageSquare;
+    default: return Box;
+  }
+};
+
 export default function Navbar() {
   const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
@@ -50,32 +75,41 @@ export default function Navbar() {
       }`}
     >
       <div
-        className={`flex items-center justify-between h-[64px] rounded-full px-2.5 transition-all duration-300 shadow-2xl backdrop-blur-2xl border ${
+        className={`flex items-center justify-between h-[60px] rounded-full px-2.5 transition-all duration-300 shadow-2xl backdrop-blur-2xl border ${
           scrolled
             ? "bg-white/90 dark:bg-[#0B0D14]/90 border-slate-900/10 dark:border-white/10"
             : "bg-white/60 dark:bg-[#0B0D14]/60 border-slate-900/5 dark:border-white/5"
         }`}
       >
         <Link href="/" data-anchor="nav-logo" className="flex items-center gap-2 shrink-0 transition-all duration-300 pl-3 pr-6" aria-label="NATLE home">
-          <NatleLogo className="h-6 w-auto" showTagline={false} />
+          <NatleLogo className="h-5 w-auto" showTagline={false} />
         </Link>
 
-        {/* Navigation Links inside the Pill */}
-        <nav className="hidden lg:flex items-center gap-2 px-4 border-l border-slate-900/10 dark:border-white/10">
+        {/* Navigation Links inside the Pill (Expanding Icons) */}
+        <nav className="hidden lg:flex items-center gap-1.5 px-4 border-l border-slate-900/10 dark:border-white/10">
           {NAV_LINKS.map((item) => {
             const active = pathname === item.href;
+            const Icon = getIconForPath(item.href);
             return (
               <Link
                 key={item.href}
                 href={item.href}
                 prefetch={true}
-                className={`relative px-4 py-1.5 text-[14px] font-medium rounded-full transition-all duration-200 ${
+                className={`relative flex items-center justify-center h-[36px] rounded-full transition-all duration-500 ease-[cubic-bezier(0.23,1,0.32,1)] ${
                   active
-                    ? "text-ink dark:text-white bg-slate-900/5 dark:bg-white/[0.08]"
-                    : "text-ink/60 dark:text-slate-400 hover:text-ink dark:hover:text-white hover:bg-slate-900/5 dark:hover:bg-white/[0.04]"
+                    ? "px-4 text-ink dark:text-white bg-slate-900/5 dark:bg-white/[0.08]"
+                    : "w-[36px] px-0 text-ink/60 dark:text-slate-400 hover:text-ink dark:hover:text-white hover:bg-slate-900/5 dark:hover:bg-white/[0.04]"
                 }`}
+                title={!active ? item.label : undefined}
               >
-                {item.label}
+                <Icon className="w-4 h-4 shrink-0 transition-transform duration-500" strokeWidth={active ? 2.5 : 2} />
+                <div
+                  className={`overflow-hidden transition-all duration-500 ease-[cubic-bezier(0.23,1,0.32,1)] flex items-center ${
+                    active ? "max-w-[120px] opacity-100 ml-2" : "max-w-0 opacity-0 ml-0"
+                  }`}
+                >
+                  <span className="whitespace-nowrap text-[13px] font-semibold">{item.label}</span>
+                </div>
               </Link>
             );
           })}
