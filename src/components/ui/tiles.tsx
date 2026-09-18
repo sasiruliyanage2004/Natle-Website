@@ -77,7 +77,7 @@ export function Tiles({
     <div 
       ref={containerRef}
       className={cn(
-        "relative flex flex-wrap justify-start items-start overflow-hidden",
+        "relative flex flex-wrap justify-start items-start overflow-hidden pointer-events-none",
         className
       )}
       style={{ width: `${cols * 64}px` }}

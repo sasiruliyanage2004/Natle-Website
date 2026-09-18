@@ -1,4 +1,4 @@
-﻿import Link from "next/link";
+import Link from "next/link";
 import Hero3D from "@/components/Hero3D";
 import HeroContent from "@/components/HeroContent";
 import TechMarquee from "@/components/TechMarquee";
@@ -52,7 +52,7 @@ export default function Home() {
 
       {/* --- SHARED BACKGROUND WRAPPER --- */}
       <div className="relative w-full overflow-x-clip overflow-y-visible">
-        <div className="absolute inset-0 z-[-1] opacity-50 dark:opacity-40" style={{ maskImage: "linear-gradient(to bottom, transparent, black 2%, black 98%, transparent)", WebkitMaskImage: "linear-gradient(to bottom, transparent, black 2%, black 98%, transparent)" }}>
+        <div className="absolute inset-0 z-0 opacity-50 dark:opacity-40" style={{ maskImage: "linear-gradient(to bottom, transparent, black 2%, black 98%, transparent)", WebkitMaskImage: "linear-gradient(to bottom, transparent, black 2%, black 98%, transparent)" }}>
           <Tiles rows={150} cols={40} tileSize="lg" />
         </div>
 
