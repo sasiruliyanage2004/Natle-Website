@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
@@ -66,7 +66,7 @@ export default function HeroContent() {
       </h1>
       <p data-hero="sub" className="mt-5 text-base sm:text-lg text-ink/65 dark:text-white/70 max-w-xl leading-relaxed">
         NATLE partners with founders and enterprise teams to design, build, and
-        scale software that actually moves the business — from first prototype
+        scale software that actually moves the business â€” from first prototype
         to production at scale.
       </p>
 

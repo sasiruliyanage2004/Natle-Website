@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -78,8 +78,8 @@ export default function Navbar() {
       <div
         className={`flex items-center justify-between h-[60px] lg:h-[72px] rounded-full px-2.5 lg:px-3.5 transition-all duration-300 shadow-2xl backdrop-blur-2xl border ${
           scrolled
-            ? "bg-white/90 dark:bg-[#0B0D14]/90 border-slate-900/10 dark:border-white/10"
-            : "bg-white/60 dark:bg-[#0B0D14]/60 border-slate-900/5 dark:border-white/5"
+            ? "bg-white/70 dark:bg-black/60 border-slate-900/10 dark:border-white/10"
+            : "bg-white/40 dark:bg-black/30 border-slate-900/5 dark:border-white/5"
         }`}
       >
         <Link href="/" data-anchor="nav-logo" className="flex items-center gap-2 shrink-0 transition-all duration-300 pl-3 pr-6 lg:pl-4 lg:pr-8" aria-label="NATLE home">

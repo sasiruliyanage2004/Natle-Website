@@ -16,13 +16,13 @@
 }
 
 .dark {
-  --background: 226 29% 5%;
+  --background: 0 0% 0%;
   --foreground: 210 40% 98%;
   --ink: 248 250 252;
   --ink-soft: 226 232 240;
-  --paper: 7 9 14;
+  --paper: 0 0 0;
   --mist: 13 17 24;
-  --card: 13 17 24;
+  --card: 3 3 5;
   --border: 255 255 255;
   --tile: rgba(0, 210, 255, 0.15);
 }
