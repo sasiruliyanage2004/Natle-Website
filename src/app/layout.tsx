@@ -1,8 +1,9 @@
-import type { Metadata, Viewport } from "next";
+﻿import type { Metadata, Viewport } from "next";
 import { display, body } from "./fonts";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import NoiseOverlay from "@/components/NoiseOverlay";
 import SmoothScroll from "@/components/SmoothScroll";
 import Preloader from "@/components/Preloader";
 import { Tiles } from "@/components/ui/tiles";
@@ -94,6 +95,7 @@ export default function RootLayout({
         >
           Skip to main content
         </a>
+        <NoiseOverlay />
         <SmoothCursor />
         <Preloader />
         <ScrollProgress />
