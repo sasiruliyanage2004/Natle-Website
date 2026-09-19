@@ -4,7 +4,7 @@ import HeroContent from "@/components/HeroContent";
 import TechMarquee from "@/components/TechMarquee";
 import Counter from "@/components/Counter";
 import Reveal from "@/components/Reveal";
-import Magnetic from "@/components/Magnetic";
+
 import CutoutCard from "@/components/CutoutCard";
 import SpotlightBento from "@/components/SpotlightBento";
 import ArchitecturePipeline from "@/components/ArchitecturePipeline";
@@ -15,6 +15,8 @@ import Card3DTilt from "@/components/Card3DTilt";
 import NetworkGlobe3D from "@/components/NetworkGlobe3D";
 import { Tiles } from "@/components/ui/tiles";
 import { PROJECTS, BLOG_POSTS } from "@/lib/data";
+import GiantMarquee from "@/components/GiantMarquee";
+import Magnetic from "@/components/Magnetic";
 
 const WHY_US = [
   {
@@ -250,6 +252,8 @@ export default function Home() {
       {/* Client Testimonials Carousel */}
       <Testimonials />
 
+
+      <GiantMarquee />
 
       {/* CTA */}
       <section className="pt-24 pb-12 bg-transparent relative z-10">

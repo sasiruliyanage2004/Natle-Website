@@ -4,6 +4,7 @@ import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import Link from "next/link";
 import SparkleButton from "./SparkleButton";
+import Magnetic from "./Magnetic";
 
 export default function HeroContent() {
   const rootRef = useRef<HTMLDivElement>(null);
@@ -72,17 +73,17 @@ export default function HeroContent() {
 
       <div className="mt-7 flex flex-wrap items-center gap-4">
         <div data-hero="cta" className="pointer-events-auto">
-          <SparkleButton href="/contact">
+          <Magnetic><SparkleButton href="/contact">
             Start a project
-          </SparkleButton>
+          </SparkleButton></Magnetic>
         </div>
-        <Link
+        <Magnetic><Link
           data-hero="cta"
           href="/projects"
           className="pointer-events-auto inline-flex items-center justify-center rounded-full border border-slate-300 dark:border-white/25 bg-white/80 dark:bg-white/[0.08] text-slate-900 dark:text-white px-7 py-3.5 text-[15px] font-semibold hover:border-slate-400 dark:hover:border-white/40 hover:bg-slate-100 dark:hover:bg-white/[0.14] backdrop-blur-md hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 shadow-sm"
         >
           See our work
-        </Link>
+        </Link></Magnetic>
       </div>
 
       <div className="mt-12 flex flex-wrap gap-x-12 gap-y-6">
