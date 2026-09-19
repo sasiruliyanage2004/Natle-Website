@@ -1,7 +1,8 @@
-"use client";
+﻿"use client";
 
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { Turnstile } from '@marsidev/react-turnstile';
 
 const inputClass =
   "w-full rounded-xl border border-ink/15 dark:border-white/15 bg-white dark:bg-[#121620] px-4 py-3 text-ink dark:text-white placeholder:text-ink/35 dark:placeholder:text-white/30 outline-none transition-all focus:border-azure focus:ring-4 focus:ring-azure/10";
@@ -16,6 +17,7 @@ export default function ContactForm() {
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [captchaToken, setCaptchaToken] = useState<string | null>(null);
   const [isSuccess, setIsSuccess] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
@@ -31,6 +33,11 @@ export default function ContactForm() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (!captchaToken) {
+      setErrorMessage("Please verify that you are human.");
+      return;
+    }
 
     if (!formData.name.trim() || !formData.email.trim() || !formData.message.trim()) {
       setErrorMessage("Please complete all required fields (Name, Email, Message).");
@@ -176,8 +183,8 @@ export default function ContactForm() {
               >
                 <option value="">Select a range</option>
                 <option value="under-10k">Under $10,000</option>
-                <option value="10k-50k">$10,000 – $50,000</option>
-                <option value="50k-150k">$50,000 – $150,000</option>
+                <option value="10k-50k">$10,000 â€“ $50,000</option>
+                <option value="50k-150k">$50,000 â€“ $150,000</option>
                 <option value="150k-plus">$150,000+</option>
               </select>
             </div>
@@ -195,6 +202,15 @@ export default function ContactForm() {
                 value={formData.message}
                 onChange={handleChange}
                 className={`${inputClass} resize-none`}
+              />
+            </div>
+
+            <div className="pt-2">
+              <Turnstile 
+                siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || '1x00000000000000000000AA'}
+                onSuccess={(token) => setCaptchaToken(token)}
+                onError={() => setErrorMessage("Captcha failed. Please try again.")}
+                options={{ theme: 'auto' }}
               />
             </div>
 
