@@ -1,4 +1,4 @@
-﻿import type { Metadata, Viewport } from "next";
+import type { Metadata, Viewport } from "next";
 import { display, body } from "./fonts";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
@@ -6,7 +6,7 @@ import Footer from "@/components/Footer";
 import NoiseOverlay from "@/components/NoiseOverlay";
 import SmoothScroll from "@/components/SmoothScroll";
 import Preloader from "@/components/Preloader";
-import { Tiles } from "@/components/ui/tiles";
+import { cn } from "@/lib/utils";
 import ScrollProgress from "@/components/ScrollProgress";
 import SmoothCursor from "@/components/SmoothCursor";
 
@@ -99,11 +99,6 @@ export default function RootLayout({
         <SmoothCursor />
         <Preloader />
         <ScrollProgress />
-
-        {/* Global Fixed Tiles Background */}
-        <div className="fixed inset-0 z-0 pointer-events-none opacity-80" style={{ maskImage: "linear-gradient(to bottom, transparent, black 15%, black 100%)", WebkitMaskImage: "linear-gradient(to bottom, transparent, black 15%, black 100%)" }}>
-          <Tiles rows={20} cols={40} tileSize="lg" />
-        </div>
 
         <SmoothScroll>
           <Navbar />

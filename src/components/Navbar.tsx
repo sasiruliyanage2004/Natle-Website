@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -7,7 +7,6 @@ import { NAV_LINKS } from "@/lib/nav";
 import NatleLogo from "./NatleLogo";
 import Magnetic from "./Magnetic";
 import ThemeToggle from "./ThemeToggle";
-import SparkleButton from "./SparkleButton";
 
 import {
   Home,
@@ -118,11 +117,11 @@ export default function Navbar() {
 
         <div className="hidden lg:flex items-center gap-2 lg:gap-3 pl-4 lg:pl-6 border-l border-slate-900/10 dark:border-white/10">
           <ThemeToggle />
-          <Magnetic>
-            <SparkleButton href="/contact" className="ml-1 lg:ml-2">
-              Start a project
-            </SparkleButton>
-          </Magnetic>
+            <Magnetic>
+              <Link href="/contact" className="ml-1 lg:ml-2 inline-flex items-center justify-center rounded-full bg-ink dark:bg-white text-white dark:text-black px-6 py-2.5 text-sm font-bold hover:scale-[1.03] active:scale-[0.97] transition-all shadow-[0_4px_14px_0_rgba(255,255,255,0.1)]">
+                Start a project
+              </Link>
+            </Magnetic>
         </div>
 
         <div className="lg:hidden flex items-center gap-1 pl-4">
@@ -159,9 +158,9 @@ export default function Navbar() {
               {item.label}
             </Link>
           ))}
-          <SparkleButton href="/contact" className="mt-6 w-full justify-center">
+          <Link href="/contact" className="mt-6 w-full inline-flex items-center justify-center rounded-full bg-ink dark:bg-white text-white dark:text-black px-6 py-3.5 text-sm font-bold shadow-lg">
             Start a project
-          </SparkleButton>
+          </Link>
         </nav>
       </div>
     </header>

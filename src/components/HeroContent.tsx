@@ -1,9 +1,8 @@
-﻿"use client";
+"use client";
 
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import Link from "next/link";
-import SparkleButton from "./SparkleButton";
 import Magnetic from "./Magnetic";
 
 export default function HeroContent() {
@@ -73,9 +72,11 @@ export default function HeroContent() {
 
       <div className="mt-7 flex flex-wrap items-center gap-4">
         <div data-hero="cta" className="pointer-events-auto">
-          <Magnetic><SparkleButton href="/contact">
-            Start a project
-          </SparkleButton></Magnetic>
+          <Magnetic>
+            <Link href="/contact" className="pointer-events-auto inline-flex items-center justify-center rounded-full bg-white text-black px-8 py-4 text-[15px] font-bold shadow-[0_0_40px_-10px_rgba(255,255,255,0.3)] hover:scale-[1.02] active:scale-[0.98] transition-all duration-300">
+              Start a project
+            </Link>
+          </Magnetic>
         </div>
         <Magnetic><Link
           data-hero="cta"
