@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
@@ -56,7 +56,7 @@ export default function HeroContent() {
       >
         Software engineering studio
       </p>
-      <h1 className="font-display text-[13vw] leading-[0.98] sm:text-6xl md:text-7xl lg:text-[5.2rem] font-medium text-ink max-w-4xl">
+      <h1 className="font-display text-[15vw] leading-[0.95] md:text-7xl lg:text-[8rem] font-bold text-ink max-w-5xl tracking-tighter">
         <span data-hero="line" className="block overflow-hidden">
           Ideas, engineered
         </span>
@@ -66,7 +66,7 @@ export default function HeroContent() {
       </h1>
       <p data-hero="sub" className="mt-5 text-base sm:text-lg text-ink/65 dark:text-white/70 max-w-xl leading-relaxed">
         NATLE partners with founders and enterprise teams to design, build, and
-        scale software that actually moves the business â€” from first prototype
+        scale software that actually moves the business Ã¢â‚¬â€ from first prototype
         to production at scale.
       </p>
 
