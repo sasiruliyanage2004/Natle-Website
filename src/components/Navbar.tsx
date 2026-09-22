@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -6,163 +6,126 @@ import { useEffect, useState } from "react";
 import { NAV_LINKS } from "@/lib/nav";
 import NatleLogo from "./NatleLogo";
 import Magnetic from "./Magnetic";
-import ThemeToggle from "./ThemeToggle";
-
-import {
-  Home,
-  Info,
-  Layers,
-  Box,
-  FolderGit2,
-  Newspaper,
-  Users,
-  MessageSquare
-} from "lucide-react";
-
-const getIconForPath = (path: string) => {
-  switch (path) {
-    case "/": return Home;
-    case "/about": return Info;
-    case "/services": return Layers;
-    case "/products": return Box;
-    case "/projects": return FolderGit2;
-    case "/blog": return Newspaper;
-    case "/careers": return Users;
-    case "/contact": return MessageSquare;
-    default: return Box;
-  }
-};
+import { Menu, X } from "lucide-react";
 
 export default function Navbar() {
   const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
-  const [visible, setVisible] = useState(true);
-  const [open, setOpen] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   useEffect(() => {
-    let lastY = window.scrollY;
-    const onScroll = () => {
-      const currentY = window.scrollY;
-      setScrolled(currentY > 12);
-
-      const windowHeight = window.innerHeight;
-      const docHeight = document.documentElement.scrollHeight;
-      const isNearBottom = currentY + windowHeight >= docHeight - 150;
-
-      if (isNearBottom) {
-        setVisible(false);
-      } else if (currentY > lastY && currentY > 120) {
-        setVisible(false);
-      } else {
-        setVisible(true);
-      }
-      lastY = currentY;
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 20);
     };
-
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  useEffect(() => {
-    setOpen(false);
-  }, [pathname]);
+  // Filter links for the main desktop nav (we don't need Home/Contact in the center usually)
+  const desktopLinks = NAV_LINKS.filter(
+    (link) => link.href !== "/" && link.href !== "/contact"
+  );
 
   return (
-    <header
-      className={`fixed top-4 left-4 right-4 lg:left-1/2 lg:right-auto lg:-translate-x-1/2 lg:top-6 z-50 transition-all duration-300 ${
-        visible ? "translate-y-0 opacity-100" : "-translate-y-[150%] opacity-0 pointer-events-none"
-      }`}
-    >
-      <div
-        className={`flex items-center justify-between h-[60px] lg:h-[72px] rounded-full px-2.5 lg:px-3.5 transition-all duration-300 shadow-2xl backdrop-blur-2xl border ${
+    <>
+      <header
+        className={`fixed top-0 left-0 w-full z-[100] transition-all duration-300 ${
           scrolled
-            ? "bg-white/70 dark:bg-black/60 border-slate-900/10 dark:border-white/10"
-            : "bg-white/40 dark:bg-black/30 border-slate-900/5 dark:border-white/5"
+            ? "bg-black/60 backdrop-blur-xl border-b border-white/5 py-4"
+            : "bg-transparent py-6"
         }`}
       >
-        <Link href="/" data-anchor="nav-logo" className="flex items-center gap-2 shrink-0 transition-all duration-300 pl-3 pr-6 lg:pl-4 lg:pr-8" aria-label="NATLE home">
-          <NatleLogo className="h-5 lg:h-6 w-auto transition-all duration-300" showTagline={false} />
-        </Link>
+        <div className="max-w-7xl mx-auto px-6 md:px-12 flex items-center justify-between">
+          {/* Logo */}
+          <Link
+            href="/"
+            className="relative z-[101] flex items-center gap-2 group outline-none"
+            aria-label="Home"
+          >
+            <div className="w-8 h-8 md:w-9 md:h-9">
+              <NatleLogo />
+            </div>
+            <span className="font-display font-bold text-lg tracking-tight text-white group-hover:text-white/80 transition-colors">
+              NATLE
+            </span>
+          </Link>
 
-        {/* Navigation Links inside the Pill (Expanding Icons) */}
-        <nav className="hidden lg:flex items-center gap-2 lg:gap-2.5 px-4 lg:px-6 border-l border-slate-900/10 dark:border-white/10">
-          {NAV_LINKS.map((item) => {
-            const active = pathname === item.href;
-            const Icon = getIconForPath(item.href);
-            return (
-              <Link
-                key={item.href}
-                href={item.href}
-                prefetch={true}
-                className={`relative flex items-center justify-center h-[36px] lg:h-[44px] rounded-full transition-all duration-500 ease-[cubic-bezier(0.23,1,0.32,1)] ${
-                  active
-                    ? "px-4 lg:px-5 text-ink dark:text-white bg-slate-900/5 dark:bg-white/[0.08]"
-                    : "w-[36px] lg:w-[44px] px-0 text-ink/60 dark:text-slate-400 hover:text-ink dark:hover:text-white hover:bg-slate-900/5 dark:hover:bg-white/[0.04]"
-                }`}
-                title={!active ? item.label : undefined}
-              >
-                <Icon className="w-4 h-4 lg:w-[18px] lg:h-[18px] shrink-0 transition-transform duration-500" strokeWidth={active ? 2.5 : 2} />
-                <div
-                  className={`overflow-hidden transition-all duration-500 ease-[cubic-bezier(0.23,1,0.32,1)] flex items-center ${
-                    active ? "max-w-[120px] lg:max-w-[140px] opacity-100 ml-2 lg:ml-2.5" : "max-w-0 opacity-0 ml-0"
+          {/* Desktop Navigation */}
+          <nav className="hidden lg:flex items-center gap-8">
+            {desktopLinks.map((link) => {
+              const isActive = pathname === link.href;
+              return (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className={`text-sm font-medium transition-colors hover:text-white ${
+                    isActive ? "text-white" : "text-white/60"
                   }`}
                 >
-                  <span className="whitespace-nowrap text-[13px] lg:text-[14px] font-semibold">{item.label}</span>
-                </div>
+                  {link.label}
+                </Link>
+              );
+            })}
+          </nav>
+
+          {/* CTA & Mobile Toggle */}
+          <div className="flex items-center gap-4 relative z-[101]">
+            <div className="hidden md:block">
+              <Magnetic>
+                <Link
+                  href="/contact"
+                  className="inline-flex items-center justify-center rounded-full bg-white text-black px-6 py-2.5 text-sm font-bold whitespace-nowrap hover:scale-[1.03] active:scale-[0.97] transition-all duration-300 shadow-[0_0_20px_-5px_rgba(255,255,255,0.3)]"
+                >
+                  Start a project
+                </Link>
+              </Magnetic>
+            </div>
+            
+            {/* Mobile Menu Button */}
+            <button
+              className="lg:hidden p-2 -mr-2 text-white/80 hover:text-white transition-colors outline-none"
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              aria-label="Toggle menu"
+            >
+              {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            </button>
+          </div>
+        </div>
+      </header>
+
+      {/* Mobile Navigation Menu */}
+      <div
+        className={`fixed inset-0 z-[90] bg-black/95 backdrop-blur-3xl transition-all duration-500 lg:hidden flex flex-col justify-center px-8 ${
+          mobileMenuOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
+        }`}
+      >
+        <nav className="flex flex-col gap-6 text-center">
+          {NAV_LINKS.map((link) => {
+            const isActive = pathname === link.href;
+            return (
+              <Link
+                key={link.href}
+                href={link.href}
+                onClick={() => setMobileMenuOpen(false)}
+                className={`font-display text-3xl font-bold tracking-tight transition-colors ${
+                  isActive ? "text-white" : "text-white/40 hover:text-white/80"
+                }`}
+              >
+                {link.label}
               </Link>
             );
           })}
-        </nav>
-
-        <div className="hidden lg:flex items-center gap-2 lg:gap-3 pl-4 lg:pl-6 border-l border-slate-900/10 dark:border-white/10">
-          <ThemeToggle />
-            <Magnetic>
-              <Link href="/contact" className="ml-1 lg:ml-2 inline-flex items-center justify-center rounded-full bg-ink dark:bg-white text-white dark:text-black px-6 py-2.5 text-sm font-bold whitespace-nowrap hover:scale-[1.03] active:scale-[0.97] transition-all shadow-[0_4px_14px_0_rgba(255,255,255,0.1)]">
-                Start a project
-              </Link>
-            </Magnetic>
-        </div>
-
-        <div className="lg:hidden flex items-center gap-1 pl-4">
-          <ThemeToggle />
-          <button
-            className="relative w-10 h-10 flex flex-col items-center justify-center gap-[5px] rounded-full hover:bg-slate-900/5 dark:hover:bg-white/5 transition-colors ml-1"
-            onClick={() => setOpen((v) => !v)}
-            aria-label="Toggle menu"
-            aria-expanded={open}
-          >
-            <span className={`block h-[2px] w-5 bg-ink dark:bg-white transition-transform ${open ? "translate-y-[7px] rotate-45" : ""}`} />
-            <span className={`block h-[2px] w-5 bg-ink dark:bg-white transition-opacity ${open ? "opacity-0" : ""}`} />
-            <span className={`block h-[2px] w-5 bg-ink dark:bg-white transition-transform ${open ? "-translate-y-[7px] -rotate-45" : ""}`} />
-          </button>
-        </div>
-      </div>
-
-      {/* Translucent Frosted Glass Mobile Menu (Dropdown from the pill) */}
-      <div
-        className={`lg:hidden overflow-hidden transition-[max-height,opacity] duration-300 ease-in-out absolute top-[76px] left-0 right-0 bg-white/95 dark:bg-[#07090E]/95 backdrop-blur-3xl rounded-3xl border border-black/[0.05] dark:border-white/[0.08] shadow-2xl ${
-          open ? "max-h-[520px] opacity-100" : "max-h-0 opacity-0 border-transparent"
-        }`}
-      >
-        <nav className="flex flex-col py-6 px-6">
-          {NAV_LINKS.map((item) => (
+          <div className="mt-8 pt-8 border-t border-white/10 flex justify-center">
             <Link
-              key={item.href}
-              href={item.href}
-              prefetch={true}
-              className={`py-3 text-[15px] font-medium border-b border-ink/5 dark:border-white/10 last:border-0 ${
-                pathname === item.href ? "text-brand font-semibold" : "text-ink/70 dark:text-slate-300"
-              }`}
+              href="/contact"
+              onClick={() => setMobileMenuOpen(false)}
+              className="inline-flex items-center justify-center rounded-full bg-white text-black px-8 py-4 text-lg font-bold w-full max-w-sm"
             >
-              {item.label}
+              Start a project
             </Link>
-          ))}
-          <Link href="/contact" className="mt-6 w-full inline-flex items-center justify-center rounded-full bg-ink dark:bg-white text-white dark:text-black px-6 py-3.5 text-sm font-bold shadow-lg">
-            Start a project
-          </Link>
+          </div>
         </nav>
       </div>
-    </header>
+    </>
   );
 }
