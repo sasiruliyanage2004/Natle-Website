@@ -1,4 +1,4 @@
-import type { Metadata, Viewport } from "next";
+﻿import type { Metadata, Viewport } from "next";
 import { display, body } from "./fonts";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
@@ -96,7 +96,6 @@ export default function RootLayout({
           Skip to main content
         </a>
         <NoiseOverlay />
-        <SmoothCursor />
         <Preloader />
         <ScrollProgress />
 
