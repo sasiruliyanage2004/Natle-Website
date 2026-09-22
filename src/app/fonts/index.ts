@@ -1,7 +1,7 @@
-import localFont from "next/font/local";
+﻿import localFont from "next/font/local";
 
 export const display = localFont({
-  src: "./SpaceGrotesk.ttf",
+  src: "./Inter.ttf",
   variable: "--font-display",
   display: "swap",
 });
