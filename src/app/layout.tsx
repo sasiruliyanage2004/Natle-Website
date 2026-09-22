@@ -9,7 +9,6 @@ import Preloader from "@/components/Preloader";
 import { cn } from "@/lib/utils";
 import ScrollProgress from "@/components/ScrollProgress";
 import SmoothCursor from "@/components/SmoothCursor";
-import PageTransitionProvider from "@/components/PageTransitionProvider";
 
 export const viewport: Viewport = {
   themeColor: [
@@ -103,11 +102,9 @@ export default function RootLayout({
 
         <SmoothScroll>
           <Navbar />
-          <PageTransitionProvider>
-            <main id="main-content" tabIndex={-1} className="flex-1 flex flex-col outline-none">
-              {children}
-            </main>
-          </PageTransitionProvider>
+          <main id="main-content" tabIndex={-1} className="flex-1 flex flex-col outline-none">
+            {children}
+          </main>
           <Footer />
         </SmoothScroll>
       </body>
