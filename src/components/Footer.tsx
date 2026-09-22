@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import * as React from "react";
 import { useEffect, useRef, useState } from "react";
@@ -16,11 +16,11 @@ if (typeof window !== "undefined") {
 
 const MarqueeItem = () => (
   <div className="flex items-center space-x-12 px-6">
-    <span>Enterprise Architecture</span> <span className="text-lime">✦</span>
-    <span>Web3 & Blockchain</span> <span className="text-teal">✦</span>
-    <span>Custom Software</span> <span className="text-lime">✦</span>
-    <span>AI Integration</span> <span className="text-azure">✦</span>
-    <span>Scalable Infrastructure</span> <span className="text-teal">✦</span>
+    <span>Enterprise Architecture</span> <span className="text-lime">âœ¦</span>
+    <span>Web3 & Blockchain</span> <span className="text-teal">âœ¦</span>
+    <span>Custom Software</span> <span className="text-lime">âœ¦</span>
+    <span>AI Integration</span> <span className="text-azure">âœ¦</span>
+    <span>Scalable Infrastructure</span> <span className="text-teal">âœ¦</span>
   </div>
 );
 
@@ -133,10 +133,10 @@ export default function Footer() {
         ref={footerRef}
         className="relative lg:fixed bottom-0 left-0 flex min-h-screen lg:h-screen w-full flex-col justify-between overflow-hidden bg-[#FCFDFE] dark:bg-[#07090E] text-slate-900 dark:text-white transition-colors duration-500"
       >
-        {/* ───────────────────────────────────────────────────────────────── */}
+        {/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
         {/* 1. PANORAMIC ARTWORK MURAL (Subtle, Soft & Shifted Lower Down)    */}
         {/*    Misty Mountains, Bonsai Pines, Flying Cranes                   */}
-        {/* ───────────────────────────────────────────────────────────────── */}
+        {/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
         <div
           ref={landscapeRef}
           className="absolute inset-x-0 bottom-0 h-[58%] sm:h-[62%] lg:h-[64%] pointer-events-none overflow-hidden select-none z-0"
@@ -167,9 +167,9 @@ export default function Footer() {
         {/* Ambient Aurora Glow */}
         <div className="absolute left-1/2 top-1/3 h-[400px] w-[800px] -translate-x-1/2 -translate-y-1/2 bg-[radial-gradient(circle_at_50%_50%,rgba(30,127,232,0.08)_0%,rgba(18,184,166,0.05)_40%,transparent_70%)] rounded-full blur-[100px] pointer-events-none z-0" />
 
-        {/* ───────────────────────────────────────────────────────────────── */}
+        {/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
         {/* 2. GIANT WATERMARK "NATLE" TYPOGRAPHY (Layered Behind Artwork)    */}
-        {/* ───────────────────────────────────────────────────────────────── */}
+        {/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
         <div
           ref={giantTextRef}
           className="absolute bottom-16 sm:bottom-20 lg:bottom-24 left-1/2 -translate-x-1/2 whitespace-nowrap z-[1] pointer-events-none select-none text-[18vw] sm:text-[20vw] lg:text-[22vw] tracking-[0.14em] font-black leading-none text-center w-full"
@@ -184,10 +184,10 @@ export default function Footer() {
           </span>
         </div>
 
-        {/* ───────────────────────────────────────────────────────────────── */}
+        {/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
         {/* 3. DIAGONAL KINETIC MARQUEE RIBBON                                */}
-        {/* ───────────────────────────────────────────────────────────────── */}
-        <div className="relative lg:absolute top-0 lg:top-2 left-0 w-full overflow-hidden border-y border-slate-900/[0.08] dark:border-white/10 bg-white/70 dark:bg-[#07090E]/80 backdrop-blur-md py-2 z-20 shadow-xs">
+        {/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+        <div className="relative lg:absolute top-0 lg:top-24 left-0 w-full overflow-hidden border-y border-slate-900/[0.08] dark:border-white/10 bg-white/70 dark:bg-[#07090E]/80 backdrop-blur-md py-2 z-20 shadow-xs">
           <div className="flex w-max animate-marquee-fast text-xs font-bold tracking-[0.25em] text-slate-500 dark:text-white/50 uppercase">
             <MarqueeItem />
             <MarqueeItem />
@@ -195,10 +195,10 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* ───────────────────────────────────────────────────────────────── */}
+        {/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
         {/* 4. DIRECTORY GRID (Moved lower down as requested)                 */}
         {/*    Brand & Contact + Capabilities + Studio + The Letter          */}
-        {/* ───────────────────────────────────────────────────────────────── */}
+        {/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
         <div
           ref={directoryRef}
           className="relative z-10 w-full max-w-7xl mx-auto px-6 pt-24 sm:pt-28 lg:pt-32 pb-2"
@@ -220,7 +220,7 @@ export default function Footer() {
                 {/* Contact information */}
                 <div className="space-y-1.5 text-xs font-mono text-slate-700 dark:text-slate-300 pb-2 mb-2">
                   <p className="flex items-center gap-2">
-                    <span className="text-azure font-bold">✉</span>
+                    <span className="text-azure font-bold">âœ‰</span>
                     <a
                       href="mailto:info@natle.dev"
                       className="hover:text-azure dark:hover:text-cyan-400 transition-colors font-medium"
@@ -229,14 +229,14 @@ export default function Footer() {
                     </a>
                   </p>
                   <p className="flex items-center gap-2">
-                    <span className="text-teal font-bold">☎</span>
+                    <span className="text-teal font-bold">â˜Ž</span>
                     <a
                       href="tel:+94112507601"
                       className="hover:text-teal dark:hover:text-cyan-400 transition-colors"
                     >
                       +94 11 250 7601
                     </a>
-                    <span className="text-slate-400 dark:text-slate-600">•</span>
+                    <span className="text-slate-400 dark:text-slate-600">â€¢</span>
                     <a
                       href="tel:+94704659847"
                       className="hover:text-teal dark:hover:text-cyan-400 transition-colors"
@@ -245,7 +245,7 @@ export default function Footer() {
                     </a>
                   </p>
                   <p className="flex items-start gap-2 text-slate-600 dark:text-slate-400 text-[11px]">
-                    <span className="text-lime font-bold">📍</span>
+                    <span className="text-lime font-bold">ðŸ“</span>
                     <span>No. 283 1/1, Ruwan Mawatha, Colombo 05, Sri Lanka</span>
                   </p>
                 </div>
@@ -302,7 +302,7 @@ export default function Footer() {
                       className="text-xs sm:text-sm text-slate-700 dark:text-slate-200 hover:text-azure dark:hover:text-cyan-300 transition-colors inline-flex items-center gap-1.5 group"
                     >
                       <span className="text-xs text-azure opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200">
-                        ›
+                        â€º
                       </span>
                       <span>{item.label}</span>
                     </Link>
@@ -324,7 +324,7 @@ export default function Footer() {
                       className="text-xs sm:text-sm text-slate-700 dark:text-slate-200 hover:text-azure dark:hover:text-cyan-300 transition-colors inline-flex items-center gap-1.5 group"
                     >
                       <span className="text-xs text-azure opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200">
-                        ›
+                        â€º
                       </span>
                       <span>{item.label}</span>
                     </Link>
@@ -355,7 +355,7 @@ export default function Footer() {
                   type="submit"
                   className="px-4 py-2 rounded-full bg-slate-900 text-white dark:bg-white dark:text-slate-950 font-bold text-xs hover:opacity-90 transition-opacity shrink-0 shadow-sm"
                 >
-                  {subscribed ? "Joined ✓" : "Join"}
+                  {subscribed ? "Joined âœ“" : "Join"}
                 </button>
               </form>
 
@@ -369,12 +369,12 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* ───────────────────────────────────────────────────────────────── */}
+        {/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
         {/* 5. BOTTOM COPYRIGHT BAR                                           */}
-        {/* ───────────────────────────────────────────────────────────────── */}
+        {/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
         <div className="relative z-20 w-full py-4 px-6 lg:px-12 flex flex-col sm:flex-row items-center justify-between gap-4 border-t border-slate-900/[0.08] dark:border-white/[0.10] bg-white/70 dark:bg-[#07090E]/80 backdrop-blur-md">
           <div className="text-slate-500 dark:text-white/50 text-xs font-mono tracking-wider uppercase order-2 sm:order-1">
-            © {new Date().getFullYear()} NATLE. All rights reserved.
+            Â© {new Date().getFullYear()} NATLE. All rights reserved.
           </div>
 
           <div className="order-1 sm:order-2 flex gap-6 text-slate-500 dark:text-white/50 text-xs font-mono">
